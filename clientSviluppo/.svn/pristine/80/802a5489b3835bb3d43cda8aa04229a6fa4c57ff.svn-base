@@ -1,0 +1,9 @@
+package it.csi.zoo.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.model.Dmt_t_dec_categoria;
+
+public interface Dmt_t_dec_categoria_repository extends CrudRepository<Dmt_t_dec_categoria, Long>{
+
+}

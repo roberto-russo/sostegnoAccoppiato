@@ -1,0 +1,44 @@
+package it.csi.demetra.demetraws.zoo.calcoli.entity;
+
+public class Ref {
+
+	private String codIntrervento;
+	
+	private String annoCampagna;
+	
+	private String cuaa;
+	
+	private String idBdn;
+	
+	public String getCodIntrervento() {
+		return codIntrervento;
+	}
+
+	public void setCodIntrervento(String codIntrervento) {
+		this.codIntrervento = codIntrervento;
+	}
+
+	public String getAnnoCampagna() {
+		return annoCampagna;
+	}
+
+	public void setAnnoCampagna(String annoCampagna) {
+		this.annoCampagna = annoCampagna;
+	}
+
+	public String getCuaa() {
+		return cuaa;
+	}
+
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
+
+	public String getIdBdn() {
+		return idBdn;
+	}
+
+	public void setIdBdn(String idBdn) {
+		this.idBdn = idBdn;
+	}
+}

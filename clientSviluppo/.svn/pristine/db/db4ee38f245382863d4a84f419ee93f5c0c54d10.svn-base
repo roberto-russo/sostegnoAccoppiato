@@ -1,0 +1,15 @@
+package it.csi.zoo.beans;
+
+import java.io.Serializable;
+
+import it.csi.zoo.model.Dmt_w_Tdu_premio_capi;
+
+public class Dmt_w_Tdu_premio_capi_bean extends Dmt_w_Tdu_premio_capi implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8442560282171931697L;
+
+	public Dmt_w_Tdu_premio_capi_bean() {}
+}

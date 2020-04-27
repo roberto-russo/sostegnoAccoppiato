@@ -1,0 +1,10 @@
+package it.csi.zoo.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.compositeIds.Dmt_w_Tpremio_zoo_id;
+import it.csi.zoo.model.Dmt_w_Tpremio_zoo;
+
+public interface Dmt_w_Tpremio_zoo_repository extends CrudRepository<Dmt_w_Tpremio_zoo, Dmt_w_Tpremio_zoo_id>{
+
+}

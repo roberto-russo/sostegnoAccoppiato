@@ -1,0 +1,85 @@
+package it.csi.demetra.demetraws.zoo.model;
+import java.io.Serializable;
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_errore_id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
+import com.sun.istack.NotNull;
+@Entity
+@Table(name = "DMT_t_errore")
+@IdClass(Dmt_t_errore_id.class)
+public class Dmt_t_errore implements Serializable {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6196503556701889330L;
+	@ManyToOne
+	@JoinColumn(name = "sessione", nullable = false)
+	private Dmt_t_sessione sessione;
+	
+	@Id
+	@Column(name = "id_sessione", precision = 20)
+	private long idSessione;
+	
+	@Id
+	@Column(name = "nome_metodo")
+	@NotNull
+	private String nomeMetodo;
+
+	@Id
+	@Column(name = "input")
+	@NotNull
+	private String input;
+	
+	@Column(name = "errore_descrizione", length = 400)
+	private String erroreDesc;
+	
+	@Column(name = "errore_codice", length = 400)
+	private String errorecodice;
+	
+	
+	public String getErroreDesc() {
+		return erroreDesc;
+	}
+	public void setErroreDesc(String erroreDesc) {
+		this.erroreDesc = erroreDesc;
+	}
+	public String getErrorecodice() {
+		return errorecodice;
+	}
+	public void setErrorecodice(String errorecodice) {
+		this.errorecodice = errorecodice;
+	}
+	public Dmt_t_sessione getSessione() {
+		return sessione;
+	}
+
+	public void setSessione(Dmt_t_sessione sessione) {
+		this.sessione = sessione;
+		this.idSessione = sessione.getIdSessione();
+	}
+	
+	public long getIdSessione(long idSessione) {
+		return this.idSessione;
+	}
+	public String getNomeMetodo() {
+		return nomeMetodo;
+	}
+	public void setNomeMetodo(String nomeMetodo) {
+		this.nomeMetodo = nomeMetodo;
+	}
+	public String getInput() {
+		return input;
+	}
+	public void setInput(String input) {
+		this.input = input;
+	}
+	
+	
+}
+

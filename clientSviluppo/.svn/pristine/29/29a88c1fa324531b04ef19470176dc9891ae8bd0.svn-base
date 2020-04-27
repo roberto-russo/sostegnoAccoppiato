@@ -1,0 +1,47 @@
+package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
+
+import it.csi.demetra.demetraws.srmanags.wsbridge2.CapoVacca;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitable;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ref02_004 implements ControlloVisitable {
+
+    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
+    private List<CapoVacca> modelVacche;
+
+    public Ref02_004() {
+        /*
+            REPERISCO IL MODEL PER LE VACCHE DA CARNE O A DUPLICE ATTITUDINE.
+            Bisogna decidere se inizializzare qui i dati della BDN o se passarli via construttore.
+        */
+        List<CapoVacca> list = new ArrayList<>();
+        this.modelVacche = list;
+    }
+
+    public Ref02_004(List<CapoVacca> modelVacche) {
+        this.modelVacche = modelVacche;
+    }
+
+    @Override
+    public Integer accept(ControlloVisitor visitor) throws ControlloException {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public void controlliPreAmmissibilita() throws ControlloException {
+        if (null == modelVacche)
+            throw new ControlloException("Model REF 02_004 non inizializzato");
+    }
+
+    public List<CapoVacca> getModelVacche() {
+        return modelVacche;
+    }
+
+    public void setModelVacche(List<CapoVacca> modelVacche) {
+        this.modelVacche = modelVacche;
+    }
+}

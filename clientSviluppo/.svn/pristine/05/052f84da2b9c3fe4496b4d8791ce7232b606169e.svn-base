@@ -1,0 +1,225 @@
+package it.csi.demetra.demetraws.zoo.calcoli;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9903;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.Capo9903;
+import it.csi.demetra.demetraws.zoo.shared.Constants;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
+import it.csi.demetra.demetraws.zoo.interfaces.RefInterface;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+
+public class Ref9903 extends Ref implements RefInterface<CapiControllati9903>, Calcolo{
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Ref9903.class);
+	
+	private static final Double UBA_100 = 1.0;
+	
+	private static final Double UBA_75 = 0.75;
+
+	private static final Double UBA_60 = 0.6;
+	
+	private static final Double UBA_35 = 0.35;
+
+	private static final Double UBA_15 = 0.15;
+	
+	private static final Double UBA = 3.0;
+	
+	private Double ubaMinime = 0.0;
+	
+	private static final List<String> PREMI = Arrays.asList(new String[]{Constants.PREMIO_310,Constants.PREMIO_312,Constants.PREMIO_313,Constants.PREMIO_314,Constants.PREMIO_322});
+
+	private CapiControllati9903 capiControllati = new CapiControllati9903();
+	
+	private boolean metodoEseguitoCorrettamente;
+	
+	public Ref9903(String codIntervento,String annoCampagna, String cuaa) {
+		
+		setCodIntrervento(codIntervento);
+		setAnnoCampagna(annoCampagna);
+		setCuaa(cuaa);
+		
+	}
+	
+	/**
+	 * CONTROLLI AMMISSIBILITÀ TRASVERSALI
+	 * 
+	 * Il calcolo esegue:
+	 * 
+	 * -preEsecuzione() in cui si inizializzano tutti i dati che occorrono al calcolo
+	 * -esecuzione() in cui si esegue il calcolo effettivo
+	 * -postEsecuzione() in cui si controlla l'esito del calcolo e lo si salva su DB
+	 * 
+	 * Il metodo ritorna un oggetto contenente :
+	 * 
+	 * 1- la lista dei capi controllati con flagCapoAmmesso = 'S'/'N' e la motivazione
+	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
+	 * 3- una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo
+	 * 
+	 * @return capiControllati
+	 * @throws CalcoloException 
+	 */
+	@Override
+	public CapiControllati9903 calcolo() throws CalcoloException {
+		
+	LOGGER.info("Inizio Calcolo 9903: calcolo() ");
+		
+			preEsecuzione();
+			esecuzione();
+			postEsecuzione();
+			
+			return capiControllati;
+			
+	}
+	
+	/**
+	 * CALCOLO UBA
+	 * Si calcolano le UBA secondo le disposizioni del D.A.
+	 * Dopo aver recuperato i dati della BDN
+	 * Si calcolano le uba minime
+	 * 
+	 * Se l'esecuzione non presenta problemi: return true
+	 * Se ci sono stati errori durante l'esecuzione: return false
+	 * 
+	 * @return true/false
+	 * 
+	 * */
+	private boolean calcoloUBA() {
+			
+			recuperoDatiCapi();
+			
+			LOGGER.info("Inizio Calcolo 9903: calcoloUBA() ");
+			
+			try {
+				
+				for (Capo9903 capo: capiControllati.getListaCapi9903()) {
+					
+					// controllo la tipologia di capo da implementare
+					
+					
+					//	per le vacche da latte, le vacche da carne e le bufale
+//					if() {
+//						ubaMinime += UBA_100;
+//					} else if() {
+//						//	per i capi macellati
+//						ubaMinime += UBA_60;
+//					} else if() {
+//						// per i capi ovicaprini
+//						ubaMinime += UBA_15;
+//					} else if() {
+//						// per agnelle
+//						if () {
+//							//raggiunto obbiettivo di risanamento dalla scrapie
+//							ubaMinime += UBA_35;
+//						} else {
+//							//non raggiunto obbiettivo di risanamento dalla scrapie
+//							ubaMinime += UBA_75;
+//
+//						}
+//					}
+					
+				}
+				
+				controlloUBA();
+				LOGGER.info("Fine Calcolo 9903: calcoloUBA() ");
+				return true;
+				
+			} catch (Exception e) {
+				LOGGER.error("Errore Calcolo 9903: - ",e);
+				return false;
+			}
+		
+	}
+	
+	
+	/**
+	 * Si controlla l'esito del calcolo
+	 * e si settano i parametri esito e motivazioneCalcolo
+	 * */
+	private void controlloUBA() {
+		LOGGER.info("Inizio Controllo UBA: controlloUBA() ");
+		if(ubaMinime >= UBA) {
+			CapiControllati9903.setEsito(true);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Si è raggiunto il numero necessario di UBA per accedere al premio");
+		} else {
+			CapiControllati9903.setEsito(false);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Non si è raggiunto il numero necessario di UBA per accedere al premio");
+		}
+		LOGGER.info("Fine Controllo UBA: controlloUBA() ");
+	}
+	
+	
+	/**
+	 * Con questo metodo si recuperano i dati scaricati dalla BDN.
+	 * Per gli interventi 310, 311, 312, 313, 314 e 322, si applicano i suddetti limiti ai dati dei capi scaricati dalla BDN:
+	 * - Limite di 20 mesi di vita della vacca al di sotto del quale non possono essere considerate nascite di vitelli;
+	 * - Limite di 18 anni d’età della vacca oltre al quale non è possibile considerare nascite di vitelli;
+	 * - Periodo minimo di 270 giorni dell’intervallo di interparto.
+	 * */
+	public void recuperoDatiCapi() {
+		//REPOSITORY O DB SERVICE
+		//Se il codIntervento è tra 
+		if(getCodIntrervento()!=null && PREMI.contains(getCodIntrervento())) {
+			
+			LOGGER.info("Inizio Recupero Dati: recuperoDatiCapi() ");
+			
+			try {
+				//RECUPERO CON REPOSITORY O SERVICE
+				List<Capo9903> listaCapi9903 = new ArrayList<Capo9903>();
+
+//				for (Dmt_t_Tws_bdn_du_capi_bovini capo: listaCapi) {
+//					listaCapi9903.add(new Capo9903(capo,0,0));
+//				}
+				
+				capiControllati.setListaCapi9903(listaCapi9903);
+				
+				
+				LOGGER.info("Fine Recupero Dati: recuperoDatiCapi() ");
+				
+			} catch (Exception e) {
+				
+				System.err.println(e);
+				LOGGER.error("Errore nel Controllo recuperoDatiCapi 9901: - ",e);
+				
+			}
+			
+		}
+	
+}
+	@Override
+	public void preEsecuzione() throws CalcoloException {
+		
+		recuperoDatiCapi();
+		
+	}
+	@Override
+	public void esecuzione() throws CalcoloException {
+		
+		LOGGER.info("Inizio Calcolo 9903: calcoloUBA() ");
+		
+		metodoEseguitoCorrettamente = calcoloUBA();
+		
+		
+	}
+	@Override
+	public void postEsecuzione() throws CalcoloException {
+		// SALVATAGGIO DATI
+		
+		if(metodoEseguitoCorrettamente) {
+			CapiControllati9903.setEsito(true);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Il calcolo della UBA minime è stato eseguito correttamente");
+			LOGGER.info("Fine Calcolo9903: calcolo() ");
+		} else {
+			CapiControllati9903.setEsito(false);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Ci sono stati degli errori durante il calcolo delle UBA minime");
+			LOGGER.error("Errore nel Calcolo 9903");
+		}
+		
+	}
+}
+	

@@ -1,0 +1,179 @@
+
+package it.csi.srmanags.wsbridge2;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Classe Java per iswsDomaAsrVO complex type.
+ * 
+ * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+ * 
+ * <pre>
+ * &lt;complexType name="iswsDomaAsrVO">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="campagna" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="cuaaTypeVO" type="{http://it/csi/smranags/wsbridge2/business/wsbridgefacade}cuaaTypeVO" minOccurs="0"/>
+ *         &lt;element name="domaCamp" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="idDomaOp" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="misura" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="regione" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "iswsDomaAsrVO", propOrder = {
+    "campagna",
+    "cuaaTypeVO",
+    "domaCamp",
+    "idDomaOp",
+    "misura",
+    "regione"
+})
+public class IswsDomaAsrVO {
+
+    protected int campagna;
+    protected CuaaTypeVO cuaaTypeVO;
+    protected int domaCamp;
+    protected String idDomaOp;
+    protected String misura;
+    protected String regione;
+
+    /**
+     * Recupera il valore della proprietà campagna.
+     * 
+     */
+    public int getCampagna() {
+        return campagna;
+    }
+
+    /**
+     * Imposta il valore della proprietà campagna.
+     * 
+     */
+    public void setCampagna(int value) {
+        this.campagna = value;
+    }
+
+    /**
+     * Recupera il valore della proprietà cuaaTypeVO.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CuaaTypeVO }
+     *     
+     */
+    public CuaaTypeVO getCuaaTypeVO() {
+        return cuaaTypeVO;
+    }
+
+    /**
+     * Imposta il valore della proprietà cuaaTypeVO.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CuaaTypeVO }
+     *     
+     */
+    public void setCuaaTypeVO(CuaaTypeVO value) {
+        this.cuaaTypeVO = value;
+    }
+
+    /**
+     * Recupera il valore della proprietà domaCamp.
+     * 
+     */
+    public int getDomaCamp() {
+        return domaCamp;
+    }
+
+    /**
+     * Imposta il valore della proprietà domaCamp.
+     * 
+     */
+    public void setDomaCamp(int value) {
+        this.domaCamp = value;
+    }
+
+    /**
+     * Recupera il valore della proprietà idDomaOp.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getIdDomaOp() {
+        return idDomaOp;
+    }
+
+    /**
+     * Imposta il valore della proprietà idDomaOp.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setIdDomaOp(String value) {
+        this.idDomaOp = value;
+    }
+
+    /**
+     * Recupera il valore della proprietà misura.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMisura() {
+        return misura;
+    }
+
+    /**
+     * Imposta il valore della proprietà misura.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMisura(String value) {
+        this.misura = value;
+    }
+
+    /**
+     * Recupera il valore della proprietà regione.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getRegione() {
+        return regione;
+    }
+
+    /**
+     * Imposta il valore della proprietà regione.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setRegione(String value) {
+        this.regione = value;
+    }
+
+}

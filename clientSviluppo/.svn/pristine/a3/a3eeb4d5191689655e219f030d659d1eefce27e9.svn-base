@@ -1,0 +1,12 @@
+package it.csi.services;
+
+import it.csi.demetra.demetraws.zoo.ZooApplication;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ZooApplication.class)
+public class Dmt_t_Ref9902_services_TestCase {
+
+}

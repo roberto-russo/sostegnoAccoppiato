@@ -1,0 +1,10 @@
+package it.csi.demetra.demetraws.zoo.controlli;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import org.springframework.stereotype.Service;
+
+public interface ControlliFramework {
+    public Integer handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_s_sessione sessione);
+}

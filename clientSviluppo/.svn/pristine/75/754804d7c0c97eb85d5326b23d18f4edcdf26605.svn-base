@@ -1,0 +1,67 @@
+package it.csi.zoo;
+
+import javax.xml.bind.JAXBException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.csi.srmanags.wsbridge2.Response;
+import it.csi.srmanags.wsbridge2.WSBridge2;
+import it.csi.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.srmanags.wsbridge2.WSBridgeService;
+import it.csi.zoo.model.Dmt_d_clsPremio_ValidazioneResponse;
+import it.csi.zoo.model.DsUBA_censimenti_allevamenti_ovini;
+import it.csi.zoo.services.SaveOnDbService;
+import it.csi.zoo.transformer.TransformerData;
+
+//@Controller
+//@RequestMapping(path="/provaGenerale")
+public class BdnWsManagerImpl {
+
+	@Autowired
+	SaveOnDbService save;
+
+	@Autowired
+	TransformerData transform;
+	
+	@Autowired
+	WSBridge2 wsbridge2 = new WSBridgeService().getWSBridge2Port();
+
+	public void getElencoCapiPremio(String codiceIntervento, String cuaa, Integer anno_campagna) throws WSBridgeInternalException_Exception, JAXBException {
+
+		// prendi i dati con chiamata http dalla bdn
+		
+		Response response =   wsbridge2.getElencoCapiPremioNew(codiceIntervento,cuaa, anno_campagna);// oggetto risposta ritornato dalla bdn
+		//la lista degli animali è salvata nel db dentro il metodo di transform
+		Dmt_d_clsPremio_ValidazioneResponse bean = transform.TransformDmt_d_clsPremio_ValidazioneResponse(response); // trasformazione da response a
+																						// bean
+		//lavora i dati raccolti
+		//salva su db
+		
+		save.saveOnDb(bean);
+	}
+
+	public void getElencoCapiPremio2(Long idAlleBdn, String codiceIntervento, String cuaa, String cuua2, Integer annoCampagna) throws JAXBException, WSBridgeInternalException_Exception {
+
+		// prendi i dati con chiamata http dalla bdn
+		Response response =   wsbridge2.getElencoCapiPremio2New(idAlleBdn, codiceIntervento, cuaa, cuua2, annoCampagna); //oggetto risposta ritornato dalla bdn
+		Dmt_d_clsPremio_ValidazioneResponse bean = transform.TransformDmt_d_clsPremio_ValidazioneResponse(response); // trasformazione da response a
+
+
+		// bean
+		// lavora i dati raccolti
+		// salva su db
+		save.saveOnDb(bean);
+	}
+
+	public void Consistenza_UBA_Censim_Ovini_2012(String p_cuaa, String data_inizio_periodo, String Data_fine_periodo, String p_tipo_responsabilita) throws WSBridgeInternalException_Exception, JAXBException  {
+
+		// prendi i dati con chiamata http dalla bdn
+		Response response = wsbridge2.getConsistenzaUbaCensimOvini2012(p_cuaa, data_inizio_periodo, Data_fine_periodo, p_tipo_responsabilita); // oggetto risposta ritornato dalla bdn
+		DsUBA_censimenti_allevamenti_ovini bean = transform.TransformDsUBA_censimenti_allevamenti_ovini(response); // trasformazione da response a
+																						// bean
+		// lavora i dati raccolti
+
+		// salva su db
+		save.saveOnDb(bean);
+	}
+}

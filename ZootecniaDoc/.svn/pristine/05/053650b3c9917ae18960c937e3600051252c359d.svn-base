@@ -1,0 +1,29 @@
+--------------------------------------------------------
+--  File creato - martedì-aprile-14-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table DMT_S_SESSIONE
+--------------------------------------------------------
+
+  CREATE TABLE "ZOOTECNIA"."DMT_S_SESSIONE" 
+   (	"ID_SESSIONE" NUMBER(19,0), 
+	"DATA_E_ORA" TIMESTAMP (6)
+   )
+  TABLESPACE "DEMETRA_TBL" ;
+--------------------------------------------------------
+--  DDL for Index IE_DMT_S_SESSIONE_02
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "ZOOTECNIA"."IE_DMT_S_SESSIONE_02" ON "ZOOTECNIA"."DMT_S_SESSIONE" ("ID_SESSIONE") 
+
+  TABLESPACE "DEMETRA_IDX " ;
+--------------------------------------------------------
+--  Constraints for Table DMT_S_SESSIONE
+--------------------------------------------------------
+
+  ALTER TABLE "ZOOTECNIA"."DMT_S_SESSIONE" MODIFY ("ID_SESSIONE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ZOOTECNIA"."DMT_S_SESSIONE" MODIFY ("DATA_E_ORA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ZOOTECNIA"."DMT_S_SESSIONE" ADD CONSTRAINT "PK_DMT_S_SESSIONE" PRIMARY KEY ("ID_SESSIONE")
+ ;

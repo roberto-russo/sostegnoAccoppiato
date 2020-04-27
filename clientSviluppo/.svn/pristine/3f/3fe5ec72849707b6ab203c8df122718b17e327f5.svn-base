@@ -1,0 +1,51 @@
+package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
+
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.ControlliService;
+
+public abstract class Controllo {
+
+    private Dmt_s_sessione sessione;
+
+    private ControlliService controlliService;
+
+    private Rpu_V_pratica_zoote azienda;
+
+    public Controllo(Dmt_s_sessione sessione, ControlliService controlliService, Rpu_V_pratica_zoote azienda) {
+        this.sessione = sessione;
+        this.controlliService = controlliService;
+        this.azienda = azienda;
+    }
+
+    abstract public void preEsecuzione() throws ControlloException;
+
+    abstract public void esecuzione() throws ControlloException;
+
+    abstract public void postEsecuzione() throws ControlloException;
+
+    public Dmt_s_sessione getSessione() {
+        return sessione;
+    }
+
+    public void setSessione(Dmt_s_sessione sessione) {
+        this.sessione = sessione;
+    }
+
+    public Rpu_V_pratica_zoote getAzienda() {
+        return azienda;
+    }
+
+    public void setAzienda(Rpu_V_pratica_zoote azienda) {
+        this.azienda = azienda;
+    }
+
+    public ControlliService getControlliService() {
+        return controlliService;
+    }
+
+    public void setControlliService(ControlliService controlliService) {
+        this.controlliService = controlliService;
+    }
+}

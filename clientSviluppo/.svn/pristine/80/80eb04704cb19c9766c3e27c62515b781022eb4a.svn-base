@@ -1,0 +1,14 @@
+package it.csi.zoo.repository;
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.compositeIds.Dmt_t_Tws_bdn_du_capi_bovini_id;
+import it.csi.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+
+public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<Dmt_t_Tws_bdn_du_capi_bovini, Dmt_t_Tws_bdn_du_capi_bovini_id> {
+
+	List<Dmt_t_Tws_bdn_du_capi_bovini>findAll();
+
+}

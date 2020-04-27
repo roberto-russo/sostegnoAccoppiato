@@ -1,0 +1,6 @@
+-- CREAZIONE TABELLA DEC_CATEGORIA
+CREATE TABLE Dmt_t_dec_categoria(
+ID INT NOT NULL,
+descrizione VARCHAR(400),
+CONSTRAINT dec_categoria_PK PRIMARY KEY (ID)
+);

@@ -1,0 +1,49 @@
+package it.csi.demetra.demetraws.zoo.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "DMT_DEC_CATEGORIA")
+public class Dmt_t_dec_categoria implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 894107074038700750L;
+
+	@ManyToOne
+	@JoinColumn(name = "id_sessione", nullable = false)
+	private Dmt_t_sessione sessione;
+
+	
+	
+	@Id
+	@Column(name = "ID")
+	@NotNull
+	private Long id;
+	
+	@Column(name = "descrizione", length = 400)
+	private String descrizione;
+
+	public Long getId() {
+		return id;
+	}
+	
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+	
+	
+}

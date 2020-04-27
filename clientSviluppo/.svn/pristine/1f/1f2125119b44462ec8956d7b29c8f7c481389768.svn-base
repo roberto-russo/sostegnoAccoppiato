@@ -1,0 +1,68 @@
+package it.csi.demetra.demetraws.zoo.controlli;
+
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.demetra.demetraws.zoo.BdnWsManagerImpl;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.EntityFactory;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef.Controllo;
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.ControlliService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.xml.bind.JAXBException;
+import java.text.ParseException;
+
+/*
+ * Author : Federico Pomponii
+ * Date: 18/03/2019
+ * */
+@Component("controlliFramework")
+public class ControlliFrameworkImpl implements ControlliFramework {
+
+
+    @Autowired
+    private ControlliService controlliService;
+
+    @Autowired
+    private BdnWsManagerImpl bdnImpl;
+
+    private EntityFactory entityFactory;
+
+    public ControlliFrameworkImpl() {
+        this.entityFactory = new EntityFactory();
+    }
+
+    @Override
+    public Integer handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_s_sessione sessione) {
+        try {
+            /* INIZIO LO SCARICO DEI DATI DAL BRIDGE */
+            scaricoDati(azienda, subentro, sessione);
+            Controllo controllo = entityFactory.getVisitable(azienda, sessione, controlliService, azienda);
+            controllo.preEsecuzione();
+            controllo.esecuzione();
+            controllo.postEsecuzione();
+        } catch (ControlloException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
+
+    public boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_s_sessione sessione) {
+        try {
+            bdnImpl.getElencoCapiPremio(azienda.getCodicePremio(), azienda.getCuaa(), azienda.getAnnoCampagna(), sessione);
+            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "D", sessione);
+            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "P", sessione);
+            if (subentro != null) {
+                bdnImpl.getElencoCapiPremio2(0L, azienda.getCodicePremio(), azienda.getCuaa(), subentro.getCuaaSubentro(), subentro.getAnnoCampagna(), sessione);
+            }
+            return true;
+        } catch (JAXBException | WSBridgeInternalException_Exception | ParseException | NullPointerException e) {
+            // TODO Auto-generated catch block
+            System.out.println("ERRORE: " + e.getCause());
+        }
+        return false;
+    }
+}

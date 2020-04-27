@@ -1,0 +1,17 @@
+package it.csi.demetra.demetraws.zoo.beans;
+
+import java.io.Serializable;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+
+public class Dmt_s_sessione_bean extends Dmt_s_sessione implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1976220221252506566L;
+
+	public Dmt_s_sessione_bean() {
+
+	}
+}

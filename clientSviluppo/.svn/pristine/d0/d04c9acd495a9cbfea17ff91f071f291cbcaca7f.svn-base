@@ -1,0 +1,21 @@
+package it.csi.demetra.demetraws.zoo.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Rpu_V_pratica_zoote_id;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+
+@Repository
+public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pratica_zoote, Rpu_V_pratica_zoote_id>{
+
+	@Query(
+			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = 2019", 
+			nativeQuery = true
+		  )
+	List<Rpu_V_pratica_zoote> findAll();
+	
+}

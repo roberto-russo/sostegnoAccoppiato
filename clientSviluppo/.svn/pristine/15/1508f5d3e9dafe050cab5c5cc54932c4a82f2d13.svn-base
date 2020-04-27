@@ -1,0 +1,22 @@
+package it.csi.zoo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.csi.zoo.model.Dmt_t_clsCapoMacellato;
+import it.csi.zoo.repository.Dmt_t_clsCapoMacellato_repository;
+
+public class Dmt_t_clsCapoMacellato_services {
+
+	@Autowired
+	Dmt_t_clsCapoMacellato_repository rep;
+	
+	public List<Dmt_t_clsCapoMacellato> getCapo(){
+		return rep.findAll();
+	}
+	
+	public void saveCapo(List<Dmt_t_clsCapoMacellato> capo) {
+		rep.saveAll(capo);
+	}
+}

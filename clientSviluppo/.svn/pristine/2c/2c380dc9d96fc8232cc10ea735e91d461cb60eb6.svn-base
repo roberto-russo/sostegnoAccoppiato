@@ -1,0 +1,51 @@
+package it.csi.zoo.compositeIds;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class Dmt_t_tabella_Storico_id implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2033093729894466812L;
+
+	private Date dataEora;
+	private long idStorico;
+	
+	public Dmt_t_tabella_Storico_id() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Dmt_t_tabella_Storico_id(Date dataEora, long idStorico) {
+		this.dataEora = dataEora;
+		this.idStorico = idStorico;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataEora == null) ? 0 : dataEora.hashCode());
+		result = prime * result + (int) (idStorico ^ (idStorico >>> 32));
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Dmt_t_tabella_Storico_id other = (Dmt_t_tabella_Storico_id) obj;
+		if (dataEora == null) {
+			if (other.dataEora != null)
+				return false;
+		} else if (!dataEora.equals(other.dataEora))
+			return false;
+		if (idStorico != other.idStorico)
+			return false;
+		return true;
+	}	
+}

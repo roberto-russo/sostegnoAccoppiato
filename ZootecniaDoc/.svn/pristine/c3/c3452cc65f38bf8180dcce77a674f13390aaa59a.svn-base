@@ -1,0 +1,58 @@
+--------------------------------------------------------
+--  File creato - martedì-aprile-14-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table DMT_T_TBDN_DU_CAPI
+--------------------------------------------------------
+
+  CREATE TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" 
+   (	"ALLEV_ID" NUMBER(19,0), 
+	"ID_CAPO" NUMBER(19,0), 
+	"CODICE" VARCHAR2(15 CHAR), 
+	"SESSIONE" NUMBER(19,0), 
+	"COD_AZIENDA" VARCHAR2(16 CHAR), 
+	"CAPO_COD_MADRE" VARCHAR2(25 CHAR), 
+	"COD_LIBRO" VARCHAR2(25 CHAR), 
+	"DESC_LIBRO_MADRE" VARCHAR2(50 CHAR), 
+	"DATA_FINE_DETENZ" DATE, 
+	"DATA_INIZIO_DETENZ" DATE, 
+	"DATA_MACELLAZIONE" DATE, 
+	"DATA_NASCITA" DATE, 
+	"COD_RAZZA" VARCHAR2(3 CHAR) DEFAULT 'TRB', 
+	"SESSO" VARCHAR2(1 CHAR), 
+	"FK_ID_SESSIONE" NUMBER(19,0), 
+	"FK_CODICE_ERRORE_CAPI" VARCHAR2(400 CHAR), 
+	"FK_NUMERO_CAPI_CAPI" NUMBER(19,0), 
+	"FK_ID_SESSIONE_CAPI" NUMBER(19,0)
+   ) SEGMENT CREATION DEFERRED 
+  TABLESPACE "DEMETRA_TBL" ;
+--------------------------------------------------------
+--  DDL for Index IE_DMT_T_TBDN_DU_CAPI
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DEMETRA"."IE_DMT_T_TBDN_DU_CAPI" ON "DEMETRA"."DMT_T_TBDN_DU_CAPI" ("ALLEV_ID", "ID_CAPO", "CODICE", "SESSIONE") 
+  TABLESPACE "DEMETRA_IDX" ;
+--------------------------------------------------------
+--  Constraints for Table DMT_T_TBDN_DU_CAPI
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("ALLEV_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("ID_CAPO" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("CODICE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("SESSIONE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("COD_RAZZA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" MODIFY ("FK_ID_SESSIONE" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Ref Constraints for Table DMT_T_TBDN_DU_CAPI
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" ADD CONSTRAINT "FK_DMT_D_CLS_PR_VAL_RESP_07" FOREIGN KEY ("FK_CODICE_ERRORE_CAPI", "FK_NUMERO_CAPI_CAPI", "FK_ID_SESSIONE_CAPI")
+	  REFERENCES "DEMETRA"."DMT_D_CLS_PREMIO_VAL_RESP" ("CODICE_ERRORE", "NUMERO_CAPI", "ID_SESSIONE") ENABLE;
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TBDN_DU_CAPI" ADD CONSTRAINT "FK_DMT_T_SESSIONE_07" FOREIGN KEY ("FK_ID_SESSIONE")
+	  REFERENCES "DEMETRA"."DMT_T_SESSIONE" ("ID_SESSIONE") ENABLE;

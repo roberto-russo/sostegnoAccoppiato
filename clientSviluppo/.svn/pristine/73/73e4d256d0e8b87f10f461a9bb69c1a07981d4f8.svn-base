@@ -1,0 +1,127 @@
+package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.csi.demetra.demetraws.zoo.calcoli.Ref9901;
+import it.csi.demetra.demetraws.zoo.calcoli.Ref9903;
+import it.csi.demetra.demetraws.zoo.controlli.RazzeAmmissibili;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_dsScarico_allevamenti;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.ControlliService;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_dsScarico_allevamenti_services;
+
+public class Ref02_006 extends Controllo {
+
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+	private int numeroCapiAmmissibili;
+	private boolean esitoControllo1, esitoControllo2, esitoControllo3, esitoControllo4, esitoControllo5;
+	private int annoDaConfrontare;
+	private int annoCorrente;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Ref02_006.class);
+	private Ref9901 ref9901;
+	private Ref9903 ref9903;
+	private Dmt_t_dsScarico_allevamenti scaAllev;
+
+	@Autowired
+	private Dmt_t_dsScarico_allevamenti_services scaAllevService;
+
+	public Ref02_006(Dmt_s_sessione sessione, ControlliService controlliService, Rpu_V_pratica_zoote azienda) {
+		super(sessione, controlliService, azienda);
+		this.numeroCapiAmmissibili = 0;
+		this.esitoControllo1 = false;
+		this.esitoControllo2 = false;
+		this.esitoControllo3 = false;
+		this.esitoControllo4 = false;
+		this.esitoControllo5 = false;
+		this.modelVacche = null;
+		this.annoCorrente = azienda.getAnnoCampagna();
+		this.annoDaConfrontare = 0;
+		this.ref9901 = null;
+		this.ref9903 = null;
+		this.scaAllev = null;
+	}
+
+	@Override
+	public void preEsecuzione() {
+
+		LOGGER.info("inizio preEsecuzione()");
+
+		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
+		try {
+			ref9901 = new Ref9901(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa()),
+					getSessione().getIdSessione(), getAzienda().getCodicePremio(),
+					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+
+			this.modelVacche = ref9901.calcolo();
+
+			if (this.modelVacche == null)
+				throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+						+ " controlli preammissibilita' ref_9901 falliti, nessun capo ha superato il controllo");
+
+			ref9903 = new Ref9903(this.modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(),
+					String.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+
+			this.modelVacche = ref9903.calcolo();
+
+			if (this.modelVacche == null)
+				throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+						+ " controlli preammissibilita' ref_9903 falliti, nessun capo ha superato il controllo");
+
+		} catch (ControlloException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	@Override
+	public void esecuzione() {
+
+		LOGGER.info("inizio esecuzione()");
+
+		// if ( getAzienda().getCuaa() != ESTRATTO A CAMPIONE ){
+
+		try {
+			for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVacche) {
+
+				annoDaConfrontare = b.getDtNascitaVitello().getYear() + 1900;
+
+				// prendo le informazioni sull'allevamento in base all'id allevamento della
+				// vacca
+				this.scaAllev = scaAllevService.getScaricoByIdAllev(b.getAllev_id());
+
+				if ((scaAllev.getFlagLibriGenealogici().equals("N") && scaAllev.getAutorizzazioneLatte().equals("N"))
+						&& (scaAllev.getFlagLibriGenealogici().equals("N") && RazzeAmmissibili.isRazzaAmmissibile(b.getDescLibro()))
+						&& (null != b.getDtNascitaVitello() && annoDaConfrontare == annoCorrente)
+						&& (null != b.getVitelloDtInserBdnNascita() && b.getCodiceVitello() != null)
+						&& (b.getCuaa().equals(scaAllev.getCodFiscaleProp())))
+
+					this.numeroCapiAmmissibili++;
+			}
+			if (numeroCapiAmmissibili == 0)
+				throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+						+ " nessun capo ha suprato il controllo per il premio 322 misura 20");
+
+		} catch (ControlloException e) {
+			System.out.println(e.getMessage());
+		}
+		/*
+		 * } else { NON FARE CONTROLLI PERCHE' SARANNO FATTI IN LOCO }
+		 */
+
+	}
+
+	@Override
+	public void postEsecuzione() throws ControlloException {
+
+		LOGGER.info("inizio esecuzione metodo -> postEsecuzione()");
+		LOGGER.info("il numero di capi ammissibili al premio 322 misura 20 per l'azienda " + getAzienda().getCuaa()
+				+ "e': " + this.numeroCapiAmmissibili);
+		// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI
+	}
+}

@@ -1,0 +1,15 @@
+package it.csi.demetra.demetraws.zoo.beans;
+
+import java.io.Serializable;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_w_Tdu_premio_capi_esclusi;
+
+public class Dmt_w_Tdu_premio_capi_esclusi_bean extends Dmt_w_Tdu_premio_capi_esclusi implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4908732045948162840L;
+
+	public Dmt_w_Tdu_premio_capi_esclusi_bean() {}
+}

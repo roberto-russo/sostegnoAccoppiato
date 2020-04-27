@@ -1,0 +1,3595 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://jaxb.dev.java.net/array" name="WSBridgeService" targetNamespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://jaxb.dev.java.net/array" version="1.0">
+
+  <xs:complexType final="#all" name="stringArray">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade">
+  <xs:element name="elencoOviRegistriStallaCodResponseVO" type="tns:elencoOviRegistriStallaCodResponseVO"/>
+  <xs:element name="elencoRecuperiResponseVO" type="tns:elencoRecuperiResponseVO"/>
+  <xs:element name="elencoRegistriStallaCodResponseVO" type="tns:elencoRegistriStallaCodResponseVO"/>
+  <xs:element name="iswsResponseAnomalieAsrVO" type="tns:iswsResponseAnomalieAsrVO"/>
+  <xs:element name="response" type="tns:response"/>
+  <xs:element name="rispostaRichiestaIdResponseVO" type="tns:rispostaRichiestaIdResponseVO"/>
+  <xs:complexType name="response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codRet" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizioneErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="esito" type="xs:string"/>
+      <xs:element minOccurs="0" name="giacDichiarazioniVO" type="tns:giacDichiarazioniVO"/>
+      <xs:element minOccurs="0" name="info" type="xs:string"/>
+      <xs:element minOccurs="0" name="msgRet" type="xs:string"/>
+      <xs:element minOccurs="0" name="requestXml" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoOutput" type="xs:string"/>
+      <xs:element minOccurs="0" name="trovaFascicolo" type="tns:trovaFascicolo"/>
+      <xs:element minOccurs="0" name="warning" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vAGEAInfoSelAnomalia" nillable="true" type="tns:ageaInfoSelAnomaliaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vAnagAllevamenti" nillable="true" type="tns:wbAnagraficaAllevamentoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vCapi" nillable="true" type="tns:capo"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vCapiMacellati" nillable="true" type="tns:capoMacellato"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vCapiOvicaprini" nillable="true" type="tns:capoOvicaprino"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vCapiVacche" nillable="true" type="tns:capoVacca"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vConsistenzaAllevamento" nillable="true" type="tns:wbConsistenzaAllevamentoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vConsistenzaPascolo" nillable="true" type="tns:wbConsistenzaPascoloVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vConsistenzaPascoloPAC2015" nillable="true" type="tns:wbConsistenzaPascoloPAC2015VO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vConsistenzaStatAllevamento" nillable="true" type="tns:wbConsistenzaStatAllevamentoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vEsito" nillable="true" type="tns:wbEsitoInvioVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vEsitoDomanda" nillable="true" type="tns:wbEsitoDomanda"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vOviniInOutPascolo" nillable="true" type="tns:wbOviniInOutPascoloVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vQuoteLatte" nillable="true" type="tns:wbQuoteLatte"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vRegistriPascoli" nillable="true" type="tns:wbRegistriPascoliVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vResponseForCUAASIANVO" nillable="true" type="tns:responseForCUAASIANVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vStabilimenti" nillable="true" type="tns:stabilimentoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vTicket" nillable="true" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vTitoloAggregatoPAC2015" nillable="true" type="tns:titoloAggregatoPAC2015"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vTitoloPAC2015" nillable="true" type="tns:titoloPAC2015"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vTrovaPascoloPAC2015" nillable="true" type="tns:wbPascoloVisitatoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUbaCensimentoOvino2012" nillable="true" type="tns:wbUbaCensimentoOvino2012VO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUbaConsistenzaOvini" nillable="true" type="tns:wbUbaConsistenzaOviniVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="giacDichiarazioniVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="altriMosti" type="tns:qtaDichGiacenzaVO"/>
+      <xs:element minOccurs="0" name="mostoConcentrato" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mostoConcentratoRettificato" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="vinoDop" type="tns:qtaDichGiacenzaVO"/>
+      <xs:element minOccurs="0" name="vinoIgp" type="tns:qtaDichGiacenzaVO"/>
+      <xs:element minOccurs="0" name="vinoTavola" type="tns:qtaDichGiacenzaVO"/>
+      <xs:element minOccurs="0" name="vinoVarietale" type="tns:qtaDichGiacenzaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="qtaDichGiacenzaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bianco" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="rossoRosato" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="totale" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="trovaFascicolo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CUAA" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceInps" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipoIscrizioneInps" type="xs:string"/>
+      <xs:element minOccurs="0" name="comuneNascitaPF" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataAperturaFascicolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataChiusuraFascicolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataElaborazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineIscrizioneInps" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineIscrizioneREA" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineIscrizioneRI" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioIscrizioneInps" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioIscrizioneREA" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioIscrizioneRI" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataNascitaPF" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataSottMandato" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataValidazFascicolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="detentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="iscrizioneRea" type="xs:string"/>
+      <xs:element minOccurs="0" name="iscrizioneRegistroImprese" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomePF" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroIscrizioneInps" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroIscrizioneREA" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroIscrizioneRI" type="xs:string"/>
+      <xs:element minOccurs="0" name="organismoPagatore" type="xs:string"/>
+      <xs:element minOccurs="0" name="partitaIVA" type="xs:string"/>
+      <xs:element minOccurs="0" name="recapito" type="tns:indirizzo"/>
+      <xs:element minOccurs="0" name="sedeResidenza" type="tns:indirizzo"/>
+      <xs:element minOccurs="0" name="sessoPF" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoDetentore" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="indirizzo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cap" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceStatoEstero" type="xs:string"/>
+      <xs:element minOccurs="0" name="comune" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="provincia" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ageaInfoSelAnomaliaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuaaInfoSelAnomaliaVO" type="tns:cuaaInfoSelAnomaliaVO"/>
+      <xs:element minOccurs="0" name="responseAnomVO" type="tns:responseAnomVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cuaaInfoSelAnomaliaVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="anomalieAtto" nillable="true" type="tns:anomaliaAttoVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="anomalieInteAlle" nillable="true" type="tns:anomaliaInteAlleVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="anomalieInteSupe" nillable="true" type="tns:anomaliaInteSupeVO"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element name="idCoordimaneto" type="xs:long"/>
+      <xs:element minOccurs="0" name="idDomaOP" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="anomaliaAttoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataFineVal" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioVal" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoAnomalia" type="xs:string"/>
+      <xs:element name="valoAnomalia" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="anomaliaInteAlleVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiASL" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceIntervento" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineVal" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioVal" type="xs:string"/>
+      <xs:element name="idComunicazione" type="xs:long"/>
+      <xs:element minOccurs="0" name="tipoAnomalia" type="xs:string"/>
+      <xs:element name="valoAnomalia" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="anomaliaInteSupeVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiIntervento" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiIstatComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiIstatProvincia" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiProdotto" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiVarieta" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineVal" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioVal" type="xs:string"/>
+      <xs:element name="foglioCatastale" type="xs:int"/>
+      <xs:element name="idComunicazioneSupe" type="xs:long"/>
+      <xs:element minOccurs="0" name="numeroParticella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezCensuaria" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+      <xs:element name="supeColt" type="xs:long"/>
+      <xs:element name="supeUtil" type="xs:long"/>
+      <xs:element minOccurs="0" name="tipoAnomalia" type="xs:string"/>
+      <xs:element name="valoAnomalia" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="responseAnomVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codRet" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="segnalazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbAnagraficaAllevamentoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="autorizzazioneLatte" type="xs:string"/>
+      <xs:element minOccurs="0" name="cap" type="xs:string"/>
+      <xs:element minOccurs="0" name="capiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscaleDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscaleProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="comune" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataCalcoloCapi" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineAttivita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioAttivita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazioneDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazioneProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglioCatastale" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="latitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="longitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="orientamentoProduttivo" type="xs:string"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="soccida" type="xs:string"/>
+      <xs:element minOccurs="0" name="subAlterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoAllevamentoCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoAllevamentoDescrizione" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoProduzione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="capo">
+    <xs:sequence>
+      <xs:element name="allevId" type="xs:long"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="capoCodMadre" type="xs:string"/>
+      <xs:element name="capoId" type="xs:long"/>
+      <xs:element minOccurs="0" name="codLibroMadre" type="xs:string"/>
+      <xs:element minOccurs="0" name="codice" type="xs:string"/>
+      <xs:element minOccurs="0" name="descLibroMadre" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtFineDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInizioDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtMacellazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="razzaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="capoMacellato">
+    <xs:sequence>
+      <xs:element name="allevId" type="xs:long"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element name="aziendaLatitudine" type="xs:double"/>
+      <xs:element name="aziendaLongitudine" type="xs:double"/>
+      <xs:element name="capoId" type="xs:long"/>
+      <xs:element minOccurs="0" name="codLibro" type="xs:string"/>
+      <xs:element minOccurs="0" name="codice" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrLibro" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtComAutoritaIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtComAutoritaUscita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtFineDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInizioDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInserimentoBdnIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInserimentoBdnUscita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtMacellazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtUscita" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoUscita" type="xs:string"/>
+      <xs:element minOccurs="0" name="razzaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="capoOvicaprino">
+    <xs:sequence>
+      <xs:element name="allevId" type="xs:long"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element name="capoId" type="xs:long"/>
+      <xs:element minOccurs="0" name="codice" type="xs:string"/>
+      <xs:element name="consMedia" type="xs:float"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtApplMarchio" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtComMacellazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtComNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtFineDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInizioDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInserimentoBdnNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtMacellazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtRegistrMacellazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtUltimoPrelProfilassi" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="genotipo" type="xs:string"/>
+      <xs:element minOccurs="0" name="razzaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruoloUtenteNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="capoVacca">
+    <xs:sequence>
+      <xs:element name="allevId" type="xs:long"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaLatitudine" type="xs:double"/>
+      <xs:element minOccurs="0" name="aziendaLongitudine" type="xs:double"/>
+      <xs:element name="capoId" type="xs:long"/>
+      <xs:element minOccurs="0" name="codLibro" type="xs:string"/>
+      <xs:element minOccurs="0" name="codice" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceVitello" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrlibro" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtFineDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtInizioDetenzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascitaVitello" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegato" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoIngressoVacca" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoIngressoVitello" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagDelegatoNascitaVitello" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagIBR" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagProrogaMarcatura" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagRispettoPrevalenzaIBR" type="xs:string"/>
+      <xs:element minOccurs="0" name="razzaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="sessoVitello" type="xs:string"/>
+      <xs:element minOccurs="0" name="vaccaDtComAutoritaIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="vaccaDtIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="vaccaDtInserimentoBdnIngresso" type="xs:string"/>
+      <xs:element name="vitelloCapoId" type="xs:long"/>
+      <xs:element minOccurs="0" name="vitelloDtApplMarchio" type="xs:string"/>
+      <xs:element minOccurs="0" name="vitelloDtComAutoritaIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="vitelloDtComAutoritaNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="vitelloDtInserimentoBdnIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="vitelloDtInserimentoBdnNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="vitelloTipoOrigine" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsistenzaAllevamentoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="capi06mesi" type="xs:string"/>
+      <xs:element minOccurs="0" name="capi624mesi" type="xs:string"/>
+      <xs:element minOccurs="0" name="capiOltre24mesi" type="xs:string"/>
+      <xs:element minOccurs="0" name="codFiscDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codFiscProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="consistenzaMediaTotale" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFinePeriodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioPeriodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="vaccheOltre20mesi" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsistenzaPascoloVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="capi624Mesi150gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="capi624Mesi50gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="capi624Mesi90gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="capiOltre24Mesi150gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="capiOltre24Mesi50gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="capiOltre24Mesi90gg" type="xs:string"/>
+      <xs:element minOccurs="0" name="codFiscaleDeten" type="xs:string"/>
+      <xs:element minOccurs="0" name="codPascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="istatComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="pasId" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="siglaProvincia" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsistenzaPascoloPAC2015VO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codFiscaleDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codicePascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="fasciaEta" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglioCatastale" type="xs:string"/>
+      <xs:element minOccurs="0" name="grspeCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="istatComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="latitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="longitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="numCapi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="siglaProvincia" type="xs:string"/>
+      <xs:element minOccurs="0" name="speCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="speDescrizione" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="totGgPascolamento" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsistenzaStatAllevamentoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codFiscDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codFiscProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineAttivitaAllevamento" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataFinePeriodo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataInizioAttivitaAllevamento" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataInizioPeriodo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataMaxCalcoloCapi" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataMinCalcoloCapi" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaCapiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaFemmineBov0_12Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaFemmineBov12_24Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaFemmineBuf0_12Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaFemmineBuf12_24Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaMaschiBov0_12Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaMaschiBov12_24Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaMaschiBuf0_12Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="mediaMaschiBuf12_24Mesi" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="numElaborazioni" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbEsitoInvioVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dettaglio" type="xs:string"/>
+      <xs:element minOccurs="0" name="esito" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="ticket" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbEsitoDomanda">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="idDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativo" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="intestatario" type="tns:wbIntestatario"/>
+      <xs:element name="numeroTitoli" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoRichiesta" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vWBAnomaliaAggiornamento" nillable="true" type="tns:wbAnomaliaAggiornamento"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbIntestatario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CUAA" type="tns:wbCuaa"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbCuaa">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscalePersonaFisica" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscalePersonaGiuridica" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbAnomaliaAggiornamento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceAnomalia" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipoAnomalia" type="xs:string"/>
+      <xs:element minOccurs="0" name="idTitolo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbOviniInOutPascoloVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aslAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="aslPascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codicePascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="comunePascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataComAutorita" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataIngressoPascolo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataModello" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataUscitaPascolo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="estremiModAccompagnamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="idFiscaleAllevamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="idPascolo" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="numeroOvini" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbQuoteLatte">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="campagnaLattiera" type="xs:string"/>
+      <xs:element minOccurs="0" name="causaForzaMaggiore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceComunicazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataUltimoAggiornamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaConsegneDaPiano" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaConsegneDis" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaConsegneRif" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaConsegneSoggetteVincolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaVenditeDaPiano" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaVenditeDiretteDis" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaVenditeDiretteRif" type="xs:string"/>
+      <xs:element minOccurs="0" name="quotaVenditeSoggettoVincolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="tenoreGrassoDis" type="xs:string"/>
+      <xs:element minOccurs="0" name="tenoreGrassoRif" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoVincoloSoggettoVincolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="ute" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbRegistriPascoliVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceAziendaProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCapo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceElettronico" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscaleDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecieProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceUELN" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataIngressoPascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataRientroPascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazioneRazza" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAziendaProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="idCapo" type="xs:string"/>
+      <xs:element minOccurs="0" name="idFiscaleAllevProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="idRazza" type="xs:string"/>
+      <xs:element minOccurs="0" name="idRegistroPascoli" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="idRegistroStalla" type="xs:string"/>
+      <xs:element minOccurs="0" name="idSpecieProvenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="identitaNome" type="xs:string"/>
+      <xs:element minOccurs="0" name="ingressoId" type="xs:string"/>
+      <xs:element minOccurs="0" name="passaporto" type="xs:string"/>
+      <xs:element minOccurs="0" name="tagCapo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="responseForCUAASIANVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="cuaa" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataAggiornamento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="stabilimentoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cap" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceIcqrf" type="xs:string"/>
+      <xs:element minOccurs="0" name="comune" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="provincia" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="titoloAggregatoPAC2015">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceMovimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceOrigine" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipoTitolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceValidazioneMovimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaaOrigine" type="xs:string"/>
+      <xs:element minOccurs="0" name="presenzaProvvedimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="primoIdentificativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="quantitaTitoli" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+      <xs:element minOccurs="0" name="ultimoIdentificativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2015" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2016" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2017" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2018" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2019" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2020" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="titoloPAC2015">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="campagnaFineValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="campagnaInizioValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="campagnaNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceMovimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceOrigine" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipoTitolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceValidazioneMovimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaaProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaaSoccidario" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFinePossesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataMovimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataUltimoUtilizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="idDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="idTitoloFrazionato" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="presenzaProvvedimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="salTitolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+      <xs:element minOccurs="0" name="UBAObbligatori" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2015" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2016" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2017" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2018" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2019" type="xs:string"/>
+      <xs:element minOccurs="0" name="valoreTitolo2020" type="xs:string"/>
+      <xs:element minOccurs="0" name="zonaPrimoUtilizzo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbPascoloVisitatoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceAsl" type="xs:string"/>
+      <xs:element minOccurs="0" name="codicePascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazioneAsl" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazionePascolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizioneComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglioCatastale" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAsl" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="idComune" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="idFiscaleResponsabile" type="xs:string"/>
+      <xs:element minOccurs="0" name="idPascolo" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="istatComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="latitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="longitudine" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="siglaProvincia" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbUbaCensimentoOvino2012VO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="agnelliMacellatiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="caprettiMacellatiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniCapiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniFemmineAdulte" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniFemmineAdulteLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniFemmineRimonta" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniFemmineRimontaLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniMaschiAdulti" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniMaschiAdultiLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniMaschiRimonta" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="capriniMaschiRimontaLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="codFiscDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codFiscProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceAzienda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataCensimento" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataComunicazioneAutorita" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataFinePeriodo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataInizioPeriodo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="descrizioneSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="idCensimento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniCapiTotali" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniFemmineAdulte" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniFemmineAdulteLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniFemmineRimonta" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniFemmineRimontaLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniMaschiAdulti" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniMaschiAdultiLib" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniMaschiRimonta" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniMaschiRimontaLib" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbUbaConsistenzaOviniVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="capriniFemmine" type="xs:string"/>
+      <xs:element minOccurs="0" name="capriniMaschi" type="xs:string"/>
+      <xs:element minOccurs="0" name="capriniTotali" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscaleDetentore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscaleProprietario" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSpecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFinePeriodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioPeriodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="idAllevamento" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="oviniFemmine" type="xs:string"/>
+      <xs:element minOccurs="0" name="oviniMaschi" type="xs:string"/>
+      <xs:element minOccurs="0" name="oviniTotali" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="disposizioneTipoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="disposizionePagamentoVO" type="tns:disposizionePagamentoVO"/>
+      <xs:element minOccurs="0" name="utente" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="disposizionePagamentoVO">
+    <xs:sequence>
+      <xs:element name="annoCampagna" type="xs:int"/>
+      <xs:element minOccurs="0" name="codiceSettore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceUO" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoOP" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroDispPagamento" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbComunicazioneNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anagrafica" type="tns:wbAnagraficaNotificaVO"/>
+      <xs:element minOccurs="0" name="protocolliEsterni" type="tns:wbProtEsternoNotificaComunicazioneNotificaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneAcquacoltura" nillable="true" type="tns:wbSezioneAcquacolturaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneContoTerzisti" nillable="true" type="tns:wbSezioneContoTerzistiVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneImportatori" nillable="true" type="tns:wbSezioneImportatoriVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezionePreparazione" nillable="true" type="tns:wbSezionePreparazioneVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneStrutture" nillable="true" type="tns:wbSezioneStruttureVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneTerritorio" nillable="true" type="tns:wbSezioneTerritorioVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneZootecnia" nillable="true" type="tns:wbSezioneZootecniaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUnitaProduttive" nillable="true" type="tns:wbUnitaProduttivaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbAnagraficaNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceCausaVariazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipologia" type="xs:string"/>
+      <xs:element minOccurs="0" name="fonteRegione" type="xs:string"/>
+      <xs:element minOccurs="0" name="intestatarioCF" type="xs:string"/>
+      <xs:element minOccurs="0" name="ODC" type="xs:string"/>
+      <xs:element minOccurs="0" name="odcPrecedente" type="xs:string"/>
+      <xs:element minOccurs="0" name="partitaIVA" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbProtEsternoNotificaComunicazioneNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoEsterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneAcquacolturaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="capacitaProduttiva" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceASL" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizioneImpianto" type="xs:string"/>
+      <xs:element minOccurs="0" name="dettaglioMacrouso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dimensione" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="macrouso" type="xs:string"/>
+      <xs:element minOccurs="0" name="metodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomeImpianto" type="xs:string"/>
+      <xs:element minOccurs="0" name="riferimentiGeografici" type="tns:wbRifGeogAcquaculturaVO"/>
+      <xs:element minOccurs="0" name="specie" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoImpianto" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoUbicazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="unitaMisuraCapacita" type="xs:string"/>
+      <xs:element minOccurs="0" name="unitaMisuraDimensione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbRifGeogAcquaculturaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="riferimentiAcque" type="tns:wbRifGeogImpiantiAcqueVO"/>
+      <xs:element minOccurs="0" name="riferimentiTerra" type="tns:wbRifGeogImpiantiTerraVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbRifGeogImpiantiAcqueVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="coordLat1" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLat2" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLat3" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLat4" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLong1" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLong2" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLong3" type="xs:string"/>
+      <xs:element minOccurs="0" name="coordLong4" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbRifGeogImpiantiTerraVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceBelfiore" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglio" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+      <xs:element minOccurs="0" name="titoloPossesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="utilizzoPrincipale" type="xs:string"/>
+      <xs:element minOccurs="0" name="volume" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneContoTerzistiVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codComune" type="xs:string"/>
+      <xs:element minOccurs="0" name="codProvincia" type="xs:string"/>
+      <xs:element minOccurs="0" name="codRegione" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoPreparazioni" nillable="true" type="tns:wbSezionePreparazioneVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoStrutture" nillable="true" type="tns:wbSezioneStruttureVO"/>
+      <xs:element minOccurs="0" name="flagassogettato" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="recapito" type="xs:string"/>
+      <xs:element minOccurs="0" name="telefono" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezionePreparazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="attivitaContoTerzi" type="xs:string"/>
+      <xs:element minOccurs="0" name="descFiliera" type="xs:string"/>
+      <xs:element minOccurs="0" name="descTipologiaAttivita" type="xs:string"/>
+      <xs:element minOccurs="0" name="filiera" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="lavorazioneProdotto" type="xs:string"/>
+      <xs:element minOccurs="0" name="origineMateriaPrima" type="xs:string"/>
+      <xs:element minOccurs="0" name="separazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipologiaAttivita" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneStruttureVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceAttivita" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceBelfiore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipologia" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglio" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="metodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+      <xs:element minOccurs="0" name="titoloPossesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="utilizzo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneImportatoriVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codicePaese" type="xs:string"/>
+      <xs:element minOccurs="0" name="filiera" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipologiaProdotto" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipologiaStruttura" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneTerritorioVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="appezzamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceBelfiore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceMacrouso" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceProd" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceVari" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataPrimaNotifica" type="xs:string"/>
+      <xs:element minOccurs="0" name="fineConversione" type="xs:string"/>
+      <xs:element minOccurs="0" name="foglio" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="particella" type="xs:string"/>
+      <xs:element minOccurs="0" name="riconoscimentoRetroattivo" type="xs:string"/>
+      <xs:element minOccurs="0" name="sezione" type="xs:string"/>
+      <xs:element minOccurs="0" name="subalterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficie" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficieBiologico" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficieConvenzionale" type="xs:string"/>
+      <xs:element minOccurs="0" name="titoloPossesso" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbSezioneZootecniaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceASL" type="xs:string"/>
+      <xs:element minOccurs="0" name="consistenza" type="xs:string"/>
+      <xs:element minOccurs="0" name="gruppoAllevamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivoUP" type="xs:string"/>
+      <xs:element minOccurs="0" name="metodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="specieAnimale" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoProduzione" type="xs:string"/>
+      <xs:element minOccurs="0" name="UBACorrispondenti" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbUnitaProduttivaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceAttivita" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceBelfiore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCap" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceTipologia" type="xs:string"/>
+      <xs:element minOccurs="0" name="idProgressivo" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="rappDelegatoCF" type="xs:string"/>
+      <xs:element minOccurs="0" name="recapito" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbComunicazioneNuovaNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anagrafica" type="tns:wbAnagraficaNotificaVO"/>
+      <xs:element minOccurs="0" name="dataRilascio" type="xs:string"/>
+      <xs:element minOccurs="0" name="protocolliEsterni" type="tns:wbProtEsternoNotificaComunicazioneNotificaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneAcquacoltura" nillable="true" type="tns:wbSezioneAcquacolturaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneContoTerzisti" nillable="true" type="tns:wbSezioneContoTerzistiVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneImportatori" nillable="true" type="tns:wbSezioneImportatoriVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezionePreparazione" nillable="true" type="tns:wbSezionePreparazioneVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneStrutture" nillable="true" type="tns:wbSezioneStruttureVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneTerritorio" nillable="true" type="tns:wbSezioneTerritorioVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneZootecnia" nillable="true" type="tns:wbSezioneZootecniaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUnitaProduttive" nillable="true" type="tns:wbUnitaProduttivaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbInputMovimentazioneTitoli">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="campagna" type="xs:string"/>
+      <xs:element minOccurs="0" name="cedente" type="tns:wbCedente"/>
+      <xs:element minOccurs="0" name="consensoCedente" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataCompilazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataConsenso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataRilascio" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataTermineConferimento" type="xs:string"/>
+      <xs:element minOccurs="0" name="fattispecie" type="xs:string"/>
+      <xs:element minOccurs="0" name="idDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="intestatario" type="tns:wbIntestatario"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vTitoliMovimentati" nillable="true" type="tns:wbTitoliMovimentati"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbCedente">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CUAA" type="tns:wbCuaa"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbTitoliMovimentati">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CUAATerzoSoggetto" type="tns:wbcuaaTerzoSoggetto"/>
+      <xs:element minOccurs="0" name="dataScadenzaAffitto" type="xs:string"/>
+      <xs:element minOccurs="0" name="primoIdentificativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="superficieUBA" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="ultimoIdentificativo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbcuaaTerzoSoggetto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CUAA" type="tns:wbCuaa"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbAnnullaComunicazioneRecessoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="annullamentoVO" type="tns:wbAnnullamentoVO"/>
+      <xs:element minOccurs="0" name="tipoOperazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbAnnullamentoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vProtocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbProtEsternoNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoEsterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbDatiNotificaPerIdentificativoInputVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoEsterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbDatiNotificaPerIdentificativoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="esito" type="tns:wbNotifica2VO"/>
+      <xs:element minOccurs="0" ref="tns:response"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbNotifica2VO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anagrafica" type="tns:wbAnagraficaNotificaVO"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="protocolliEsterni" type="tns:wbProtEsternoNotificaComunicazioneNotificaVO"/>
+      <xs:element minOccurs="0" name="statoNotifica" type="tns:wbStatoNotificaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vProtEsternoNotifica" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneAcquacoltura" nillable="true" type="tns:wbSezioneAcquacolturaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneContoTerzisti" nillable="true" type="tns:wbSezioneContoTerzistiVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneImportatori" nillable="true" type="tns:wbSezioneImportatoriVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezionePreparazione" nillable="true" type="tns:wbSezionePreparazioneVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneStrutture" nillable="true" type="tns:wbSezioneStruttureVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneTerritorio" nillable="true" type="tns:wbSezioneTerritorioVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneZootecnia" nillable="true" type="tns:wbSezioneZootecniaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUnitaProduttive" nillable="true" type="tns:wbUnitaProduttivaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbStatoNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceSistemaSIB" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceStato" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataAggiornamento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaCompensazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element minOccurs="0" name="fondoPagamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="idPagamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="importoPagamento" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificaCompensazioneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listaCompensazioni" nillable="true" type="tns:compensazioneVO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="responseVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codRet" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizioneErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="info" type="xs:string"/>
+      <xs:element minOccurs="0" name="requestXml" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoOutput" type="xs:string"/>
+      <xs:element minOccurs="0" name="warning" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="compensazioneVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+          <xs:element minOccurs="0" name="dataAccertamento" type="xs:string"/>
+          <xs:element name="enteCredito" type="xs:int"/>
+          <xs:element name="idCredito" type="xs:int"/>
+          <xs:element minOccurs="0" name="idProvvedimento" type="xs:string"/>
+          <xs:element minOccurs="0" name="importoCompensazione" type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="wbConsultazioneDocumentoGiustificativoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inputSIBIdNotifica" type="tns:wbInputSIBIdNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbInputSIBIdNotificaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="protocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="giustificativoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="documentoGiustificativo" type="tns:documentoGiustificativo"/>
+      <xs:element minOccurs="0" ref="tns:response"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="documentoGiustificativo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceOperatore" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataFineValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="documento" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomeDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="note" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroDocumento" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="protocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finalizzazioneCompensazioneVO">
+    <xs:sequence>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element name="fondoPagamento" type="xs:int"/>
+      <xs:element name="idPagamento" type="xs:int"/>
+      <xs:element minOccurs="0" name="importoPagamento" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finalizzazioneCompensazioneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="importoCompensatoTotale" type="xs:decimal"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listaCompensazioni" nillable="true" type="tns:compensazioneVO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="recuperaRisultatoCompensazioniAsincroneVO">
+    <xs:sequence>
+      <xs:element name="enteRichiedente" type="xs:int"/>
+      <xs:element name="idFornitura" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recuperaRisultatoCompensazioniAsincroneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="dataOraElaborazione" type="xs:string"/>
+          <xs:element minOccurs="0" name="dataOraRichiesta" type="xs:string"/>
+          <xs:element name="idFornitura" type="xs:int"/>
+          <xs:element minOccurs="0" name="idPagamento" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listaSoggetti" nillable="true" type="tns:soggettoCuaaVO"/>
+          <xs:element minOccurs="0" name="statoElaborazione" type="xs:string"/>
+          <xs:element minOccurs="0" name="ticket" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="soggettoCuaaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataAccertamento" type="xs:string"/>
+      <xs:element name="enteCreditore" type="xs:int"/>
+      <xs:element name="esito" type="xs:int"/>
+      <xs:element name="fondoPagamento" type="xs:int"/>
+      <xs:element name="idCredito" type="xs:int"/>
+      <xs:element name="idProvvedimento" type="xs:int"/>
+      <xs:element minOccurs="0" name="importoCompensazione" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="importoPagamento" type="xs:decimal"/>
+      <xs:element name="progressivoInternoElenco" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaCompensazioniAsincroneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element minOccurs="0" name="idPagamento" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="listaSoggetti" nillable="true" type="tns:soggettoCuaaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaCompensazioniAsincroneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element name="enteRecupero" type="xs:int"/>
+          <xs:element name="idFornitura" type="xs:int"/>
+          <xs:element name="idPagamento" type="xs:int"/>
+          <xs:element minOccurs="0" name="ticket" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="wbConsultazioneIterAmministrativoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="iterAmministrativoVO" type="tns:wbIterAmministrativoVO"/>
+      <xs:element minOccurs="0" name="tipoOperazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbIterAmministrativoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vProtocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iterResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="iterAmministrativoList" nillable="true" type="tns:iterAmministrativo"/>
+      <xs:element minOccurs="0" ref="tns:response"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iterAmministrativo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataFine" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizio" type="xs:string"/>
+      <xs:element minOccurs="0" name="descEnte" type="xs:string"/>
+      <xs:element minOccurs="0" name="ente" type="xs:string"/>
+      <xs:element minOccurs="0" name="idNotifica" type="xs:long"/>
+      <xs:element minOccurs="0" name="idProgressivo" type="xs:string"/>
+      <xs:element minOccurs="0" name="stato" type="xs:string"/>
+      <xs:element minOccurs="0" name="statoPrecedente" type="xs:string"/>
+      <xs:element minOccurs="0" name="statoSiap" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="elencoOviRegistriStallaCodResponseVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="elencoOVIRegistriStallaCodResultVO" type="tns:elencoOviRegistriStallaCodResultVO"/>
+      <xs:element minOccurs="0" name="segnalazioneVO" type="tns:segnalazioneVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="elencoOviRegistriStallaCodResultVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="content" nillable="true" type="tns:oviRegistroDiStallaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="oviRegistroDiStallaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="allevIdFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaComDescrizione" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaProSigla" type="xs:string"/>
+      <xs:element minOccurs="0" name="cap" type="xs:string"/>
+      <xs:element minOccurs="0" name="caricoNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="codPrecedente" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceElettronico" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceMadre" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataMorteVendita" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="destinazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="detenCognNome" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtApplMarchio" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="estremiModAcc" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="ingrCapoId" type="xs:string"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="marchio" type="xs:string"/>
+      <xs:element minOccurs="0" name="propCognNome" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="razza" type="xs:string"/>
+      <xs:element minOccurs="0" name="scaricoMorte" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="specieCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoDestinazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoProvenienza" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="segnalazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codRet" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizioneErrore" type="xs:string"/>
+      <xs:element minOccurs="0" name="info" type="xs:string"/>
+      <xs:element minOccurs="0" name="requestXml" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoOutput" type="xs:string"/>
+      <xs:element minOccurs="0" name="warning" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="elencoRegistriStallaCodResponseVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="elencoRegistriStallaCodResultVO" type="tns:elencoRegistriStallaCodResultVO"/>
+      <xs:element minOccurs="0" name="segnalazioneVO" type="tns:segnalazioneVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="elencoRegistriStallaCodResultVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="content" nillable="true" type="tns:registroDiStallaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="registroDiStallaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="allevIdFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaCodice" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaComDescrizione" type="xs:string"/>
+      <xs:element minOccurs="0" name="aziendaProSigla" type="xs:string"/>
+      <xs:element minOccurs="0" name="cap" type="xs:string"/>
+      <xs:element minOccurs="0" name="caricoNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="codPrecedente" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceMadre" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataMorteVendita" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="destinazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="detenCognNome" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtIngresso" type="xs:string"/>
+      <xs:element minOccurs="0" name="dtNascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="estremiModello4" type="xs:string"/>
+      <xs:element minOccurs="0" name="indirizzo" type="xs:string"/>
+      <xs:element minOccurs="0" name="localita" type="xs:string"/>
+      <xs:element minOccurs="0" name="marchio" type="xs:string"/>
+      <xs:element minOccurs="0" name="propCognNome" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+      <xs:element minOccurs="0" name="razza" type="xs:string"/>
+      <xs:element minOccurs="0" name="regstaId" type="xs:string"/>
+      <xs:element minOccurs="0" name="scaricoMorte" type="xs:string"/>
+      <xs:element minOccurs="0" name="sesso" type="xs:string"/>
+      <xs:element minOccurs="0" name="tag" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbComunicazNotificaPregrVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anagrafica" type="tns:wbAnagraficaNotificaVO"/>
+      <xs:element minOccurs="0" name="chiusuraPricedimentoNotificaPregr" type="tns:wbChiusuraProcedimentoNotificaPregrVO"/>
+      <xs:element minOccurs="0" name="dataIdoneita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataPubblicazione" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataRilascio" type="xs:string"/>
+      <xs:element minOccurs="0" name="documentoGiustifNotificaPregr" type="tns:wbDocumentoGiustificativoNotificaPregrVO"/>
+      <xs:element minOccurs="0" name="protocolliEsterni" type="tns:wbProtEsternoNotificaComunicazioneNotificaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneAcquacoltura" nillable="true" type="tns:wbSezioneAcquacolturaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneContoTerzisti" nillable="true" type="tns:wbSezioneContoTerzistiVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneImportatori" nillable="true" type="tns:wbSezioneImportatoriVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezionePreparazione" nillable="true" type="tns:wbSezionePreparazioneVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneStrutture" nillable="true" type="tns:wbSezioneStruttureVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneTerritorio" nillable="true" type="tns:wbSezioneTerritorioVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vSezioneZootecnia" nillable="true" type="tns:wbSezioneZootecniaVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vUnitaProduttive" nillable="true" type="tns:wbUnitaProduttivaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbChiusuraProcedimentoNotificaPregrVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataProtocollo" type="xs:string"/>
+      <xs:element minOccurs="0" name="note" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroProtocollo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbDocumentoGiustificativoNotificaPregrVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataFineValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataInizioValidita" type="xs:string"/>
+      <xs:element minOccurs="0" name="documento" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="nomeDocumento" type="xs:string"/>
+      <xs:element minOccurs="0" name="note" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroDocumento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="annullamentoCompensazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element name="idPagamento" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="annullamentoCompensazioneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element name="numCompensazioniAnnullate" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="etichettaTypeVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoInvio" type="xs:string"/>
+      <xs:element minOccurs="0" name="partizione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="elencoRecuperiResponseVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoDatiRecuperoType" nillable="true" type="tns:datiRecuperoTypeVO"/>
+      <xs:element minOccurs="0" name="etichettaTypeVO" type="tns:etichettaTypeVO"/>
+      <xs:element minOccurs="0" name="responseVO" type="tns:responseVO"/>
+      <xs:element name="tipologiaRecupero" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="datiRecuperoTypeVO">
+    <xs:sequence>
+      <xs:element name="annoCampagna" type="xs:int"/>
+      <xs:element minOccurs="0" name="CUAA" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCapitoloDonante" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCapitoloRicevente" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSettore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceUO" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoOP" type="xs:string"/>
+      <xs:element minOccurs="0" name="importoRecupero" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="numeroDispPagamento" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iswsAnomaliePerCuaaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="campagna" type="xs:int"/>
+      <xs:element minOccurs="0" name="cuaaTypeVO" type="tns:cuaaTypeVO"/>
+      <xs:element minOccurs="0" name="idDomaOp" type="xs:string"/>
+      <xs:element minOccurs="0" name="regione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cuaaTypeVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscalePersonaFisica" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceFiscalePersonaGiuridica" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iswsResponseAnomalieAsrVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoResponseDettaglioAsr" nillable="true" type="tns:iswsResponseDettaglioAsrVO"/>
+      <xs:element minOccurs="0" name="responseVO" type="tns:responseVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iswsResponseDettaglioAsrVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoListaAnomalieAsr" nillable="true" type="tns:iswsListaAnomalieAsrVO"/>
+      <xs:element minOccurs="0" name="iswsDomaAsrVO" type="tns:iswsDomaAsrVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iswsListaAnomalieAsrVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anomalia" type="xs:string"/>
+      <xs:element name="tipoAnomalia" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="iswsDomaAsrVO">
+    <xs:sequence>
+      <xs:element name="campagna" type="xs:int"/>
+      <xs:element minOccurs="0" name="cuaaTypeVO" type="tns:cuaaTypeVO"/>
+      <xs:element name="domaCamp" type="xs:int"/>
+      <xs:element minOccurs="0" name="idDomaOp" type="xs:string"/>
+      <xs:element minOccurs="0" name="misura" type="xs:string"/>
+      <xs:element minOccurs="0" name="regione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaRegistraRecuperoInputVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="elencoDatiPagamentoType" nillable="true" type="tns:datiPagamentoTypeVO"/>
+      <xs:element minOccurs="0" name="etichettaTypeVO" type="tns:etichettaTypeVO"/>
+      <xs:element minOccurs="0" name="returnAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="utente" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="datiPagamentoTypeVO">
+    <xs:sequence>
+      <xs:element name="annoCampagna" type="xs:int"/>
+      <xs:element minOccurs="0" name="codiceCapitolo" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceDomanda" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSettore" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceUO" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataDispPagamento" type="xs:anySimpleType"/>
+      <xs:element minOccurs="0" name="importo" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="numeroDispPagamento" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="riepilogoFondoVO">
+    <xs:sequence>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element minOccurs="0" name="fondoPagamento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="riepilogoFondoRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element name="fondoPagamento" type="xs:int"/>
+          <xs:element minOccurs="0" name="importoPagamento" type="xs:decimal"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listaFondi" nillable="true" type="tns:fondoVO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="fondoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fondoPagamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="importoCompensazione" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbElencoIdNotificheAggiornateCuaaInputVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbElencoIdNotificheAggiornateCuaaResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="esito" nillable="true" type="tns:wbIdNotificheCuaaVO"/>
+      <xs:element minOccurs="0" ref="tns:response"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbIdNotificheCuaaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceMotivoAggiornamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceSistemaSIB" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataAggiornamento" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vProtEsternoNotifica" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="idRegistraRecuperoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="richiestaIdVO" type="tns:richiestaIdVO"/>
+      <xs:element minOccurs="0" name="utente" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaIdVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="returnAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="totalePartizioni" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rispostaRichiestaIdResponseVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoInvio" type="xs:string"/>
+      <xs:element minOccurs="0" name="responseVO" type="tns:responseVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsultazioneEsitoIstruttoriaOdcInputVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="provenienza" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbIstruttoriaOdcResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="esito" type="tns:wbConsultazioneEsitoIstruttoriaOdc"/>
+      <xs:element minOccurs="0" ref="tns:response"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConsultazioneEsitoIstruttoriaOdc">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceOperatore" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataVisita" type="xs:string"/>
+      <xs:element minOccurs="0" name="esitoVerifica" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="misurePrescrittive" type="xs:string"/>
+      <xs:element minOccurs="0" name="nominativoIspettore" type="xs:string"/>
+      <xs:element minOccurs="0" name="note" type="xs:string"/>
+      <xs:element minOccurs="0" name="operatoreDelegato" type="xs:string"/>
+      <xs:element minOccurs="0" name="prelieviPerAnalisi" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="protocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbComunicazioneEsitoIstruttoriaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="esitoIstruttoria" type="tns:wbEsitoIstruttoriaVO"/>
+      <xs:element minOccurs="0" name="tipoOperazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbEsitoIstruttoriaVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataVerifica" type="xs:string"/>
+      <xs:element minOccurs="0" name="esitoVerifica" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="motivazione" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="protocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbCancellaComunicazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ticket" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaCompensazioneVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuaa" type="xs:string"/>
+      <xs:element name="enteRecupero" type="xs:int"/>
+      <xs:element name="fondoPagamento" type="xs:int"/>
+      <xs:element name="idPagamento" type="xs:int"/>
+      <xs:element minOccurs="0" name="importoPagamento" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="richiestaCompensazioneRispostaVO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseVO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="importoCompensatoTotale" type="xs:decimal"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listaCompensazioni" nillable="true" type="tns:compensazioneVO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="wbComunicazioneRecessoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="recessoVO" type="tns:wbRecessoVO"/>
+      <xs:element minOccurs="0" name="tipoOperazione" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbRecessoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identificativoSian" type="xs:string"/>
+      <xs:element minOccurs="0" name="motivazione" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="vProtocolliEsterni" nillable="true" type="tns:wbProtEsternoNotificaVO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wbConfermaLetturaEsitoVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ticket" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WSBridgeInternalException" type="tns:WSBridgeInternalException"/>
+  <xs:complexType name="WSBridgeInternalException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errorCode" type="xs:int"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="esitoNotificaBiologico">
+  </wsdl:message>
+  <wsdl:message name="getElencoEQUIRegistriPascoloCod">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitiRicevutiPAC2015">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitiRicevutiPAC2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaUbaCensimOvini2012Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGiacenzePerDichiarazioneResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMovimentazioneTitoliPAC2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNuovaNotificaBiologico">
+    <wsdl:part name="arg0" type="tns:wbComunicazioneNuovaNotificaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodPeriodoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascoloDal2014Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confermaLetturaIdNotificaResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoEQUIRegistriPascoloCodDetenResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascolo">
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataInizioPeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataFinePeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="codAzienda" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaRecupero">
+    <wsdl:part name="disposizioneTipoVO" type="tns:disposizioneTipoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finalizzazioneCompensazioneRNDResponse">
+    <wsdl:part name="return" type="tns:finalizzazioneCompensazioneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaUsciteDaPascoloPartiteOviniResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascoloDal2014">
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataInizioPeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataFinePeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="codAzienda" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finalizzazioneCompensazioneRND">
+    <wsdl:part name="arg0" type="tns:finalizzazioneCompensazioneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaRisultatoCompensazioniAsincroneRND">
+    <wsdl:part name="arg0" type="tns:recuperaRisultatoCompensazioniAsincroneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="riepilogoFondoRNDResponse">
+    <wsdl:part name="return" type="tns:riepilogoFondoRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="esitoNotificaBiologicoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaStatisticaMediaAllevamento">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascoloResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoEQUIRegistriPascoloCodDeten">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="quoteLatteGisTa10">
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="campagna" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneIterAmministrativo">
+    <wsdl:part name="arg0" type="tns:wbConsultazioneIterAmministrativoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part element="tns:Exception" name="Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodDetenResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaCompensazioneRNDResponse">
+    <wsdl:part name="return" type="tns:richiestaCompensazioneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOviRegistriStallaCod">
+    <wsdl:part name="aziendaCodice" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="speCodice" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="allevIdFiscale" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="tipo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="ordinamento" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMovimentazioneTitoliResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperaRisultatoCompensazioniAsincroneRNDResponse">
+    <wsdl:part name="return" type="tns:recuperaRisultatoCompensazioniAsincroneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitoDomandePAC2015">
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAllevamentoAperto">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confermaLetturaIdNotifica">
+    <wsdl:part name="arg0" type="tns:wbInputSIBIdNotificaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttore">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremioNewResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOVIRegistriPascoloCodPeriodoDetenResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaComunicazioneRecessoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttoreAggregatiPac2015">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneEsitoIstruttoriaOdcResponse">
+    <wsdl:part name="return" type="tns:wbIstruttoriaOdcResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNotificaPregressaBiologico">
+    <wsdl:part name="arg0" type="tns:wbComunicazNotificaPregrVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaUbaOviniResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="datiNotificaPerIdentificativo2Response">
+    <wsdl:part name="return" type="tns:wbDatiNotificaPerIdentificativoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listaCodICQRFResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnomaliePerCUAADU10">
+    <wsdl:part name="arg0" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="ns1:stringArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullamentoCompensazioneRND">
+    <wsdl:part name="arg0" type="tns:annullamentoCompensazioneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="elencoIdNotificheAggiornateCuaaResponse">
+    <wsdl:part name="return" type="tns:wbElencoIdNotificheAggiornateCuaaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="prelevaRecupero">
+    <wsdl:part name="etichettaTypeVO" type="tns:etichettaTypeVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trovaFascicoloFS50Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="quoteLatteGisTa10Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="anomaliePerCUAAPSR">
+    <wsdl:part name="arg0" type="tns:iswsAnomaliePerCuaaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOVIRegistriPascoloCodPeriodo">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriStallaCodResponse">
+    <wsdl:part name="return" type="tns:elencoRegistriStallaCodResponseVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registraRecupero">
+    <wsdl:part name="richiestaRegistraRecuperoInputVO" type="tns:richiestaRegistraRecuperoInputVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="riepilogoFondoRND">
+    <wsdl:part name="arg0" type="tns:riepilogoFondoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOVIRegistriPascoloCodPeriodoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttoreAggregatiPac2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNotificaBiologicoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIdRegistrazione">
+    <wsdl:part name="idRegistraRecuperoVO" type="tns:idRegistraRecuperoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNotificaPregressaBiologicoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confermaLetturaEsitoBiologicoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGiacenzePerDichiarazione">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneEsitoIstruttoriaOdc">
+    <wsdl:part name="arg0" type="tns:wbConsultazioneEsitoIstruttoriaOdcInputVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listaCodICQRF">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremio">
+    <wsdl:part name="arg0" type="xsd:long">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trovaFascicoloFS50">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodPeriodoDetenResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancellaComunicazioneNuovaNotifica">
+    <wsdl:part name="arg0" type="tns:wbCancellaComunicazioneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOviRegistriStallaCodResponse">
+    <wsdl:part name="return" type="tns:elencoOviRegistriStallaCodResponseVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTrovaPascoloPac2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="comunicazioneRecesso">
+    <wsdl:part name="arg0" type="tns:wbComunicazioneRecessoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitoDomande">
+  </wsdl:message>
+  <wsdl:message name="getTrovaPascoloPac2015">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="convalidaRecupero">
+    <wsdl:part name="disposizioneTipoVO" type="tns:disposizioneTipoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNotificaBiologico">
+    <wsdl:part name="arg0" type="tns:wbComunicazioneNotificaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAllevamento">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaCompensazioneRNDResponse">
+    <wsdl:part name="return" type="tns:verificaCompensazioneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaIngressiAlPascoloPartiteOviniResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneDocumentoGiustificativoResponse">
+    <wsdl:part name="return" type="tns:giustificativoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMovimentazioneTitoli">
+    <wsdl:part name="arg0" type="tns:wbInputMovimentazioneTitoli">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="prelevaRecuperoResponse">
+    <wsdl:part name="return" type="tns:elencoRecuperiResponseVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaComunicazioneRecesso">
+    <wsdl:part name="arg0" type="tns:wbAnnullaComunicazioneRecessoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="datiNotificaPerIdentificativo2">
+    <wsdl:part name="arg0" type="tns:wbDatiNotificaPerIdentificativoInputVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificaCompensazioneRND">
+    <wsdl:part name="arg0" type="tns:verificaCompensazioneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnagraficaAllevamentiResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneDocumentoGiustificativo">
+    <wsdl:part name="arg0" type="tns:wbConsultazioneDocumentoGiustificativoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnagraficaAllevamenti">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttorePac2015">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaUbaCensimOvini2012">
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataInizioPeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataFinePeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="tipoResponsabilita" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancellaComunicazioneNuovaNotificaResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaCompensazioniAsincroneRND">
+    <wsdl:part name="arg0" type="tns:richiestaCompensazioniAsincroneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAllevamentoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoOVIRegistriPascoloCodPeriodoDeten">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremio2NewResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodPeriodoDeten">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMovimentazioneTitoliPAC2015">
+    <wsdl:part name="arg0" type="tns:wbInputMovimentazioneTitoli">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WSBridgeInternalException">
+    <wsdl:part element="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullamentoCompensazioneRNDResponse">
+    <wsdl:part name="return" type="tns:annullamentoCompensazioneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascoloPac2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttorePac2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAlPascoloPac2015">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriStallaCod">
+    <wsdl:part name="aziendaCodice" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="speCodice" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="allevIdFiscale" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="tipo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="ordinamento" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaRecuperoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaCUAAConAnomalieDU10Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoEQUIRegistriPascoloCodResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="comunicazioneEsitoIstruttoriaResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invioNuovaNotificaBiologicoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodPeriodo">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaCompensazioniAsincroneRNDResponse">
+    <wsdl:part name="return" type="tns:richiestaCompensazioniAsincroneRispostaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultazioneIterAmministrativoResponse">
+    <wsdl:part name="return" type="tns:iterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTitoliProduttoreResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitoDomandePAC2015Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaUsciteDaPascoloPartiteOvini">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="anomaliePerCUAAPSRResponse">
+    <wsdl:part name="return" type="tns:iswsResponseAnomalieAsrVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaCUAAConAnomalieDU10">
+    <wsdl:part name="arg0" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testResources">
+  </wsdl:message>
+  <wsdl:message name="comunicazioneRecessoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaAllevamentoApertoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoRegistriPascoloCodDeten">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg3" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaStatisticaMediaAllevamentoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitoDomandeResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListaIngressiAlPascoloPartiteOvini">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg1" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="arg2" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="elencoIdNotificheAggiornateCuaa">
+    <wsdl:part name="arg0" type="tns:wbElencoIdNotificheAggiornateCuaaInputVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="comunicazioneEsitoIstruttoria">
+    <wsdl:part name="arg0" type="tns:wbComunicazioneEsitoIstruttoriaVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitiRicevutiResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnomaliePerCUAADU10Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremioNew">
+    <wsdl:part name="codiceIntervento" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="annoCampagna" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trovaFascicoloFS6">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIdRegistrazioneResponse">
+    <wsdl:part name="return" type="tns:rispostaRichiestaIdResponseVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trovaFascicoloFS6Response">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEsitiRicevuti">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testResourcesResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registraRecuperoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsistenzaUbaOvini">
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataInizioPeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="dataFinePeriodo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="tipoResponsabilita" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="richiestaCompensazioneRND">
+    <wsdl:part name="arg0" type="tns:richiestaCompensazioneVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremioResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="convalidaRecuperoResponse">
+    <wsdl:part name="return" type="tns:response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confermaLetturaEsitoBiologico">
+    <wsdl:part name="arg0" type="tns:wbConfermaLetturaEsitoVO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getElencoCapiPremio2New">
+    <wsdl:part name="idAlleBdn" type="xsd:long">
+    </wsdl:part>
+    <wsdl:part name="codiceIntervento" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="cuaa" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="cuaa2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="annoCampagna" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WSBridge2">
+    <wsdl:operation name="esitoNotificaBiologico">
+      <wsdl:input message="tns:esitoNotificaBiologico" name="esitoNotificaBiologico">
+    </wsdl:input>
+      <wsdl:output message="tns:esitoNotificaBiologicoResponse" name="esitoNotificaBiologicoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitoDomande">
+      <wsdl:input message="tns:getEsitoDomande" name="getEsitoDomande">
+    </wsdl:input>
+      <wsdl:output message="tns:getEsitoDomandeResponse" name="getEsitoDomandeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTrovaPascoloPac2015">
+      <wsdl:input message="tns:getTrovaPascoloPac2015" name="getTrovaPascoloPac2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getTrovaPascoloPac2015Response" name="getTrovaPascoloPac2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoEQUIRegistriPascoloCod">
+      <wsdl:input message="tns:getElencoEQUIRegistriPascoloCod" name="getElencoEQUIRegistriPascoloCod">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoEQUIRegistriPascoloCodResponse" name="getElencoEQUIRegistriPascoloCodResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitiRicevutiPAC2015">
+      <wsdl:input message="tns:getEsitiRicevutiPAC2015" name="getEsitiRicevutiPAC2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getEsitiRicevutiPAC2015Response" name="getEsitiRicevutiPAC2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="convalidaRecupero">
+      <wsdl:input message="tns:convalidaRecupero" name="convalidaRecupero">
+    </wsdl:input>
+      <wsdl:output message="tns:convalidaRecuperoResponse" name="convalidaRecuperoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNotificaBiologico">
+      <wsdl:input message="tns:invioNotificaBiologico" name="invioNotificaBiologico">
+    </wsdl:input>
+      <wsdl:output message="tns:invioNotificaBiologicoResponse" name="invioNotificaBiologicoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAllevamento">
+      <wsdl:input message="tns:getConsistenzaAllevamento" name="getConsistenzaAllevamento">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaAllevamentoResponse" name="getConsistenzaAllevamentoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNuovaNotificaBiologico">
+      <wsdl:input message="tns:invioNuovaNotificaBiologico" name="invioNuovaNotificaBiologico">
+    </wsdl:input>
+      <wsdl:output message="tns:invioNuovaNotificaBiologicoResponse" name="invioNuovaNotificaBiologicoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMovimentazioneTitoli">
+      <wsdl:input message="tns:getMovimentazioneTitoli" name="getMovimentazioneTitoli">
+    </wsdl:input>
+      <wsdl:output message="tns:getMovimentazioneTitoliResponse" name="getMovimentazioneTitoliResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaComunicazioneRecesso">
+      <wsdl:input message="tns:annullaComunicazioneRecesso" name="annullaComunicazioneRecesso">
+    </wsdl:input>
+      <wsdl:output message="tns:annullaComunicazioneRecessoResponse" name="annullaComunicazioneRecessoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="datiNotificaPerIdentificativo2">
+      <wsdl:input message="tns:datiNotificaPerIdentificativo2" name="datiNotificaPerIdentificativo2">
+    </wsdl:input>
+      <wsdl:output message="tns:datiNotificaPerIdentificativo2Response" name="datiNotificaPerIdentificativo2Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificaCompensazioneRND">
+      <wsdl:input message="tns:verificaCompensazioneRND" name="verificaCompensazioneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:verificaCompensazioneRNDResponse" name="verificaCompensazioneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneDocumentoGiustificativo">
+      <wsdl:input message="tns:consultazioneDocumentoGiustificativo" name="consultazioneDocumentoGiustificativo">
+    </wsdl:input>
+      <wsdl:output message="tns:consultazioneDocumentoGiustificativoResponse" name="consultazioneDocumentoGiustificativoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnagraficaAllevamenti">
+      <wsdl:input message="tns:getAnagraficaAllevamenti" name="getAnagraficaAllevamenti">
+    </wsdl:input>
+      <wsdl:output message="tns:getAnagraficaAllevamentiResponse" name="getAnagraficaAllevamentiResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttorePac2015">
+      <wsdl:input message="tns:getTitoliProduttorePac2015" name="getTitoliProduttorePac2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getTitoliProduttorePac2015Response" name="getTitoliProduttorePac2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascolo">
+      <wsdl:input message="tns:getConsistenzaAlPascolo" name="getConsistenzaAlPascolo">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaAlPascoloResponse" name="getConsistenzaAlPascoloResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaRecupero">
+      <wsdl:input message="tns:annullaRecupero" name="annullaRecupero">
+    </wsdl:input>
+      <wsdl:output message="tns:annullaRecuperoResponse" name="annullaRecuperoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaUbaCensimOvini2012">
+      <wsdl:input message="tns:getConsistenzaUbaCensimOvini2012" name="getConsistenzaUbaCensimOvini2012">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaUbaCensimOvini2012Response" name="getConsistenzaUbaCensimOvini2012Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascoloDal2014">
+      <wsdl:input message="tns:getConsistenzaAlPascoloDal2014" name="getConsistenzaAlPascoloDal2014">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaAlPascoloDal2014Response" name="getConsistenzaAlPascoloDal2014Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finalizzazioneCompensazioneRND">
+      <wsdl:input message="tns:finalizzazioneCompensazioneRND" name="finalizzazioneCompensazioneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:finalizzazioneCompensazioneRNDResponse" name="finalizzazioneCompensazioneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaRisultatoCompensazioniAsincroneRND">
+      <wsdl:input message="tns:recuperaRisultatoCompensazioniAsincroneRND" name="recuperaRisultatoCompensazioniAsincroneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperaRisultatoCompensazioniAsincroneRNDResponse" name="recuperaRisultatoCompensazioniAsincroneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaCompensazioniAsincroneRND">
+      <wsdl:input message="tns:richiestaCompensazioniAsincroneRND" name="richiestaCompensazioniAsincroneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:richiestaCompensazioniAsincroneRNDResponse" name="richiestaCompensazioniAsincroneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOVIRegistriPascoloCodPeriodoDeten">
+      <wsdl:input message="tns:getElencoOVIRegistriPascoloCodPeriodoDeten" name="getElencoOVIRegistriPascoloCodPeriodoDeten">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoOVIRegistriPascoloCodPeriodoDetenResponse" name="getElencoOVIRegistriPascoloCodPeriodoDetenResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaStatisticaMediaAllevamento">
+      <wsdl:input message="tns:getConsistenzaStatisticaMediaAllevamento" name="getConsistenzaStatisticaMediaAllevamento">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaStatisticaMediaAllevamentoResponse" name="getConsistenzaStatisticaMediaAllevamentoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodPeriodoDeten">
+      <wsdl:input message="tns:getElencoRegistriPascoloCodPeriodoDeten" name="getElencoRegistriPascoloCodPeriodoDeten">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoRegistriPascoloCodPeriodoDetenResponse" name="getElencoRegistriPascoloCodPeriodoDetenResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoEQUIRegistriPascoloCodDeten">
+      <wsdl:input message="tns:getElencoEQUIRegistriPascoloCodDeten" name="getElencoEQUIRegistriPascoloCodDeten">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoEQUIRegistriPascoloCodDetenResponse" name="getElencoEQUIRegistriPascoloCodDetenResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="quoteLatteGisTa10">
+      <wsdl:input message="tns:quoteLatteGisTa10" name="quoteLatteGisTa10">
+    </wsdl:input>
+      <wsdl:output message="tns:quoteLatteGisTa10Response" name="quoteLatteGisTa10Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMovimentazioneTitoliPAC2015">
+      <wsdl:input message="tns:getMovimentazioneTitoliPAC2015" name="getMovimentazioneTitoliPAC2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getMovimentazioneTitoliPAC2015Response" name="getMovimentazioneTitoliPAC2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneIterAmministrativo">
+      <wsdl:input message="tns:consultazioneIterAmministrativo" name="consultazioneIterAmministrativo">
+    </wsdl:input>
+      <wsdl:output message="tns:consultazioneIterAmministrativoResponse" name="consultazioneIterAmministrativoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOviRegistriStallaCod">
+      <wsdl:input message="tns:getElencoOviRegistriStallaCod" name="getElencoOviRegistriStallaCod">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoOviRegistriStallaCodResponse" name="getElencoOviRegistriStallaCodResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitoDomandePAC2015">
+      <wsdl:input message="tns:getEsitoDomandePAC2015" name="getEsitoDomandePAC2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getEsitoDomandePAC2015Response" name="getEsitoDomandePAC2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAllevamentoAperto">
+      <wsdl:input message="tns:getConsistenzaAllevamentoAperto" name="getConsistenzaAllevamentoAperto">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaAllevamentoApertoResponse" name="getConsistenzaAllevamentoApertoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="confermaLetturaIdNotifica">
+      <wsdl:input message="tns:confermaLetturaIdNotifica" name="confermaLetturaIdNotifica">
+    </wsdl:input>
+      <wsdl:output message="tns:confermaLetturaIdNotificaResponse" name="confermaLetturaIdNotificaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttore">
+      <wsdl:input message="tns:getTitoliProduttore" name="getTitoliProduttore">
+    </wsdl:input>
+      <wsdl:output message="tns:getTitoliProduttoreResponse" name="getTitoliProduttoreResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascoloPac2015">
+      <wsdl:input message="tns:getConsistenzaAlPascoloPac2015" name="getConsistenzaAlPascoloPac2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaAlPascoloPac2015Response" name="getConsistenzaAlPascoloPac2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttoreAggregatiPac2015">
+      <wsdl:input message="tns:getTitoliProduttoreAggregatiPac2015" name="getTitoliProduttoreAggregatiPac2015">
+    </wsdl:input>
+      <wsdl:output message="tns:getTitoliProduttoreAggregatiPac2015Response" name="getTitoliProduttoreAggregatiPac2015Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriStallaCod">
+      <wsdl:input message="tns:getElencoRegistriStallaCod" name="getElencoRegistriStallaCod">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoRegistriStallaCodResponse" name="getElencoRegistriStallaCodResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNotificaPregressaBiologico">
+      <wsdl:input message="tns:invioNotificaPregressaBiologico" name="invioNotificaPregressaBiologico">
+    </wsdl:input>
+      <wsdl:output message="tns:invioNotificaPregressaBiologicoResponse" name="invioNotificaPregressaBiologicoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnomaliePerCUAADU10">
+      <wsdl:input message="tns:getAnomaliePerCUAADU10" name="getAnomaliePerCUAADU10">
+    </wsdl:input>
+      <wsdl:output message="tns:getAnomaliePerCUAADU10Response" name="getAnomaliePerCUAADU10Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullamentoCompensazioneRND">
+      <wsdl:input message="tns:annullamentoCompensazioneRND" name="annullamentoCompensazioneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:annullamentoCompensazioneRNDResponse" name="annullamentoCompensazioneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodPeriodo">
+      <wsdl:input message="tns:getElencoRegistriPascoloCodPeriodo" name="getElencoRegistriPascoloCodPeriodo">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoRegistriPascoloCodPeriodoResponse" name="getElencoRegistriPascoloCodPeriodoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="prelevaRecupero">
+      <wsdl:input message="tns:prelevaRecupero" name="prelevaRecupero">
+    </wsdl:input>
+      <wsdl:output message="tns:prelevaRecuperoResponse" name="prelevaRecuperoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaUsciteDaPascoloPartiteOvini">
+      <wsdl:input message="tns:getListaUsciteDaPascoloPartiteOvini" name="getListaUsciteDaPascoloPartiteOvini">
+    </wsdl:input>
+      <wsdl:output message="tns:getListaUsciteDaPascoloPartiteOviniResponse" name="getListaUsciteDaPascoloPartiteOviniResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="anomaliePerCUAAPSR">
+      <wsdl:input message="tns:anomaliePerCUAAPSR" name="anomaliePerCUAAPSR">
+    </wsdl:input>
+      <wsdl:output message="tns:anomaliePerCUAAPSRResponse" name="anomaliePerCUAAPSRResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOVIRegistriPascoloCodPeriodo">
+      <wsdl:input message="tns:getElencoOVIRegistriPascoloCodPeriodo" name="getElencoOVIRegistriPascoloCodPeriodo">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoOVIRegistriPascoloCodPeriodoResponse" name="getElencoOVIRegistriPascoloCodPeriodoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaCUAAConAnomalieDU10">
+      <wsdl:input message="tns:getListaCUAAConAnomalieDU10" name="getListaCUAAConAnomalieDU10">
+    </wsdl:input>
+      <wsdl:output message="tns:getListaCUAAConAnomalieDU10Response" name="getListaCUAAConAnomalieDU10Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testResources">
+      <wsdl:input message="tns:testResources" name="testResources">
+    </wsdl:input>
+      <wsdl:output message="tns:testResourcesResponse" name="testResourcesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="registraRecupero">
+      <wsdl:input message="tns:registraRecupero" name="registraRecupero">
+    </wsdl:input>
+      <wsdl:output message="tns:registraRecuperoResponse" name="registraRecuperoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="riepilogoFondoRND">
+      <wsdl:input message="tns:riepilogoFondoRND" name="riepilogoFondoRND">
+    </wsdl:input>
+      <wsdl:output message="tns:riepilogoFondoRNDResponse" name="riepilogoFondoRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodDeten">
+      <wsdl:input message="tns:getElencoRegistriPascoloCodDeten" name="getElencoRegistriPascoloCodDeten">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoRegistriPascoloCodDetenResponse" name="getElencoRegistriPascoloCodDetenResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaIngressiAlPascoloPartiteOvini">
+      <wsdl:input message="tns:getListaIngressiAlPascoloPartiteOvini" name="getListaIngressiAlPascoloPartiteOvini">
+    </wsdl:input>
+      <wsdl:output message="tns:getListaIngressiAlPascoloPartiteOviniResponse" name="getListaIngressiAlPascoloPartiteOviniResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="elencoIdNotificheAggiornateCuaa">
+      <wsdl:input message="tns:elencoIdNotificheAggiornateCuaa" name="elencoIdNotificheAggiornateCuaa">
+    </wsdl:input>
+      <wsdl:output message="tns:elencoIdNotificheAggiornateCuaaResponse" name="elencoIdNotificheAggiornateCuaaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIdRegistrazione">
+      <wsdl:input message="tns:getIdRegistrazione" name="getIdRegistrazione">
+    </wsdl:input>
+      <wsdl:output message="tns:getIdRegistrazioneResponse" name="getIdRegistrazioneResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGiacenzePerDichiarazione">
+      <wsdl:input message="tns:getGiacenzePerDichiarazione" name="getGiacenzePerDichiarazione">
+    </wsdl:input>
+      <wsdl:output message="tns:getGiacenzePerDichiarazioneResponse" name="getGiacenzePerDichiarazioneResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneEsitoIstruttoriaOdc">
+      <wsdl:input message="tns:consultazioneEsitoIstruttoriaOdc" name="consultazioneEsitoIstruttoriaOdc">
+    </wsdl:input>
+      <wsdl:output message="tns:consultazioneEsitoIstruttoriaOdcResponse" name="consultazioneEsitoIstruttoriaOdcResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listaCodICQRF">
+      <wsdl:input message="tns:listaCodICQRF" name="listaCodICQRF">
+    </wsdl:input>
+      <wsdl:output message="tns:listaCodICQRFResponse" name="listaCodICQRFResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="comunicazioneEsitoIstruttoria">
+      <wsdl:input message="tns:comunicazioneEsitoIstruttoria" name="comunicazioneEsitoIstruttoria">
+    </wsdl:input>
+      <wsdl:output message="tns:comunicazioneEsitoIstruttoriaResponse" name="comunicazioneEsitoIstruttoriaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremio">
+      <wsdl:input message="tns:getElencoCapiPremio" name="getElencoCapiPremio">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoCapiPremioResponse" name="getElencoCapiPremioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="trovaFascicoloFS50">
+      <wsdl:input message="tns:trovaFascicoloFS50" name="trovaFascicoloFS50">
+    </wsdl:input>
+      <wsdl:output message="tns:trovaFascicoloFS50Response" name="trovaFascicoloFS50Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremioNew">
+      <wsdl:input message="tns:getElencoCapiPremioNew" name="getElencoCapiPremioNew">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoCapiPremioNewResponse" name="getElencoCapiPremioNewResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="trovaFascicoloFS6">
+      <wsdl:input message="tns:trovaFascicoloFS6" name="trovaFascicoloFS6">
+    </wsdl:input>
+      <wsdl:output message="tns:trovaFascicoloFS6Response" name="trovaFascicoloFS6Response">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancellaComunicazioneNuovaNotifica">
+      <wsdl:input message="tns:cancellaComunicazioneNuovaNotifica" name="cancellaComunicazioneNuovaNotifica">
+    </wsdl:input>
+      <wsdl:output message="tns:cancellaComunicazioneNuovaNotificaResponse" name="cancellaComunicazioneNuovaNotificaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitiRicevuti">
+      <wsdl:input message="tns:getEsitiRicevuti" name="getEsitiRicevuti">
+    </wsdl:input>
+      <wsdl:output message="tns:getEsitiRicevutiResponse" name="getEsitiRicevutiResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaUbaOvini">
+      <wsdl:input message="tns:getConsistenzaUbaOvini" name="getConsistenzaUbaOvini">
+    </wsdl:input>
+      <wsdl:output message="tns:getConsistenzaUbaOviniResponse" name="getConsistenzaUbaOviniResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaCompensazioneRND">
+      <wsdl:input message="tns:richiestaCompensazioneRND" name="richiestaCompensazioneRND">
+    </wsdl:input>
+      <wsdl:output message="tns:richiestaCompensazioneRNDResponse" name="richiestaCompensazioneRNDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="comunicazioneRecesso">
+      <wsdl:input message="tns:comunicazioneRecesso" name="comunicazioneRecesso">
+    </wsdl:input>
+      <wsdl:output message="tns:comunicazioneRecessoResponse" name="comunicazioneRecessoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="confermaLetturaEsitoBiologico">
+      <wsdl:input message="tns:confermaLetturaEsitoBiologico" name="confermaLetturaEsitoBiologico">
+    </wsdl:input>
+      <wsdl:output message="tns:confermaLetturaEsitoBiologicoResponse" name="confermaLetturaEsitoBiologicoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremio2New">
+      <wsdl:input message="tns:getElencoCapiPremio2New" name="getElencoCapiPremio2New">
+    </wsdl:input>
+      <wsdl:output message="tns:getElencoCapiPremio2NewResponse" name="getElencoCapiPremio2NewResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WSBridgeInternalException" name="WSBridgeInternalException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSBridgeServiceSoapBinding" type="tns:WSBridge2">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="esitoNotificaBiologico">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="esitoNotificaBiologico">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="esitoNotificaBiologicoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitoDomande">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getEsitoDomande">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEsitoDomandeResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTrovaPascoloPac2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getTrovaPascoloPac2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTrovaPascoloPac2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoEQUIRegistriPascoloCod">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoEQUIRegistriPascoloCod">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoEQUIRegistriPascoloCodResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitiRicevutiPAC2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getEsitiRicevutiPAC2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEsitiRicevutiPAC2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="convalidaRecupero">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="convalidaRecupero">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="convalidaRecuperoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNotificaBiologico">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="invioNotificaBiologico">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="invioNotificaBiologicoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAllevamento">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaAllevamento">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaAllevamentoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNuovaNotificaBiologico">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="invioNuovaNotificaBiologico">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="invioNuovaNotificaBiologicoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMovimentazioneTitoli">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getMovimentazioneTitoli">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMovimentazioneTitoliResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaComunicazioneRecesso">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="annullaComunicazioneRecesso">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="annullaComunicazioneRecessoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="datiNotificaPerIdentificativo2">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="datiNotificaPerIdentificativo2">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="datiNotificaPerIdentificativo2Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificaCompensazioneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="verificaCompensazioneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificaCompensazioneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneDocumentoGiustificativo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="consultazioneDocumentoGiustificativo">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="consultazioneDocumentoGiustificativoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnagraficaAllevamenti">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getAnagraficaAllevamenti">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAnagraficaAllevamentiResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttorePac2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getTitoliProduttorePac2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTitoliProduttorePac2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascolo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaAlPascolo">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaAlPascoloResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaRecupero">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="annullaRecupero">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="annullaRecuperoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaUbaCensimOvini2012">
+      <soap:operation soapAction="/wsbridge2/WSBridgeService/WSBridge2/getConsistenzaUbaCensimOvini2012" style="rpc"/>
+      <wsdl:input name="getConsistenzaUbaCensimOvini2012">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaUbaCensimOvini2012Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascoloDal2014">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaAlPascoloDal2014">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaAlPascoloDal2014Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finalizzazioneCompensazioneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="finalizzazioneCompensazioneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="finalizzazioneCompensazioneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="recuperaRisultatoCompensazioniAsincroneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="recuperaRisultatoCompensazioniAsincroneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="recuperaRisultatoCompensazioniAsincroneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaCompensazioniAsincroneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="richiestaCompensazioniAsincroneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="richiestaCompensazioniAsincroneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOVIRegistriPascoloCodPeriodoDeten">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoOVIRegistriPascoloCodPeriodoDeten">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoOVIRegistriPascoloCodPeriodoDetenResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaStatisticaMediaAllevamento">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaStatisticaMediaAllevamento">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaStatisticaMediaAllevamentoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodPeriodoDeten">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoRegistriPascoloCodPeriodoDeten">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoRegistriPascoloCodPeriodoDetenResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoEQUIRegistriPascoloCodDeten">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoEQUIRegistriPascoloCodDeten">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoEQUIRegistriPascoloCodDetenResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="quoteLatteGisTa10">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="quoteLatteGisTa10">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="quoteLatteGisTa10Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMovimentazioneTitoliPAC2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getMovimentazioneTitoliPAC2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMovimentazioneTitoliPAC2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneIterAmministrativo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="consultazioneIterAmministrativo">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="consultazioneIterAmministrativoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOviRegistriStallaCod">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoOviRegistriStallaCod">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoOviRegistriStallaCodResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitoDomandePAC2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getEsitoDomandePAC2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEsitoDomandePAC2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAllevamentoAperto">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaAllevamentoAperto">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaAllevamentoApertoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="confermaLetturaIdNotifica">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="confermaLetturaIdNotifica">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="confermaLetturaIdNotificaResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttore">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getTitoliProduttore">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTitoliProduttoreResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaAlPascoloPac2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaAlPascoloPac2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaAlPascoloPac2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTitoliProduttoreAggregatiPac2015">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getTitoliProduttoreAggregatiPac2015">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTitoliProduttoreAggregatiPac2015Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriStallaCod">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoRegistriStallaCod">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoRegistriStallaCodResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invioNotificaPregressaBiologico">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="invioNotificaPregressaBiologico">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="invioNotificaPregressaBiologicoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAnomaliePerCUAADU10">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getAnomaliePerCUAADU10">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAnomaliePerCUAADU10Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullamentoCompensazioneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="annullamentoCompensazioneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="annullamentoCompensazioneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodPeriodo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoRegistriPascoloCodPeriodo">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoRegistriPascoloCodPeriodoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="prelevaRecupero">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="prelevaRecupero">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="prelevaRecuperoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaUsciteDaPascoloPartiteOvini">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getListaUsciteDaPascoloPartiteOvini">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getListaUsciteDaPascoloPartiteOviniResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="anomaliePerCUAAPSR">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="anomaliePerCUAAPSR">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="anomaliePerCUAAPSRResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoOVIRegistriPascoloCodPeriodo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoOVIRegistriPascoloCodPeriodo">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoOVIRegistriPascoloCodPeriodoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaCUAAConAnomalieDU10">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getListaCUAAConAnomalieDU10">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getListaCUAAConAnomalieDU10Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testResources">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="testResources">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testResourcesResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="registraRecupero">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="registraRecupero">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="registraRecuperoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="riepilogoFondoRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="riepilogoFondoRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="riepilogoFondoRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoRegistriPascoloCodDeten">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoRegistriPascoloCodDeten">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoRegistriPascoloCodDetenResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getListaIngressiAlPascoloPartiteOvini">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getListaIngressiAlPascoloPartiteOvini">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getListaIngressiAlPascoloPartiteOviniResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="elencoIdNotificheAggiornateCuaa">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="elencoIdNotificheAggiornateCuaa">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="elencoIdNotificheAggiornateCuaaResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getIdRegistrazione">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getIdRegistrazione">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getIdRegistrazioneResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGiacenzePerDichiarazione">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getGiacenzePerDichiarazione">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGiacenzePerDichiarazioneResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultazioneEsitoIstruttoriaOdc">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="consultazioneEsitoIstruttoriaOdc">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="consultazioneEsitoIstruttoriaOdcResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listaCodICQRF">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="listaCodICQRF">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listaCodICQRFResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="comunicazioneEsitoIstruttoria">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="comunicazioneEsitoIstruttoria">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="comunicazioneEsitoIstruttoriaResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremio">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getElencoCapiPremio">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoCapiPremioResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="trovaFascicoloFS50">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="trovaFascicoloFS50">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="trovaFascicoloFS50Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremioNew">
+      <soap:operation soapAction="/wsbridge2/WSBridgeService/WSBridge2/getElencoCapiPremioNew" style="rpc"/>
+      <wsdl:input name="getElencoCapiPremioNew">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoCapiPremioNewResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="trovaFascicoloFS6">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="trovaFascicoloFS6">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="trovaFascicoloFS6Response">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancellaComunicazioneNuovaNotifica">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="cancellaComunicazioneNuovaNotifica">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancellaComunicazioneNuovaNotificaResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEsitiRicevuti">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getEsitiRicevuti">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEsitiRicevutiResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getConsistenzaUbaOvini">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getConsistenzaUbaOvini">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConsistenzaUbaOviniResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="richiestaCompensazioneRND">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="richiestaCompensazioneRND">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="richiestaCompensazioneRNDResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="comunicazioneRecesso">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="comunicazioneRecesso">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="comunicazioneRecessoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="confermaLetturaEsitoBiologico">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="confermaLetturaEsitoBiologico">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="confermaLetturaEsitoBiologicoResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getElencoCapiPremio2New">
+      <soap:operation soapAction="/wsbridge2/WSBridgeService/WSBridge2/getElencoCapiPremio2New" style="rpc"/>
+      <wsdl:input name="getElencoCapiPremio2New">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getElencoCapiPremio2NewResponse">
+        <soap:body namespace="http://it/csi/smranags/wsbridge2/business/wsbridgefacade" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WSBridgeInternalException">
+        <soap:fault name="WSBridgeInternalException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSBridgeService">
+    <wsdl:port binding="tns:WSBridgeServiceSoapBinding" name="WSBridge2Port">
+      <soap:address location="http://10.102.42.187:14710/wsbridge2"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,8 @@
+package it.csi.zoo.interfaces;
+
+public interface RefInterface<T> {
+	
+	public T calcolo();
+
+	
+}

@@ -1,0 +1,39 @@
+package it.csi.demetra.demetraws.zoo.controlli;
+import java.text.ParseException;
+import java.util.Date;
+import javax.xml.bind.JAXBException;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.demetra.demetraws.zoo.BdnWsManagerImpl;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitor;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+/*
+* Author : Federico Pomponii
+* Date: 18/03/2019
+* */
+public class ControlliFramework {
+    BdnWsManagerImpl bdnImpl;
+    ControlloVisitor myVisitor;
+    public ControlliFramework(ControlloVisitor myVisitor, BdnWsManagerImpl bdnImpl) {
+        this.myVisitor = myVisitor;
+        this.bdnImpl = bdnImpl;
+    }
+    public Integer handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) {
+        /*
+         * A questo punto, per il cuaa dobbiamo ottenere la lista delle domdande e dei
+         * capi ed avviamo i controlli.
+         */
+    	try {
+        bdnImpl.getElencoCapiPremio(azienda.getCodicePremio(), azienda.getCuaa(), azienda.getAnnoCampagna(), sessione);
+        bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(),"01/01/2018", "31/12/2018", "D", sessione);
+        bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(),"01/01/2018", "31/12/2018", "P", sessione);
+   	    bdnImpl.getElencoCapiPremio2(0L, azienda.getCodicePremio(), azienda.getCuaa(), subentro.getCuaaSubentro(), subentro.getAnnoCampagna(), sessione);
+		
+    	} catch (JAXBException | WSBridgeInternalException_Exception | ParseException | NullPointerException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ERRORE: " + e.getCause());
+		}
+    	return 1;
+    }
+}

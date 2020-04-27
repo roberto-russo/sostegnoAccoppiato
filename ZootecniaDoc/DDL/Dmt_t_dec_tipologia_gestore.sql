@@ -1,0 +1,6 @@
+-- CREAZIONE DELLA TABELLA DEC_TIPOLOGIA_GESTORE
+CREATE TABLE Dmt_t_dec_tipologia_gestore(
+ID INT NOT NULL,
+descrizione VARCHAR(400),
+CONSTRAINT dec_tipologia_gestore_PK PRIMARY KEY (ID)
+);

@@ -1,0 +1,44 @@
+package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
+
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.ControlliService;
+
+import java.util.Date;
+import java.util.List;
+
+public class Ref02_004 extends Controllo {
+
+    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+    private int importoLiquidabile = 0;
+
+    public Ref02_004(Dmt_s_sessione sessione, ControlliService controlliService, Rpu_V_pratica_zoote azienda) {
+        super(sessione, controlliService, azienda);
+    }
+
+    @Override
+    public void preEsecuzione() throws ControlloException {
+        // RECUPERO DATI DALLA BDN
+        modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa());
+
+        for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche)
+            if (null != b.getVitelloDtInserBdnNascita()
+                    && b.getDtNascitaVitello() != null && b.getDtNascitaVitello().getYear() == new Date().getYear())
+                importoLiquidabile++;
+    }
+
+    @Override
+    public void esecuzione() throws ControlloException {
+        // ESECUZIONE CONTROLLI DI AMMISSIBILITA TRASVERSALI MASSIVAMENTE
+    }
+
+    @Override
+    public void postEsecuzione() throws ControlloException {
+        // ESECUZIONI CONTROLLI PER SOGGETTO
+        System.out.println("Il numero di capi per l'azienda " + getAzienda().getCuaa() + " e' " + importoLiquidabile);
+
+    }
+}

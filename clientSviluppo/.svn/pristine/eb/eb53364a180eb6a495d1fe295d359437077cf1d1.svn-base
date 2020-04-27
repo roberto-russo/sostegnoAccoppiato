@@ -1,0 +1,157 @@
+package it.csi.demetra.demetraws.zoo;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import javax.validation.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridge2;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
+import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitor;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitorImpl;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.AziendaService;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_sessione_services;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_subentro_zoo_services;
+import it.csi.demetra.demetraws.zoo.services.http.BdnHttpServices;
+@RestController
+public class WebServiceController {
+	@Autowired
+	private BdnWsManagerImpl bdnImpl;
+	@Autowired
+	private AziendaService aziendaService;
+	@Autowired
+	private Dmt_t_sessione_services sessioneService;
+	
+	@Autowired
+	Dmt_t_subentro_zoo_services subentroService;
+	
+	@Autowired
+	Dmt_t_errore_services erroreService;
+	// se invocato con chiamata POST restituisce in console il token d'accesso
+	@RequestMapping("/bdn")
+	public void bdn() throws IOException {
+		BdnHttpServices bdnHttpServices = new BdnHttpServices();
+		bdnHttpServices.httpClientPost();
+	}
+	@GetMapping(value = "/calcoloArt52")
+	public String calcoloArt52() {
+		/* GENERAZIONE DI ID SESSIONE */
+		Dmt_t_sessione sessione = new Dmt_t_sessione();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		sessione = new Dmt_t_sessione();
+		sessione.setDataEora(timestamp);
+		System.out.println("DATA E ORA: " + sessione.getDataEora());
+		sessioneService.saveSession(sessione);
+
+		/* PROCEDO CON IL CALCOLO ART 52 */
+		List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+		Dmt_t_subentro_zoo subentro = new Dmt_t_subentro_zoo();
+		
+		ControlloVisitor controlloVisitor = new ControlloVisitorImpl();
+		ControlliFramework fw = new ControlliFramework(controlloVisitor, bdnImpl);
+		int res;
+		for (Rpu_V_pratica_zoote azienda : list) {
+			try {
+				
+				subentro = subentroService.getSubentro(2018, azienda.getCuaa());
+				if(subentro == null) {
+					throw new NullPointerException();
+				}
+				res = fw.handleControlloCUUA(azienda, subentro, sessione);
+				/*
+				 * Definire qui il modo per gestire l'eventuale risultato dei controlli
+				 */
+			} catch (IndexOutOfBoundsException | IllegalStateException | ConstraintViolationException | NullPointerException e) {
+				/*
+				 * Il controllo non ha superato un parametro bloccante. Eccezzione restituita
+				 * per l'azienda.
+				 */
+				//e.printStackTrace();
+				System.out.println("ERROR: " + e.getCause() + ", " + e.getMessage());
+				if(subentro == null) {
+					System.out.println("ERRORE, SUBENTRO NON TROVATO");
+					Dmt_t_errore errore = new Dmt_t_errore();
+					
+					String input = new String("2018" + " | " + azienda.getCuaa() + " | " + azienda.getCodicePremio() + " | " + sessione.getIdSessione());
+					
+					errore.setErrorecodice("-1");
+					errore.setErroreDesc("dati non disponibili");
+					errore.setNomeMetodo("subentroService.getSubentro");
+					errore.setInput(input);
+					System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
+					errore.setSessione(sessione);
+					erroreService.saveError(errore);
+					
+					System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");
+				}
+			}
+		}
+		return "Procedura avviata";
+	}
+	/* PROVA CHIAMATA AL DATABASE ORACLE */
+	@GetMapping(value = "/chiamataDb")
+	public String chiamataDb() {
+		List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+		System.out.println(list.size());
+		System.out.println("--- STAMPO INFORMAZIONI ---");
+		for (Rpu_V_pratica_zoote x : list)
+			System.out.println(x.toString());
+		if (list.isEmpty())
+			return "KO";
+		else
+			return "OK";
+	}
+	
+	Response response;
+	
+	@GetMapping(value = "/proceduraCuua")
+	public String proceduraCuua2() throws ParseException {
+		List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+		WSBridge2 wsBridge2 = new WSBridgeService().getWSBridge2Port();
+		
+		try {
+			
+			Dmt_t_subentro_zoo subentro;
+				
+			
+			for(Rpu_V_pratica_zoote x : list) {
+				System.out.println("PROVO CHIAMATA CON CUAA: " + x.getCuaa());
+				subentro = subentroService.getSubentro(2018, x.getCuaa());
+			
+//				System.out.println("ANNO CAMPAGNA: " + subentro.getAnnoCampagna());
+//				System.out.println("CUAA DOMANDA: " + subentro.getCuaaDomanda());
+//				System.out.println(" CUAA SUBENTRO: " + subentro.getCuaaSubentro());
+//				System.out.println("ID UTENTE AGGIORNAMENTO: " + subentro.getExtIdUtenteAggiornamento());
+//				System.out.println("ID SUBENTRO: " + subentro.getIdSubentro());
+//				System.out.println("DATA INIZIO: " + subentro.getDataInizio());
+//				System.out.println("DATA FINE: " + subentro.getDataFine());
+//				System.out.println("NOTE" + subentro.getNote());
+			
+				response = wsBridge2.getElencoCapiPremio2New(0, x.getCodicePremio(), x.getCuaa(), subentro.getCuaaSubentro(), 2018);
+			
+				System.out.println("---------- INFORMAZIONI RESPONSE METODO GET ELENCO CAPI PREMIO 2 ----------");
+			
+//				System.out.println("INFO: " + response.getInfo());
+			}
+		} catch (WSBridgeInternalException_Exception | IndexOutOfBoundsException | NullPointerException e) {
+			e.printStackTrace();
+		}
+		return "Procedura avviata";
+	}
+}

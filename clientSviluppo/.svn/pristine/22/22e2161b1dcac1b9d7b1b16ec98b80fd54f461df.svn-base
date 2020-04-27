@@ -1,0 +1,182 @@
+package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
+
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
+import it.csi.demetra.demetraws.zoo.calcoli.Ref9901;
+import it.csi.demetra.demetraws.zoo.calcoli.Ref9903;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
+
+@Component("ref02_006")
+public class Ref02_006 extends Controllo {
+
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaFigliVacca;
+	private int numeroCapiAmmissibili;
+	private int numeroCapiRichiesti;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Ref02_006.class);
+	private Ref9901 ref9901;
+	private Ref9903 ref9903;
+	private Dmt_t_output_controlli oc;
+	private List<Dmt_t_contr_loco> estrazioneACampione;
+	private int numeroCapiBocciati;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+	private Dmt_t_output_esclusi outputEsclusi;
+	private String motivazione;
+
+	public Ref02_006() {
+		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiBocciati = 0;
+		this.numeroCapiRichiesti = 0;
+		this.modelVacche = null;
+		this.listaFigliVacca = null;
+		this.ref9901 = null;
+		this.ref9903 = null;
+		this.oc = null;
+		this.estrazioneACampione = null;
+		this.listaCapiBocciati = null;
+		this.outputEsclusi = null;
+		this.motivazione = null;
+	}
+
+	@Override
+	public void preEsecuzione() throws ControlloException {
+
+		LOGGER.info("inizio preEsecuzione()");
+
+		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
+
+		ref9901 = new Ref9901(
+				getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
+						getAzienda().getCodicePremio()),
+				getSessione().getIdSessione(), getAzienda().getCodicePremio(),
+				Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+
+		try {
+			this.modelVacche = ref9901.calcolo();
+		} catch (CalcoloException e) {
+			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
+		}
+
+		ref9903 = new Ref9903(this.modelVacche, getAzienda().getCodicePremio(),
+				Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
+
+		try {
+			ref9903.calcolo();
+		} catch (CalcoloException e) {
+			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
+		}
+	}
+
+	@Override
+	public void esecuzione() throws ControlloException {
+
+		LOGGER.info("inizio esecuzione()");
+
+		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
+		numeroCapiRichiesti = getControlliService()
+				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+		
+		
+		
+		if (this.estrazioneACampione == null) {
+
+			try {
+				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVacche) {
+
+					this.listaFigliVacca = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
+							b.getCapoId(), getAzienda().getCodicePremio());
+					Date giovane = null;
+
+					for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listaFigliVacca)
+						if (null != b2.getDtNascitaVitello())
+							if (null == giovane)
+								giovane = b2.getDtNascitaVitello();
+							else if (b2.getDtNascitaVitello().before(giovane))
+								giovane = b.getDtNascitaVitello();
+
+					/*
+					 * L’aiuto spetta al richiedente detentore della vacca al momento del parto.
+					 * Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
+					 * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
+					 * detentore presso il quale è nato il primo capo.
+					 */
+					if ((b.getDtFineDetenzione().before(b.getDtNascitaVitello())
+							|| b.getDtInizioDetenzione().after(b.getDtNascitaVitello()))
+
+							&& (b.getDtFineDetenzione().before(giovane) || b.getDtInizioDetenzione().after(giovane))) {
+						this.numeroCapiAmmissibili++;
+					} else {
+						// CONTROLLO FALLITO
+						this.numeroCapiBocciati++;
+						this.listaCapiBocciati.add(b);
+						this.motivazione = " il richiedente " + getAzienda().getCuaa()
+								+ " non e' il detentore dell'allevamento presso cui e'nato il primo capo";
+					}
+				}
+				if (numeroCapiAmmissibili == 0)
+					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+							+ " nessun capo ha suprato il controllo per il premio 322 misura 20");
+
+			} catch (ControlloException e) {
+				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+				System.out.println(e.getMessage());
+				new Dmt_t_errore(getSessione(), "ref02_006", getInput(), e.getMessage());
+			}
+
+		} else
+			// GESTIONE CONTROLLI BY DMT_CONTR_LOCO
+			for (Dmt_t_contr_loco c : this.estrazioneACampione)
+				if (!c.getAnomalie_cgo().contains("B"))
+					this.numeroCapiAmmissibili++;
+	}
+
+	@Override
+	public void postEsecuzione() throws ControlloException {
+
+		LOGGER.info("inizio esecuzione metodo -> postEsecuzione()");
+
+		if (this.numeroCapiAmmissibili != 0) {
+			LOGGER.info("il numero di capi ammissibili al premio 322 misura 20 per l'azienda " + getAzienda().getCuaa()
+					+ "e': " + this.numeroCapiAmmissibili);
+			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
+			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
+
+			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
+			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+			this.oc.setCuaa(getAzienda().getCuaa());
+			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 322
+			this.oc.setIntervento(getAzienda().getCodicePremio());
+			this.oc.setSessione(getSessione());
+			getControlliService().saveOutput(this.oc);
+
+		}
+
+		if (this.numeroCapiBocciati != 0) {
+			// SALVARE A DB IL NUMERO DI CAPI BOCCIATI
+			this.outputEsclusi = new Dmt_t_output_esclusi();
+
+			for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
+
+				this.outputEsclusi.setCalcolo("Ref02_006");
+				this.outputEsclusi.setCapoId(x.getCapoId());
+				this.outputEsclusi.setSessione(getSessione());
+				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
+				this.getControlliService().saveOutputEscl(this.outputEsclusi);
+			}
+
+		}
+	}
+}

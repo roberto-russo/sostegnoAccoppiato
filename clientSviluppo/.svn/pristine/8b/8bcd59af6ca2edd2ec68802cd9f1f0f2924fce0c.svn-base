@@ -1,0 +1,104 @@
+package it.csi.demetra.demetraws.zoo.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Ref9902_id;
+
+@Entity
+@Table(name = "DMT_T_REF9902")
+@IdClass(Dmt_t_Ref9902_id.class)
+public class Dmt_t_Ref9902 implements Serializable {
+	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5643073399146782350L;
+
+	@Id
+    @ManyToOne
+    @JoinColumn(name = "FK_id_sessione", nullable = false)
+    private Dmt_s_sessione sessione;
+    
+    @Id
+    private String cuaa;
+    
+    @Column(name = "esito")
+    private String esito;
+    
+    
+    @Column(name = "qt_capi_premio")
+    private Double quotaCapiPremio;
+    
+    
+    @Column(name = "motivazioni", length = 1000)
+    private String motivazioni;
+    
+	@Column(name = "data_inserimento")
+	@Temporal(TemporalType.DATE)
+	private Date dataInserimento;
+    
+    public Dmt_t_Ref9902() {}
+
+	public Dmt_s_sessione getSessione() {
+		return sessione;
+	}
+
+	public void setSessione(Dmt_s_sessione sessione) {
+		this.sessione = sessione;
+	}
+
+	public String getCuaa() {
+		return cuaa;
+	}
+
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
+
+	public String getEsito() {
+		return esito;
+	}
+
+	public void setEsito(String esito) {
+		this.esito = esito;
+	}
+
+	public Double getQuotaCapiPremio() {
+		return quotaCapiPremio;
+	}
+
+	public void setQuotaCapiPremio(Double quotaCapiPremio) {
+		this.quotaCapiPremio = quotaCapiPremio;
+	}
+
+	public String getMotivazioni() {
+		return motivazioni;
+	}
+
+	public void setMotivazioni(String motivazioni) {
+		this.motivazioni = motivazioni;
+	}
+
+	public Date getDataInserimento() {
+		return dataInserimento;
+	}
+
+	public void setDataInserimento(Date dataInserimento) {
+		this.dataInserimento = dataInserimento;
+	}
+	
+
+}

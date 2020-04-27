@@ -1,0 +1,310 @@
+	package it.csi.zoo.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import it.csi.zoo.compositeIds.Dmt_t_Tws_bdn_du_capi_ovicaprini_id;
+
+
+@Entity
+@Table(name = "DMT_T_TWS_BDN_DU_CAPI_OVICA")
+@IdClass(Dmt_t_Tws_bdn_du_capi_ovicaprini_id.class)
+public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
+
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8829170877502816563L;
+
+
+	@ManyToOne
+	@JoinColumns({
+		  @JoinColumn(name = "codice_errore_capi_FK", referencedColumnName="codice_errore"),
+		  @JoinColumn(name = "numero_capi_capi_FK", referencedColumnName="numero_capi")
+		})
+	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
+	
+
+    @Id
+    @Column(name = "ID_ALLEVAMENTO", length = 25)
+    @NotNull
+    private long allevId;
+
+    @Id
+    @Column(name = "ID_CAPO", length = 25)
+    @NotNull
+    private long capoId;
+    
+    /*
+     * Codice dell auricolare
+     */
+    @Column(name = "CODICE", length = 16)		
+    private String codice;
+
+    @Column(name = "SESSO", length = 1)
+    private String sesso;
+
+    @Column(name = "COD_RAZZA", length = 3)
+    private String razzaCodice;
+
+    @Column(name = "DATA_NASCITA", length = 10)
+    private String dtNascita;
+
+    @Column(name = "DATA_INIZIO_DETENZIONE", length = 10)
+    private String dtInizioDetenzione;
+
+    @Column(name = "DATA_FINE_DETENZIONE", length = 10)
+    private String dtFineDetenzione;
+
+    @Column(name = "DATA_MACELLAZIONE", length = 10)
+    private String dtMacellazione;
+
+    @Column(name = "COD_AZIENDA", length = 16)
+    private String aziendaCodice;
+    
+    @Column(name= "DATA_REGISTR_MACELL", length = 10)
+    private String dtRegistrMacellazione;
+    
+
+    @Column(name = "GENOTIPO", length = 50)
+    private String genotipo;
+
+    /*
+     * Media aritmetica dei giorni di presenza del capo rispetto al numero dei giorni dell anno campagna
+     */
+    @Column(name = "CONS_MEDIA", length = 11, precision = 4)		
+    private float consMedia;
+
+    /*
+     * Data di comunicazione all autorita competente della macellazione
+     */
+    @Column(name = "DATA_COM_MACELLAZIONE", length = 10)	
+	private String dtComMacellazione;
+
+    /*
+     * Data dell eventuale ultimo prelievo di profilassi effettuato
+     */
+    @Column(name = "DATA_ULTIMO_PREL_PROFILASSI", length = 10)	
+    private String dtUltimoPrelProfilassi;
+
+    /*
+     * Data di comunicazione all autorita competente della nascita del capo
+     */
+    @Column(name = "DATA_COM_NASCITA", length = 10)			
+    private String dtComNascita;
+
+    /*
+     * Data di registrazione in BDN della nascita del capo
+     */
+    @Column(name = "DATA_INSERIMENTO_BDN_NASCITA", length = 10)	
+    private String dtInserimentoBdnNascita;
+
+    /*
+     * Data di identificazione del capo
+     */
+    @Column(name = "DATA_APPL_MARCHIO", length = 10)			
+    private String dtApplMarchio;
+
+    /*
+     * Codice fiscale del richiedente
+     */
+    @Column(name = "CUAA", length = 16)			
+    private String cuaa;
+
+    @Column(name = "FLAG_DELEGATO_NASCITA", length = 10)
+    private String flagDelegatoNascita;
+
+    @Column(name = "RUOLO_UTENTE_NASCITA", length = 10)
+    private String ruoloUtenteNascita;
+
+	public Dmt_d_clsPremio_ValidazioneResponse getDmt_d_clsPremio_ValidazioneResponse() {
+		return dmt_d_clsPremio_ValidazioneResponse;
+	}
+
+	public long getAllevId() {
+		return allevId;
+	}
+
+	public void setAllevId(long allevId) {
+		this.allevId = allevId;
+	}
+
+	public long getCapoId() {
+		return capoId;
+	}
+
+	public void setCapoId(long capoId) {
+		this.capoId = capoId;
+	}
+
+	public String getCodice() {
+		return codice;
+	}
+
+	public void setCodice(String codice) {
+		this.codice = codice;
+	}
+
+	public String getSesso() {
+		return sesso;
+	}
+
+	public void setSesso(String sesso) {
+		this.sesso = sesso;
+	}
+
+	public String getRazzaCodice() {
+		return razzaCodice;
+	}
+
+	public void setRazzaCodice(String razzaCodice) {
+		this.razzaCodice = razzaCodice;
+	}
+
+	public String getDtNascita() {
+		return dtNascita;
+	}
+
+	public void setDtNascita(String dtNascita) {
+		this.dtNascita = dtNascita;
+	}
+
+	public String getDtInizioDetenzione() {
+		return dtInizioDetenzione;
+	}
+
+	public void setDtInizioDetenzione(String dtInizioDetenzione) {
+		this.dtInizioDetenzione = dtInizioDetenzione;
+	}
+
+	public String getDtFineDetenzione() {
+		return dtFineDetenzione;
+	}
+
+	public void setDtFineDetenzione(String dtFineDetenzione) {
+		this.dtFineDetenzione = dtFineDetenzione;
+	}
+
+	public String getDtMacellazione() {
+		return dtMacellazione;
+	}
+
+	public void setDtMacellazione(String dtMacellazione) {
+		this.dtMacellazione = dtMacellazione;
+	}
+
+	public String getAziendaCodice() {
+		return aziendaCodice;
+	}
+
+	public void setAziendaCodice(String aziendaCodice) {
+		this.aziendaCodice = aziendaCodice;
+	}
+
+	public String getGenotipo() {
+		return genotipo;
+	}
+
+	public void setGenotipo(String genotipo) {
+		this.genotipo = genotipo;
+	}
+
+	public float getConsMedia() {
+		return consMedia;
+	}
+
+	public void setConsMedia(float consMedia) {
+		this.consMedia = consMedia;
+	}
+
+	public String getDtComMacellazione() {
+		return dtComMacellazione;
+	}
+
+	public void setDtComMacellazione(String dtComMacellazione) {
+		this.dtComMacellazione = dtComMacellazione;
+	}
+
+	public String getDtUltimoPrelProfilassi() {
+		return dtUltimoPrelProfilassi;
+	}
+
+	public void setDtUltimoPrelProfilassi(String dtUltimoPrelProfilassi) {
+		this.dtUltimoPrelProfilassi = dtUltimoPrelProfilassi;
+	}
+
+	public String getDtComNascita() {
+		return dtComNascita;
+	}
+
+	public void setDtComNascita(String dtComNascita) {
+		this.dtComNascita = dtComNascita;
+	}
+
+	public String getDtInserimentoBdnNascita() {
+		return dtInserimentoBdnNascita;
+	}
+
+	public void setDtInserimentoBdnNascita(String dtInserimentoBdnNascita) {
+		this.dtInserimentoBdnNascita = dtInserimentoBdnNascita;
+	}
+
+	public String getDtApplMarchio() {
+		return dtApplMarchio;
+	}
+
+	public void setDtApplMarchio(String dtApplMarchio) {
+		this.dtApplMarchio = dtApplMarchio;
+	}
+
+	public String getCuaa() {
+		return cuaa;
+	}
+
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
+
+	public String getFlagDelegatoNascita() {
+		return flagDelegatoNascita;
+	}
+
+	public void setFlagDelegatoNascita(String flagDelegatoNascita) {
+		this.flagDelegatoNascita = flagDelegatoNascita;
+	}
+
+	public String getRuoloUtenteNascita() {
+		return ruoloUtenteNascita;
+	}
+
+	public void setRuoloUtenteNascita(String ruoloUtenteNascita) {
+		this.ruoloUtenteNascita = ruoloUtenteNascita;
+	}
+
+	public void setDmt_d_clsPremio_ValidazioneResponse(
+			Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse) {
+		this.dmt_d_clsPremio_ValidazioneResponse = dmt_d_clsPremio_ValidazioneResponse;
+	}
+
+	public String getDtRegistrMacellazione() {
+		return dtRegistrMacellazione;
+	}
+
+	public void setDtRegistrMacellazione(String dtRegistrMacellazione) {
+		this.dtRegistrMacellazione = dtRegistrMacellazione;
+	}
+	
+}

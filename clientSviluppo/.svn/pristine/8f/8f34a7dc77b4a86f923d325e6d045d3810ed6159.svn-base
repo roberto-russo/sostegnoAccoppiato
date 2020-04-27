@@ -1,0 +1,17 @@
+package it.csi.zoo.beans;
+
+import java.io.Serializable;
+
+import it.csi.zoo.model.Logger;
+
+public class Logger_bean extends Logger implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5357657067336767502L;
+
+	public Logger_bean() {
+		
+	}
+}

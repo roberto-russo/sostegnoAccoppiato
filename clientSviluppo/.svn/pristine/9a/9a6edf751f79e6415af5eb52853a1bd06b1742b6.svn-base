@@ -1,0 +1,33 @@
+package it.csi.demetra.demetraws.zoo.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name = "Dmt_s_controllo_bean")
+public class Dmt_s_controllo_bean {
+
+    @Id
+    private String codice;
+
+    private String bean;
+
+    public String getCodice() {
+        return codice;
+    }
+
+    public void setCodice(String codice) {
+        this.codice = codice;
+    }
+
+    public String getBean() {
+        return bean;
+    }
+
+    public void setBean(String bean) {
+        this.bean = bean;
+    }
+}

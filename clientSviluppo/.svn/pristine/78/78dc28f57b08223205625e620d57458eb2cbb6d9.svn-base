@@ -1,0 +1,16 @@
+package it.csi.zoo.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.compositeIds.Dmt_t_Tws_bdn_du_capi_ovicaprini_id;
+import it.csi.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
+import it.csi.zoo.model.Rpu_V_pratica_zoote;
+
+public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudRepository<Dmt_t_Tws_bdn_du_capi_ovicaprini, Dmt_t_Tws_bdn_du_capi_ovicaprini_id>{
+
+	
+	List<Dmt_t_Tws_bdn_du_capi_ovicaprini> findAll();
+}

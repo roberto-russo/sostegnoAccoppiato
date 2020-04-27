@@ -1,0 +1,67 @@
+package it.csi.demetra.demetraws.zoo.compositeIds;
+
+import java.io.Serializable;
+
+public class Dmt_w_Tdu_premio_capi_esclusi_id implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5983730224062953146L;
+
+	private String codIntervento;
+	private String codiceCapo;
+	private Long annoRiferimento;
+	private long sessione;
+
+	public Dmt_w_Tdu_premio_capi_esclusi_id() {
+
+	}
+
+	public Dmt_w_Tdu_premio_capi_esclusi_id(String codIntervento, String codiceCapo, Long annoRiferimento, long sessione) {
+		this.codIntervento = codIntervento;
+		this.codiceCapo = codiceCapo;
+		this.annoRiferimento = annoRiferimento;
+		this.sessione = sessione;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((annoRiferimento == null) ? 0 : annoRiferimento.hashCode());
+		result = prime * result + ((codIntervento == null) ? 0 : codIntervento.hashCode());
+		result = prime * result + ((codiceCapo == null) ? 0 : codiceCapo.hashCode());
+		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Dmt_w_Tdu_premio_capi_esclusi_id other = (Dmt_w_Tdu_premio_capi_esclusi_id) obj;
+		if (annoRiferimento == null) {
+			if (other.annoRiferimento != null)
+				return false;
+		} else if (!annoRiferimento.equals(other.annoRiferimento))
+			return false;
+		if (codIntervento == null) {
+			if (other.codIntervento != null)
+				return false;
+		} else if (!codIntervento.equals(other.codIntervento))
+			return false;
+		if (codiceCapo == null) {
+			if (other.codiceCapo != null)
+				return false;
+		} else if (!codiceCapo.equals(other.codiceCapo))
+			return false;
+		if (sessione != other.sessione)
+			return false;
+		return true;
+	}
+}

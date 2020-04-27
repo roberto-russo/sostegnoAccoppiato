@@ -1,0 +1,503 @@
+package it.csi.demetra.demetraws.zoo.calcoli;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9903;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.Capo9903;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
+import it.csi.demetra.demetraws.zoo.interfaces.RefInterface;
+import it.csi.demetra.demetraws.zoo.model.Dmt_d_Ref9903;
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
+import it.csi.demetra.demetraws.zoo.model.Dmt_w_Tdu_premio_capi;
+import it.csi.demetra.demetraws.zoo.model.Dmt_w_Tdu_premio_capi_esclusi;
+import it.csi.demetra.demetraws.zoo.services.Dmt_d_Ref9903_services;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_AgnelleRimonta_services;
+import it.csi.demetra.demetraws.zoo.services.Dmt_w_Tdu_premio_capi_esclusi_services;
+import it.csi.demetra.demetraws.zoo.services.Dmt_w_Tdu_premio_capi_services;
+import it.csi.demetra.demetraws.zoo.shared.Constants;
+import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
+
+public class Ref9903 extends Ref implements RefInterface<Boolean>, Calcolo{
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Ref9903.class);
+	
+	private static final Double UBA_100 = 1.0;
+	
+	private static final Double UBA_75 = 0.75;
+
+	private static final Double UBA_60 = 0.6;
+	
+	private static final Double UBA_35 = 0.35;
+
+	private static final Double UBA_15 = 0.15;
+	
+	private static final Double UBA = 3.0;
+	
+	private Double ubaMinime = 0.0;
+	
+	private List<?> listaCapi = null;
+
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiVacche = null;
+	
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiVaccheEscluse = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+	
+	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati = null;
+	
+	private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = null;
+	
+	@Autowired
+	private Dmt_t_AgnelleRimonta_services capiOvicapriniService;
+	
+	@Autowired
+	Dmt_w_Tdu_premio_capi_esclusi_services capiEsclusiServices;
+	
+	@Autowired
+	Dmt_w_Tdu_premio_capi_services capiAmmessiServices;
+	
+	@Autowired
+	Dmt_d_Ref9903_services ref9903Services;
+	
+	Dmt_d_Ref9903 model = new Dmt_d_Ref9903();
+	
+	List<Dmt_w_Tdu_premio_capi> listaCapiAmmessi = new ArrayList<Dmt_w_Tdu_premio_capi>();
+	
+	List<Dmt_w_Tdu_premio_capi_esclusi> listaCapiEsclusi = new ArrayList<Dmt_w_Tdu_premio_capi_esclusi>();
+	
+	private static final List<String> PREMI = Arrays.asList(new String[]{Constants.PREMIO_310,Constants.PREMIO_311,Constants.PREMIO_312,
+																		 Constants.PREMIO_313,Constants.PREMIO_314,Constants.PREMIO_315,
+																		 Constants.PREMIO_316,Constants.PREMIO_317,Constants.PREMIO_318,
+																		 Constants.PREMIO_319,Constants.PREMIO_320,Constants.PREMIO_322});
+	
+	private static final List<String> PREMI_BOV_LATTE_CARNE = Arrays.asList(new String[]{Constants.PREMIO_310,Constants.PREMIO_311,Constants.PREMIO_312,Constants.PREMIO_313,Constants.PREMIO_314,Constants.PREMIO_322});
+		
+	private static final List<String> PREMI_BOV_MACELLATI = Arrays.asList(new String[]{Constants.PREMIO_315,Constants.PREMIO_316,Constants.PREMIO_317,Constants.PREMIO_318,Constants.PREMIO_319});
+	
+	private static final List<String> PREMI_OVICAPRINI_AGNELLE = Arrays.asList(new String[]{Constants.PREMIO_320});
+	
+	private static final List<String> PREMI_CON_LIMITI = Arrays.asList(new String[]{Constants.PREMIO_310,Constants.PREMIO_311,Constants.PREMIO_312,
+																		   Constants.PREMIO_313,Constants.PREMIO_314,Constants.PREMIO_322});
+	
+	private CapiControllati9903 capiControllati = new CapiControllati9903();
+	
+	private boolean metodoEseguitoCorrettamente;
+
+	private Double quotaCapiPremio;
+	
+	private boolean response;
+	
+	private Dmt_s_sessione sessione;
+	
+	public Ref9903(List<?> listaCapi, String codIntervento,Long annoCampagna, String cuaa, Dmt_s_sessione sessione) {
+		
+		this.listaCapi = listaCapi;		
+		setCodIntrervento(codIntervento);
+		setAnnoCampagna(annoCampagna);
+		setCuaa(cuaa);
+		setIdSessione(sessione.getIdSessione());
+		this.sessione = sessione;
+	}
+
+	/**
+	 * CONTROLLI AMMISSIBILITÀ TRASVERSALI
+	 * 
+	 * Il calcolo esegue:
+	 * 
+	 * -preEsecuzione() in cui si associa il corretto tipo di lista passata dall'utente
+	 * -esecuzione() in cui si esegue il calcolo effettivo
+	 * -postEsecuzione() in cui si controlla l'esito del calcolo e lo si salva su DB
+	 * 
+	 * Il metodo ritorna un booleano:
+	 * - true se si hanno le UBA minime per accedere al premio
+	 * - false se non si hanno le UBA minime per accedere al premio
+	 * 
+	 * @return response
+	 * @throws CalcoloException 
+	 */
+	@Override
+	public Boolean calcolo() throws CalcoloException {
+		
+		LOGGER.info("Inizio Calcolo 9903: calcolo() ");
+		
+		try {
+			
+			preEsecuzione();
+			esecuzione();
+			postEsecuzione();
+			
+		} catch (CalcoloException e) {
+			
+			LOGGER.error("Errore Calcolo 9903: ",e);
+			
+		}
+		
+		return response;
+	}
+	
+	/**
+	 * CALCOLO UBA
+	 * Si calcolano le UBA secondo le disposizioni del D.A.
+	 * Dopo aver recuperato i dati della BDN
+	 * Si calcolano le uba minime
+	 * 
+	 * Se l'esecuzione non presenta problemi: return true
+	 * Se ci sono stati errori durante l'esecuzione: return false
+	 * 
+	 * @return true/false
+	 * 
+	 * */
+	private boolean calcoloUBA() {
+			
+			LOGGER.info("Inizio Calcolo 9903: calcoloUBA() ");
+			
+			try {
+				
+				if (getCodIntrervento() != null && PREMI.contains(getCodIntrervento())) {
+					
+					if (PREMI_BOV_LATTE_CARNE.contains(getCodIntrervento())) {
+						if(!listaCapiVacche.isEmpty()) {
+							ubaMinime += listaCapiVacche.size()*UBA_100;
+						} else {
+							LOGGER.info("Fine Calcolo UBA : Tutti i capi richiesti sono stati esclusi dal premio "+getCodIntrervento()+".");
+						}
+					} else if (PREMI_BOV_MACELLATI.contains(getCodIntrervento())) {
+						ubaMinime += listaCapiMacellati.size()*UBA_60;
+					} else if (PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento())) {
+						ubaMinime += quotaCapiPremio*UBA_15;
+					}
+						
+				} else {
+					
+					LOGGER.error("Errore nel Calcolo UBA : Il codice intervento "+getCodIntrervento()+" è errato.");
+					throw new CalcoloException ("Errore nel Calcolo UBA : Il codice intervento "+getCodIntrervento()+" è errato.");
+					
+					
+				}
+				
+				controlloUBA();
+				LOGGER.info("Fine Calcolo 9903: calcoloUBA() ");
+				return true;
+				
+			} catch (Exception e) {
+				LOGGER.error("Errore Calcolo 9903: - ",e);
+				return false;
+			}
+		
+	}
+	
+	
+	/**
+	 * Si controlla l'esito del calcolo
+	 * e si settano i parametri esito e motivazioneCalcolo
+	 * */
+	private void controlloUBA() {
+		LOGGER.info("Inizio Controllo UBA: controlloUBA() ");
+		if(ubaMinime >= UBA) {
+			CapiControllati9903.setEsito(true);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Si è raggiunto il numero necessario di UBA per accedere al premio");
+		} else {
+			CapiControllati9903.setEsito(false);
+			CapiControllati9903.setMotivazioneEsitoCalcolo("Non si è raggiunto il numero necessario di UBA per accedere al premio");
+		}
+		LOGGER.info("Fine Controllo UBA: controlloUBA() ");
+	}
+	
+	/**
+	 * Metodo preEsecuzione()
+	 * 
+	 * In questo metodo si associa la corretta tipologia di lista,
+	 * in base al codice intervento richiesto.
+	 * 
+	 * */
+	@Override
+	public void preEsecuzione() throws CalcoloException {
+		
+		LOGGER.info("Inizio Preesecuzione : preEsecuzione() ");
+	
+		
+		if ( listaCapi != null && !listaCapi.isEmpty() ) {
+			
+			
+			if (getCodIntrervento() != null && PREMI.contains(getCodIntrervento())) {
+				
+				if( PREMI_BOV_LATTE_CARNE.contains(getCodIntrervento()) ) {
+					
+					this.listaCapiVacche = (List<Dmt_t_Tws_bdn_du_capi_bovini>) listaCapi;
+					
+					
+					
+					if(PREMI_CON_LIMITI.contains(getCodIntrervento())) {
+						
+						LocalDate oggi = LocalDate.now();
+						Period period;
+						
+						if (listaCapiVacche != null && !listaCapiVacche.isEmpty()) {
+							
+							setListaCapi9903(listaCapiVacche);
+							
+							for (Capo9903 capo: capiControllati.getListaCapi9903()) {
+								LocalDate dataNascita;
+								dataNascita = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getDataNascita());
+								period = Period.between(oggi, dataNascita);
+								if( period.getMonths() < 20 || period.getYears() > 18) {
+									listaCapiVacche.remove(capo.getCapo());
+									listaCapiVaccheEscluse.add(capo.getCapo());
+									capo.setFlagCapoAmmesso("N");
+									capo.setMotivazione("Il capo non ha un'età compresa tra 20 mesi e 18 anni");
+									Dmt_w_Tdu_premio_capi_esclusi tmp = inizializzaCapoEscluso(capo.getCapo(), "Il capo non ha un'età compresa tra 20 mesi e 18 anni");
+									listaCapiEsclusi.add(tmp);
+								} else {
+									LocalDate dataNascitaVitello = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getVitelloDtComAutNascita());
+									period = Period.between(oggi, dataNascitaVitello);
+									if( period.getDays() < 270 ) {
+										
+										listaCapiVacche.remove(capo.getCapo());
+										listaCapiVaccheEscluse.add(capo.getCapo());
+										capo.setFlagCapoAmmesso("N");
+										capo.setMotivazione("Il periodo minimo di 270 giorni di interparto non è stato rispettato");
+										Dmt_w_Tdu_premio_capi_esclusi tmp = inizializzaCapoEscluso(capo.getCapo(), "Il periodo minimo di 270 giorni di interparto non è stato rispettato");
+										listaCapiEsclusi.add(tmp);
+										
+									} else {
+										
+										Dmt_w_Tdu_premio_capi tmp = inizializzaCapoAmmesso(capo.getCapo());
+										listaCapiAmmessi.add(tmp);
+										
+									}
+								}
+							}
+						}
+						
+					}
+					LOGGER.info("Fine della Preesecuzione.");
+					
+				} else if ( PREMI_BOV_MACELLATI.contains(getCodIntrervento()) ) {
+					
+					this.listaCapiMacellati = (List<Dmt_t_clsCapoMacellato>) listaCapi;
+					LOGGER.info("Fine della Preesecuzione.");
+					
+				} else if ( PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento()) ) {
+					
+					this.listaCapiOvicaprini = (List<Dmt_t_Tws_bdn_du_capi_ovicaprini>) listaCapi;
+					this.quotaCapiPremio = capiOvicapriniService.getQuotaCapiPremioByIdSessioneAndCuaa(getIdSessione(), getCuaa(),getCodIntrervento());
+					
+					if( quotaCapiPremio == null ) {
+						
+						LOGGER.error("Errore nella Preesecuzione : Sessione "+getIdSessione()+" Cuaa "+getCuaa()+" quotaCapiPremio = null.");
+						throw new CalcoloException("Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+						
+					}
+					
+					LOGGER.info("Fine della Preesecuzione.");
+					
+				} else {
+					
+					LOGGER.error("Errore nella Preesecuzione : Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+					throw new CalcoloException("Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+					
+				}
+			} else {
+				
+				LOGGER.error("Errore nella Preesecuzione : Codice intervento errato.");
+				throw new CalcoloException("Codice intervento errato.");
+				
+			}
+		} else {
+			if (listaCapi == null) {
+				
+				LOGGER.error("Errore nella Preesecuzione : parametro listaCapi = null.");
+				throw new CalcoloException("Il parametro listaCapi passato per il Calcolo UBA è null.");
+				
+			} else {
+				
+				LOGGER.error("Errore nella Preesecuzione : La lista di capi passata per il Calcolo UBA è vuota.");
+				throw new CalcoloException("La lista di capi passata per il Calcolo UBA è vuota.");
+				
+			}
+		}
+		
+	}
+	
+	@Override
+	public void esecuzione() throws CalcoloException {
+				
+		metodoEseguitoCorrettamente = calcoloUBA();
+		
+	}
+	
+	@Override
+	public void postEsecuzione() throws CalcoloException {
+		// SALVATAGGIO DATI
+		
+		if(metodoEseguitoCorrettamente) {
+			
+			saveOnDB();
+			LOGGER.info("Fine Calcolo9903: calcolo() ");
+			
+		} else {
+		
+			LOGGER.error("Errore nel Calcolo 9903");
+			throw new CalcoloException("Errore nel Calcolo 9903");
+			
+		}
+		
+	}
+
+	@Override
+	public List<Boolean> calcoloMassivo() throws CalcoloException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/** 
+	 * Il metodo setListaCapi9901() serve a 
+	 * inizializzare la lista di oggetti di tipo Capo9901
+	 * Questa lista sarà utilizzata nell'oggetto di tipo CapiControllati9901
+	 * necessaria al calcolo della tempistica di registrazione dei capi.
+	 * 
+	 * @param listaVacche
+	 * 
+	 */
+	private void setListaCapi9903(List<Dmt_t_Tws_bdn_du_capi_bovini> listaVacche) {
+	try {
+			
+			List<Capo9903> listaCapi9903 = new ArrayList<Capo9903>();
+			
+			for (Dmt_t_Tws_bdn_du_capi_bovini capo: listaVacche) {
+				listaCapi9903.add(new Capo9903(capo));
+			}
+			
+			capiControllati.setListaCapi9903(listaCapi9903);
+			
+			
+			LOGGER.info("Fine Recupero Dati: recuperoDatiCapi() ");
+			
+		} catch (Exception e) {
+			
+			System.err.println(e);
+			LOGGER.error("Errore nel recuperoDatiCapi() 9903: - ",e);
+			
+		}
+	}
+	
+	/**
+	 * inizializzaCapoAmmesso()
+	 * 
+	 * Serve ad inizializzare un oggetto di tipo Dmt_w_Tdu_premio_capi,
+	 * così da poter aggiungere il capo/vacca alla listaCapiAmmessi, che, tramite service,
+	 * sarà salvata su DB
+	 * 
+	 * @param capoVacca
+	 * 
+	 * @return capoTmp
+	 * 
+	 * */
+	private Dmt_w_Tdu_premio_capi inizializzaCapoAmmesso(Dmt_t_Tws_bdn_du_capi_bovini capoVacca) {
+		
+		Dmt_w_Tdu_premio_capi capoTmp = new Dmt_w_Tdu_premio_capi();
+		capoTmp.setFlg_ammissibile("S");
+		capoTmp.setCod_intervento(getCodIntrervento());
+		capoTmp.setData_fine_detenzione(capoVacca.getDtFineDetenzione());
+		capoTmp.setData_inizio_detenzione(capoVacca.getDtInizioDetenzione());
+		capoTmp.setSessione(capoVacca.getSessione());	
+		return capoTmp;
+		
+	}
+
+	/**
+	 * inizializzaCapoEscluso()
+	 * 
+	 * Serve ad inizializzare un oggetto di tipo Dmt_w_Tdu_premio_capi,
+	 * così da poter aggiungere il capo/vacca alla listaCapiAmmessi, che, tramite service,
+	 * sarà salvata su DB
+	 * 
+	 * @param capoVacca
+	 * 
+	 * @return capoTmp
+	 * 
+	 * */
+	private Dmt_w_Tdu_premio_capi_esclusi inizializzaCapoEscluso(Dmt_t_Tws_bdn_du_capi_bovini capoVacca, String motivazione) {
+		
+		Dmt_w_Tdu_premio_capi_esclusi capoTmp = new Dmt_w_Tdu_premio_capi_esclusi();
+		capoTmp.setAnnoRiferimento(getAnnoCampagna());	
+		capoTmp.setCodiceCapo(capoVacca.getCodice());
+		capoTmp.setCodIntervento(getCodIntrervento());
+		capoTmp.setCuaa(getCuaa());
+		capoTmp.setNote(motivazione);
+		capoTmp.setSessione(capoVacca.getSessione());
+		return capoTmp;
+		
+	}
+	
+	/**
+	 * Il metodo saveOnDB()
+	 * 
+	 * Serve a salvare su DB :
+	 * 	- listaCapiAmmessi
+	 * 	- listaCapiEsclusi
+	 *  - model (Dmt_d_Ref9903)
+	 * 
+	 * */
+	private void saveOnDB() {
+		try {
+			
+			LOGGER.info("Inizio salvataggio capi controllati 9903");
+			
+			if(!listaCapiAmmessi.isEmpty()) {
+				
+				try {
+					capiAmmessiServices.saveAll(listaCapiAmmessi);
+					LOGGER.info("Fine salvataggio capi ammessi 9903");
+				} catch (IllegalArgumentException e) {
+					LOGGER.error("Errore durante il salvataggio capi ammessi 9903 : ", e);
+				}
+				
+			}
+			
+			if(!listaCapiEsclusi.isEmpty()) {
+				
+				try {
+					capiEsclusiServices.saveAll(listaCapiEsclusi);
+					LOGGER.info("Fine salvataggio capi esclusi 9903");
+				} catch (IllegalArgumentException e) {
+					LOGGER.error("Errore durante il salvataggio capi esclusi 9903 : ", e);
+				}
+			}
+			LOGGER.info("Fine salvataggio capi controllati 9903");
+			
+			model.setAnnoCampagna(getAnnoCampagna());
+			model.setCodiceIntervento(getCodIntrervento());
+			model.setCuaa(getCuaa());
+			model.setSessione(sessione);
+			model.setUba(ubaMinime);
+			
+			if(ubaMinime >= UBA) {
+				
+				model.setEsito("P");
+				model.setMotivazioni("Si possiedono capi per un totale di "+ubaMinime+"UBA, sufficienti per accedere al premio");
+				response = true;
+			} else {
+				
+				model.setEsito("N");
+				model.setMotivazioni("Si possiedono capi per un totale di "+ubaMinime+"UBA, insufficienti per accedere al premio.");
+				response = false;
+			}
+			
+			ref9903Services.save(model);
+			
+		}catch (Exception e) {
+			LOGGER.error("Errore durante il salvataggio capi controllati 9903 : ",e);
+		}
+	}
+	
+}

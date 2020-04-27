@@ -1,0 +1,19 @@
+package it.csi.demetra.demetraws.zoo.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_d_Ref9903;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_d_Ref9903_repository;
+
+@Service
+public class Dmt_d_Ref9903_services {
+
+	@Autowired
+	Dmt_d_Ref9903_repository repo;
+	
+	public void save (Dmt_d_Ref9903 model ) {
+		repo.save(model);
+	}
+	
+}

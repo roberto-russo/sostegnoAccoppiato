@@ -1,0 +1,135 @@
+package it.csi.demetra.demetraws.zoo;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridge2;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
+import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitor;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloVisitorImpl;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.services.AziendaService;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_sessione_services;
+import it.csi.demetra.demetraws.zoo.services.http.BdnHttpServices;
+
+@RestController
+public class WebServiceController {
+
+	@Autowired
+	private BdnWsManagerImpl bdnImpl;
+	
+	@Autowired
+	private AziendaService aziendaService;
+	
+	@Autowired
+	private Dmt_t_sessione_services sessioneService;
+
+	// se invocato con chiamata POST restituisce in console il token d'accesso
+	@RequestMapping("/bdn")
+	public void bdn() throws IOException {
+		BdnHttpServices bdnHttpServices = new BdnHttpServices();
+		bdnHttpServices.httpClientPost();
+	}
+
+	@GetMapping(value = "/calcoloArt52")
+	public String calcoloArt52() {
+		
+		/* GENERAZIONE DI ID SESSIONE  */
+		
+		Dmt_t_sessione sessione = new  Dmt_t_sessione();
+		
+//		long idSessione = (new Date()).getTime();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		sessione = new Dmt_t_sessione();
+		
+//		sessione.setIdSessione(idSessione);
+		sessione.setDataEora(timestamp);
+		
+		
+//		System.out.println("ID SESSIONE: " + sessione.getIdSessione());
+		System.out.println("DATA E ORA: " + sessione.getDataEora());
+		
+		sessioneService.saveSession(sessione);
+		
+		Dmt_t_sessione sess = sessioneService.get(timestamp);
+		
+		
+		System.out.println("ID SESSIONE DA DB: " + sess.getIdSessione());
+		
+		
+		/* PROCEDO CON IL CALCOLO ART 52 */
+		
+		List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+		ControlloVisitor controlloVisitor = new ControlloVisitorImpl();
+		ControlliFramework fw = new ControlliFramework(controlloVisitor, bdnImpl);
+		int res;
+
+		for (Rpu_V_pratica_zoote azienda : list) {
+			try {
+				res = fw.handleControlloCUUA(azienda, sess);
+				/*
+				 * Definire qui il modo per gestire l'eventuale risultato dei controlli
+				 */
+			} catch (IndexOutOfBoundsException | IllegalStateException e) {
+				/*
+				 * Il controllo non ha superato un parametro bloccante. Eccezzione restituita
+				 * per l'azienda.
+				 */
+				e.printStackTrace();
+				System.out.println("ERROR: " + e.getCause() + ", " + e.getMessage());
+			}
+		}
+		return "Procedura avviata";
+	}
+
+	/* PROVA CHIAMATA AL DATABASE ORACLE */
+
+	@GetMapping(value = "/chiamataDb")
+	public String chiamataDb() {
+
+		List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+
+		System.out.println(list.size());
+
+		System.out.println("--- STAMPO INFORMAZIONI ---");
+		for (Rpu_V_pratica_zoote x : list)
+			System.out.println(x.toString());
+
+		if (list.isEmpty())
+			return "KO";
+		else
+			return "OK";
+	}
+ 
+    @GetMapping(value = "/proceduraCuua")
+    public String proceduraCuua2() {
+    	List<Rpu_V_pratica_zoote> list = aziendaService.getAll();
+        WSBridge2 wsBridge2 = new WSBridgeService().getWSBridge2Port();
+
+   
+        try {
+        	 for (Rpu_V_pratica_zoote azienda : list) {
+        		 Response response = wsBridge2.getElencoCapiPremioNew(azienda.getCodicePremio(),azienda.getCuaa(),azienda.getAnnoCampagna());
+        		 System.out.println("RESPONSE CUAA: " + response.getVCapiVacche().get(0).getCuaa() + "RESPONSE INFO: " + response.getInfo());
+        }
+        } catch (WSBridgeInternalException_Exception | IndexOutOfBoundsException e) {
+           System.out.println("ERRORE: " + e.getCause());
+        }
+
+        return "Procedura avviata";
+    }
+
+}

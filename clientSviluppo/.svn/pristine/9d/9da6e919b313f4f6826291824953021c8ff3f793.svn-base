@@ -1,0 +1,89 @@
+package it.csi.demetra.demetraws.zoo.model;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_w_Tdu_premio_capi_esclusi_id;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "DMT_W__TDU_PREMIO_CAPI_ESCL")
+@IdClass(Dmt_w_Tdu_premio_capi_esclusi_id.class)
+public class Dmt_w_Tdu_premio_capi_esclusi implements Serializable {
+
+    private static final long serialVersionUID = -4511642601929291163L;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_id_sessione", nullable = false)
+    private Dmt_s_sessione sessione;
+
+
+    /*		Id fiscale del proprietario e/o del detentore di un allevamento		*/
+    @Column(name = "cuaa", length = 16)
+    private String cuaa;
+
+    @Id
+    @Column(name = "cod_intervento", length = 3)
+    private String codIntervento;
+
+    /*		Codice capo per cui non deve essere ammesso a premio		*/
+    @Id
+    @Column(name = "codice_capo", length = 16)
+    @NotNull
+    private String codiceCapo;
+
+    @Id
+    @Column(name = "anno_riferimento")
+    private Long annoRiferimento;
+
+    @Column(name = "note", length = 500)
+    private String note;
+
+    public String getCuaa() {
+        return cuaa;
+    }
+
+    public void setCuaa(String cuaa) {
+        this.cuaa = cuaa;
+    }
+
+    public String getCodIntervento() {
+        return codIntervento;
+    }
+
+    public void setCodIntervento(String codIntervento) {
+        this.codIntervento = codIntervento;
+    }
+
+    public String getCodiceCapo() {
+        return codiceCapo;
+    }
+
+    public void setCodiceCapo(String codiceCapo) {
+        this.codiceCapo = codiceCapo;
+    }
+
+    public Long getAnnoRiferimento() {
+        return annoRiferimento;
+    }
+
+    public void setAnnoRiferimento(Long annoRiferimento) {
+        this.annoRiferimento = annoRiferimento;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Dmt_s_sessione getSessione() {
+        return sessione;
+    }
+
+    public void setSessione(Dmt_s_sessione sessione) {
+        this.sessione = sessione;
+    }
+}

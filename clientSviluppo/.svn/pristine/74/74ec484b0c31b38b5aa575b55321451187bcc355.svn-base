@@ -1,0 +1,10 @@
+package it.csi.zoo.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.compositeIds.Dmt_t_Tlatte_mensile_agea_id;
+import it.csi.zoo.model.Dmt_t_Tlatte_mensile_agea;
+
+public interface Dmt_tlatte_mensile_agea_repository extends CrudRepository<Dmt_t_Tlatte_mensile_agea, Dmt_t_Tlatte_mensile_agea_id> {
+
+}

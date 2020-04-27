@@ -1,0 +1,31 @@
+package it.csi.demetra.demetraws.zoo.services;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_s_sessione;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_dsScarico_allevamenti;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_dsScarico_allevamenti_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ControlliService {
+
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_repository boviniRepository;
+    
+    @Autowired
+	Dmt_t_dsScarico_allevamenti_repository scaAllevRepository;
+
+    public List<Dmt_t_Tws_bdn_du_capi_bovini> getAllBoviniSessioneCuua(Dmt_s_sessione sessione, String cuua) {
+        return boviniRepository.findByIdSessionAndCuaa(sessione.getIdSessione(), cuua);
+    }
+    
+    
+    public Dmt_t_dsScarico_allevamenti getScaricoByIdAllev(long allevId){
+		return this.scaAllevRepository.findByAllevId(allevId);
+	}
+
+}

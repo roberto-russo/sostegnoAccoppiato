@@ -1,0 +1,9 @@
+package it.csi.demetra.demetraws.zoo.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.demetra.demetraws.zoo.model.Dmt_d_logger;
+
+public interface Logger_repository extends CrudRepository<Dmt_d_logger, Long>{
+
+}

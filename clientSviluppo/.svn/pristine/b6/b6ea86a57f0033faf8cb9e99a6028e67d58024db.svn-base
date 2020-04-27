@@ -1,0 +1,49 @@
+package it.csi.zoo.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import it.csi.zoo.compositeIds.Dmt_w_calcoli_interventi_id;
+
+@Entity
+@Table(name = "DMT_W_CALCOLI_INTERVENTI")
+@IdClass(Dmt_w_calcoli_interventi_id.class)
+public class Dmt_w_calcoli_interventi implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2204240524598028161L;
+
+	@Id
+	@Column(name = "id_gestore")
+	@NotNull
+	private Long idGestore;
+	
+	@Id
+	@Column(name = "id_intervento")
+	@NotNull
+	private Long idIntervento;
+	
+	@Id
+	@Column(name = "ordine_esecuzione", length = 10)
+	private String ordineEsecuzione;
+
+	public Long getIdGestore() {
+		return idGestore;
+	}
+
+	public Long getIdIntervento() {
+		return idIntervento;
+	}
+
+	public String getOrdineEsecuzione() {
+		return ordineEsecuzione;
+	}
+}

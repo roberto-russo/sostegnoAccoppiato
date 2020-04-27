@@ -1,0 +1,10 @@
+package it.csi.zoo.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.csi.zoo.compositeIds.Dmt_t_Tlatte_sintesi_analisi_id;
+import it.csi.zoo.model.Dmt_t_Tlatte_sintesi_analisi;
+
+public interface Dmt_t_Tlatte_sintesi_analisi_repository extends CrudRepository<Dmt_t_Tlatte_sintesi_analisi, Dmt_t_Tlatte_sintesi_analisi_id>{
+
+}

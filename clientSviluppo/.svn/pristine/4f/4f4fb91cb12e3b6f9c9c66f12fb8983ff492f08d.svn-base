@@ -1,0 +1,60 @@
+package it.csi.demetra.demetraws.zoo.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_gestori_id;
+
+@Entity
+@Table(name = "DMT_T_GESTORI")
+@IdClass(Dmt_t_gestori_id.class)
+public class Dmt_t_gestori implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8713738907975123618L;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_sessione", nullable = false)
+	private Dmt_t_sessione sessione;
+
+	
+	
+	@Id
+	@Column(name = "ID")
+	@NotNull
+	private Long id;
+	
+	@Id
+	@Column(name = "id_tipologia")
+	@NotNull
+	private Long id_tipologia;
+	
+	@Column(name = "nome_service", length = 30)
+	private String nomeService;
+
+	public Long getId() {
+		return id;
+	}
+
+	public Long getId_tipologia() {
+		return id_tipologia;
+	}
+
+	public String getNomeService() {
+		return nomeService;
+	}
+
+	public void setNomeService(String nomeService) {
+		this.nomeService = nomeService;
+	}
+}

@@ -1,0 +1,34 @@
+package it.csi.zoo.calcoli.entity;
+
+public class Ref {
+
+	private String codIntrervento;
+	
+	private String annoCampagna;
+	
+	private String cuaa;
+	
+	public String getCodIntrervento() {
+		return codIntrervento;
+	}
+
+	public void setCodIntrervento(String codIntrervento) {
+		this.codIntrervento = codIntrervento;
+	}
+
+	public String getAnnoCampagna() {
+		return annoCampagna;
+	}
+
+	public void setAnnoCampagna(String annoCampagna) {
+		this.annoCampagna = annoCampagna;
+	}
+
+	public String getCuaa() {
+		return cuaa;
+	}
+
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
+}

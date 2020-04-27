@@ -1,0 +1,59 @@
+package it.csi.demetra.demetraws.zoo.compositeIds;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class Dmt_t_DsUBA_censimenti_allevamenti_ovini_id implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6243245553978501231L;
+	
+	private BigDecimal censimentoId;
+	private BigDecimal pAllevId;
+	private long idSessione;
+	
+	public Dmt_t_DsUBA_censimenti_allevamenti_ovini_id() {
+	}
+	
+	public Dmt_t_DsUBA_censimenti_allevamenti_ovini_id(BigDecimal censimentoId, BigDecimal pAllevId, long idSessione) {
+		this.censimentoId=censimentoId;
+		this.pAllevId=pAllevId;
+		this.idSessione = idSessione;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((censimentoId == null) ? 0 : censimentoId.hashCode());
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
+		result = prime * result + ((pAllevId == null) ? 0 : pAllevId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Dmt_t_DsUBA_censimenti_allevamenti_ovini_id other = (Dmt_t_DsUBA_censimenti_allevamenti_ovini_id) obj;
+		if (censimentoId == null) {
+			if (other.censimentoId != null)
+				return false;
+		} else if (!censimentoId.equals(other.censimentoId))
+			return false;
+		if (idSessione != other.idSessione)
+			return false;
+		if (pAllevId == null) {
+			if (other.pAllevId != null)
+				return false;
+		} else if (!pAllevId.equals(other.pAllevId))
+			return false;
+		return true;
+	}
+}

@@ -1,0 +1,190 @@
+package it.csi.demetra.demetraws.zoo.calcoli;
+
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import it.csi.demetra.demetraws.zoo.calcoli.entity.CalcoloAgnelleDaRimontaPremioIn;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9902;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
+import it.csi.demetra.demetraws.zoo.interfaces.RefInterface;
+import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovini_repository;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_Tws_bdn_du_capi_ovicaprini_services;
+
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
+@Service
+public class Ref9902{
+//
+//	private static Logger logger = LoggerFactory.getLogger(Ref9902.class);
+//
+//	@Autowired
+//	Dmt_t_Tws_bdn_du_capi_ovicaprini_services bdnCapiOvicapriniService;
+//
+//	private CapiControllati9902 capiControllati9902 = new CapiControllati9902();
+//
+//	private CalcoloAgnelleDaRimontaPremioIn calcoloAgnelleDaRimontaIn = new CalcoloAgnelleDaRimontaPremioIn();
+//
+//	//TODO Da sostituire con il service
+//	@Autowired
+//	DsUBA_censimenti_allevamenti_ovini_repository repUBA;
+//
+//	private static final String LIVELLO_SCRAPIE_L1 = "L1";
+//
+//	/**
+//	 * CALCOLO 9902
+//	 *
+//	 *
+//	 * Il metodo ritorna un oggetto contenente :
+//	 *
+//	 * 1- la quota dei capi ammessi a premio
+//	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
+//	 * 3- una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo
+//	 *
+//	 * @return capiControllati9902
+//	 * @throws CalcoloException
+//	 */
+//	@Override
+//	public CapiControllati9902 calcolo() throws CalcoloException {
+//		logger.info("calcolo - IN");
+//
+//		preEsecuzione();
+//		esecuzione();
+//		postEsecuzione();
+//
+//		logger.info("calcolo - OUT");
+//		return capiControllati9902;
+//	}
+//
+//
+//	@Override
+//	public void preEsecuzione() throws CalcoloException {
+//	 logger.info("preEsecuzione - IN");
+//
+//	 calcoloAgnelleDaRimontaIn = getCalcoloAgnelleDaRimontaIn();
+//
+//	 boolean applicabile = isNotNull.and(hasLivelloScrapie).and(hasQdrCalcolabile).test(calcoloAgnelleDaRimontaIn);
+//
+//	 if(!applicabile)
+//		 throw new CalcoloException("Non è possibile effettuare il calcolo");
+//
+//	 logger.info("preEsecuzione - OUT");
+//	}
+//
+//
+//	@Override
+//	public void esecuzione() throws CalcoloException {
+//		logger.info("esecuzione - IN");
+//		StringBuilder motivazioniSb = new StringBuilder("");
+//
+//		String cuaa = calcoloAgnelleDaRimontaIn.getCuaa();
+//
+//		Double quotaDaRimonta = getQuotaDaRimonta(calcoloAgnelleDaRimontaIn);
+//		Double quotaCapiPremioRichiesti = calcoloAgnelleDaRimontaIn.getQuotaCapiPremioRichiesti();
+//
+//		String livelloScrapie = getLivelloScrapie();
+//
+//
+//		Double capiPagabili = null;
+//		if (quotaCapiPremioRichiesti > quotaDaRimonta ) {
+//			capiPagabili = quotaDaRimonta * 20 / 100;
+//			motivazioniSb.append("quotaCapiPremioRichiesti ("+ quotaCapiPremioRichiesti +") > quotaDaRimonta (" + quotaDaRimonta + ")"
+//					+ " : si applica il 20% della qdr" );
+//		} else {
+//			capiPagabili = quotaDaRimonta;
+//			motivazioniSb.append("quotaCapiPremioRichiesti ("+ quotaCapiPremioRichiesti +") <= quotaDaRimonta (" + quotaDaRimonta + ")"
+//					+ " : si utilizza la quotaCapiPremioRichiesti " );
+//		}
+//
+//		Double quotaCapiPremioAmmessi = null;
+//		if (LIVELLO_SCRAPIE_L1.equals(livelloScrapie)) {
+//			quotaCapiPremioAmmessi = capiPagabili - (capiPagabili * 35 / 100);
+//		} else {
+//			quotaCapiPremioAmmessi = capiPagabili - (capiPagabili * 75 / 100);
+//		}
+//
+//		capiControllati9902.setQuotaCapiPremio(quotaCapiPremioAmmessi);
+//		CapiControllati9902.setEsito(true);
+//		CapiControllati9902.setMotivazioneEsitoCalcolo(motivazioniSb.toString());
+//		logger.info("esecuzione - OUT");
+//	}
+//
+//
+//
+//	@Override
+//	public void postEsecuzione() throws CalcoloException {
+//		logger.info("postEsecuzione - IN");
+//		//TODO salvare su db
+//
+//		logger.info("postEsecuzione - OUT");
+//
+//	}
+//
+//	private Double getQuotaDaRimonta(CalcoloAgnelleDaRimontaPremioIn calcoloAgnelleDaRimontaIn) {
+//		Double quotaDaRimonta = null;
+//		if (calcoloAgnelleDaRimontaIn.getUbaOviniCensimento() != null) {
+//			quotaDaRimonta = calcoloAgnelleDaRimontaIn.getUbaOviniCensimento().getoCapiTot().doubleValue();
+//		} else {
+//			quotaDaRimonta = new Double(calcoloAgnelleDaRimontaIn.getBdnOviniRegistroStallaList().size());
+//		}
+//
+//
+//		return quotaDaRimonta;
+//	}
+//
+//	private String getLivelloScrapie() {
+//		String livelloScrapie = null;
+////		return calcoloAgnelleDaRimontaIn.getUbaOviniCensimento().getCodiceQualidicaScrapie();
+//		return livelloScrapie;
+//	}
+////
+////	private Double getCapiPagabili() {
+////
+////	}
+//
+//
+//	//TODO Definire parametri in ingresso
+//	private CalcoloAgnelleDaRimontaPremioIn getCalcoloAgnelleDaRimontaIn() {
+//		CalcoloAgnelleDaRimontaPremioIn calcoloAgnelleDaRimontaPremioIn = null;
+//		//TODO Recupeare services necessari
+//
+////		bdnCapiOvicapriniService.
+//
+//		return calcoloAgnelleDaRimontaPremioIn;
+//
+//	}
+//
+//
+//	private Predicate<CalcoloAgnelleDaRimontaPremioIn> isNotNull = x -> {
+//		boolean res = x != null;
+//		if (!res)
+//			logger.info("null reference");
+//		return res;
+//	};
+//
+//	private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasLivelloScrapie = x -> {
+//		boolean res = x.getUbaOviniCensimento() != null ;
+////				&& x.getUbaOviniCensimento().get != null;
+//		if (!res)
+//			logger.info("livello scrapie non presente");
+//		return res;
+//	};
+//
+//	private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasQdrCalcolabile = x -> {
+//		boolean res = x.getUbaOviniCensimento() != null || x.getBdnOviniRegistroStallaList() != null;
+//		if (!res)
+//			logger.info("quota da rimonta non calcolabile");
+//		return res;
+//	};
+//
+//	private BiPredicate<Double,Double> hasQuotaCapiPremioGreaterThanQdr = (qcp, qdr) -> qcp < qdr;
+
+
+
+
+}

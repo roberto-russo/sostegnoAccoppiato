@@ -1,0 +1,30 @@
+package it.csi.demetra.demetraws.zoo.calcoli.entity;
+
+public class CapiControllati9902 extends CapiControllati<Capo9902> {
+	
+	private Double quotaCapiPremio;
+	
+	public Double getQuotaCapiPremio() {
+		return quotaCapiPremio;
+	}
+
+	public void setQuotaCapiPremio(Double quotaCapiPremio) {
+		this.quotaCapiPremio = quotaCapiPremio;
+	}
+
+	public static boolean getEsito() {
+		return CapiControllati.getEsito();
+	}
+
+	public static void setEsito(boolean esito) {
+		CapiControllati.setEsito(esito);
+	}
+
+	public static String getMotivazioneEsitoCalcolo() {
+		return CapiControllati.getMotivazioneEsitoCalcolo();
+	}
+
+	public static void setMotivazioneEsitoCalcolo(String motivazioneCalcolo) {
+		CapiControllati.setMotivazioneEsitoCalcolo(motivazioneCalcolo);
+	}
+}
