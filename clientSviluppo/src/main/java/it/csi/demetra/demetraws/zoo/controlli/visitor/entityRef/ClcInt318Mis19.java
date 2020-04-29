@@ -3,6 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ClcInt318Mis19 extends Controllo {
 		this.numeroCapiBocciati = 0;
 		this.numeroCapiRichiesti=0;
 		this.motivazione = null;
-		this.listaCapiBocciati = null;
+		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
 	}
 
@@ -77,7 +78,7 @@ public class ClcInt318Mis19 extends Controllo {
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
 		
 		
-		if(this.estrazioneACampione == null) {
+		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 			
 			try {
 				
@@ -102,7 +103,7 @@ public class ClcInt318Mis19 extends Controllo {
 								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
 								 * i capi ammissibili sono pagati esclusivamente al detentore
 								 */
-								if(this.duplicatiMacellati == null &&  (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null)) {
+								if((this.duplicatiMacellati == null || this.duplicatiMacellati.isEmpty()) &&  (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null)) {
 									this.numeroCapiAmmissibili++;
 					} else {
 						/**
@@ -180,6 +181,7 @@ public class ClcInt318Mis19 extends Controllo {
 					this.outputEsclusi.setCalcolo("ClcInt318Mis19");
 					this.outputEsclusi.setCapoId(x.getCapoId());
 					this.outputEsclusi.setSessione(getSessione());
+					this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 					this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.outputEsclusi);
 				}
