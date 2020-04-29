@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class ClcInt316Mis19 extends Controllo {
 		this.modelMacellato = null;
 		this.oc = null;
 		this.estrazioneACampione = null;
-		this.listaCapiBocciati = null;
+		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
 		this.motivazione = null;
 		this.numeroMesi = 0;
@@ -97,7 +98,7 @@ public class ClcInt316Mis19 extends Controllo {
 		 * if con la condizione se è estratto a campione
 		 */
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
-		if (this.estrazioneACampione == null) {
+		if (this.estrazioneACampione == null || estrazioneACampione.isEmpty()) {
 
 			try {
 				for (Dmt_t_clsCapoMacellato m : modelMacellato) {
@@ -110,7 +111,7 @@ public class ClcInt316Mis19 extends Controllo {
 					 * soggetti, il capo non può essere pagato, salvo rinuncia
 					 * da parte di uno dei richieden
 					 */
-					if (duplicatiMacellati == null) {
+					if (duplicatiMacellati == null && (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null) && duplicatiMacellati.isEmpty()) {
 
 						/**
 						 * calcolo sul numero di mesi continuativi in
@@ -205,6 +206,7 @@ public class ClcInt316Mis19 extends Controllo {
 				this.oe.setCalcolo("ClcInt316Mis19");
 				this.oe.setCapoId(x.getCapoId());
 				this.oe.setSessione(getSessione());
+				this.oe.setIdSessione(getSessione().getIdSessione());
 				this.oe.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.oe);
 			}
