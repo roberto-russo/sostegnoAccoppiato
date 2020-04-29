@@ -3,6 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
@@ -22,6 +23,7 @@ public class ClcInt313Mis4 extends Controllo {
     CtlVerificaRegistrazioneCapi ref9901;
     @Autowired
     CtlUbaMinime ref9903;
+
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private Integer importoLiquidabile;
@@ -66,20 +68,11 @@ public class ClcInt313Mis4 extends Controllo {
             }
 
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = null;
-            for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listVitelli)
-                if (null != b2.getDtNascitaVitello())
-                    if (null == dataGiovane)
-                        dataGiovane = b2.getDtNascitaVitello();
-                    else if (b2.getDtNascitaVitello().before(dataGiovane))
-                        dataGiovane = b.getDtNascitaVitello();
-
-
+            Date dataGiovane = UtilControlli.getVitelloGiovane(b,listVitelli);
             if (b.getDtFineDetenzione().before(dataGiovane)
                     || b.getDtInizioDetenzione().after(dataGiovane))
                 importoLiquidabile++;
             else aggiungiEscluso(b);
-
         }
     }
 
