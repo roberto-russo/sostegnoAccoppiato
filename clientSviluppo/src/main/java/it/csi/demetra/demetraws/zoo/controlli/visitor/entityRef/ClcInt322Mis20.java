@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
-import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -45,7 +46,7 @@ public class ClcInt322Mis20 extends Controllo {
 		this.listaFigliVacca = null;
 		this.oc = null;
 		this.estrazioneACampione = null;
-		this.listaCapiBocciati = null;
+		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
 		this.motivazione = null;
 	}
@@ -81,7 +82,6 @@ public class ClcInt322Mis20 extends Controllo {
 
 	@Override
 	public void esecuzione() throws ControlloException {
-
 		LOGGER.info("inizio esecuzione()");
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
@@ -90,12 +90,12 @@ public class ClcInt322Mis20 extends Controllo {
 				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		
 		
-		
-		if (this.estrazioneACampione == null) {
+		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
 			try {
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVacche) {
 
+					System.out.println("QUI NON MI VEDI PIU'");
 					this.listaFigliVacca = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
 					Date giovane = null;
@@ -118,18 +118,22 @@ public class ClcInt322Mis20 extends Controllo {
 
 							&& (b.getDtFineDetenzione().before(giovane) || b.getDtInizioDetenzione().after(giovane))) {
 						this.numeroCapiAmmissibili++;
+						LOGGER.info("controllo superato");
 					} else {
 						// CONTROLLO FALLITO
+						LOGGER.info("controllo fallito");
 						this.numeroCapiBocciati++;
 						this.listaCapiBocciati.add(b);
 						this.motivazione = " il richiedente " + getAzienda().getCuaa()
 								+ " non e' il detentore dell'allevamento presso cui e'nato il primo capo";
 					}
 				}
-				if (numeroCapiAmmissibili == 0)
-					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-							+ " nessun capo ha suprato il controllo per il premio 322 misura 20");
-
+				LOGGER.info("prima di lanciare l'eccezione");
+				if (numeroCapiAmmissibili == 0) {
+					LOGGER.info("eccezione lanciata");
+					throw new ControlloException("per il cuaa " + getAzienda().getCuaa() + " nessun capo ha suprato il controllo per il premio 322 misura 20");	
+				}
+					
 			} catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				System.out.println(e.getMessage());
@@ -147,8 +151,14 @@ public class ClcInt322Mis20 extends Controllo {
 	public void postEsecuzione() throws ControlloException {
 
 		LOGGER.info("inizio esecuzione metodo -> postEsecuzione()");
+		
+		LOGGER.info("capi ammissibili: " + this.numeroCapiAmmissibili);
+		LOGGER.info("capi bocciati: " + this.numeroCapiBocciati);
+		LOGGER.info("capi richiesti: " + this.numeroCapiRichiesti);
 
 		if (this.numeroCapiAmmissibili != 0) {
+			
+			LOGGER.info("salvo a db le informazioni dei capi ammessi a premio");
 			LOGGER.info("il numero di capi ammissibili al premio 322 misura 20 per l'azienda " + getAzienda().getCuaa()
 					+ "e': " + this.numeroCapiAmmissibili);
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
@@ -167,6 +177,7 @@ public class ClcInt322Mis20 extends Controllo {
 
 		if (this.numeroCapiBocciati != 0) {
 			// SALVARE A DB IL NUMERO DI CAPI BOCCIATI
+			LOGGER.info("salvo a db le informazioni dei capi non ammessi a premio");
 			this.outputEsclusi = new Dmt_t_output_esclusi();
 
 			for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
@@ -174,6 +185,7 @@ public class ClcInt322Mis20 extends Controllo {
 				this.outputEsclusi.setCalcolo("ClcInt322Mis20");
 				this.outputEsclusi.setCapoId(x.getCapoId());
 				this.outputEsclusi.setSessione(getSessione());
+				this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

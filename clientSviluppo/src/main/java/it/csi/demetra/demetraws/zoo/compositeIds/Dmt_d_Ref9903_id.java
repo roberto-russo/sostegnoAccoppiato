@@ -17,6 +17,10 @@ public class Dmt_d_Ref9903_id implements Serializable {
 		this.sessione = sessione;
 	}
 
+	public Dmt_d_Ref9903_id() {
+		super();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

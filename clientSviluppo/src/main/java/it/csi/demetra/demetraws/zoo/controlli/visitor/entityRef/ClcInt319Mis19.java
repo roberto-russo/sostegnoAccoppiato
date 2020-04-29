@@ -3,6 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ClcInt319Mis19 extends Controllo {
 		this.numeroCapiRichiesti = 0;
 		this.certIgpDop = null;
 		this.motivazione = null;
-		this.listaCapiBocciati = null;
+		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
 	}
 
@@ -79,7 +80,7 @@ public class ClcInt319Mis19 extends Controllo {
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
 		
 		
-		if (this.estrazioneACampione == null) {
+		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 			try {
 				for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellati) {
 
@@ -97,13 +98,13 @@ public class ClcInt319Mis19 extends Controllo {
 						 * Sia certificato a denominazione di origine protetta o indicazione geografica
 						 * protetta
 						 */
-						if ((this.certIgpDop.getFlagDop().equals("S") || this.certIgpDop.getFlagIgp().equals("S"))) {
+						if ((this.certIgpDop != null) && (this.certIgpDop.getFlagDop().equals("S") || this.certIgpDop.getFlagIgp().equals("S"))) {
 
 							/*
 							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
 							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti
 							 */
-							if (this.duplicatiMacellati == null
+							if ((this.duplicatiMacellati == null || this.duplicatiMacellati.isEmpty())
 									&& (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null)) {
 
 								this.numeroCapiAmmissibili++;
@@ -174,10 +175,14 @@ public class ClcInt319Mis19 extends Controllo {
 
 		if (this.numeroCapiBocciati != 0) {
 			// SALVATAGGIO A DB DEI CAPI BOCCIATI
+			
+			this.outputEsclusi = new Dmt_t_output_esclusi();
+			
 			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
 				this.outputEsclusi.setCalcolo("ClcInt319Mis19");
 				this.outputEsclusi.setCapoId(x.getCapoId());
 				this.outputEsclusi.setSessione(getSessione());
+				this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

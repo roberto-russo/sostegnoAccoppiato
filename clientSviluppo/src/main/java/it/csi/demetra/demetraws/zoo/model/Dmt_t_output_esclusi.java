@@ -30,7 +30,7 @@ public class Dmt_t_output_esclusi implements Serializable {
 	private Dmt_t_sessione sessione;
 
 	@Id
-	@Column(name = "calcolo", length = 11)
+	@Column(name = "calcolo", length = 20)
 	private String calcolo;
 
 	@Id

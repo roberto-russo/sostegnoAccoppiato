@@ -30,8 +30,9 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_capo = :idCapo and EXTRACT(YEAR FROM data_nascita_vitello) = :annoCampagna and cuaa = :cuaa and id_sessione = :idSessione", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getVitelliOfVacca(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("idCapo") Long idCapo, @Param("annoCampagna") Long annoCampagna);
 
-	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento "
-				 + "having count(*) > 1", nativeQuery = true)
+	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = (" + 
+			"    select id_capo from dmt_t_tws_bdn_du_capi_bov where" + 
+			"     id_sessione = :idSessione and id_capo = :idCapo and codice_premio = :codiceIntervento  group by id_capo having count(*) > 1 )", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessioneAndIdCapo(@Param("idSessione") Long idSessione, @Param("idCapo") Long idCapo, @Param("codiceIntervento") String codiceIntervento);
 	
 

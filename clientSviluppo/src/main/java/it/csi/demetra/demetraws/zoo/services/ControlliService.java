@@ -12,6 +12,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
@@ -21,6 +22,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_certificato_igp_dop_reposit
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_dsScarico_allevamenti_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_errore_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_esclusi_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repository;
@@ -54,6 +56,7 @@ public class ControlliService {
     
     @Autowired
     Dmt_t_certificato_igp_dop_repository igpDopRepository;
+    
     
 
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getAllBoviniSessioneCuua(Dmt_t_sessione sessione, String cuua, String codiceIntervento) {
