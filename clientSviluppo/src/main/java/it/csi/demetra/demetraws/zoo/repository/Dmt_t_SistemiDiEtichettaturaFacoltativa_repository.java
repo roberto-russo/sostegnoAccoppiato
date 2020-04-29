@@ -14,6 +14,6 @@ public interface Dmt_t_SistemiDiEtichettaturaFacoltativa_repository extends Crud
 
 	List<Dmt_t_SistemiDiEtichettaturaFacoltativa>findAll();
 	
-	@Query(value = "return * from Dmt_t_sistemi_etichettatura where cuaa = :cuaa", nativeQuery = true)
+	@Query(value = "select * from Dmt_t_sistemi_etichettatura where cuaa = :cuaa", nativeQuery = true)
 	Dmt_t_SistemiDiEtichettaturaFacoltativa findByCuaa(@Param("cuaa") String cuaa);
 }
