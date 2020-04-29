@@ -1,14 +1,14 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
-import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,35 +19,36 @@ import java.util.List;
 @Component("ref02_004")
 public class ClcInt313Mis4 extends Controllo {
 
-    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
-    private int importoLiquidabile = 0;
-    private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
-    
     @Autowired
     CtlVerificaRegistrazioneCapi ref9901;
-    
     @Autowired
     CtlUbaMinime ref9903;
+
+    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+    private Integer importoLiquidabile;
+    private Integer importoRichiesto;
+    private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
 
     @Override
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
         modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        if(modelVacche!=null && modelVacche.size()>0) {
-        	ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
-	        try {
-	            modelVacche = ref9901.calcolo();
-	        } catch (CalcoloException e) {
-	            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
-	        }
-	
-	        ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
-	        try {
-	            ref9903.calcolo();
-	        } catch (CalcoloException e) {
-	            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
-	        }
+        importoRichiesto = modelVacche.size();
+        if (modelVacche != null && modelVacche.size() > 0) {
+            ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+            try {
+                modelVacche = ref9901.calcolo();
+            } catch (CalcoloException e) {
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
+            }
+
+            ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
+            try {
+                ref9903.calcolo();
+            } catch (CalcoloException e) {
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
+            }
         }
     }
 
@@ -58,6 +59,7 @@ public class ClcInt313Mis4 extends Controllo {
         la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato
         al detentore presso il quale è nato il primo capo.*/
 
+        importoLiquidabile = 0;
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
             if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
                     || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
@@ -66,20 +68,11 @@ public class ClcInt313Mis4 extends Controllo {
             }
 
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date giovane = null;
-            for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listVitelli)
-                if (null != b2.getDtNascitaVitello())
-                    if (null == giovane)
-                        giovane = b2.getDtNascitaVitello();
-                    else if (b2.getDtNascitaVitello().before(giovane))
-                        giovane = b.getDtNascitaVitello();
-
-
-            if (b.getDtFineDetenzione().before(giovane)
-                    || b.getDtInizioDetenzione().after(giovane))
+            Date dataGiovane = UtilControlli.getVitelloGiovane(b,listVitelli);
+            if (b.getDtFineDetenzione().before(dataGiovane)
+                    || b.getDtInizioDetenzione().after(dataGiovane))
                 importoLiquidabile++;
             else aggiungiEscluso(b);
-
         }
     }
 
