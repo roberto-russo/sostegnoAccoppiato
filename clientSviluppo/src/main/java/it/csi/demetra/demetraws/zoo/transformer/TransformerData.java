@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.bind.JAXBException;
 
@@ -31,7 +32,7 @@ public class TransformerData {
 		if (date.contains("T"))
 			date = date.replace("T", " ");
 		
-		SimpleDateFormat format = new SimpleDateFormat("DD/MM/YYYY");
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Date dt = format.parse(date);
 		return dt;
 	}
