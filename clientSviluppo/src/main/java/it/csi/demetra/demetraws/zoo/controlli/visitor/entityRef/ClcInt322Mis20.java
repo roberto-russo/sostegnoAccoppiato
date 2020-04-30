@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -42,6 +43,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
 	private Dmt_t_output_esclusi outputEsclusi;
 	private String motivazione;
+	private ResultCtlUbaMinime ubaMin;
 
 	
 	@Override
@@ -62,19 +64,31 @@ public class ClcInt322Mis20 extends Controllo {
 		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
 		this.motivazione = null;
+		this.ubaMin = new ResultCtlUbaMinime();
 
 		LOGGER.info("inizio preEsecuzione()");
 
 		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
 
 
-		try {
+try {
+			
 			ref9901.init(
 					getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
 							getAzienda().getCodicePremio()),
 					getSessione().getIdSessione(), getAzienda().getCodicePremio(),
 					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+
+			
 			this.modelVacche = ref9901.calcolo();
+			
+			if(this.modelVacche == null)
+				throw new CalcoloException("si e' verificato un errore durante l'esecuzione del controllo tempistica di registrazione dei capi");
+			else
+				if(this.modelVacche.isEmpty())
+				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "nessun capo ha superato il controllo: tempistica di registrazione capi"));
+								
+			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
 		}
@@ -83,7 +97,14 @@ public class ClcInt322Mis20 extends Controllo {
 				Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
 		try {
-			ref9903.calcolo();
+			ubaMin = ref9903.calcolo();
+			
+			if( ubaMin.isErrors())
+				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
+			else
+				if(!ubaMin.isResult())
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
