@@ -21,11 +21,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV "
-				 + "WHERE FK_id_sessione = :idSessione AND CUAA = :cuaa "
-				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))>20 "
-				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))/12 <= 18", 
-		   nativeQuery = true)
-	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
+			+ "WHERE id_sessione = :idSessione AND CUAA = :cuaa "
+			+ "AND codice_premio = :codIntervento",
+			nativeQuery = true)
+			List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codIntervento") String codIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_capo = :idCapo and EXTRACT(YEAR FROM data_nascita_vitello) = :annoCampagna and cuaa = :cuaa and id_sessione = :idSessione", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getVitelliOfVacca(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("idCapo") Long idCapo, @Param("annoCampagna") Long annoCampagna);

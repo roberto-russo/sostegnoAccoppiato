@@ -25,4 +25,8 @@ public class Dmt_t_clsCapoMacellato_services {
 	public List<Dmt_t_clsCapoMacellato> getDuplicazioni(Long capoId, Long idSessione, String codiceIntervento){
 		return rep.FindByCapoId(idSessione, capoId, codiceIntervento);
 	}
+	
+	public List<Dmt_t_clsCapoMacellato> getCapiMacellatiByIDSessionCuaaCodInt(Long idSessione,String cuaa,String codiceIntervento){
+		return rep.findByIdSessionAndCuaa(idSessione, cuaa, codiceIntervento);
+	}
 }

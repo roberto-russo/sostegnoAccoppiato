@@ -22,7 +22,12 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
-@Component("ref02_011")
+@Component("ClcInt319Mis19")
+/**
+ * Classe per il calcolo intervento 319 misura 19
+ * @author Bcsoft
+ *
+ */
 public class ClcInt319Mis19 extends Controllo {
 
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
@@ -55,6 +60,9 @@ public class ClcInt319Mis19 extends Controllo {
 	}
 
 	@Override
+	/**
+	 * metodo in cui vengono recuperati i dati, provenienti dalla BDN, dal db e vengono elaborati i controlli massivamente per soggetto
+	 */
 	public void preEsecuzione() throws ControlloException {
 		LOGGER.info("inizio preEsecuzione()");
 
@@ -70,6 +78,13 @@ public class ClcInt319Mis19 extends Controllo {
 	}
 
 	@Override
+	/**
+	 * metodo in cui vengono eseguiti i controlli per il calcolo intervento 319 misura 19.
+	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di capi ammissibili
+	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
+	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
+	 * La lista di capi non ammessi a premio sarà visibile in @see Dmt_t_output_esclusi.
+	 */
 	public void esecuzione() throws ControlloException {
 		LOGGER.info("inizio esecuzione()");
 
@@ -88,19 +103,19 @@ public class ClcInt319Mis19 extends Controllo {
 							getSessione().getIdSessione(), getAzienda().getCodicePremio());
 					this.certIgpDop = getControlliService().getCertificatoIgpDop(getAzienda().getCuaa());
 
-					/*
+					/**
 					 * Sia stato allevato per un periodo continuativo di 6 mesi;
 					 */
 					if ((m.getDtIngresso() == null || m.getDtUscita() == null)
 							|| (this.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
 
-						/*
+						/**
 						 * Sia certificato a denominazione di origine protetta o indicazione geografica
 						 * protetta
 						 */
 						if ((this.certIgpDop != null) && (this.certIgpDop.getFlagDop().equals("S") || this.certIgpDop.getFlagIgp().equals("S"))) {
 
-							/*
+							/**
 							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
 							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti
 							 */
@@ -109,7 +124,7 @@ public class ClcInt319Mis19 extends Controllo {
 
 								this.numeroCapiAmmissibili++;
 							} else {
-								/*
+								/**
 								 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
 								 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 								 */
@@ -119,7 +134,7 @@ public class ClcInt319Mis19 extends Controllo {
 							}
 
 						} else {
-							/*
+							/**
 							 * non e' certificato a denominaizone di origine protetta o indicazione
 							 * geografica protetta
 							 */
@@ -154,6 +169,14 @@ public class ClcInt319Mis19 extends Controllo {
 	}
 
 	@Override
+	/**
+	 * metodo in cui vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
+	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
+	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
+	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
+	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
+	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
+	 */
 	public void postEsecuzione() throws ControlloException {
 		LOGGER.info("inizio postEsecuzione()");
 
@@ -189,6 +212,13 @@ public class ClcInt319Mis19 extends Controllo {
 		}
 	}
 
+	/**
+	 * metodo in cui viene calcolata la differenza in mesi tra due date
+	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
+	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
+	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
+	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
+	 */
 	private long differenzaMesi(Date dataInizio, Date dataFine) {
 		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

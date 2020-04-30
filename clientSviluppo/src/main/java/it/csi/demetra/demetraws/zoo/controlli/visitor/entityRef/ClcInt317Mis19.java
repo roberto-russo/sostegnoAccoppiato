@@ -21,7 +21,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
-@Component("ref02_009")
+@Component("ClcInt317Mis19")
 /**
  * Calcolo REF02.009 intervento 317 Misura 19
  * 
@@ -45,17 +45,6 @@ public class ClcInt317Mis19 extends Controllo {
 	private String motivazione;
 	long numeroMesi = 0;
 
-	public ClcInt317Mis19() throws  WSBridgeInternalException_Exception {
-		this.importoLiquidabile = 0;
-		this.numeroCapiBocciati = 0;
-		this.modelMacellato = null;
-		this.oc = null;
-		this.estrazioneACampione = null;
-		this.listaCapiBocciati = new ArrayList<>();
-		this.oe = null;
-		this.motivazione = null;
-		this.numeroMesi = 0;
-	}
 
 	/**
 	 * Metodo di calcolo di numero mesi tra date
@@ -69,6 +58,15 @@ public class ClcInt317Mis19 extends Controllo {
 
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		this.importoLiquidabile = 0;
+		this.numeroCapiBocciati = 0;
+		this.modelMacellato = null;
+		this.oc = null;
+		this.estrazioneACampione = null;
+		this.listaCapiBocciati = new ArrayList<>();
+		this.oe = null;
+		this.motivazione = null;
+		this.numeroMesi = 0;
 
 		/**
 		 * RECUPERO DATI DALLA BDN

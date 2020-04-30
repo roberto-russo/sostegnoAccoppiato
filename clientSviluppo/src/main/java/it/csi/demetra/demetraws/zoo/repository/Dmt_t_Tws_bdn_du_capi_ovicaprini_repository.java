@@ -17,8 +17,8 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione ", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSession(@Param("idSessione") Long idSessione);
 	
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa ", nativeQuery = true)
-	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND codice_premio = :codicePremio", nativeQuery = true)
+	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA "
 				 + "WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa "
