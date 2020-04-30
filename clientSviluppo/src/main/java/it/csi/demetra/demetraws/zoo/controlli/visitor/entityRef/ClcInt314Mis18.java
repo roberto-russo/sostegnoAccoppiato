@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Component("ref02_005")
+@Component("ClcInt314Mis18")
 public class ClcInt314Mis18 extends Controllo {
 
     @Autowired
@@ -71,23 +71,23 @@ public class ClcInt314Mis18 extends Controllo {
             }
 
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
+            Date dataGiovane = listVitelli.isEmpty()?b.getDtNascitaVitello():UtilControlli.getVitelloGiovane(b,listVitelli);
 
-            if (!(b.getDtFineDetenzione().before(dataGiovane)
-                    || b.getDtInizioDetenzione().after(dataGiovane))) {
+            if (!(b.getDtFineDetenzione().after(dataGiovane)
+                    && b.getDtInizioDetenzione().before(dataGiovane))) {
                 aggiungiEscluso(b);
                 continue;
             }
 
             // CONTROLLO CHE L'ALLEVAMENTO ABBIA IL flagIBR (Dati dalla BDN)
-            if (null != b.getFlagIbr() && Boolean.valueOf(b.getFlagIbr())) importoLiquidabile++;
+            if (null != b.getFlagIbr() && b.getFlagIbr().equals("S")) importoLiquidabile++;
             else aggiungiEscluso(b);
         }
     }
 
     private void aggiungiEscluso(Dmt_t_Tws_bdn_du_capi_bovini b) {
         Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo(this.getClass().getName());
+        escluso.setCalcolo("ClcInt314Mis18");
         escluso.setCapoId(b.getCapoId());
         escluso.setMotivazioneEsclusione("");
         escluso.setSessione(getSessione());
