@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Component("ref02_004")
+@Component("ClcInt313Mis4")
 public class ClcInt313Mis4 extends Controllo {
 
     @Autowired
@@ -68,9 +68,9 @@ public class ClcInt313Mis4 extends Controllo {
             }
 
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = UtilControlli.getVitelloGiovane(b,listVitelli);
-            if (b.getDtFineDetenzione().before(dataGiovane)
-                    || b.getDtInizioDetenzione().after(dataGiovane))
+            Date dataGiovane = listVitelli.isEmpty()?b.getDtNascitaVitello():UtilControlli.getVitelloGiovane(b,listVitelli);
+            if (b.getDtFineDetenzione().after(dataGiovane)
+                    && b.getDtInizioDetenzione().before(dataGiovane))
                 importoLiquidabile++;
             else aggiungiEscluso(b);
         }
@@ -78,7 +78,7 @@ public class ClcInt313Mis4 extends Controllo {
 
     private void aggiungiEscluso(Dmt_t_Tws_bdn_du_capi_bovini b) {
         Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo(this.getClass().getName());
+        escluso.setCalcolo("ClcInt313Mis4");
         escluso.setCapoId(b.getCapoId());
         escluso.setMotivazioneEsclusione("");
         escluso.setSessione(getSessione());
