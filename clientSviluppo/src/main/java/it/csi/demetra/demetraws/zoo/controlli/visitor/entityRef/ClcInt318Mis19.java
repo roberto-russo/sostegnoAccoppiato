@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativa;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
@@ -33,6 +34,7 @@ public class ClcInt318Mis19 extends Controllo {
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt318Mis19.class);
+	private ResultCtlUbaMinime ubaMin;
 	@Autowired
 	private CtlUbaMinime ref9903;
 	List<Dmt_t_contr_loco> estrazioneACampione;
@@ -45,7 +47,12 @@ public class ClcInt318Mis19 extends Controllo {
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private Dmt_t_output_esclusi outputEsclusi;
 
-	public ClcInt318Mis19() {
+
+	@Override
+	/**
+	 * metodo in cui vengono recuperati i dati, provenienti dalla BDN, dal db e vengono elaborati i controlli massivamente per soggetto
+	 */
+	public void preEsecuzione() throws ControlloException {
 		this.listaCapiMacellati = null;
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = 0;
@@ -54,13 +61,7 @@ public class ClcInt318Mis19 extends Controllo {
 		this.motivazione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
-	}
-
-	@Override
-	/**
-	 * metodo in cui vengono recuperati i dati, provenienti dalla BDN, dal db e vengono elaborati i controlli massivamente per soggetto
-	 */
-	public void preEsecuzione() throws ControlloException {
+		this.ubaMin= new ResultCtlUbaMinime();
 		LOGGER.info("inizio preEsecuzione()");
 			// CONTROLLO DI PREAMMISSIBILITA' TRASVERSALE
 		
@@ -68,11 +69,18 @@ public class ClcInt318Mis19 extends Controllo {
 		
 		ref9903.init(listaCapiMacellati, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
-			try {
-				ref9903.calcolo();
-			}catch(CalcoloException e) {
-				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
-			}
+		try {
+			ubaMin = ref9903.calcolo();
+			
+			if( ubaMin.isErrors())
+				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
+			else
+				if(!ubaMin.isResult())
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+			
+		} catch (CalcoloException e) {
+			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
+		}
 	}
 
 	@Override
