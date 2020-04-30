@@ -24,13 +24,13 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 	 */
 	private static final long serialVersionUID = -5957063405415650073L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
+//	@Id
+//	@Column(name = "id_sessione")
+//	private Long idSessione;
 
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "sessione", nullable = false)
 	private Dmt_t_sessione sessione;
 
 	@Id
@@ -109,12 +109,12 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 		this.codiceIntervento = codiceIntervento;
 	}
 
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
+//	public Long getIdSessione() {
+//		return idSessione;
+//	}
+//
+//	public void setIdSessione(Long idSessione) {
+//		this.idSessione = idSessione;
+//	}
 
 }

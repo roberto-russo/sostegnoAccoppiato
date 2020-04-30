@@ -19,7 +19,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
-@Component("ref02_006")
+@Component("ClcInt322Mis20")
 public class ClcInt322Mis20 extends Controllo {
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
@@ -53,7 +53,9 @@ public class ClcInt322Mis20 extends Controllo {
 
 	@Override
 	public void preEsecuzione() throws ControlloException {
-
+		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiBocciati = 0;
+		this.numeroCapiRichiesti = 0;
 		LOGGER.info("inizio preEsecuzione()");
 
 		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
@@ -83,7 +85,8 @@ public class ClcInt322Mis20 extends Controllo {
 	@Override
 	public void esecuzione() throws ControlloException {
 		LOGGER.info("inizio esecuzione()");
-
+//this.modelVacche=getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
+//		getAzienda().getCodicePremio());
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
 		numeroCapiRichiesti = getControlliService()
@@ -98,25 +101,23 @@ public class ClcInt322Mis20 extends Controllo {
 					System.out.println("QUI NON MI VEDI PIU'");
 					this.listaFigliVacca = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
-					Date giovane = null;
+					Date giovane = b.getDtNascitaVitello()!=null?b.getDtNascitaVitello():null;
 
 					for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listaFigliVacca)
-						if (null != b2.getDtNascitaVitello())
-							if (null == giovane)
-								giovane = b2.getDtNascitaVitello();
-							else if (b2.getDtNascitaVitello().before(giovane))
-								giovane = b.getDtNascitaVitello();
-
+						if(giovane==null && null != b2.getDtNascitaVitello()) {
+							giovane = b2.getDtNascitaVitello();
+						} else if (null != b2.getDtNascitaVitello() && b2.getDtNascitaVitello().after(giovane)) {
+							giovane = b2.getDtNascitaVitello();
+//							else if (b2.getDtNascitaVitello().before(giovane))
+//								giovane = b.getDtNascitaVitello();
+						}
 					/*
 					 * L’aiuto spetta al richiedente detentore della vacca al momento del parto.
 					 * Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
 					 * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
 					 * detentore presso il quale è nato il primo capo.
 					 */
-					if ((b.getDtFineDetenzione().before(b.getDtNascitaVitello())
-							|| b.getDtInizioDetenzione().after(b.getDtNascitaVitello()))
-
-							&& (b.getDtFineDetenzione().before(giovane) || b.getDtInizioDetenzione().after(giovane))) {
+					if ((b.getDtFineDetenzione().after(giovane) && b.getDtInizioDetenzione().before(giovane))) {
 						this.numeroCapiAmmissibili++;
 						LOGGER.info("controllo superato");
 					} else {
@@ -163,7 +164,7 @@ public class ClcInt322Mis20 extends Controllo {
 					+ "e': " + this.numeroCapiAmmissibili);
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
-
+			this.oc = new Dmt_t_output_controlli();
 			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
 			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
