@@ -28,8 +28,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 		System.out.println("OGGI R? UNA BELLA GIORNATA");
 	}
 	
-	public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniBdnByIdSessioneAndCuaa(Long idSessione, String cuaa){
-		return rep.findByIdSessionAndCuaa(idSessione, cuaa);
+	public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOviByIdSessioneCuaaCodInt(Long idSessione, String cuaa,String codIntervento){
+		return rep.findByIdSessionAndCuaa(idSessione, cuaa,codIntervento);
 	}
 
 }

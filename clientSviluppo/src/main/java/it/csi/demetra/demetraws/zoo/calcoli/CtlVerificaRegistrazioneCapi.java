@@ -2,6 +2,7 @@ package it.csi.demetra.demetraws.zoo.calcoli;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,16 +55,34 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	private static final int GIORNI_180 = 180;
 	private static final int GIORNI_187 = 187;
 	
-//	private boolean metodoEseguitoCorrettamente;
+	private boolean metodoEseguitoCorrettamente;
+	private boolean initEseguitaCorrettamente;
+	private boolean salvataggioEseguitoCorrettamente;
 	
-	public void init(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi, Long idBdn, String codIntervento,Long annoCampagna, String cuaa) {
+	
+	public void init(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi, Long idSessione, String codIntervento,Long annoCampagna, String cuaa) throws CalcoloException {
 		
-		setListaVacche(listaCapi);
-		setIdBdn(idBdn);
-		setCodIntrervento(codIntervento);
-		setAnnoCampagna(annoCampagna);
-		setCuaa(cuaa);
-		
+		if( listaCapi!=null && idSessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
+			if( !listaCapi.isEmpty() ) {
+				
+				setListaVacche(listaCapi);
+				setIdBdn(idSessione);
+				setCodIntrervento(codIntervento);
+				setAnnoCampagna(annoCampagna);
+				setCuaa(cuaa);
+				initEseguitaCorrettamente = true;
+				
+			} else {
+				
+				initEseguitaCorrettamente = false;
+				
+			}
+			
+		} else {
+
+			initEseguitaCorrettamente = false;
+			
+		}
 	}
 	
 	/**
@@ -77,13 +96,18 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * 
 	 * Il metodo ritorna un oggetto contenente :
 	 * 
-	 * 1- la lista dei capi controllati con flagCapoAmmesso = 'S'/'N' e la motivazione
-	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
-	 * 3- una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo
+	 * - la lista dei capi ammessi
+	 * - la lista vuota se nessun capo è stato ammesso
+	 * - null se ci sono stati errori
 	 * 
-	 * @return capiControllati
-	 * @throws CalcoloException 
 	 */
+//	 * 1- la lista dei capi controllati con flagCapoAmmesso = 'S'/'N' e la motivazione
+//	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
+//	 * 3- una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo
+//	 * 
+//	 * @return capiControllati
+//	 * @throws CalcoloException 
+//	 */
 	
 	@Override
 	public List<Dmt_t_Tws_bdn_du_capi_bovini> calcolo() throws CalcoloException {
@@ -91,7 +115,9 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		try {
 			
 			preEsecuzione();
-			esecuzione();
+			if(initEseguitaCorrettamente) {
+				esecuzione();
+			}
 			postEsecuzione();
 			
 		} catch (CalcoloException e) {
@@ -156,11 +182,17 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 					
 					Date dataRegistrazioneBDNMenoSette = LocalDateConverter.convertToDateViaInstant(dataRegVit.minusDays(7));
 					
-					Period periodtI = Period.between(dataIdVit, dataNascitaVit);
-					Period periodtR = Period.between(dataIdVit, dataRegVit);
+//					Period periodtI = Period.between(dataIdVit, dataNascitaVit);
+//					Period periodtR = Period.between(dataIdVit, dataRegVit);
 
-					capo.settI(periodtI.getDays());
-					capo.settR(periodtR.getDays());
+					int tI = (int) ChronoUnit.DAYS.between(dataIdVit, dataNascitaVit);
+					int tR = (int) ChronoUnit.DAYS.between(dataIdVit, dataRegVit);
+					
+//					capo.settI(periodtI.getDays());
+//					capo.settR(periodtR.getDays());
+					
+					capo.settI(tI);
+					capo.settR(tR);
 					
 					tempisticaRegistrazione = capo.gettI() + capo.gettR();
 					
@@ -386,12 +418,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 			capiControllati.setListaCapi9901(listaCapi9901);
 			
 			
-			LOGGER.info("Fine Recupero Dati: recuperoDatiCapi() ");
+			LOGGER.info("Fine Recupero Dati: setListaCapi9901() ");
 			
 		} catch (Exception e) {
 			
 			System.err.println(e);
-			LOGGER.error("Errore nel recuperoDatiCapi() 9901: - ",e);
+			LOGGER.error("Errore nel setListaCapi9901() 9901: - ",e);
 			
 		}
 		
@@ -441,7 +473,16 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 //					break;
 //				}
 //			}
-		calcoloTempisticaDiRegistrazione(listaVacche);
+		metodoEseguitoCorrettamente = calcoloTempisticaDiRegistrazione(listaVacche);
+		if(metodoEseguitoCorrettamente) {
+		
+			LOGGER.info("Esecuzione andata a buon fine: calcoloTempisticaDiRegistrazione() ");
+		
+		} else {
+			
+			LOGGER.error("Errore nella esecuzione del Calcolo 9901: calcoloTempisticaDiRegistrazione() ");
+			
+		}
 //		if (metodoEseguitoCorrettamente) {
 //			if(CapiControllati9901.getEsito()) {
 //				if(capoVacca != null) {
@@ -466,25 +507,45 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * 
 	 * Nella postesecuzione si provvede al salvataggio dei dati su DB.
 	 * Inoltre si setta la lista di vacche ammesse che sarà restituita dal metodo calcolo().
-	 * Se nessuna vacca sarà ammessa, allora sarà quest'ultima ad essere restituita dal metodo calcolo().
-	 * 
+	 * Se nessuna vacca sarà ammessa, allora l'output sarà null.
+	 * Se ci saranno errori durante la compilazione allora l'output sarà null
 	 * */
 	@Override
 	public void postEsecuzione() throws CalcoloException {
 
-		saveOnDB();
-		
-		if (listaVaccheAmmesse != null && !listaVaccheAmmesse.isEmpty()) {
-			setListaCapi9901(listaVaccheAmmesse);
-			CapiControllati9901.setEsito(true);
-			CapiControllati9901.setMotivazioneEsitoCalcolo("Lista delle vacche ammesse a premio");
-			output = listaVaccheAmmesse;
+		if(metodoEseguitoCorrettamente && initEseguitaCorrettamente) {
+			
+			saveOnDB();
+			
+			if (listaVaccheAmmesse != null && !listaVaccheAmmesse.isEmpty()) {
+				setListaCapi9901(listaVaccheAmmesse);
+				CapiControllati9901.setEsito(true);
+				CapiControllati9901.setMotivazioneEsitoCalcolo("Lista delle vacche ammesse a premio");
+				output = listaVaccheAmmesse;
+			} else {
+				if(listaVaccheEscluse != null && !listaVaccheEscluse.isEmpty()) {
+					setListaCapi9901(listaVaccheEscluse);
+					CapiControllati9901.setEsito(false);
+					CapiControllati9901.setMotivazioneEsitoCalcolo("Nessuna vacca è ammessa a premio");
+					output = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+					
+				}
+			}
+			
 		} else {
-			if(listaVaccheEscluse != null && !listaVaccheEscluse.isEmpty()) {
-				setListaCapi9901(listaVaccheEscluse);
-				CapiControllati9901.setEsito(false);
-				CapiControllati9901.setMotivazioneEsitoCalcolo("Nessuna vacca è ammessa a premio");
+			if(!initEseguitaCorrettamente) {
+				LOGGER.error("Errore nella init del Calcolo 9901: tutti i parametri devono essere valorizzati");
 				output = null;
+			} else {
+				if(!metodoEseguitoCorrettamente ) {
+					LOGGER.error("Errore nella esecuzione del Calcolo 9901: calcoloTempisticaDiRegistrazione() ");
+					output = null;
+				} else {
+					if(!salvataggioEseguitoCorrettamente) {
+						LOGGER.error("Errore nel salvataggio dei dati Calcolo 9901: saveOnDB() ");
+						output = null;
+					}
+				}
 			}
 		}
 
@@ -562,15 +623,19 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 				
 				try {
 					capiAmmessiServices.saveAll(listaCapiResult);
-					LOGGER.info("Fine salvataggio capi ammessi 9901");
+					salvataggioEseguitoCorrettamente = true;
 				} catch (IllegalArgumentException e) {
 					LOGGER.error("Errore durante il salvataggio capi ammessi 9901 : ", e);
 				}
-				
+				LOGGER.info("Fine salvataggio capi controllati 9901");
+			} else {
+				salvataggioEseguitoCorrettamente = false;
+				LOGGER.info("Nessun capo da salvare per il calcolo 9901");
 			}
 			
-			LOGGER.info("Fine salvataggio capi controllati 9901");
+			
 		}catch (Exception e) {
+			salvataggioEseguitoCorrettamente = false;
 			LOGGER.error("Errore durante il salvataggio capi controllati 9901 : ",e);
 		}
 	}

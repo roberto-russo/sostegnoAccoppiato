@@ -25,4 +25,8 @@ public class Dmt_t_tws_bdn_du_capi_bovini_services {
 	public List<Dmt_t_Tws_bdn_du_capi_bovini> getVitelliOfVacca(Long idSessione, String cuaa, Long idCapo, Long annoCampagna) {
 		return rep.getVitelliOfVacca(idSessione, cuaa, idCapo, annoCampagna);
 	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini> getByIDSessionCuaaCodInt(Long idSessione, String cuaa, String codIntervento) {
+		return rep.findByIdSessionAndCuaa9903(idSessione, cuaa, codIntervento);
+	}
 }

@@ -2,6 +2,7 @@ package it.csi.demetra.demetraws.zoo.calcoli;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9903;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Capo9903;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.interfaces.RefInterface;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_ControlloUbaMinime;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
@@ -27,8 +29,9 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_premio_capi_services;
 import it.csi.demetra.demetraws.zoo.shared.Constants;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 
+
 @Service
-public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
+public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime>, Calcolo{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CtlUbaMinime.class);
 	
@@ -59,7 +62,6 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 	@Autowired
 	private Dmt_t_AgnelleRimonta_services capiOvicapriniService;
 	
-	
 	@Autowired
 	Dmt_t_premio_capi_services capiAmmessiServices;
 	
@@ -88,47 +90,73 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 	
 	private boolean metodoEseguitoCorrettamente;
 
+	private boolean initEseguitaCorrettamente;
+	
+	private boolean salvataggioEseguitoCorrettamente = true;
+	
 	private Double quotaCapiPremio;
 	
 	private boolean response;
 	
 	private Dmt_t_sessione sessione;
 	
+	private ResultCtlUbaMinime resultCtlUbaMinime = new ResultCtlUbaMinime();
+
+	private boolean preesecuzioneEseguitaCorrettamente = true;
+	
 	public void init(List<?> listaCapi, String codIntervento,Long annoCampagna, String cuaa, Dmt_t_sessione sessione) {
-		
-		this.listaCapi = listaCapi;		
-		setCodIntrervento(codIntervento);
-		setAnnoCampagna(annoCampagna);
-		setCuaa(cuaa);
-		setIdSessione(sessione.getIdSessione());
-		this.sessione = sessione;
+		if( listaCapi!=null && sessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
+			if( !listaCapi.isEmpty() ) {
+						
+				this.listaCapi = listaCapi;		
+				setCodIntrervento(codIntervento);
+				setAnnoCampagna(annoCampagna);
+				setCuaa(cuaa);
+				setIdSessione(sessione.getIdSessione());
+				this.sessione = sessione;
+				initEseguitaCorrettamente = true;
+				
+			} else {
+				
+				initEseguitaCorrettamente = false;
+				
+			}
+			
+		} else {
+
+			initEseguitaCorrettamente = false;
+			
+		}
 	}
 
 	/**
 	 * CONTROLLI AMMISSIBILITÀ TRASVERSALI
 	 * 
-	 * Il calcolo esegue:
+	 * Il Calcolo esegue:
 	 * 
 	 * -preEsecuzione() in cui si associa il corretto tipo di lista passata dall'utente
 	 * -esecuzione() in cui si esegue il calcolo effettivo
 	 * -postEsecuzione() in cui si controlla l'esito del calcolo e lo si salva su DB
 	 * 
-	 * Il metodo ritorna un booleano:
-	 * - true se si hanno le UBA minime per accedere al premio
-	 * - false se non si hanno le UBA minime per accedere al premio
+	 * Il metodo ritorna un oggetto contenente due booleani:
+	 * - response true uba raggiunte - false uba non raggiunte
+	 * - errors true se ci sono stati errori - false altrimenti
 	 * 
-	 * @return response
+	 * @return resultCtlUbaMinime
 	 * @throws CalcoloException 
 	 */
 	@Override
-	public Boolean calcolo() throws CalcoloException {
+	public ResultCtlUbaMinime calcolo() throws CalcoloException {
 		
 		LOGGER.info("Inizio Calcolo 9903: calcolo() ");
 		
 		try {
-			
-			preEsecuzione();
-			esecuzione();
+			if(initEseguitaCorrettamente) {
+				preEsecuzione();
+				if(preesecuzioneEseguitaCorrettamente) {
+					esecuzione();
+				}
+			}
 			postEsecuzione();
 			
 		} catch (CalcoloException e) {
@@ -137,7 +165,9 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 			
 		}
 		
-		return response;
+		resultCtlUbaMinime.setResult(response);
+		resultCtlUbaMinime.setErrors(!initEseguitaCorrettamente|| !preesecuzioneEseguitaCorrettamente || !metodoEseguitoCorrettamente || !salvataggioEseguitoCorrettamente);
+		return resultCtlUbaMinime;
 	}
 	
 	/**
@@ -243,31 +273,40 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 							
 							for (Capo9903 capo: capiControllati.getListaCapi9903()) {
 								LocalDate dataNascita;
-								dataNascita = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getDataNascita());
-								period = Period.between(oggi, dataNascita);
-								if( period.getMonths() < 20 || period.getYears() > 18) {
-									listaCapiVacche.remove(capo.getCapo());
-									listaCapiVaccheEscluse.add(capo.getCapo());
-									capo.setFlagCapoAmmesso("N");
-									Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "N","Il capo non ha un'età compresa tra 20 mesi e 18 anni");
-									listaCapiResult.add(tmp);
-								} else {
-									LocalDate dataNascitaVitello = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getVitelloDtComAutNascita());
-									period = Period.between(oggi, dataNascitaVitello);
-									if( period.getDays() < 270 ) {
-										
+								if( capo.getCapo().getDataNascita() != null ) {
+									dataNascita = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getDataNascita());
+									period = Period.between(dataNascita, oggi);
+									if( (period.getMonths()+period.getYears()*12) < 20 || period.getYears() > 18) {
 										listaCapiVacche.remove(capo.getCapo());
 										listaCapiVaccheEscluse.add(capo.getCapo());
 										capo.setFlagCapoAmmesso("N");
-										Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "N","Il periodo minimo di 270 giorni di interparto non è stato rispettato");
+										Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "N","Il capo non ha un'età compresa tra 20 mesi e 18 anni");
 										listaCapiResult.add(tmp);
-										
 									} else {
-										
-										Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "S",null);
-										listaCapiResult.add(tmp);
-										
+										LocalDate dataNascitaVitello = LocalDateConverter.convertToLocalDateViaInstant(capo.getCapo().getVitelloDtComAutNascita());
+										period = Period.between(dataNascitaVitello, oggi);
+										//int giorniDiVita = (period.getDays()+period.getMonths()*30+period.getYears()*365);
+										long giorniDiVita = ChronoUnit.DAYS.between(dataNascitaVitello, oggi);
+										if( giorniDiVita < 270 ) {
+											
+											listaCapiVacche.remove(capo.getCapo());
+											listaCapiVaccheEscluse.add(capo.getCapo());
+											capo.setFlagCapoAmmesso("N");
+											Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "N","Il periodo minimo di 270 giorni di interparto non è stato rispettato");
+											listaCapiResult.add(tmp);
+											
+										} else {
+											
+											Dmt_t_premio_capi tmp = inizializzaCapo(capo.getCapo(), "S","Il capo è stato ammesso a premio");
+											listaCapiResult.add(tmp);
+											
+										}
 									}
+								} else {
+									
+									preesecuzioneEseguitaCorrettamente = false;
+									break;
+									
 								}
 							}
 						}
@@ -278,6 +317,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 				} else if ( PREMI_BOV_MACELLATI.contains(getCodIntrervento()) ) {
 					
 					this.listaCapiMacellati = (List<Dmt_t_clsCapoMacellato>) listaCapi;
+					for (Dmt_t_clsCapoMacellato capo : listaCapiMacellati ) {
+						Dmt_t_premio_capi tmp = inizializzaCapoMacellato(capo, "S", "Capo macellato ammesso a premio");
+						listaCapiResult.add(tmp);
+					}
 					LOGGER.info("Fine della Preesecuzione.");
 					
 				} else if ( PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento()) ) {
@@ -288,34 +331,34 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 					if( quotaCapiPremio == null ) {
 						
 						LOGGER.error("Errore nella Preesecuzione : Sessione "+getIdSessione()+" Cuaa "+getCuaa()+" quotaCapiPremio = null.");
-						throw new CalcoloException("Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+						preesecuzioneEseguitaCorrettamente = false;
 						
+					} else {
+						LOGGER.info("Fine della Preesecuzione.");
 					}
-					
-					LOGGER.info("Fine della Preesecuzione.");
 					
 				} else {
 					
 					LOGGER.error("Errore nella Preesecuzione : Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
-					throw new CalcoloException("Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+					preesecuzioneEseguitaCorrettamente = false;
 					
 				}
 			} else {
 				
 				LOGGER.error("Errore nella Preesecuzione : Codice intervento errato.");
-				throw new CalcoloException("Codice intervento errato.");
+				preesecuzioneEseguitaCorrettamente = false;
 				
 			}
 		} else {
 			if (listaCapi == null) {
 				
 				LOGGER.error("Errore nella Preesecuzione : parametro listaCapi = null.");
-				throw new CalcoloException("Il parametro listaCapi passato per il Calcolo UBA è null.");
+				preesecuzioneEseguitaCorrettamente = false;
 				
 			} else {
 				
 				LOGGER.error("Errore nella Preesecuzione : La lista di capi passata per il Calcolo UBA è vuota.");
-				throw new CalcoloException("La lista di capi passata per il Calcolo UBA è vuota.");
+				preesecuzioneEseguitaCorrettamente = false;
 				
 			}
 		}
@@ -333,22 +376,32 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 	public void postEsecuzione() throws CalcoloException {
 		// SALVATAGGIO DATI
 		
-		if(metodoEseguitoCorrettamente) {
+		if(initEseguitaCorrettamente && preesecuzioneEseguitaCorrettamente && metodoEseguitoCorrettamente) {
 			
 			saveOnDB();
 			LOGGER.info("Fine Calcolo9903: calcolo() ");
 			
 		} else {
-		
-			LOGGER.error("Errore nel Calcolo 9903");
-			throw new CalcoloException("Errore nel Calcolo 9903");
-			
+			if(!initEseguitaCorrettamente) {
+				LOGGER.error("Errore nella init del Calcolo 9903: tutti i parametri devono essere valorizzati");
+			} else {
+				if(!preesecuzioneEseguitaCorrettamente) {
+					LOGGER.error("Errore nella preesecuzione del Calcolo 9903.");
+				} else {
+					if(!metodoEseguitoCorrettamente ) {
+						LOGGER.error("Errore nella esecuzione del Calcolo 9903: calcoloUBA() ");
+					} else {
+						if(!salvataggioEseguitoCorrettamente) {
+							LOGGER.error("Errore nel salvataggio dei dati Calcolo 9903: saveOnDB() ");
+						}
+					}
+				}
+			}
 		}
-		
 	}
 
 	@Override
-	public List<Boolean> calcoloMassivo() throws CalcoloException {
+	public List<ResultCtlUbaMinime> calcoloMassivo() throws CalcoloException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -374,12 +427,12 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 			capiControllati.setListaCapi9903(listaCapi9903);
 			
 			
-			LOGGER.info("Fine Recupero Dati: recuperoDatiCapi() ");
+			LOGGER.info("Fine Recupero Dati: setListaCapi9903() ");
 			
 		} catch (Exception e) {
 			
 			System.err.println(e);
-			LOGGER.error("Errore nel recuperoDatiCapi() 9903: - ",e);
+			LOGGER.error("Errore nel setListaCapi9903(): - ",e);
 			
 		}
 	}
@@ -416,6 +469,36 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 	}
 	
 	/**
+	 * inizializzaCapoEscluso()
+	 * 
+	 * Serve ad inizializzare un oggetto di tipo Dmt_w_Tdu_premio_capi,
+	 * così da poter aggiungere il capo/vacca alla listaCapiAmmessi, che, tramite service,
+	 * sarà salvata su DB
+	 * 
+	 * @param capoVacca
+	 * @param msg 
+	 * 
+	 * @return capoTmp
+	 * 
+	 * */
+	private Dmt_t_premio_capi inizializzaCapoMacellato(Dmt_t_clsCapoMacellato capo, String ammissibile, String msg) {
+		
+		Dmt_t_premio_capi capoTmp = new Dmt_t_premio_capi();
+		capoTmp.setCodiceAzienda(capo.getAziendaCodice());	
+		capoTmp.setIdCapo(capo.getCapoId());
+		capoTmp.setCuaa(getCuaa());
+		capoTmp.setSessione(capo.getSessione());
+		capoTmp.setFlagAmmissibile(ammissibile);
+		capoTmp.setCodicePremio(capo.getCodicePremio());
+		capoTmp.setIdAllevamento(capo.getAllevId());
+		capoTmp.setMsg(msg);
+		capoTmp.setSessione(sessione);
+		capoTmp.setCodiceVitello("");
+		return capoTmp;
+		
+	}
+	
+	/**
 	 * Il metodo saveOnDB()
 	 * 
 	 * Serve a salvare su DB :
@@ -433,11 +516,23 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 				
 				try {
 					capiAmmessiServices.saveAll(listaCapiResult);
+					salvataggioEseguitoCorrettamente = true;
 					LOGGER.info("Fine salvataggio capi ammessi 9903");
 				} catch (IllegalArgumentException e) {
+					salvataggioEseguitoCorrettamente = false;
 					LOGGER.error("Errore durante il salvataggio capi ammessi 9903 : ", e);
 				}
 				
+			} else {
+				if ( !PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento()) ) {
+					LOGGER.info("Nessun capo ammesso 9903");
+					//Response false se nessun capo ammesso non si raggiungono le uba minime
+					response = false;
+				}
+			}
+			
+			if (PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento())) {
+				salvataggioEseguitoCorrettamente = true;
 			}
 			
 			LOGGER.info("Fine salvataggio capi controllati 9903");
@@ -459,10 +554,11 @@ public class CtlUbaMinime extends Ref implements RefInterface<Boolean>, Calcolo{
 				model.setMotivazioni("Si possiedono capi per un totale di "+ubaMinime+"UBA, insufficienti per accedere al premio.");
 				response = false;
 			}
-			
+			ubaMinime = 0.0;
 			ref9903Services.save(model);
 			
 		}catch (Exception e) {
+			salvataggioEseguitoCorrettamente = false;
 			LOGGER.error("Errore durante il salvataggio capi controllati 9903 : ",e);
 		}
 	}

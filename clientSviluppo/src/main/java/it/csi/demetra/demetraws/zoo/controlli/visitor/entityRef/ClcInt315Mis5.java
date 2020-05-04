@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -21,7 +22,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
-@Component("ref02_007")
+@Component("ClcInt315Mis5")
 /**
  * Calcolo REF02.007 intervento 315 Misura 5
  * 
@@ -38,6 +39,7 @@ public class ClcInt315Mis5 extends Controllo {
 	private Dmt_t_output_controlli oc;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
 	private Dmt_t_output_esclusi oe;
+	private ResultCtlUbaMinime ubaMin;
 	
 	@Autowired
 	private CtlUbaMinime ref9903;
@@ -47,17 +49,6 @@ public class ClcInt315Mis5 extends Controllo {
 	private String motivazione;
 	long numeroMesi = 0;
 
-	public ClcInt315Mis5() throws WSBridgeInternalException_Exception {
-		this.importoLiquidabile = 0;
-		this.numeroCapiBocciati = 0;
-		this.modelMacellato = null;
-		this.oc = null;
-		this.estrazioneACampione = null;
-		this.listaCapiBocciati = new ArrayList<>();
-		this.oe = null;
-		this.motivazione = null;
-		this.numeroMesi = 0;
-	}
 
 	/**
 	 * Metodo di calcolo di numero mesi tra date
@@ -71,6 +62,16 @@ public class ClcInt315Mis5 extends Controllo {
 
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		this.importoLiquidabile = 0;
+		this.numeroCapiBocciati = 0;
+		this.modelMacellato = null;
+		this.oc = null;
+		this.estrazioneACampione = null;
+		this.listaCapiBocciati = new ArrayList<>();
+		this.oe = null;
+		this.motivazione = null;
+		this.numeroMesi = 0;
+		this.ubaMin = new ResultCtlUbaMinime();
 
 		/**
 		 * RECUPERO DATI DALLA BDN
@@ -85,7 +86,14 @@ public class ClcInt315Mis5 extends Controllo {
 				Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
 		try {
-			ref9903.calcolo();
+			ubaMin = ref9903.calcolo();
+			
+			if( ubaMin.isErrors())
+				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
+			else
+				if(!ubaMin.isResult())
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}

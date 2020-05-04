@@ -1,0 +1,1 @@
+alter table dmt_t_output_esclusi modify calcolo varchar2(20 );

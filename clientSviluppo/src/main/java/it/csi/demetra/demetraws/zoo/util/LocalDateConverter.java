@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.util;
 
 import java.time.DateTimeException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -15,9 +16,9 @@ public final class LocalDateConverter {
 
 	public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
 	    try {
-			return dateToConvert.toInstant()
-		      .atZone(ZoneId.systemDefault())
-		      .toLocalDate();
+	    	return Instant.ofEpochMilli(dateToConvert.getTime())
+	        .atZone(ZoneId.systemDefault())
+	        .toLocalDate();
 	    } catch (DateTimeException e) {
 	    	System.err.println("Errore nella conversione della data.");
 			LOGGER.error("Errore LocalDateConverter: - ",e);
