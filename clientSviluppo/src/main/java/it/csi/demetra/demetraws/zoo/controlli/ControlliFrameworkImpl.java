@@ -25,7 +25,6 @@ import java.text.ParseException;
 public class ControlliFrameworkImpl implements ControlliFramework {
 
 
-
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -42,33 +41,31 @@ public class ControlliFrameworkImpl implements ControlliFramework {
     }
 
     /**
+     * Dopo lo scarico massivo dei dati dalla BDN questo metodo eseguo il controllo corrispondente per
+     * azienda, codice premio e sessione
      *
      * @param azienda
      * @param subentro
      * @param sessione
-     * @return
      * @throws ControlloException
      * @throws CalcoloException
-     * Dopo lo scarico massivo dei dati dalla BDN questo metodo eseguo il controllo corrispondente per
-     * azienda, codice premio e sessione
      */
     @Override
-    public Integer handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) throws ControlloException,CalcoloException {
-            Controllo controllo = entityFactory.getControllo(azienda, sessione, controlliService, applicationContext);
-            controllo.preEsecuzione();
-            controllo.esecuzione();
-            controllo.postEsecuzione();
-        return -1;
+    public void handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) throws ControlloException, CalcoloException {
+        Controllo controllo = entityFactory.getControllo(azienda, sessione, controlliService, applicationContext);
+        controllo.preEsecuzione();
+        controllo.esecuzione();
+        controllo.postEsecuzione();
     }
 
     /**
+     * Questo metodo prende esegue lo scarico dei dati dalla BDN per ogni singolo soggetto.
+     * Viene eseguito dal Controller per ogni singola azienda.
      *
      * @param azienda
      * @param subentro
      * @param sessione
      * @return
-     * Questo metodo prende esegue lo scarico dei dati dalla BDN per ogni singolo soggetto.
-     * Viene eseguito dal Controller per ogni singola azienda.
      */
     @Override
     public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) {
