@@ -7,6 +7,6 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 
 public interface ControlliFramework {
-    public Integer handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) throws ControlloException, CalcoloException;
+    public void handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) throws ControlloException, CalcoloException;
     public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione);
 }

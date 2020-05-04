@@ -15,8 +15,8 @@ public abstract class Controllo {
     private Rpu_V_pratica_zoote azienda;
 
     /**
-     *
      * preEsecuzione() dei controlli
+     *
      * @throws ControlloException
      * @throws CalcoloException
      */
@@ -24,12 +24,14 @@ public abstract class Controllo {
 
     /**
      * esecuzione() dei controlli
+     *
      * @throws ControlloException
      */
     abstract public void esecuzione() throws ControlloException;
 
     /**
      * postEsecuzione() dei controlli
+     *
      * @throws ControlloException
      */
     abstract public void postEsecuzione() throws ControlloException;
@@ -58,7 +60,7 @@ public abstract class Controllo {
         this.controlliService = controlliService;
     }
 
-    public String getInput(){
+    public String getInput() {
         return getAzienda().getCuaa() + "|" + getAzienda().getCodicePremio();
     }
 }

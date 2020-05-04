@@ -34,17 +34,17 @@ public class ClcInt313Mis4 extends Controllo {
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
         modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        importoRichiesto = modelVacche.size();
+        importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
         if (modelVacche != null && modelVacche.size() > 0) {
-            ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
             try {
+                ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
                 modelVacche = ref9901.calcolo();
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
             }
 
-            ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
             try {
+                ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
                 ref9903.calcolo();
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
@@ -58,33 +58,28 @@ public class ClcInt313Mis4 extends Controllo {
         Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
         la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato
         al detentore presso il quale è nato il primo capo.*/
+        if (null == modelVacche) return;
 
         importoLiquidabile = 0;
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
             if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
                     || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
-                aggiungiEscluso(b);
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
             }
 
-            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = listVitelli.isEmpty()?b.getDtNascitaVitello():UtilControlli.getVitelloGiovane(b,listVitelli);
+            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli =
+                    getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
+
+            Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
             if (b.getDtFineDetenzione().after(dataGiovane)
                     && b.getDtInizioDetenzione().before(dataGiovane))
                 importoLiquidabile++;
-            else aggiungiEscluso(b);
+            else
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
         }
     }
 
-    private void aggiungiEscluso(Dmt_t_Tws_bdn_du_capi_bovini b) {
-        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo("ClcInt313Mis4");
-        escluso.setCapoId(b.getCapoId());
-        escluso.setMotivazioneEsclusione("");
-        escluso.setSessione(getSessione());
-
-        listEsclusi.add(escluso);
-    }
 
     @Override
     public void postEsecuzione() throws ControlloException {
@@ -93,7 +88,7 @@ public class ClcInt313Mis4 extends Controllo {
         outputControlli.setSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
-        outputControlli.setCapiRichiesti(modelVacche.size());
+        outputControlli.setCapiRichiesti(importoRichiesto);
         outputControlli.setCuaa(getAzienda().getCuaa());
         outputControlli.setIntervento(getAzienda().getCodicePremio());
 

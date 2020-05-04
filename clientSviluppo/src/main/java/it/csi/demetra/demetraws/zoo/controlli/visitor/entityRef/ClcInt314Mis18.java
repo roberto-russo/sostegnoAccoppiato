@@ -12,7 +12,6 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +27,17 @@ public class ClcInt314Mis18 extends Controllo {
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private Integer importoLiquidabile;
     private Integer importoRichiesto;
-    private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
+    private List<Dmt_t_output_esclusi> listEsclusi;
 
     @Override
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
         modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        importoRichiesto = modelVacche.size();
+        importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
+
         if (modelVacche != null && modelVacche.size() > 0) {
-            ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
             try {
+                ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
                 modelVacche = ref9901.calcolo();
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
@@ -66,33 +66,26 @@ public class ClcInt314Mis18 extends Controllo {
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
             if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
                     || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
-                aggiungiEscluso(b);
+
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
             }
 
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = listVitelli.isEmpty()?b.getDtNascitaVitello():UtilControlli.getVitelloGiovane(b,listVitelli);
+            Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
 
             if (!(b.getDtFineDetenzione().after(dataGiovane)
                     && b.getDtInizioDetenzione().before(dataGiovane))) {
-                aggiungiEscluso(b);
+
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
             }
 
             // CONTROLLO CHE L'ALLEVAMENTO ABBIA IL flagIBR (Dati dalla BDN)
             if (null != b.getFlagIbr() && b.getFlagIbr().equals("S")) importoLiquidabile++;
-            else aggiungiEscluso(b);
+            else
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
         }
-    }
-
-    private void aggiungiEscluso(Dmt_t_Tws_bdn_du_capi_bovini b) {
-        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo("ClcInt314Mis18");
-        escluso.setCapoId(b.getCapoId());
-        escluso.setMotivazioneEsclusione("");
-        escluso.setSessione(getSessione());
-
-        listEsclusi.add(escluso);
     }
 
     @Override
@@ -102,7 +95,7 @@ public class ClcInt314Mis18 extends Controllo {
         outputControlli.setSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
-        outputControlli.setCapiRichiesti(modelVacche.size());
+        outputControlli.setCapiRichiesti(importoRichiesto);
         outputControlli.setCuaa(getAzienda().getCuaa());
         outputControlli.setIntervento(getAzienda().getCodicePremio());
 
