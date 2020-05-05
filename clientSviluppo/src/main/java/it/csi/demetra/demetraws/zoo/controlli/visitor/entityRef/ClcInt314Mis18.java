@@ -12,7 +12,6 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,12 +61,11 @@ public class ClcInt314Mis18 extends Controllo {
 
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            if (!UtilControlli.isDetentoreParto(b,listVitelli)) {
+            if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
             }
 
-            // CONTROLLO CHE L'ALLEVAMENTO ABBIA IL flagIBR (Dati dalla BDN)
             if (null != b.getFlagIbr() && b.getFlagIbr().equals("S")) importoLiquidabile++;
             else
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
