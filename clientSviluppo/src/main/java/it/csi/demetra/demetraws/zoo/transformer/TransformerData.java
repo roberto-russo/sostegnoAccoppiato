@@ -2,6 +2,7 @@ package it.csi.demetra.demetraws.zoo.transformer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovi
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tbdn_du_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_dsScarico_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
@@ -27,14 +29,19 @@ public class TransformerData {
 	public TransformerData() {
 	}
 	public Date transformDate(String date) throws ParseException {
-		if(date==null)
+		if (date == null)
 			return null;
 		if (date.contains("T"))
 			date = date.replace("T", " ");
-		
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-		Date dt = format.parse(date);
-		return dt;
+
+		List<String> formatterStrings = Arrays.asList("dd/MM/yyyy", "yyyy-MM-dd");
+		for (String s : formatterStrings)
+			try {
+				return new SimpleDateFormat(s).parse(date);
+			} catch (ParseException ignored) {
+			}
+
+		return null;
 	}
 	public Dmt_t_DsUBA_censimenti_allevamenti_ovini TransformDsUBA_censimenti_allevamenti_ovini(Response response, Dmt_t_sessione sessione)
 			throws JAXBException {
@@ -249,46 +256,51 @@ public class TransformerData {
 		}
 		return model;
 	}
-	
-	public Dmt_t_dsScarico_allevamenti getWbAnagraficaAllevamenti(Response response, Dmt_t_sessione sessione, String codiceIntervento) throws ParseException {
-		Dmt_t_dsScarico_allevamenti model = new Dmt_t_dsScarico_allevamenti();
-		WbAnagraficaAllevamentoVO anagrafica = new WbAnagraficaAllevamentoVO();
-		
-		
-		model.setAutorizzazioneLatte(anagrafica.getAutorizzazioneLatte());
-		model.setAziendaCodice(anagrafica.getCodiceAzienda());
-		model.setCodiceFiscaleDeten(anagrafica.getCodiceFiscaleDetentore());
-		model.setCodFiscaleProp(anagrafica.getCodiceFiscaleProprietario());
-		model.setSpecodice(anagrafica.getCodiceSpecie());
-		model.setComCodice(anagrafica.getComune());
-		model.setDataCalcoloCapi(transformDate(anagrafica.getDataCalcoloCapi()));
-		model.setDtFineAttivita(transformDate(anagrafica.getDataFineAttivita()));
-		model.setDtFineDetentore(transformDate(anagrafica.getDataFineDetentore()));
-		model.setDtInizioAttivita(transformDate(anagrafica.getDataInizioAttivita()));
-		model.setDtInizioDetentore(transformDate(anagrafica.getDataInizioDetentore()));
-		model.setDenominazione(anagrafica.getDenominazione());
-		model.setDenomDetentore(anagrafica.getDenominazioneDetentore());
-		model.setDenomProprietario(anagrafica.getDenominazioneProprietario());
-		model.setFoglioCatastale(anagrafica.getFoglioCatastale());
-		model.setAllevId(anagrafica.getIdAllevamento());
-		model.setIndirizzo(anagrafica.getIndirizzo());
-		model.setLatitudine(anagrafica.getLatitudine());
-		model.setLocalita(anagrafica.getLocalita());
-		model.setLongitudine(anagrafica.getLongitudine());
-		model.setOrientamentoProduttivo(anagrafica.getOrientamentoProduttivo());
-		model.setParticella(anagrafica.getParticella());
-		model.setSezione(anagrafica.getSezione());
-		model.setSoccida(anagrafica.getSoccida());
-		model.setSubalterno(anagrafica.getSubAlterno());
-		model.setCodTipoAllevamento(anagrafica.getTipoAllevamentoCodice());
-		model.setDescrTipoAllevamento(anagrafica.getTipoAllevamentoDescrizione());
-		model.setTipoProduzione(anagrafica.getTipoProduzione());
-		model.setSessione(sessione);
-		
-		if(!model.equals(null))
-			return model;
-		else
-			return null;
-		
+
+	public List<Dmt_t_anagrafica_allevamenti> getWbAnagraficaAllevamenti(Response response, Dmt_t_sessione sessione,
+			String codiceIntervento) throws ParseException {
+		List<Dmt_t_anagrafica_allevamenti> anagraficaAllevamenti = new ArrayList<>();
+		List<WbAnagraficaAllevamentoVO> anagraficaAllevamentiBdn = response.getVAnagAllevamenti();
+
+		for (WbAnagraficaAllevamentoVO anagrafica : anagraficaAllevamentiBdn) {
+
+			Dmt_t_anagrafica_allevamenti model = new Dmt_t_anagrafica_allevamenti();
+
+			model.setAutorizzazioneLatte(anagrafica.getAutorizzazioneLatte());
+			model.setAllevId(anagrafica.getIdAllevamento());
+			model.setAziendacodice(anagrafica.getCodiceAzienda());
+			model.setCap(anagrafica.getCap());
+			model.setCapiTotali(anagrafica.getCapiTotali());
+			model.setCod_fiscale_deten(anagrafica.getCodiceFiscaleDetentore());
+			model.setCodFiscaleProp(anagrafica.getCodiceFiscaleProprietario());
+			model.setComune(anagrafica.getComune());
+			model.setDataCalcoloCapi(this.transformDate(anagrafica.getDataCalcoloCapi()));
+			model.setDenomDetentore(anagrafica.getDenominazioneDetentore());
+			model.setDenominazione(anagrafica.getDenominazione());
+			model.setDenomProprietario(anagrafica.getDenominazioneProprietario());
+			model.setDtFineAttivita(this.transformDate(anagrafica.getDataFineAttivita()));
+			model.setDtFineDetentore(this.transformDate(anagrafica.getDataFineDetentore()));
+			model.setDtInizioAttivita(this.transformDate(anagrafica.getDataInizioAttivita()));
+			model.setDtInizoDetentore(this.transformDate(anagrafica.getDataInizioDetentore()));
+			model.setFoglioCatastale(anagrafica.getFoglioCatastale());
+			model.setIndirizzo(anagrafica.getIndirizzo());
+			model.setLatitudine(anagrafica.getLatitudine());
+			model.setLocalita(anagrafica.getLocalita());
+			model.setLongitudine(anagrafica.getLongitudine());
+			model.setOrientamentoProduttivo(anagrafica.getOrientamentoProduttivo());
+			model.setParticella(anagrafica.getParticella());
+			model.setSessione(sessione);
+			model.setSezione(anagrafica.getSezione());
+			model.setSoccida(anagrafica.getSoccida());
+			model.setSpeCodice(anagrafica.getCodiceSpecie());
+			model.setSubalterno(anagrafica.getSubAlterno());
+			model.setTipoAllevCod(anagrafica.getTipoAllevamentoCodice());
+			model.setTipoAllevDescr(anagrafica.getTipoAllevamentoDescrizione());
+			model.setTipoProduzione(anagrafica.getTipoProduzione());
+
+			anagraficaAllevamenti.add(model);
+		}
+
+			return anagraficaAllevamenti;
 	}
 }
