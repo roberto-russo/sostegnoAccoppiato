@@ -1,6 +1,8 @@
 package it.csi.demetra.demetraws.zoo;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
@@ -15,6 +17,7 @@ import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exc
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
 import it.csi.demetra.demetraws.zoo.model.Dmt_d_clsPremio_ValidazioneResponse;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
@@ -41,6 +44,45 @@ public class BdnWsManagerImpl {
 	public void connectWsBridge2() {
 		this.wsBridge2 = new WSBridgeService().getWSBridge2Port();
 	}
+	
+	public void getAnagraficaAllevamenti(String cuaa, Date dataRichiesta, String codiceIntervento, Dmt_t_sessione sessione) {
+		try {
+			String dataRichiestaString;
+			
+			if(dataRichiesta != null)
+				dataRichiestaString = String.valueOf(dataRichiesta);
+			else 
+				dataRichiestaString = "";
+			
+			response = wsBridge2.getAnagraficaAllevamenti(cuaa,dataRichiestaString);
+			
+			if(response.getInfo().equals("0"))
+				throw new NullPointerException();
+			
+			TransformerData transform = new TransformerData();
+			
+			List<Dmt_t_anagrafica_allevamenti> bean = transform.getWbAnagraficaAllevamenti(this.response,sessione , codiceIntervento);
+			
+			save.saveOnDb(bean);
+			
+			
+			
+			
+		}catch(WSBridgeInternalException_Exception | NullPointerException | ParseException e) {
+			System.out.println(e.getMessage());
+			
+			Dmt_t_errore errore = new Dmt_t_errore();
+			String input = new String(codiceIntervento + " | " + cuaa + " | " + dataRichiesta + " | " + codiceIntervento + " | " + sessione.getIdSessione());
+			errore.setErrorecodice("-1");
+			errore.setErroreDesc("dati non disponibili");
+			errore.setNomeMetodo("getAnagraficaAllevamenti");
+			errore.setInput(input);
+			errore.setSessione(sessione);
+			erroreService.saveError(errore);
+		} 
+	}
+	
+	
 
 	public void getElencoCapiPremio(String codiceIntervento, String cuaa, Integer anno_campagna, Dmt_t_sessione sessione) {
 		
