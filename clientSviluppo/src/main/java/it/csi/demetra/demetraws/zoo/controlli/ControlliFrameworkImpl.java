@@ -73,6 +73,7 @@ public class ControlliFrameworkImpl implements ControlliFramework {
             bdnImpl.getElencoCapiPremio(azienda.getCodicePremio(), azienda.getCuaa(), azienda.getAnnoCampagna(), sessione);
             bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "D", sessione);
             bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "P", sessione);
+            bdnImpl.getAnagraficaAllevamenti(azienda.getCuaa(), null, azienda.getCodicePremio(), sessione);
             if (subentro != null) {
                 bdnImpl.getElencoCapiPremio2(0L, azienda.getCodicePremio(), azienda.getCuaa(), subentro.getCuaaSubentro(), subentro.getAnnoCampagna(), sessione);
             }
