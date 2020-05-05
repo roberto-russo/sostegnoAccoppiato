@@ -259,7 +259,6 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
 
     private String getLivelloScrapie() {
         return calcoloAgnelleDaRimontaIn.getUbaOviniCensimento().getCodQualificaScrapie();
-
     }
 
     private CalcoloAgnelleDaRimontaPremioIn getCalcoloAgnelleDaRimontaIn(Long idSessione, String cuaa) {
