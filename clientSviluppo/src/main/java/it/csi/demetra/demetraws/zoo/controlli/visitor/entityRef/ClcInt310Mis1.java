@@ -3,6 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
@@ -11,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * Author: Federico Pomponii
+ * Title: Intervento 310 - Misura 1
+ */
 @Component("ClcInt310Misq")
 public class ClcInt310Mis1 extends Controllo {
 
@@ -64,9 +70,16 @@ public class ClcInt310Mis1 extends Controllo {
      */
     @Override
     public void esecuzione() throws ControlloException {
-        if(null==modelVacche) return;
-        for(Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
-
+        if (null == modelVacche) return;
+        for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
+            /**
+             * PRIMO CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
+             */
+            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
+            if (!UtilControlli.isDetentoreParto(b,listVitelli)) {
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
+                continue;
+            } else importoLiquidabile++;
         }
     }
 

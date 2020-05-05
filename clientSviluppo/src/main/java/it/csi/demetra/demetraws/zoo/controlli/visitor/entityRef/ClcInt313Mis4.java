@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * Author: Federico Pomponii
+ * Title: Intervento 313 - Misura 4
+ */
 @Component("ClcInt313Mis4")
 public class ClcInt313Mis4 extends Controllo {
 
@@ -54,29 +57,15 @@ public class ClcInt313Mis4 extends Controllo {
 
     @Override
     public void esecuzione() throws ControlloException {
-        /*L’aiuto spetta al richiedente detentore della vacca al momento del parto.
-        Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
-        la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato
-        al detentore presso il quale è nato il primo capo.*/
         if (null == modelVacche) return;
 
         importoLiquidabile = 0;
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
-            if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
-                    || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
+            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
+            if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
-            }
-
-            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli =
-                    getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-
-            Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
-            if (b.getDtFineDetenzione().after(dataGiovane)
-                    && b.getDtInizioDetenzione().before(dataGiovane))
-                importoLiquidabile++;
-            else
-                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
+            } else importoLiquidabile++;
         }
     }
 

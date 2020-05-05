@@ -51,4 +51,23 @@ public class UtilControlli {
 
         return dataGiovane;
     }
+
+    /**
+     * Controllo che il cuaa sia il detentore dell'allevamento al momento del parto
+     * e Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
+     * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
+     * detentore presso il quale è nato il primo capo.
+     *
+     * @param b
+     * @param listVitelli
+     * @return
+     */
+    public static Boolean isDetentoreParto(Dmt_t_Tws_bdn_du_capi_bovini b, List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli) {
+        if (b.getDtFineDetenzione().after(b.getDtNascitaVitello())
+                && b.getDtInizioDetenzione().before(b.getDtNascitaVitello())) return false;
+
+        Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
+        return (b.getDtFineDetenzione().after(dataGiovane)
+                && b.getDtInizioDetenzione().before(dataGiovane));
+    }
 }
