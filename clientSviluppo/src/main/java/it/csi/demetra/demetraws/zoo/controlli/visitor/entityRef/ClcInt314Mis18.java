@@ -62,7 +62,7 @@ public class ClcInt314Mis18 extends Controllo {
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
             if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
-                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
+                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                 continue;
             }
 

@@ -82,7 +82,7 @@ public class WebServiceController {
             try {
                 controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
             } catch (ControlloException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             } catch (CalcoloException e) {
                 e.printStackTrace();
             }

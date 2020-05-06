@@ -30,7 +30,7 @@ public class EntityFactory {
         Controllo res = null;
         if (c.isPresent())
             res = (Controllo) ctx.getBean(c.get().getBean());
-        else throw new ControlloException("Bean corrispondente non trovato");
+        else throw new ControlloException("Bean corrispondente non trovato -> " + azienda.getCodicePremio());
 
         res.setSessione(sessione);
         res.setControlliService(controlliService);
