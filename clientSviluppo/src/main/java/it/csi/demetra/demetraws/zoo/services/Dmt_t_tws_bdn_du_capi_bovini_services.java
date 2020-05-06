@@ -29,4 +29,24 @@ public class Dmt_t_tws_bdn_du_capi_bovini_services {
 	public List<Dmt_t_Tws_bdn_du_capi_bovini> getByIDSessionCuaaCodInt(Long idSessione, String cuaa, String codIntervento) {
 		return rep.findByIdSessionAndCuaa9903(idSessione, cuaa, codIntervento);
 	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini> getListaCapiAmmessiZonaMontanaInt311Mis2 (Long idSessione, String cuaa, String codiceIntervento) {
+		return rep.getListaCapiAmmessiZonaMontanaInt311Mis2(idSessione, cuaa, codiceIntervento);
+	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini> getListaCapiEsclusZonaMontanaiInt311Mis2 (Long idSessione, String cuaa, String codiceIntervento) {
+		return rep.getListaCapiEsclusZonaMontanaiInt311Mis2(idSessione, cuaa, codiceIntervento);
+	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1ZonaMontana(Long idSessione, String cuaa, String codIntervento) {
+		return rep.getBoviniIdoneiInt310Mis1ZonaMontana(idSessione, cuaa, codIntervento);
+	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1NonDiZonaMontana(Long idSessione, String cuaa, String codIntervento) {
+		return rep.getBoviniIdoneiInt310Mis1NonDiZonaMontana(idSessione, cuaa, codIntervento);
+	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniUbaMinime(Long idSessione, String cuaa, String codIntervento) {
+		return rep.getBoviniUbaMinime(idSessione, cuaa, codIntervento);
+	}
 }
