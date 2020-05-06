@@ -68,11 +68,11 @@ public class ControlliFrameworkImpl implements ControlliFramework {
      * @return
      */
     @Override
-    public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) {
+    public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione, Integer annoCampagna) {
         try {
             bdnImpl.getElencoCapiPremio(azienda.getCodicePremio(), azienda.getCuaa(), azienda.getAnnoCampagna(), sessione);
-            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "D", sessione);
-            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/2018", "31/12/2018", "P", sessione);
+            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/" + annoCampagna, "31/12/" + annoCampagna, "D", sessione);
+            bdnImpl.Consistenza_UBA_Censim_Ovini_2012(azienda.getCuaa(), "01/01/" + annoCampagna, "31/12/" + annoCampagna, "P", sessione);
             bdnImpl.getAnagraficaAllevamenti(azienda.getCuaa(), null, azienda.getCodicePremio(), sessione);
             if (subentro != null) {
                 bdnImpl.getElencoCapiPremio2(0L, azienda.getCodicePremio(), azienda.getCuaa(), subentro.getCuaaSubentro(), subentro.getAnnoCampagna(), sessione);

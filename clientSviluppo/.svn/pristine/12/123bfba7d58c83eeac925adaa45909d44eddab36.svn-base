@@ -1,7 +1,0 @@
-package it.csi.zoo.calcoli.entity;
-
-public enum RefEsito {
-	
-	OK, KO;
-
-}

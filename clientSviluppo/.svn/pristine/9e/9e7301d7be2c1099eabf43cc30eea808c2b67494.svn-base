@@ -1,7 +1,0 @@
-package it.csi.demetra.demetraws.zoo.repository;
-
-import it.csi.demetra.demetraws.zoo.model.Dmt_s_controllo_bean;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface Dmt_s_controllo_bean_repository extends JpaRepository<Dmt_s_controllo_bean,String> {
-}

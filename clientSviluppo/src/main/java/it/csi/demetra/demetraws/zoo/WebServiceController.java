@@ -76,7 +76,7 @@ public class WebServiceController {
         // ESEGUO IL PRIMO FOR PER SCARICARE TUTTI I DATI
         for (Rpu_V_pratica_zoote azienda : list) {
 
-            if (!controlliFramework.scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione))
+            if (!controlliFramework.scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
                 System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
             else System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
             try {
