@@ -171,10 +171,9 @@ public class ClcInt318Mis19 extends Controllo {
 		} else {
 			  // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
-				  if(!c.getAnomalie_cgo().contains("B"))
-					  this.numeroCapiAmmissibili++;
+				  if((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1) )
+					  this.numeroCapiAmmissibili++;	
 		}
-
 	}
 
 	@Override
@@ -195,6 +194,8 @@ public class ClcInt318Mis19 extends Controllo {
 						+ getAzienda().getCuaa() + "e': " + this.numeroCapiAmmissibili);
 				// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 				// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
+				
+				this.oc = new Dmt_t_output_controlli();
 
 				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 				this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
