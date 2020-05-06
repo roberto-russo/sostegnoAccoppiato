@@ -1,8 +1,0 @@
-package it.csi.zoo.calcoli;
-
-public class CalcoloException extends Exception {
-
-    public CalcoloException(String message) {
-        super(message);
-    }
-}
