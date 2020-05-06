@@ -37,10 +37,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"    FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 			"WHERE " + 
 			"    ID_ALLEVAMENTO NOT IN " + 
-			"    	(SELECT ID_ALLEVAMENTO FROM DMT_T_INFO_ALLEVAMENTO WHERE ID_ALLEVAMENTO IN " + 
+			"    	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 			"    		(   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 			"       	 WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
-			"        AND FLAG_ALLEVAMENTO_MONTANO = 'N') " + 
+			"        AND FLAG_ZONA_MONTANA = 'N') " + 
 			"    AND ID_SESSIONE = :idSessione " + 
 			"    AND CUAA = :cuaa " + 
 			"    AND CODICE_PREMIO = :codiceIntervento", nativeQuery = true )
@@ -50,10 +50,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"    FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 			"WHERE " + 
 			"    ID_ALLEVAMENTO IN " + 
-			"    	(SELECT ID_ALLEVAMENTO FROM DMT_T_INFO_ALLEVAMENTO WHERE ID_ALLEVAMENTO IN " + 
+			"    	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 			"    		(   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 			"        	WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
-			"        AND FLAG_ALLEVAMENTO_MONTANO = 'N') " + 
+			"        AND FLAG_ZONA_MONTANA = 'N') " + 
 			"    AND ID_SESSIONE = :idSessione " + 
 			"    AND CUAA = :cuaa " + 
 			"    AND CODICE_PREMIO = :codiceIntervento", nativeQuery = true )
@@ -63,9 +63,9 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_CAPO IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI PC " + 
-			" WHERE PC.CODICE_PREMIO = :codiceIntervento" + 
+			" WHERE PC.CODICE_PREMIO = '310'" + 
 			" AND PC.ID_CAPO " + 
-			" NOT IN (SELECT ID_CAPO " + 
+			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
 			"        OE.ID_SESSIONE = :idSessione AND " + 
@@ -75,16 +75,16 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" AND PC.CUAA = :cuaa ) " +
 		    " AND id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento " +
 		    " AND ID_ALLEVAMENTO NOT IN " + 
-		    "	(SELECT ID_ALLEVAMENTO FROM DMT_T_INFO_ALLEVAMENTO WHERE ID_ALLEVAMENTO IN " + 
+		    "	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 		    " (   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 		    " WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
-		    " AND FLAG_ALLEVAMENTO_MONTANO = 'N') ", nativeQuery = true )
+		    " AND FLAG_ZONA_MONTANA = 'N') ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1ZonaMontana(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_CAPO IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI PC " + 
-			" WHERE PC.CODICE_PREMIO = :codiceIntervento" + 
+			" WHERE PC.CODICE_PREMIO = '310'" + 
 			" AND PC.ID_CAPO " + 
-			" NOT IN (SELECT ID_CAPO " + 
+			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
 			"        OE.ID_SESSIONE = :idSessione AND " + 
@@ -94,10 +94,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" AND PC.CUAA = :cuaa ) " +
 		    " AND id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento " +
 		    " AND ID_ALLEVAMENTO IN " + 
-		    "	(SELECT ID_ALLEVAMENTO FROM DMT_T_INFO_ALLEVAMENTO WHERE ID_ALLEVAMENTO IN " + 
+		    "	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 		    " (   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
 		    " WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
-		    " AND FLAG_ALLEVAMENTO_MONTANO = 'N') ", nativeQuery = true )
+		    " AND FLAG_ZONA_MONTANA = 'N') ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1NonDiZonaMontana(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_CAPO IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI WHERE SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento AND FLAG_AMMISSIBILE='S') "

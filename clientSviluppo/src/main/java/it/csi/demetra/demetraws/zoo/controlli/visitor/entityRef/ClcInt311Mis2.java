@@ -3,14 +3,15 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
@@ -18,7 +19,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
-
+/**
+ * Author: 
+ * Title: Intervento 311 - Misura 2
+ */
+@Component("ClcInt311Mis2")
 public class ClcInt311Mis2 extends Controllo{
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
@@ -95,6 +100,8 @@ public class ClcInt311Mis2 extends Controllo{
 						
 						modelVaccheAmmesse.remove(capo);
 						modelVaccheEscluse.add(capo);
+						if(modelVaccheAmmesse.isEmpty())
+							break;
 						
 					}
 					
@@ -102,7 +109,8 @@ public class ClcInt311Mis2 extends Controllo{
 					
 					modelVaccheAmmesse.remove(capo);
 					modelVaccheEscluse.add(capo);
-					
+					if(modelVaccheAmmesse.isEmpty())
+						break;
 				}
 				
 			}
@@ -186,28 +194,19 @@ public class ClcInt311Mis2 extends Controllo{
 			     * al detentore presso il quale è nato il primo capo.
 			     * 
 			     * */
-
 		        for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheAmmesseUba) {
-		            if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
-		                    || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
-		                aggiungiEscluso(b);
-		                continue;
-		            }
-
+		        	
 		            List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-		            Date giovane = null;
-		            for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listVitelli)
-		                if (null != b2.getDtNascitaVitello())
-		                    if (null == giovane)
-		                        giovane = b2.getDtNascitaVitello();
-		                    else if (b2.getDtNascitaVitello().before(giovane))
-		                        giovane = b.getDtNascitaVitello();
 
-
-		            if (b.getDtFineDetenzione().before(giovane)
-		                    || b.getDtInizioDetenzione().after(giovane))
-		                importoLiquidabile++;
-		            else aggiungiEscluso(b);
+		        	if(UtilControlli.isDetentoreParto(b, listVitelli)){
+		        		
+		        		importoLiquidabile++;
+		        		
+		        	} else {
+		        		
+		        		listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
+		        		
+		        	}
 
 		        }		
 				
@@ -238,18 +237,6 @@ public class ClcInt311Mis2 extends Controllo{
 
         for (Dmt_t_output_esclusi o : listEsclusi)
             getControlliService().saveOutputEscl(o);
-	}
-	
-	private void aggiungiEscluso(Dmt_t_Tws_bdn_du_capi_bovini b) {
-		
-        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo(this.getClass().getName());
-        escluso.setCapoId(b.getCapoId());
-        escluso.setMotivazioneEsclusione("");
-        escluso.setSessione(getSessione());
-
-        listEsclusi.add(escluso);
-        
 	}
 	
 	private void setListEsclusi(List<Dmt_t_Tws_bdn_du_capi_bovini> bovini, String motivazione) {
