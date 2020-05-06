@@ -164,7 +164,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			LOGGER.error("Errore Calcolo 9903: ",e);
 			
 		}
-		
+		resultCtlUbaMinime.setListaCapi(listaCapiResult);
 		resultCtlUbaMinime.setResult(response);
 		resultCtlUbaMinime.setErrors(!initEseguitaCorrettamente|| !preesecuzioneEseguitaCorrettamente || !metodoEseguitoCorrettamente || !salvataggioEseguitoCorrettamente);
 		return resultCtlUbaMinime;
