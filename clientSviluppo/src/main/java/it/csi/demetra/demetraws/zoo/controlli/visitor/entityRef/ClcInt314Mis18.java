@@ -12,9 +12,12 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 
+/**
+ * Author: Federico Pomponii
+ * Title: Intervento 314 - Misura 18
+ */
 @Component("ClcInt314Mis18")
 public class ClcInt314Mis18 extends Controllo {
 
@@ -54,34 +57,15 @@ public class ClcInt314Mis18 extends Controllo {
 
     @Override
     public void esecuzione() throws ControlloException {
-        /*Eseguito dall’OPR utilizzando i dati della BDN:
-            Che le vacche nutrici facciano parte di allevamenti
-            che aderiscono a piani di gestione della razza finalizzati
-            al risanamento dal virus responsabile della Rinotracheite
-            infettiva del bovino IBR.
-        */
-
         importoLiquidabile = 0;
 
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
-            if (b.getDtFineDetenzione().before(b.getDtNascitaVitello())
-                    || b.getDtInizioDetenzione().after(b.getDtNascitaVitello())) {
-
-                this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
-                continue;
-            }
-
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-            Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
-
-            if (!(b.getDtFineDetenzione().after(dataGiovane)
-                    && b.getDtInizioDetenzione().before(dataGiovane))) {
-
+            if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
                 continue;
             }
 
-            // CONTROLLO CHE L'ALLEVAMENTO ABBIA IL flagIBR (Dati dalla BDN)
             if (null != b.getFlagIbr() && b.getFlagIbr().equals("S")) importoLiquidabile++;
             else
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
