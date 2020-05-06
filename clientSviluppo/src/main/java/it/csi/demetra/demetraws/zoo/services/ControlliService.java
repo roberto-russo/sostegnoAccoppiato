@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_w_controllo_bean;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativa;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -18,6 +20,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_w_controllo_bean_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_SistemiDiEtichettaturaFacoltativa_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_certificato_igp_dop_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
@@ -34,7 +37,7 @@ public class ControlliService {
     Dmt_t_tws_bdn_du_capi_bovini_repository boviniRepository;
 
     @Autowired
-    Dmt_t_dsScarico_allevamenti_repository scaAllevRepository;
+    Dmt_t_anagrafica_allevamenti_repository anaRepository;
 
     @Autowired
     Dmt_w_controllo_bean_repository controlloBeanRepository;
@@ -56,6 +59,9 @@ public class ControlliService {
     
     @Autowired
     Dmt_t_certificato_igp_dop_repository igpDopRepository;
+    
+    @Autowired
+    Dmt_t_anagrafica_allevamenti_repository anagraficaAllevamentiRep;
     
     
 
@@ -100,5 +106,9 @@ public class ControlliService {
 	public void saveOutputEscl(Dmt_t_output_esclusi output) {
 		esclusiRepository.save(output);
 
+	}
+	
+	public Dmt_t_anagrafica_allevamenti getAnagraficaByIdAllevamento(BigDecimal allevId) {
+		return anagraficaAllevamentiRep.findByAllevId(allevId);
 	}
 }

@@ -1,5 +1,7 @@
 package it.csi.demetra.demetraws.zoo.services;
 
+import java.util.List;
+
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +9,11 @@ import org.springframework.stereotype.Service;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_d_clsPremio_ValidazioneResponse;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_d_clsPremio_ValidazioneResponse_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_premio_capi_repository;
 import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovini_repository;
@@ -40,10 +43,23 @@ public class SaveOnDbService {
     Dmt_t_errore_services erroreService;
     
     @Autowired
+    Dmt_t_anagrafica_allevamenti_repository anagraficaRep;
+    
+    @Autowired
     Dmt_t_output_controlli_repository outputControlliRep;
     
     Dmt_t_premio_capi_repository premioCapiService;
     
+    
+    public void saveOnDb(List<Dmt_t_anagrafica_allevamenti> beans) {
+    	try {
+    		for(Dmt_t_anagrafica_allevamenti bean : beans)
+    			anagraficaRep.save(bean);
+    		
+    	} catch(ConstraintViolationException e) {
+    		System.out.println(e.getMessage());
+    	}
+    }
 
     public void saveOnDb(Dmt_t_DsUBA_censimenti_allevamenti_ovini bean, Dmt_t_sessione sessione) {
         try {

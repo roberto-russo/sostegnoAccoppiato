@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -17,6 +18,7 @@ import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativa;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
@@ -127,7 +129,7 @@ public class ClcInt318Mis19 extends Controllo {
 								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
 								 * i capi ammissibili sono pagati esclusivamente al detentore
 								 */
-								if((this.duplicatiMacellati == null || this.duplicatiMacellati.isEmpty()) &&  (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null)) {
+								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
 									this.numeroCapiAmmissibili++;
 					} else {
 						/**
@@ -232,5 +234,35 @@ public class ClcInt318Mis19 extends Controllo {
 		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
 		return monthsBetween;
+	}
+	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
+
+		Dmt_t_anagrafica_allevamenti allev1;
+
+		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
+			return true;
+		
+		else if (duplicatiMacellati.size() == 2) {
+
+			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
+			// proprietario e chi è il detentore
+			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
+
+				allev1 = getControlliService()
+						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(duplicatiMacellati.get(0).getAllevId()));
+
+				if (((!allev1.getCod_fiscale_deten().equals(null))
+						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
+								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
+						|| ((!allev1.getCod_fiscale_deten().equals(null))
+								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
+										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
+					if(allev1.getCod_fiscale_deten().equals(cuaa))
+						return true;
+				
+			} 
+		} 
+			
+		return false;
 	}
 }

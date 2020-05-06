@@ -41,7 +41,6 @@ public class Dmt_t_premio_capi implements Serializable {
     private String codicePremio;
 
     @Column(name = "CODICE_VITELLO")
-    @NotNull
     private String codiceVitello;
 
     @Id
