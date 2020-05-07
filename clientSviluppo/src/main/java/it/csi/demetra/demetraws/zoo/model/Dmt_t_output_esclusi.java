@@ -20,13 +20,9 @@ public class Dmt_t_output_esclusi implements Serializable {
 	 */
 	private static final long serialVersionUID = 7409416797878667132L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
-	@MapsId
+	@MapsId("sessione")
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "sessione", nullable = false)
 	private Dmt_t_sessione sessione;
 
 	@Id
@@ -70,14 +66,6 @@ public class Dmt_t_output_esclusi implements Serializable {
 
 	public void setMotivazioneEsclusione(String motivazioneEsclusione) {
 		this.motivazioneEsclusione = motivazioneEsclusione;
-	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 
 }
