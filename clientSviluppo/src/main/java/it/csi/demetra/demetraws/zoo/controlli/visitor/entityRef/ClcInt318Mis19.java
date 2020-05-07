@@ -216,7 +216,6 @@ public class ClcInt318Mis19 extends Controllo {
 					this.outputEsclusi.setCalcolo("ClcInt318Mis19");
 					this.outputEsclusi.setCapoId(x.getCapoId());
 					this.outputEsclusi.setSessione(getSessione());
-					this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 					this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.outputEsclusi);
 				}

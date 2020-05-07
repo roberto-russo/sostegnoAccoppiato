@@ -204,7 +204,6 @@ try {
 				this.outputEsclusi.setCalcolo("ClcInt322Mis20");
 				this.outputEsclusi.setCapoId(x.getCapoId());
 				this.outputEsclusi.setSessione(getSessione());
-				this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

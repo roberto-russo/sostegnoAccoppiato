@@ -214,7 +214,6 @@ public class ClcInt315Mis5 extends Controllo {
 				this.oe.setCalcolo("ClcInt315Mis5");
 				this.oe.setCapoId(x.getCapoId());
 				this.oe.setSessione(getSessione());
-				this.oe.setIdSessione(getSessione().getIdSessione());
 				this.oe.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.oe);
 			}

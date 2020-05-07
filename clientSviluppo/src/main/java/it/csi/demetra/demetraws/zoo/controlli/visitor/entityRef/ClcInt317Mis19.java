@@ -214,7 +214,6 @@ public class ClcInt317Mis19 extends Controllo {
 				this.oe.setCalcolo("ClcInt317Mis19");
 				this.oe.setCapoId(x.getCapoId());
 				this.oe.setSessione(getSessione());
-				this.oe.setIdSessione(getSessione().getIdSessione());
 				this.oe.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.oe);
 			}
