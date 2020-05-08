@@ -78,7 +78,7 @@ public class ClcInt318Mis19 extends Controllo {
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
 			else
 				if(!ubaMin.isResult())
-					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(), "controllo uba minime non rispettato"));
 			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
@@ -95,6 +95,9 @@ public class ClcInt318Mis19 extends Controllo {
 	 */
 	public void esecuzione() throws ControlloException{
 		LOGGER.info("inizio esecuzione()");
+		
+		if(listaCapiMacellati == null)
+			return;
 		
 		
 			numeroCapiRichiesti = getControlliService()
@@ -165,16 +168,15 @@ public class ClcInt318Mis19 extends Controllo {
 			} catch (ControlloException e) {
 				//GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				System.out.println(e.getMessage());
-				new Dmt_t_errore(getSessione(), "ref02_010", getInput(), e.getMessage());
+				new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(), e.getMessage());
 			}
 			
 		} else {
 			  // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
-				  if(!c.getAnomalie_cgo().contains("B"))
-					  this.numeroCapiAmmissibili++;
+				  if((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1) )
+					  this.numeroCapiAmmissibili++;	
 		}
-
 	}
 
 	@Override
@@ -195,6 +197,8 @@ public class ClcInt318Mis19 extends Controllo {
 						+ getAzienda().getCuaa() + "e': " + this.numeroCapiAmmissibili);
 				// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 				// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
+				
+				this.oc = new Dmt_t_output_controlli();
 
 				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 				this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
@@ -215,7 +219,6 @@ public class ClcInt318Mis19 extends Controllo {
 					this.outputEsclusi.setCalcolo("ClcInt318Mis19");
 					this.outputEsclusi.setCapoId(x.getCapoId());
 					this.outputEsclusi.setSessione(getSessione());
-					this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 					this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.outputEsclusi);
 				}
@@ -242,7 +245,7 @@ public class ClcInt318Mis19 extends Controllo {
 		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
 			return true;
 		
-		else if (duplicatiMacellati.size() == 2) {
+		if (duplicatiMacellati.size() == 2) {
 
 			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
 			// proprietario e chi è il detentore
@@ -251,14 +254,14 @@ public class ClcInt318Mis19 extends Controllo {
 				allev1 = getControlliService()
 						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(duplicatiMacellati.get(0).getAllevId()));
 
-				if (((!allev1.getCod_fiscale_deten().equals(null))
-						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
-								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
-						|| ((!allev1.getCod_fiscale_deten().equals(null))
-								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
-										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
-					if(allev1.getCod_fiscale_deten().equals(cuaa))
-						return true;
+//				if (((!allev1.getCod_fiscale_deten().equals(null))
+//						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
+//								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
+//						|| ((!allev1.getCod_fiscale_deten().equals(null))
+//								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
+//										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
+//					if(allev1.getCod_fiscale_deten().equals(cuaa))
+						return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
 				
 			} 
 		} 

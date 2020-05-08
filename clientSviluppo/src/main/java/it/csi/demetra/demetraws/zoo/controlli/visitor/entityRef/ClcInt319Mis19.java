@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -16,6 +17,7 @@ import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -33,7 +35,7 @@ public class ClcInt319Mis19 extends Controllo {
 
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt318Mis19.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt319Mis19.class);
 	@Autowired
 	private CtlUbaMinime ref9903;
 	List<Dmt_t_contr_loco> estrazioneACampione;
@@ -77,7 +79,7 @@ public class ClcInt319Mis19 extends Controllo {
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
 			else
 				if(!ubaMin.isResult())
-					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), "controllo uba minime non rispettato"));
 			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
@@ -94,6 +96,9 @@ public class ClcInt319Mis19 extends Controllo {
 	 */
 	public void esecuzione() throws ControlloException {
 		LOGGER.info("inizio esecuzione()");
+		
+		if(listaCapiMacellati == null)
+			return;
 
 		
 		numeroCapiRichiesti = getControlliService()
@@ -124,16 +129,21 @@ public class ClcInt319Mis19 extends Controllo {
 
 							/**
 							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
-							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti
+							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
+							 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
+							 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+							 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi
+							 *  macellati ed in caso di richiesta di aiuti da parte di entrambi,
+							 * i capi ammissibili sono pagati esclusivamente al detentore
 							 */
-							if ((this.duplicatiMacellati == null || this.duplicatiMacellati.isEmpty())
-									&& (m.getDtInizioDetenzione() != null && m.getDtFineDetenzione() == null)) {
+							if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
 
 								this.numeroCapiAmmissibili++;
 							} else {
 								/**
 								 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
 								 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+								 * 
 								 */
 								this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
 								this.numeroCapiBocciati++;
@@ -162,14 +172,14 @@ public class ClcInt319Mis19 extends Controllo {
 
 			} catch (ControlloException e) {
 				System.out.println(e.getMessage());
-				new Dmt_t_errore(getSessione(), "ref02_011", getInput(), e.getMessage());
+				new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
 			}
 
 		} else {
 
 			// GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
-				if (!c.getAnomalie_cgo().contains("B"))
+				if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
 					this.numeroCapiAmmissibili++;
 		}
 
@@ -193,11 +203,13 @@ public class ClcInt319Mis19 extends Controllo {
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
 
+			this.oc = new Dmt_t_output_controlli();
+			
 			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
 			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
 			this.oc.setCuaa(getAzienda().getCuaa());
-			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 318
+			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 319
 			this.oc.setIntervento(getAzienda().getCodicePremio());
 			this.oc.setSessione(getSessione());
 			getControlliService().saveOutput(this.oc);
@@ -212,7 +224,6 @@ public class ClcInt319Mis19 extends Controllo {
 				this.outputEsclusi.setCalcolo("ClcInt319Mis19");
 				this.outputEsclusi.setCapoId(x.getCapoId());
 				this.outputEsclusi.setSessione(getSessione());
-				this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}
@@ -231,5 +242,36 @@ public class ClcInt319Mis19 extends Controllo {
 		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
 		return monthsBetween;
+	}
+	
+	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
+
+		Dmt_t_anagrafica_allevamenti allev1;
+
+		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
+			return true;
+		
+		if (duplicatiMacellati.size() == 2) {
+
+			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
+			// proprietario e chi è il detentore
+			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
+
+				allev1 = getControlliService()
+						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(duplicatiMacellati.get(0).getAllevId()));
+
+//				if (((!allev1.getCod_fiscale_deten().equals(null))
+//						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
+//								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
+//						|| ((!allev1.getCod_fiscale_deten().equals(null))
+//								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
+//										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
+//					if(allev1.getCod_fiscale_deten().equals(cuaa))
+						return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
+				
+			} 
+		} 
+			
+		return false;
 	}
 }

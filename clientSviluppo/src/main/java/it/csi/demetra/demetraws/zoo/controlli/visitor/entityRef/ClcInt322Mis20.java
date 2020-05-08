@@ -13,6 +13,7 @@ import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
@@ -29,7 +30,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 public class ClcInt322Mis20 extends Controllo {
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
-	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaFigliVacca;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private int numeroCapiAmmissibili;
 	private int numeroCapiRichiesti;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
@@ -58,7 +59,7 @@ public class ClcInt322Mis20 extends Controllo {
 		this.numeroCapiBocciati = 0;
 		this.numeroCapiRichiesti = 0;
 		this.modelVacche = null;
-		this.listaFigliVacca = null;
+		this.listVitelli = null;
 		this.oc = null;
 		this.estrazioneACampione = null;
 		this.listaCapiBocciati = new ArrayList<>();
@@ -132,27 +133,15 @@ try {
 			try {
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVacche) {
 
-					this.listaFigliVacca = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
+					this.listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
-					Date giovane = null;
-
-					for (Dmt_t_Tws_bdn_du_capi_bovini b2 : listaFigliVacca)
-						if (null != b2.getDtNascitaVitello())
-							if (null == giovane)
-								giovane = b2.getDtNascitaVitello();
-							else if (b2.getDtNascitaVitello().before(giovane))
-								giovane = b.getDtNascitaVitello();
-
 					/**
 					 * L’aiuto spetta al richiedente detentore della vacca al momento del parto.
 					 * Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
 					 * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
 					 * detentore presso il quale è nato il primo capo.
 					 */
-					if ((b.getDtFineDetenzione().before(b.getDtNascitaVitello())
-							|| b.getDtInizioDetenzione().after(b.getDtNascitaVitello()))
-
-							&& (b.getDtFineDetenzione().before(giovane) || b.getDtInizioDetenzione().after(giovane))) {
+					if (UtilControlli.isDetentoreParto(b, listVitelli)) {
 						this.numeroCapiAmmissibili++;
 					} else {
 						// CONTROLLO FALLITO
@@ -215,7 +204,6 @@ try {
 				this.outputEsclusi.setCalcolo("ClcInt322Mis20");
 				this.outputEsclusi.setCapoId(x.getCapoId());
 				this.outputEsclusi.setSessione(getSessione());
-				this.outputEsclusi.setIdSessione(getSessione().getIdSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

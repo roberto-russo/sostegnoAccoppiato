@@ -30,7 +30,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getVitelliOfVacca(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("idCapo") Long idCapo, @Param("annoCampagna") Long annoCampagna);
 
 	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento "
-				 + "having count(*) > 1", nativeQuery = true)
+				 + "GROUP BY id_autogenerato having count(*) > 1", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessioneAndIdCapo(@Param("idSessione") Long idSessione, @Param("idCapo") Long idCapo, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * " + 
