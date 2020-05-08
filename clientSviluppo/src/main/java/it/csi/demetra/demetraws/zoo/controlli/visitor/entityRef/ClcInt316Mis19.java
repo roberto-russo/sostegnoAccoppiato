@@ -183,6 +183,7 @@ public class ClcInt316Mis19 extends Controllo {
 				getControlliService().saveOutput(this.oc);
 			}
 
+
 			if (this.contatoreBocciati != 0) {
 				//salvataggio capi esclusi
 				this.oe = new Dmt_t_output_esclusi();
@@ -196,6 +197,7 @@ public class ClcInt316Mis19 extends Controllo {
 					this.oe.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.oe);
 				}
+
 			}
 	}
 

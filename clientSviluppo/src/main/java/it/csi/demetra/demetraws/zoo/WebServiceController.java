@@ -70,19 +70,19 @@ public class WebServiceController {
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
     public String calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
-        System.out.println(sessione.getIdSessione());
         List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
 
         // ESEGUO IL PRIMO FOR PER SCARICARE TUTTI I DATI
         for (Rpu_V_pratica_zoote azienda : list) {
 
-            if (!controlliFramework.scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
+            if (!controlliFramework.
+                    scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
                 System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
             else System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
             try {
                 controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
             } catch (ControlloException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             } catch (CalcoloException e) {
                 e.printStackTrace();
             }
