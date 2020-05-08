@@ -100,8 +100,91 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 		    " AND FLAG_ZONA_MONTANA = 'N') ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1NonDiZonaMontana(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_CAPO IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI WHERE SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento AND FLAG_AMMISSIBILE='S') "
-			+ " AND SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento ", nativeQuery = true )
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_CAPO IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI WHERE DMT_T_PREMIO_CAPI.SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento AND FLAG_AMISSIBILE='S') "
+			+ " AND id_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniUbaMinime(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
+	
+	@Query(value = "SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
+			" WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
+	List<Integer> getAllevamentiBySessioneCuaaCodIntervento(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
+
+	
+	@Query(value =  " SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV DMT_BOV " + 
+			" WHERE " + 
+			" dmt_bov.id_sessione = :idSessione " + 
+			" and dmt_bov.id_allevamento in (     " + 
+			"    SELECT DISTINCT dmt_allev.allev_id " + 
+			"    FROM dmt_t_anagrarfica_allev dmt_allev " + 
+			"    WHERE dmt_allev.id_autogenerato  in ( " + 
+			"                                                        SELECT DISTINCT  dmt_allev2.id_autogenerato " + 
+			"                                                        FROM dmt_t_anagrarfica_allev  dmt_allev2 " + 
+			"                                                        WHERE " + 
+			"                                                        dmt_allev2.allev_id in (" + 
+			"                                                                                SELECT DISTINCT dcb.ID_ALLEVAMENTO " + 
+			"                                                                                FROM DMT_T_TWS_BDN_DU_CAPI_BOV  dcb " + 
+			"                                                                                WHERE dcb.ID_SESSIONE = :idSessione " + 
+			"                                                                                AND dcb.CUAA = :cuaa " + 
+			"                                                                                AND dcb.CODICE_PREMIO = :codiceIntervento " + 
+			"                                                                                )" + 
+			"                                                        AND dmt_allev2.ID_SESSIONE =:idSessione" + 
+			"                                                        AND dmt_allev2.DT_FINE_DETENTORE IS NULL " + 
+			"                                                        AND dmt_allev2.DT_FINE_ATTIVITA IS NULL " + 
+			"                                )" + 
+			"     AND NVL(dmt_allev.COD_FISCALE_DETEN,dmt_allev.COD_FISCALE_PROP) in ( " + 
+			"					                                                       SELECT DISTINCT NVL(a.cod_fiscale_deten,a.cod_fiscale_prop) as detentore  " + 
+			"					                                                       FROM dmt_t_anagrarfica_allev  a " + 
+			"					                                                       WHERE  " + 
+			"					                                                       a.allev_id in ( " + 
+			"					                                                                               SELECT DISTINCT d.ID_ALLEVAMENTO  " + 
+			"					                                                                               FROM DMT_T_TWS_BDN_DU_CAPI_BOV  d  " + 
+			"					                                                                               WHERE d.ID_SESSIONE = :idSessione  " + 
+			"					                                                                               AND d.CUAA = :cuaa  " + 
+			"					                                                                               AND d.CODICE_PREMIO = :codiceIntervento " + 
+			"					                                                                               ) " + 
+			"					                                                       AND a.ID_SESSIONE =:idSessione " + 
+			"					                                                   ) " + 
+			"    )" + 
+			" and dmt_bov.cuaa = :cuaa " + 
+			" and dmt_bov.codice_premio = :codiceIntervento ", nativeQuery = true)
+	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiAttivi(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
+	
+	@Query(value =  " SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV DMT_BOV " + 
+			" WHERE " + 
+			" dmt_bov.id_sessione = :idSessione " + 
+			" and dmt_bov.id_allevamento in (     " + 
+			"    SELECT DISTINCT dmt_allev.allev_id " + 
+			"    FROM dmt_t_anagrarfica_allev dmt_allev " + 
+			"    WHERE dmt_allev.id_autogenerato not in ( " + 
+			"                                                        SELECT DISTINCT  dmt_allev2.id_autogenerato " + 
+			"                                                        FROM dmt_t_anagrarfica_allev  dmt_allev2 " + 
+			"                                                        WHERE " + 
+			"                                                        dmt_allev2.allev_id in (" + 
+			"                                                                                SELECT DISTINCT dcb.ID_ALLEVAMENTO " + 
+			"                                                                                FROM DMT_T_TWS_BDN_DU_CAPI_BOV  dcb " + 
+			"                                                                                WHERE dcb.ID_SESSIONE = :idSessione " + 
+			"                                                                                AND dcb.CUAA = :cuaa " + 
+			"                                                                                AND dcb.CODICE_PREMIO = :codiceIntervento " + 
+			"                                                                                )" + 
+			"                                                        AND dmt_allev2.ID_SESSIONE =:idSessione" + 
+			"                                                        AND dmt_allev2.DT_FINE_DETENTORE IS NULL " + 
+			"                                                        AND dmt_allev2.DT_FINE_ATTIVITA IS NULL " + 
+			"                                )" + 
+			"     AND NVL(dmt_allev.COD_FISCALE_DETEN,dmt_allev.COD_FISCALE_PROP) in ( " + 
+			"					                                                       SELECT DISTINCT NVL(a.cod_fiscale_deten,a.cod_fiscale_prop) as detentore  " + 
+			"					                                                       FROM dmt_t_anagrarfica_allev  a " + 
+			"					                                                       WHERE  " + 
+			"					                                                       a.allev_id in ( " + 
+			"					                                                                               SELECT DISTINCT d.ID_ALLEVAMENTO  " + 
+			"					                                                                               FROM DMT_T_TWS_BDN_DU_CAPI_BOV  d  " + 
+			"					                                                                               WHERE d.ID_SESSIONE = :idSessione  " + 
+			"					                                                                               AND d.CUAA = :cuaa  " + 
+			"					                                                                               AND d.CODICE_PREMIO = :codiceIntervento " + 
+			"					                                                                               ) " + 
+			"					                                                       AND a.ID_SESSIONE =:idSessione " + 
+			"					                                                   ) " + 
+			"    )" + 
+			" and dmt_bov.cuaa = :cuaa " + 
+			" and dmt_bov.codice_premio = :codiceIntervento ", nativeQuery = true)
+	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
 }

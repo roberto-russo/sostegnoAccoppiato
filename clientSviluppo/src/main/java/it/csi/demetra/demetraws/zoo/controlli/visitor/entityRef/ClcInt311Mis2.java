@@ -244,10 +244,11 @@ public class ClcInt311Mis2 extends Controllo{
 		for  (Dmt_t_Tws_bdn_du_capi_bovini b: bovini) {
 			
 	        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-	        escluso.setCalcolo(this.getClass().getName());
+	        escluso.setCalcolo(ClcInt311Mis2.class.getName());
 	        escluso.setCapoId(b.getCapoId());
 	        escluso.setMotivazioneEsclusione(motivazione);
 	        escluso.setSessione(getSessione());
+//	        escluso.setIdSessione(getSessione().getIdSessione());
 	        listEsclusi.add(escluso);
 	        
 		}

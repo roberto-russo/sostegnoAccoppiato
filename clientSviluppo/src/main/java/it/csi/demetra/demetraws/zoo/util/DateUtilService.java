@@ -77,10 +77,8 @@ public final class DateUtilService {
 	}
 	
 	public static Date getDatefromString (String dateString) {
-		LOGGER.info("Inizio conversione data: getDatefromString() ");
 		try {
 			Date dateConverted = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").parse(dateString);
-			LOGGER.info("Fine conversione data: getDatefromString() ");
 			return dateConverted;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -90,10 +88,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getCapodanno() {
-		LOGGER.info("Inizio creazione data: getCapodanno() ");
 		try {
 			capodanno = SIMPLE_DATE_FORMAT.parse(capodannoString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getCapodanno() ");
 			return capodanno;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -103,10 +99,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getEpifania() {
-		LOGGER.info("Inizio creazione data: getEpifania() ");
 		try {
 			epifania = SIMPLE_DATE_FORMAT.parse(epifaniaString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getEpifania() ");
 			return epifania;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -116,10 +110,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getPasqua() {
-		LOGGER.info("Inizio creazione data: getPasqua() ");
 		try {
 			pasqua = SIMPLE_DATE_FORMAT.parse(pasquaString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getPasqua() ");
 			return pasqua;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -129,10 +121,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getPasquetta() {
-		LOGGER.info("Inizio creazione data: getPasquetta() ");
 		try {
 			pasquetta = SIMPLE_DATE_FORMAT.parse(pasquettaString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getPasquetta() ");
 			return pasquetta;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -142,10 +132,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getAnniversarioLiberazione() {
-		LOGGER.info("Inizio creazione data: getAnniversarioLiberazione() ");
 		try {
 			anniversarioLiberazione = SIMPLE_DATE_FORMAT.parse(anniversarioLiberazioneString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getAnniversarioLiberazione() ");
 			return anniversarioLiberazione;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -155,10 +143,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getFestaLavoro() {
-		LOGGER.info("Inizio creazione data: getFestaLavoro() ");
 		try {
 			festaLavoro = SIMPLE_DATE_FORMAT.parse(festaLavoroString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getFestaLavoro() ");
 			return festaLavoro;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -168,10 +154,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getFestaRepubblica() {
-		LOGGER.info("Inizio creazione data: getFestaRepubblica() ");
 		try {
 			festaRepubblica = SIMPLE_DATE_FORMAT.parse(festaRepubblicaString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getFestaRepubblica() ");
 			return festaRepubblica;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -181,10 +165,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getFerragosto() {
-		LOGGER.info("Inizio creazione data: getFerragosto() ");
 		try {
 			ferragosto = SIMPLE_DATE_FORMAT.parse(ferragostoString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getFerragosto() ");
 			return ferragosto;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -194,10 +176,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getTuttiSanti() {
-		LOGGER.info("Inizio creazione data: getTuttiSanti() ");
 		try {
 			tuttiSanti = SIMPLE_DATE_FORMAT.parse(tuttiSantiString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getTuttiSanti() ");
 			return tuttiSanti;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -207,10 +187,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getImmacolata() {
-		LOGGER.info("Inizio creazione data: getImmacolata() ");
 		try {
 			immacolata = SIMPLE_DATE_FORMAT.parse(immacolataString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getImmacolata() ");
 			return immacolata;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -220,10 +198,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getNatale() {
-		LOGGER.info("Inizio creazione data: getNatale() ");
 		try {
 			natale = SIMPLE_DATE_FORMAT.parse(nataleString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getNatale() ");
 			return natale;
 		} catch (ParseException e) {
 			System.err.println(e);
@@ -233,10 +209,8 @@ public final class DateUtilService {
 	}
 
 	private static Date getSantoStefano() {
-		LOGGER.info("Inizio creazione data: getSantoStefano() ");
 		try {
 			santoStefano = SIMPLE_DATE_FORMAT.parse(santoStefanoString+"/"+ANNO);
-			LOGGER.info("Fine creazione data: getSantoStefano() ");
 			return santoStefano;
 		} catch (ParseException e) {
 			System.err.println(e);
