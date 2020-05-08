@@ -1,0 +1,1 @@
+alter table dmt_t_output_esclusi drop column id_sessione cascade CONSTRAINTS;
