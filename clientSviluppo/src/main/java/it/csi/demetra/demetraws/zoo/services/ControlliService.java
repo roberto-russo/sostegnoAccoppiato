@@ -111,4 +111,15 @@ public class ControlliService {
 	public Dmt_t_anagrafica_allevamenti getAnagraficaByIdAllevamento(BigDecimal allevId) {
 		return anagraficaAllevamentiRep.findByAllevId(allevId);
 	}
+	
+	public List<Integer> getAllevamentiBySessioneCuaaCodIntervento(Long idSessione, String cuaa, String codiceIntervento) {
+		return boviniRepository.getAllevamentiBySessioneCuaaCodIntervento(idSessione, cuaa, codiceIntervento);
+	}
+	
+	public List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiAttivi(Long idSessione, String cuaa, String codiceIntervento){
+		return boviniRepository.getBoviniOfDetentoriAllevamentiAttivi(idSessione, cuaa, codiceIntervento);
+	}
+	public List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(Long idSessione, String cuaa, String codiceIntervento){
+		return boviniRepository.getBoviniOfDetentoriAllevamentiNonAttivi(idSessione, cuaa, codiceIntervento);
+	}
 }
