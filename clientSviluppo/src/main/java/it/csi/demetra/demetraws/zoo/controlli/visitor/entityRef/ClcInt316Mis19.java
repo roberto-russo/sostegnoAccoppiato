@@ -1,7 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -12,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
@@ -26,9 +24,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
 @Component("ClcInt316Mis19")
 /**
- * Calcolo REF02.008 intervento 316 Misura 19
- * 
- * @vesion 0.1 (23/04/2020)
+ * Classe per il calcolo intervento 316 misura 19
  * @author Bcsoft
  *
  */
@@ -42,49 +38,35 @@ public class ClcInt316Mis19 extends Controllo {
 	private List<Dmt_t_contr_loco> estrazioneACampione;
 	private Dmt_t_output_esclusi oe;
 	private ResultCtlUbaMinime ubaMin;
-	
+
 	@Autowired
 	private CtlUbaMinime ref9903;
-	private int numeroCapiBocciati;
+	private int numeroCapiRichiesti;
+	private int contatoreBocciati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private String motivazione;
 	long numeroMesi = 0;
 
 
-	/**
-	 * Metodo di calcolo di numero mesi tra date
-	 */
-	public long differenzaMesi(Date dataInizio, Date dataFine) {
-		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
-		return monthsBetween;
-	}
-
 	@Override
 	public void preEsecuzione() throws ControlloException {
 		this.importoLiquidabile = 0;
-		this.numeroCapiBocciati = 0;
+		this.contatoreBocciati = 0;
 		this.modelMacellato = null;
 		this.oc = null;
+		this.numeroCapiRichiesti=0;
 		this.estrazioneACampione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
 		this.motivazione = null;
 		this.numeroMesi = 0;
 		this.ubaMin = new ResultCtlUbaMinime();
-
-		/**
-		 * RECUPERO DATI DALLA BDN
-		 */
-		modelMacellato = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(),
-				getAzienda().getCodicePremio());
-
-		/**
-		 * passaggio dati attraverso il controllo di ammissibilità REF_9903
-		 */
-		ref9903.init(this.modelMacellato, getAzienda().getCodicePremio(),
-				Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
+	
+	// controlli di preammissibilità
+		
+		this.modelMacellato = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		
+		ref9903.init(modelMacellato, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
 		try {
 			ubaMin = ref9903.calcolo();
@@ -93,136 +75,145 @@ public class ClcInt316Mis19 extends Controllo {
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
 			else
 				if(!ubaMin.isResult())
-					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), "controllo uba minime non rispettato"));
+					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt316Mis19", getInput(), "controllo uba minime non rispettato"));
 			
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
-
 	}
 
 	@Override
-	public void esecuzione() throws ControlloException {
-
-		/**
-		 * if con la condizione se è estratto a campione
-		 */
+	/**
+	 * metodo in cui vengono eseguiti i controlli per il calcolo intervento 315 misura 5.
+	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di importo liquidabile
+	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
+	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
+	 * La lista di capi non ammessi a premio sarà visibile in @see Dmt_t_output_esclusi.
+	 */
+	public void esecuzione() throws ControlloException{
+		
+		
+			numeroCapiRichiesti = getControlliService()
+				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+		
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
-		if (this.estrazioneACampione == null || estrazioneACampione.isEmpty()) {
-
+		
+		
+		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
+			
 			try {
-				for (Dmt_t_clsCapoMacellato m : modelMacellato) {
-
-					duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
-							getSessione().getIdSessione(), getAzienda().getCodicePremio());
-
+				
+				for (Dmt_t_clsCapoMacellato m : this.modelMacellato) {
+				
+					
+					
+					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
+					
 					/**
-					 * Qualora lo stesso capo sia richiesto in pagamento da due
-					 * soggetti, il capo non può essere pagato, salvo rinuncia
-					 * da parte di uno dei richieden
+					 * 	Sia stato allevato per un periodo continuativo di 12 mesi
+					 * 
 					 */
-					if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-
-						/**
-						 * calcolo sul numero di mesi continuativi in
-						 * allevamento effettuati dal capo
-						 */
-						numeroMesi = differenzaMesi(m.getDtIngresso(), m.getDtUscita());
-						if ((m.getDtIngresso() == null || m.getDtUscita() == null) || (numeroMesi >= 12)) {
-							importoLiquidabile++;
-
-						} else
-							/**
-							 * il capo non è stato allevato per un periodo
-							 * minimo di 6 mesi continuativi
-							 */
-							this.numeroCapiBocciati++;
-						this.listaCapiBocciati.add(m);
-						this.motivazione = "Il capo " + m.getCapoId()
-								+ " non ha effettuato un periodo continuativo in allevamento superiore a 12 mesi  ";
+					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (this.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 12)) {
+								/**
+								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
+								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
+								 * i capi ammissibili sono pagati esclusivamente al detentore
+								 */
+								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+									this.importoLiquidabile++;
 					} else {
 						/**
-						 * il capo è stato richiesto in pagamento da più di un
-						 * soggetto, il capo non può esserepagato a meno di una
-						 * rinuncia da parte di uno dei richiedenti.
+						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 						 */
-						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto";
-						this.numeroCapiBocciati++;
+						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
+						this.contatoreBocciati++;
 						this.listaCapiBocciati.add(m);
 					}
-
+					} else {
+						/**
+						 * il capo non è stato allevato per un periodo minimo di 12 mesi continuativi 
+						 */
+						
+						this.motivazione = "il capo non e' stato allevato per un periodo minimo di 12 mesi continuativi ";
+						this.contatoreBocciati++;
+						this.listaCapiBocciati.add(m);
+					}
 				}
+					
 				if (importoLiquidabile == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 316 misura 19");
-
+				
 			} catch (ControlloException e) {
+		
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ref02_008", getInput(), e.getMessage());
-
 			}
+			
 		} else {
-			/**
-			 * dal controllo a campione si evince che il capo preso a campione è
-			 * ammissibile a premio
-			 */
-			for (Dmt_t_contr_loco c : estrazioneACampione) {
-				if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1)) {
-					importoLiquidabile++;
-
-				}
-			}
+		 // verifica controlli in loco 
+			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
+				  if(!c.getAnomalie_cgo().contains("B"))
+					  this.importoLiquidabile++;
 		}
+
 	}
 
 	@Override
+	/**
+	 * metodo in cui vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
+	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
+	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
+	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
+	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
+	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
+	 */
 	public void postEsecuzione() throws ControlloException {
 
-		try {
-			/**
-			 * aggiunta informazioni capi accettabili al
-			 * model @Dmt_t_output_controlli
-			 */
-			if (importoLiquidabile != 0) {
-				System.out.println("REF02.008 numero capi ammissibili = " + importoLiquidabile + " azienza con cuaa "
-						+ getAzienda().getCuaa());
-				oc.setSessione(this.getSessione());
-				oc.setCuaa(getAzienda().getCuaa());
-				oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
-				oc.setIntervento(getAzienda().getCodicePremio());
-				oc.setCapiRichiesti(modelMacellato.size());
-				oc.setCapiAmmissibili(importoLiquidabile);
+		
+			if (this.importoLiquidabile != 0) {
+				// salvataggio capi ammissibili
 
-				getControlliService().saveOutput(oc);
-
-			} else {
-				throw new ControlloException(
-						"impossibile salvare a db, nessun capo ha superato il controllo per il premio 316 misura 19");
+				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+				this.oc.setCapiAmmissibili(this.importoLiquidabile);
+				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+				this.oc.setCuaa(getAzienda().getCuaa());
+				this.oc.setIntervento(getAzienda().getCodicePremio());
+				this.oc.setSessione(getSessione());
+				getControlliService().saveOutput(this.oc);
 			}
 
-		} catch (ControlloException e) {
-			System.out.println(e.getMessage());
-		}
 
-		if (this.numeroCapiBocciati != 0) {
+			if (this.contatoreBocciati != 0) {
+				//salvataggio capi esclusi
+				this.oe = new Dmt_t_output_esclusi();
+				
+				for(Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
+				
+					this.oe.setCalcolo("ClcInt316Mis19");
+					this.oe.setCapoId(x.getCapoId());
+					this.oe.setSessione(getSessione());
+					this.oe.setIdSessione(getSessione().getIdSessione());
+					this.oe.setMotivazioneEsclusione(this.motivazione);
+					this.getControlliService().saveOutputEscl(this.oe);
+				}
 
-			/**
-			 * aggiunta informazioni capi esclusi al model @Dmt_t_output_esclusi
-			 */
-			this.oe = new Dmt_t_output_esclusi();
-
-			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-
-				this.oe.setCalcolo("ClcInt316Mis19");
-				this.oe.setCapoId(x.getCapoId());
-				this.oe.setSessione(getSessione());
-				this.oe.setMotivazioneEsclusione(this.motivazione);
-				this.getControlliService().saveOutputEscl(this.oe);
 			}
-		}
-
 	}
 
+	/**
+	 * metodo in cui viene calcolata la differenza in mesi tra due date
+	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
+	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
+	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
+	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
+	 */
+	private long differenzaMesi(Date dataInizio, Date dataFine) {
+		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
+		return monthsBetween;
+	}
 	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
 
 		Dmt_t_anagrafica_allevamenti allev1;
