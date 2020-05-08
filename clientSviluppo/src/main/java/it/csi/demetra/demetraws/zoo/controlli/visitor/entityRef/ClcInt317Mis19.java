@@ -172,8 +172,8 @@ public class ClcInt317Mis19 extends Controllo {
 
 		
 			if (this.importoLiquidabile != 0) {
+				this.oc = new Dmt_t_output_controlli();
 				// salvataggio capi ammissibili
-
 				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 				this.oc.setCapiAmmissibili(this.importoLiquidabile);
 				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
@@ -193,7 +193,6 @@ public class ClcInt317Mis19 extends Controllo {
 					this.oe.setCalcolo("ClcInt317Mis19");
 					this.oe.setCapoId(x.getCapoId());
 					this.oe.setSessione(getSessione());
-					this.oe.setIdSessione(getSessione().getIdSessione());
 					this.oe.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.oe);
 				}
