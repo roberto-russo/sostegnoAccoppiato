@@ -22,15 +22,6 @@ public class Dmt_t_Info_Allevamenti implements Serializable{
 	private static final long serialVersionUID = 7949322294669419786L;
 	
 	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
-	
-	@Id
 	@Column(name = "allev_id", precision = 10)
 	/**
 	 * identificativo univoco interno in BDN dell'allevamento
