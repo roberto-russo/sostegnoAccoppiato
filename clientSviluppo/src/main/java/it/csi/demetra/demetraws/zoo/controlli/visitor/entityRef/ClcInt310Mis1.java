@@ -123,13 +123,14 @@ public class ClcInt310Mis1 extends Controllo {
 
         mockDataForTest(); // DA RIMUOVERE
 
-        boolean isAllevamentoChecked = true;
+        boolean isProduttoreChecked = true;
         List<Integer> listMesiControllati = new ArrayList<>();
         // Tolleranze per i mesi in cui è presente una sola analisi
         int tolleranzaCSOM = 0;
         int tolleranzaCMIC = 0;
         int tolleranzaPP = 0;
-        boolean isAllevamentoInPianura = false;
+        boolean isProduttorePianura = false;
+        boolean isProduttoreAlpeggio = false;
         boolean isCircuitoQualitaFormaggio = false;
 
         List<Analisi_produzioni_cuua> listAnalisiProduzioniCuua = analisiProduzioniCuuaRepository.getByCUUAAndYear(getAzienda().getCuaa(), String.valueOf(getAzienda().getAnnoCampagna()));
@@ -161,9 +162,9 @@ public class ClcInt310Mis1 extends Controllo {
                 }
             }
 
-            if (countCMIC == 0 || countCSOM == 0 || countPP == 0) {
+            if ((countCMIC == 0 || countCSOM == 0 || countPP == 0) && !isProduttoreAlpeggio) {
                 // SE PER UN MESE IN CUI E' STATA DICHIARATA LA PRODUZIONE NON E' PRESENTE L'ANALISI DEI DATI NON POSSO ACCEDERE AL PREMIO
-                isAllevamentoChecked = false;
+                isProduttoreChecked = false;
                 motivazioneEsclusione = "Per il mese " + i + " non sono stati inviati i dati sull'analisi";
                 break;
             }
@@ -172,9 +173,9 @@ public class ClcInt310Mis1 extends Controllo {
             tolleranzaPP += countPP == 1 ? 1 : 0;
         }
 
-        if (isAllevamentoChecked && isAllevamentoInPianura) {
+        if (isProduttoreChecked && isProduttorePianura) {
             if (tolleranzaCMIC > 2 || tolleranzaCSOM > 2 || tolleranzaPP > 2) {
-                isAllevamentoChecked = false;
+                isProduttoreChecked = false;
                 motivazioneEsclusione = "Per gli allevamenti in pianura è necessario che siano state comunicate almeno due analisi per ogni mese di produzione";
             }
         }
@@ -195,6 +196,7 @@ public class ClcInt310Mis1 extends Controllo {
         int FLAG_MEDIE_CSOM = 0;
         int FLAG_MEDIE_CMIC = 0;
         int FLAG_MEDIE_PP = 0;
+
         if (CSOM_MED < SOGLIA_CSOM_MED) FLAG_MEDIE_CSOM++;
         if (CMIC_MED < SOGLIA_CMIC_MED) FLAG_MEDIE_CMIC++;
         if (PP_MED > SOGLIA_PP_MED) FLAG_MEDIE_PP++;
@@ -202,24 +204,24 @@ public class ClcInt310Mis1 extends Controllo {
         int FLAG_MEDIE = FLAG_MEDIE_CMIC + FLAG_MEDIE_CSOM + FLAG_MEDIE_PP;
 
         if (FLAG_MEDIE < 3) {
-            if (!isAllevamentoInPianura && isCircuitoQualitaFormaggio && FLAG_MEDIE == 0) {
-                isAllevamentoChecked = false;
+            if (!isProduttorePianura && isCircuitoQualitaFormaggio && FLAG_MEDIE == 0) {
+                isProduttoreChecked = false;
             } else if (FLAG_MEDIE < 2) {
-                isAllevamentoChecked = false;
+                isProduttoreChecked = false;
             } else {
                 if (FLAG_MEDIE_CSOM == 0) {
-                    isAllevamentoChecked = CSOM_MED < SOGLIA_CSOM_MED_2;
+                    isProduttoreChecked = CSOM_MED < SOGLIA_CSOM_MED_2;
                 }
                 if (FLAG_MEDIE_CMIC == 0) {
-                    isAllevamentoChecked = CMIC_MED < SOGLIA_CMIC_MED_2;
+                    isProduttoreChecked = CMIC_MED < SOGLIA_CMIC_MED_2;
                 }
                 if (FLAG_MEDIE_PP == 0) {
-                    isAllevamentoChecked = PP_MED > SOGLIA_CMIC_MED_2;
+                    isProduttoreChecked = PP_MED > SOGLIA_CMIC_MED_2;
                 }
             }
         }
 
-        if (isAllevamentoChecked) {
+        if (isProduttoreChecked) {
             for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
                 /**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
