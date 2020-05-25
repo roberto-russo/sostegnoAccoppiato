@@ -34,7 +34,9 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
      */
     private String flagDop;
 
+    @Column(length = 1)
     private String alpeggio;
+    @Column(length = 1)
     private String zona;
 
     public String getAlpeggio() {

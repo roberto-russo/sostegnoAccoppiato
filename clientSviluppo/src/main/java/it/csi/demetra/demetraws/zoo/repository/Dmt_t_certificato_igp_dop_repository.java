@@ -14,6 +14,6 @@ public interface Dmt_t_certificato_igp_dop_repository extends CrudRepository<Dmt
 
 	List<Dmt_t_certificato_igp_dop>findAll();
 	
-@Query(value = "select * from Dmt_t_certif_igp_dop where cuaa = :cuaa", nativeQuery = true)
+	@Query(value = "select * from Dmt_t_certif_igp_dop where cuaa = :cuaa", nativeQuery = true)
 	Dmt_t_certificato_igp_dop findByCuaa(@Param("cuaa") String cuaa);
 }

@@ -49,31 +49,7 @@ public class ClcInt310Mis1 extends Controllo {
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
     private String motivazioneEsclusione = "";
-
-    private void mockDataForTest() {
-        Dmt_t_Tlatte_vendita_diretta dmtLVD = new Dmt_t_Tlatte_vendita_diretta();
-        dmtLVD.setCodiceMese("GEN");
-        dmtLVD.setSottoCodiceMese("GEN");
-        dmtLVD.setSessione(getSessione());
-        dmtLVD.setQuantita(100L);
-        dmtLVD.setCuua(getAzienda().getCuaa());
-        dmtLVD.setIdAzienda(1L);
-        dmtLVD.setVersione(1L);
-        dmtLVD.setProgrRiga(1L);
-        dmtLVD.setMatricola(1L);
-        dmt_t_tlatte_vendita_diretta_repository.save(dmtLVD);
-        Dmt_t_Tlatte_vendita_diretta dmtLVD2 = new Dmt_t_Tlatte_vendita_diretta();
-        dmtLVD2.setCodiceMese("DIC");
-        dmtLVD2.setSottoCodiceMese("DIC");
-        dmtLVD2.setSessione(getSessione());
-        dmtLVD2.setQuantita(100L);
-        dmtLVD2.setCuua(getAzienda().getCuaa());
-        dmtLVD2.setIdAzienda(1L);
-        dmtLVD2.setVersione(1L);
-        dmtLVD2.setMatricola(1L);
-        dmtLVD2.setProgrRiga(1L);
-        dmt_t_tlatte_vendita_diretta_repository.save(dmtLVD2);
-    }
+    private Boolean isProduttoreChecked;
 
     /**
      * ClcInt310Mis1 - preEsecuzione() intervento 310 Misura 1
@@ -121,24 +97,29 @@ public class ClcInt310Mis1 extends Controllo {
          * Bisogna definire quali allevamenti sono in pianura
          */
 
-        mockDataForTest(); // DA RIMUOVERE
-
-        boolean isProduttoreChecked = true;
+        isProduttoreChecked = true;
         List<Integer> listMesiControllati = new ArrayList<>();
         // Tolleranze per i mesi in cui è presente una sola analisi
         int tolleranzaCSOM = 0;
         int tolleranzaCMIC = 0;
         int tolleranzaPP = 0;
-        boolean isProduttorePianura = false;
-        boolean isProduttoreAlpeggio = false;
-        boolean isCircuitoQualitaFormaggio = false;
 
-        List<Analisi_produzioni_cuua> listAnalisiProduzioniCuua = analisiProduzioniCuuaRepository.getByCUUAAndYear(getAzienda().getCuaa(), String.valueOf(getAzienda().getAnnoCampagna()));
+        Dmt_t_certificato_igp_dop dmtCID = getControlliService().getCertificatoIgpDop(getAzienda().getCuaa());
+        if (dmtCID == null) {
+            isProduttoreChecked = false;
+            motivazioneEsclusione = "Impossibile reperire informazioni sul produttore";
+            return;
+        }
+        Boolean isProduttoreMontagna = dmtCID.getZona() != null && dmtCID.getZona().equals("M");
+        Boolean isProduttoreAlpeggio = dmtCID.getAlpeggio() != null && dmtCID.getAlpeggio().equals("S");
+        Boolean isCircuitoQualitaFormaggio = dmtCID.getFlagDop() != null && dmtCID.getFlagDop().equals("S");
 
-        List<Dmt_t_Tlatte_vendita_diretta> listDmtLVD = dmt_t_tlatte_vendita_diretta_repository.findByCUUA(getAzienda().getCuaa());
+        List<Dmt_T_analisi_produzioni_cuua> listAnalisiProduzioniCuua = analisiProduzioniCuuaRepository.getByCUUAAndYear(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
+
+        List<Dmt_t_latte_vendita_diretta> listDmtLVD = dmt_t_tlatte_vendita_diretta_repository.findByCUUAAndAnnoCampagna(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
         Integer month;
-        for (Dmt_t_Tlatte_vendita_diretta dmtLVD : listDmtLVD) {
-            month = UtilControlli.convertCodiceMeseInt(dmtLVD.getCodiceMese());
+        for (Dmt_t_latte_vendita_diretta dmtLVD : listDmtLVD) {
+            month = UtilControlli.convertCodiceMeseInt(dmtLVD.getMese());
             if (listMesiControllati.indexOf(month) < 0)
                 listMesiControllati.add(month);
         }
@@ -148,11 +129,12 @@ public class ClcInt310Mis1 extends Controllo {
         int countCMIC;
         int countPP;
         Calendar calendar = Calendar.getInstance();
+
         for (Integer i : listMesiControllati) { //1=GENNAIO,12=DICEMBRE
             countCSOM = 0;
             countCMIC = 0;
             countPP = 0;
-            for (Analisi_produzioni_cuua apc : listAnalisiProduzioniCuua) {
+            for (Dmt_T_analisi_produzioni_cuua apc : listAnalisiProduzioniCuua) {
                 if (null == apc.getDataAnalisi()) continue;
                 calendar.setTime(apc.getDataAnalisi());
                 if (calendar.get(Calendar.MONTH) == i - 1) {
@@ -173,7 +155,7 @@ public class ClcInt310Mis1 extends Controllo {
             tolleranzaPP += countPP == 1 ? 1 : 0;
         }
 
-        if (isProduttoreChecked && isProduttorePianura) {
+        if (isProduttoreChecked && !isProduttoreMontagna && !isProduttoreAlpeggio) {
             if (tolleranzaCMIC > 2 || tolleranzaCSOM > 2 || tolleranzaPP > 2) {
                 isProduttoreChecked = false;
                 motivazioneEsclusione = "Per gli allevamenti in pianura è necessario che siano state comunicate almeno due analisi per ogni mese di produzione";
@@ -183,7 +165,7 @@ public class ClcInt310Mis1 extends Controllo {
         List<BigDecimal> csomList = new ArrayList<>();
         List<BigDecimal> cmicList = new ArrayList<>();
         List<BigDecimal> ppList = new ArrayList<>();
-        for (Analisi_produzioni_cuua apc : listAnalisiProduzioniCuua) {
+        for (Dmt_T_analisi_produzioni_cuua apc : listAnalisiProduzioniCuua) {
             csomList.add(apc.getCelluleSomatiche());
             cmicList.add(apc.getCaricaBatterica());
             ppList.add(apc.getProteine());
@@ -204,7 +186,7 @@ public class ClcInt310Mis1 extends Controllo {
         int FLAG_MEDIE = FLAG_MEDIE_CMIC + FLAG_MEDIE_CSOM + FLAG_MEDIE_PP;
 
         if (FLAG_MEDIE < 3) {
-            if (!isProduttorePianura && isCircuitoQualitaFormaggio && FLAG_MEDIE == 0) {
+            if (isProduttoreMontagna && isCircuitoQualitaFormaggio && FLAG_MEDIE == 0) {
                 isProduttoreChecked = false;
             } else if (FLAG_MEDIE < 2) {
                 isProduttoreChecked = false;
@@ -216,10 +198,13 @@ public class ClcInt310Mis1 extends Controllo {
                     isProduttoreChecked = CMIC_MED < SOGLIA_CMIC_MED_2;
                 }
                 if (FLAG_MEDIE_PP == 0) {
-                    isProduttoreChecked = PP_MED > SOGLIA_CMIC_MED_2;
+                    isProduttoreChecked = PP_MED > SOGLIA_PP_MED_2;
                 }
             }
         }
+
+        if (!isProduttoreChecked)
+            motivazioneEsclusione = "I valori delle medie non sono stati rispettati";
 
         if (isProduttoreChecked) {
             for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
@@ -238,6 +223,10 @@ public class ClcInt310Mis1 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO
+        if (!isProduttoreChecked) {
+            System.out.println(getAzienda().getCuaa() + " -> " + motivazioneEsclusione);
+            return;
+        }
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         outputControlli.setSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());

@@ -10,18 +10,28 @@ import java.util.Date;
 
 @Entity
 @IdClass(Analisi_produzioni_cuua_id.class)
-public class Analisi_produzioni_cuua {
+public class Dmt_T_analisi_produzioni_cuua {
 
     @Id
     private String CUUA;
+    @Id
+    private Date dataAnalisi;
+    @Id
+    private int annoCampagna;
     private String ragioneSociale;
     private String codiceAsl;
     private String partitaIva;
-    @Id
-    private Date dataAnalisi;
     private BigDecimal proteine;
     private BigDecimal celluleSomatiche;
     private BigDecimal caricaBatterica;
+
+    public int getAnnoCampagna() {
+        return annoCampagna;
+    }
+
+    public void setAnnoCampagna(int annoCampagna) {
+        this.annoCampagna = annoCampagna;
+    }
 
     public String getCUUA() {
         return CUUA;
