@@ -108,7 +108,7 @@ public class ClcInt310Mis1 extends Controllo {
         if (dmtCID == null) {
             isProduttoreChecked = false;
             motivazioneEsclusione = "Impossibile reperire informazioni sul produttore";
-            return;
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
         }
         Boolean isProduttoreMontagna = dmtCID.getZona() != null && dmtCID.getZona().equals("M");
         Boolean isProduttoreAlpeggio = dmtCID.getAlpeggio() != null && dmtCID.getAlpeggio().equals("S");
@@ -148,7 +148,7 @@ public class ClcInt310Mis1 extends Controllo {
                 // SE PER UN MESE IN CUI E' STATA DICHIARATA LA PRODUZIONE NON E' PRESENTE L'ANALISI DEI DATI NON POSSO ACCEDERE AL PREMIO
                 isProduttoreChecked = false;
                 motivazioneEsclusione = "Per il mese " + i + " non sono stati inviati i dati sull'analisi";
-                break;
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
             }
             tolleranzaCMIC += countCMIC == 1 ? 1 : 0;
             tolleranzaCSOM += countCSOM == 1 ? 1 : 0;
@@ -158,7 +158,8 @@ public class ClcInt310Mis1 extends Controllo {
         if (isProduttoreChecked && !isProduttoreMontagna && !isProduttoreAlpeggio) {
             if (tolleranzaCMIC > 2 || tolleranzaCSOM > 2 || tolleranzaPP > 2) {
                 isProduttoreChecked = false;
-                motivazioneEsclusione = "Per gli allevamenti in pianura è necessario che siano state comunicate almeno due analisi per ogni mese di produzione";
+                motivazioneEsclusione = "Per gli allevamentiin  pianura è necessario che siano state comunicate almeno due analisi per ogni mese di produzione";
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
             }
         }
 
@@ -188,8 +189,10 @@ public class ClcInt310Mis1 extends Controllo {
         if (FLAG_MEDIE < 3) {
             if (isProduttoreMontagna && isCircuitoQualitaFormaggio && FLAG_MEDIE == 0) {
                 isProduttoreChecked = false;
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
             } else if (FLAG_MEDIE < 2) {
                 isProduttoreChecked = false;
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
             } else {
                 if (FLAG_MEDIE_CSOM == 0) {
                     isProduttoreChecked = CSOM_MED < SOGLIA_CSOM_MED_2;
@@ -203,8 +206,10 @@ public class ClcInt310Mis1 extends Controllo {
             }
         }
 
-        if (!isProduttoreChecked)
+        if (!isProduttoreChecked) {
             motivazioneEsclusione = "I valori delle medie non sono stati rispettati";
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), motivazioneEsclusione));
+        }
 
         if (isProduttoreChecked) {
             for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
@@ -223,10 +228,7 @@ public class ClcInt310Mis1 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO
-        if (!isProduttoreChecked) {
-            System.out.println(getAzienda().getCuaa() + " -> " + motivazioneEsclusione);
-            return;
-        }
+        System.out.println(getClass().getName() + " postEsecuzione()");
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         outputControlli.setSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
