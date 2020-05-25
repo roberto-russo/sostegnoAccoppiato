@@ -97,8 +97,6 @@ public class Dmt_t_sessione implements Serializable {
     @OneToMany(mappedBy = "sessione")
     private List<Dmt_t_Tlatte_sintesi_analisi> sintesiAnalisi;
 
-    @OneToMany(mappedBy = "sessione")
-    private List<Dmt_t_Tlatte_vendita_diretta> venditaDiretta;
 
     @OneToMany(mappedBy = "sessione")
     private List<Dmt_t_Tws_bdn_du_capi_bovini> bovini;

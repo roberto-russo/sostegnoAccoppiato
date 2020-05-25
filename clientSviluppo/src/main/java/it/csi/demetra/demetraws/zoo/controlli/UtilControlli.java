@@ -4,6 +4,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +67,60 @@ public class UtilControlli {
         Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);
         return (b.getDtFineDetenzione().after(dataGiovane)
                 && b.getDtInizioDetenzione().before(dataGiovane));
+    }
+
+    public static double mediaGeometrica(List<BigDecimal> valori) {
+        double n = 0.00;
+        double res = 1.00;
+        for (BigDecimal v : valori) {
+            n += 1.00;
+            res = res * v.doubleValue();
+        }
+        return Math.pow(res, n);
+    }
+
+    public static double mediaAritmetica(List<BigDecimal> valori) {
+        int n = 0;
+        double res = 0.00;
+        for (BigDecimal v : valori) {
+            n++;
+            res += v.doubleValue();
+        }
+        return res / n;
+    }
+
+    public static Integer convertCodiceMeseInt(String codiceMese) {
+        switch (codiceMese) {
+            case "GEN":
+                return 1;
+
+            case "FEB":
+                return 2;
+
+            case "MAR":
+                return 3;
+
+            case "APR":
+                return 4;
+
+            case "MAG":
+                return 5;
+
+            case "GIU":
+                return 6;
+            case "LUG":
+                return 7;
+            case "AGO":
+                return 8;
+            case "SET":
+                return 9;
+            case "OTT":
+                return 10;
+            case "NOV":
+                return 11;
+            case "DIC":
+                return 12;
+        }
+        return 0;
     }
 }
