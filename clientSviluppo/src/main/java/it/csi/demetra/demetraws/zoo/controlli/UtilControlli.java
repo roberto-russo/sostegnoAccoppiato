@@ -88,4 +88,39 @@ public class UtilControlli {
         }
         return res / n;
     }
+
+    public static Integer convertCodiceMeseInt(String codiceMese) {
+        switch (codiceMese) {
+            case "GEN":
+                return 1;
+
+            case "FEB":
+                return 2;
+
+            case "MAR":
+                return 3;
+
+            case "APR":
+                return 4;
+
+            case "MAG":
+                return 5;
+
+            case "GIU":
+                return 6;
+            case "LUG":
+                return 7;
+            case "AGO":
+                return 8;
+            case "SET":
+                return 9;
+            case "OTT":
+                return 10;
+            case "NOV":
+                return 11;
+            case "DIC":
+                return 12;
+        }
+        return 0;
+    }
 }

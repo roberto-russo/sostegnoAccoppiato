@@ -13,6 +13,9 @@ public class Analisi_produzioni_cuua_id implements Serializable {
         this.dataAnalisi = dataAnalisi;
     }
 
+    public Analisi_produzioni_cuua_id() {
+    }
+
     public String getCUUA() {
         return CUUA;
     }

@@ -5,11 +5,9 @@ import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
-import it.csi.demetra.demetraws.zoo.model.Analisi_produzioni_cuua;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
+import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.repository.Analisi_produzioni_cuua_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tlatte_vendita_diretta_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +40,40 @@ public class ClcInt310Mis1 extends Controllo {
     CtlUbaMinime ref9903;
     @Autowired
     Analisi_produzioni_cuua_repository analisiProduzioniCuuaRepository;
+    @Autowired
+    Dmt_t_tlatte_vendita_diretta_repository dmt_t_tlatte_vendita_diretta_repository; //DA CONVERTIRE IN SERVICE
 
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private Integer importoLiquidabile;
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
+    private String motivazioneEsclusione = "";
+
+    private void mockDataForTest() {
+        Dmt_t_Tlatte_vendita_diretta dmtLVD = new Dmt_t_Tlatte_vendita_diretta();
+        dmtLVD.setCodiceMese("GEN");
+        dmtLVD.setSottoCodiceMese("GEN");
+        dmtLVD.setSessione(getSessione());
+        dmtLVD.setQuantita(100L);
+        dmtLVD.setCuua(getAzienda().getCuaa());
+        dmtLVD.setIdAzienda(1L);
+        dmtLVD.setVersione(1L);
+        dmtLVD.setProgrRiga(1L);
+        dmtLVD.setMatricola(1L);
+        dmt_t_tlatte_vendita_diretta_repository.save(dmtLVD);
+        Dmt_t_Tlatte_vendita_diretta dmtLVD2 = new Dmt_t_Tlatte_vendita_diretta();
+        dmtLVD2.setCodiceMese("DIC");
+        dmtLVD2.setSottoCodiceMese("DIC");
+        dmtLVD2.setSessione(getSessione());
+        dmtLVD2.setQuantita(100L);
+        dmtLVD2.setCuua(getAzienda().getCuaa());
+        dmtLVD2.setIdAzienda(1L);
+        dmtLVD2.setVersione(1L);
+        dmtLVD2.setMatricola(1L);
+        dmtLVD2.setProgrRiga(1L);
+        dmt_t_tlatte_vendita_diretta_repository.save(dmtLVD2);
+    }
 
     /**
      * ClcInt310Mis1 - preEsecuzione() intervento 310 Misura 1
@@ -95,6 +121,8 @@ public class ClcInt310Mis1 extends Controllo {
          * Bisogna definire quali allevamenti sono in pianura
          */
 
+        mockDataForTest(); // DA RIMUOVERE
+
         boolean isAllevamentoChecked = true;
         List<Integer> listMesiControllati = new ArrayList<>();
         // Tolleranze per i mesi in cui è presente una sola analisi
@@ -104,12 +132,21 @@ public class ClcInt310Mis1 extends Controllo {
         boolean isAllevamentoInPianura = false;
         boolean isCircuitoQualitaFormaggio = false;
 
-        List<Analisi_produzioni_cuua> listAnalisiProduzioniCuua = analisiProduzioniCuuaRepository.getByCUUAAndYear(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
-        Calendar calendar = Calendar.getInstance();
+        List<Analisi_produzioni_cuua> listAnalisiProduzioniCuua = analisiProduzioniCuuaRepository.getByCUUAAndYear(getAzienda().getCuaa(), String.valueOf(getAzienda().getAnnoCampagna()));
+
+        List<Dmt_t_Tlatte_vendita_diretta> listDmtLVD = dmt_t_tlatte_vendita_diretta_repository.findByCUUA(getAzienda().getCuaa());
+        Integer month;
+        for (Dmt_t_Tlatte_vendita_diretta dmtLVD : listDmtLVD) {
+            month = UtilControlli.convertCodiceMeseInt(dmtLVD.getCodiceMese());
+            if (listMesiControllati.indexOf(month) < 0)
+                listMesiControllati.add(month);
+        }
+
         /** PER VERIFICARE LA LISTA DEI MESI CONTROLLATI BISOGNA ACCEDERE AI DATI DELLA VENDITA DIRETTA */
         int countCSOM;
         int countCMIC;
         int countPP;
+        Calendar calendar = Calendar.getInstance();
         for (Integer i : listMesiControllati) { //1=GENNAIO,12=DICEMBRE
             countCSOM = 0;
             countCMIC = 0;
@@ -117,17 +154,17 @@ public class ClcInt310Mis1 extends Controllo {
             for (Analisi_produzioni_cuua apc : listAnalisiProduzioniCuua) {
                 if (null == apc.getDataAnalisi()) continue;
                 calendar.setTime(apc.getDataAnalisi());
-                if (calendar.get(Calendar.MONTH) == i) {
+                if (calendar.get(Calendar.MONTH) == i - 1) {
                     if (null != apc.getCelluleSomatiche()) countCSOM++;
                     if (null != apc.getProteine()) countPP++;
                     if (null != apc.getCaricaBatterica()) countCMIC++;
-
                 }
             }
 
             if (countCMIC == 0 || countCSOM == 0 || countPP == 0) {
                 // SE PER UN MESE IN CUI E' STATA DICHIARATA LA PRODUZIONE NON E' PRESENTE L'ANALISI DEI DATI NON POSSO ACCEDERE AL PREMIO
                 isAllevamentoChecked = false;
+                motivazioneEsclusione = "Per il mese " + i + " non sono stati inviati i dati sull'analisi";
                 break;
             }
             tolleranzaCMIC += countCMIC == 1 ? 1 : 0;
@@ -136,8 +173,10 @@ public class ClcInt310Mis1 extends Controllo {
         }
 
         if (isAllevamentoChecked && isAllevamentoInPianura) {
-            if (tolleranzaCMIC > 2 || tolleranzaCSOM > 2 || tolleranzaPP > 2)
+            if (tolleranzaCMIC > 2 || tolleranzaCSOM > 2 || tolleranzaPP > 2) {
                 isAllevamentoChecked = false;
+                motivazioneEsclusione = "Per gli allevamenti in pianura è necessario che siano state comunicate almeno due analisi per ogni mese di produzione";
+            }
         }
 
         List<BigDecimal> csomList = new ArrayList<>();
@@ -180,10 +219,10 @@ public class ClcInt310Mis1 extends Controllo {
             }
         }
 
-        if (isAllevamentoChecked)
+        if (isAllevamentoChecked) {
             for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
                 /**
-                 * PRIMO CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
+                 * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */
                 List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
                 if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
@@ -191,10 +230,23 @@ public class ClcInt310Mis1 extends Controllo {
                     continue;
                 } else importoLiquidabile++;
             }
+        } else importoLiquidabile = 0;
     }
 
     @Override
     public void postEsecuzione() throws ControlloException {
+        // ESECUZIONI CONTROLLI PER SOGGETTO
+        Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
+        outputControlli.setSessione(getSessione());
+        outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
+        outputControlli.setCapiAmmissibili(importoLiquidabile);
+        outputControlli.setCapiRichiesti(importoRichiesto);
+        outputControlli.setCuaa(getAzienda().getCuaa());
+        outputControlli.setIntervento(getAzienda().getCodicePremio());
+        getControlliService().saveOutput(outputControlli);
+
+        for (Dmt_t_output_esclusi o : listEsclusi)
+            getControlliService().saveOutputEscl(o);
 
     }
 }
