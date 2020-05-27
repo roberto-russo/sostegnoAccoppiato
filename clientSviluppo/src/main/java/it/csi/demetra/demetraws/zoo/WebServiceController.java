@@ -7,6 +7,7 @@ import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef.ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
@@ -47,6 +48,9 @@ public class WebServiceController {
 
     @Autowired
     private ControlliFramework controlliFramework;
+    
+    @Autowired
+    private ref03 calcoloRef03;
 
     // se invocato con chiamata POST restituisce in console il token d'accesso
     @RequestMapping("/bdn")
@@ -79,13 +83,13 @@ public class WebServiceController {
                     scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
                 System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
             else System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
-            try {
-                controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
-            } catch (ControlloException e) {
-                System.out.println(e.getMessage());
-            } catch (CalcoloException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
+//            } catch (ControlloException e) {
+//                System.out.println(e.getMessage());
+//            } catch (CalcoloException e) {
+//                e.printStackTrace();
+//            }
         }
 
         System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
@@ -100,6 +104,11 @@ public class WebServiceController {
             } catch (CalcoloException e) {
                 System.out.println(e.getMessage());
             }
+        }
+        
+        for (Rpu_V_pratica_zoote azienda : list) {
+        	calcoloRef03.inizializzazione(sessione, azienda);
+        	calcoloRef03.esecuzione();
         }
 
         return "Procedura avviata";
