@@ -1,7 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -183,6 +182,8 @@ try {
 		if (this.numeroCapiAmmissibili != 0) {
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
+			
+			this.oc = new Dmt_t_output_controlli();
 
 			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
