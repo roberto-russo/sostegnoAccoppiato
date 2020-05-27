@@ -29,8 +29,8 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_capo = :idCapo and EXTRACT(YEAR FROM data_nascita_vitello) = :annoCampagna and cuaa = :cuaa and id_sessione = :idSessione", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getVitelliOfVacca(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("idCapo") Long idCapo, @Param("annoCampagna") Long annoCampagna);
 
-	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento "
-				 + "GROUP BY id_autogenerato having count(*) > 1", nativeQuery = true)
+	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento ", 
+		   nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessioneAndIdCapo(@Param("idSessione") Long idSessione, @Param("idCapo") Long idCapo, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * " + 
@@ -68,7 +68,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
-			"        OE.ID_SESSIONE = :idSessione AND " + 
+			"        OE.SESSIONE = :idSessione AND " + 
 			"        OE.CALCOLO LIKE ('%Int310Mis1') " + 
 			"        )" + 
 			" AND PC.SESSIONE = :idSessione " + 
@@ -87,7 +87,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
-			"        OE.ID_SESSIONE = :idSessione AND " + 
+			"        OE.SESSIONE = :idSessione AND " + 
 			"        OE.CALCOLO LIKE ('%Int310Mis1') " + 
 			"        )" + 
 			" AND PC.SESSIONE = :idSessione " + 
@@ -187,4 +187,18 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" and dmt_bov.cuaa = :cuaa " + 
 			" and dmt_bov.codice_premio = :codiceIntervento ", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
+
+	@Query(
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_SESSIONE = :idSessione and CUAA = :cuaa ",
+			nativeQuery = true
+		)
+	List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
+
+	
+	@Query(
+			value = "SELECT DISTINCT codice_premio FROM dmt_t_tws_bdn_du_capi_bov WHERE id_capo = :idCapo and id_sessione = :idSessione ",
+			nativeQuery = true
+		)
+	List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+	
 }
