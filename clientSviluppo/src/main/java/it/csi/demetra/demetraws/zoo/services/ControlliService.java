@@ -20,6 +20,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_w_controllo_bean;
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_SistemiDiEtichettaturaFacoltativa_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repository;
@@ -206,8 +207,11 @@ public class ControlliService {
 		ref03Rep.save(output);
 	}
 	
-	public Dmt_t_output_controlli getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(Dmt_t_sessione sessione, String cuaa, Long anno, String codiceIntervento) {
-		
-		return outputRepository.findBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, anno, codiceIntervento);
+	public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getOvicapriniBySessioneCuaaCodIntervento(Long idSessione, String cuaa, String codicePremio){
+		return ovicapriniRep.findByIdSessionAndCuaa(idSessione, cuaa, codicePremio);
+	}
+	
+	public Rpu_V_pratica_zoote getByAnnoCampagnaAndCuaaAndCodicePremio(Integer annoCampagna, String cuaa, String codicePremio){
+		return rpuVPraticaRep.findByAnnoCampagnaAndCuaaAndCodicePremio(annoCampagna, cuaa, codicePremio);
 	}
 }
