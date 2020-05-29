@@ -1,5 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,15 +65,15 @@ public class ref03 {
 		List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = this.controlliService
 				.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
 		List<String> codiciPremio = this.controlliService.getCodicePremioPerCuaa(this.azienda.getCuaa());
-		int capiAnomali = 0;
-		int capiAccertati = 0;
-		int capiRichiesti = 0;
-		double esito = 0;
-		double percentualeRiduzione = 0;
-		double capiPagabili = 0;
-		double importoPagato = 0;
+		BigDecimal capiAnomali = new BigDecimal(0);
+		BigDecimal capiAccertati = new BigDecimal(0);
+		BigDecimal capiRichiesti = new BigDecimal(0);
+		BigDecimal esito = new BigDecimal(0);
+		BigDecimal percentualeRiduzione = new BigDecimal(0);
+		BigDecimal capiPagabili = new BigDecimal(0);
+		BigDecimal importoPagato = new BigDecimal(0);
 		HashMap<String, List<Long>> capiPerPremio = new HashMap<String, List<Long>>();
-		int[] result = new int[3];
+		HashMap<String,BigDecimal> result = new HashMap<String,BigDecimal>();
 
 		
 		capiPerPremio = buildMap(listaCapiBovini, listaCapiOvicaprini, listaCapiMacellati, codiciPremio);
@@ -83,49 +85,48 @@ public class ref03 {
 		
 		for (String cp : codiciPremio) {
 
-			result = this.precalcolo(capiPerPremio, cp);
-			capiAccertati = result[0];
-			capiAnomali = result[1];
-			capiRichiesti = result[2];
-
+			result= this.precalcolo(capiPerPremio, cp);
+			capiAccertati = result.get("accertati");
+			capiAnomali = result.get("anomali");
+			capiRichiesti = result.get("richiesti");
 		
 			try {
-				esito = capiAnomali / capiAccertati;
+				esito = capiAnomali.divide(capiAccertati,MathContext.DECIMAL128);
 			} catch (ArithmeticException e) {
 				new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "nessun capo accertato");
 			}
 
 			percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
 			
-			if (percentualeRiduzione == -1)
-				return;
+//			if (percentualeRiduzione == -1)
+//				return;
 			
 			if (cp.equals("320")) {
 				
 			} else {
 				
-				capiPagabili = capiAccertati * (1 - percentualeRiduzione);
+				capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(percentualeRiduzione)));
 				double importoUnit = this.controlliService
 						.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp)
 						.getImportoUnitario();
-				importoPagato = capiPagabili * importoUnit;
+				importoPagato = capiPagabili.multiply(new BigDecimal(importoUnit));
 			}
 			
 			outputCalcolo = new Dmt_t_output_ref03();
 			outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
-			outputCalcolo.setCapiAccertati(capiAccertati);
-			outputCalcolo.setCapiAnomali(capiAnomali);
-			outputCalcolo.setCapiPagabili(capiPagabili);
-			outputCalcolo.setCapiRichiesti(capiRichiesti);
+			outputCalcolo.setCapiAccertati(capiAccertati.intValue());
+			outputCalcolo.setCapiAnomali(capiAnomali.intValue());
+			outputCalcolo.setCapiPagabili(capiPagabili.doubleValue());
+			outputCalcolo.setCapiRichiesti(capiRichiesti.intValue());
 			outputCalcolo.setCuaa(this.azienda.getCuaa());
-			outputCalcolo.setEsito(esito);
-			outputCalcolo.setImportoPagato(importoPagato);
+			outputCalcolo.setEsito(esito.doubleValue());
+			outputCalcolo.setImportoPagato(importoPagato.doubleValue());
 			outputCalcolo.setIntervento(cp);
-			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione);
+			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione.doubleValue());
 			outputCalcolo.setSessione(this.sessione);
 
-			if (esito > 0.5)
-				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti - capiAccertati);
+			if (esito.compareTo(new BigDecimal("0.5")) >0)
+				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati).intValue());
 
 			this.controlliService.saveOutputRef03(outputCalcolo);
 		}
@@ -143,19 +144,19 @@ public class ref03 {
 	 * @param cp
 	 * @return result[] -> array in cui sono presenti le variabili valorizzate.
 	 */
-	private int[] precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
+	private HashMap<String,BigDecimal> precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
 
 		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
-		int capiAnomali = 0;
-		int capiAccertati = 0;
-		int capiRichiesti = 0;
-		int result[] = new int[3];
+		BigDecimal capiAnomali = new BigDecimal(0);
+		BigDecimal capiAccertati = new BigDecimal(0);
+		BigDecimal capiRichiesti = new BigDecimal(0);
+		HashMap<String,BigDecimal> result = new HashMap<String,BigDecimal>();
 		outputControlli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), cp);
 		
 		if(outputControlli != null) {
-			capiRichiesti = outputControlli.getCapiRichiesti();
-			capiAccertati = outputControlli.getCapiAmmissibili();
-			capiAnomali   = capiRichiesti - capiAccertati;
+			capiRichiesti = new BigDecimal(outputControlli.getCapiRichiesti());
+			capiAccertati = new BigDecimal(outputControlli.getCapiAmmissibili());
+			capiAnomali   = capiRichiesti.subtract(capiAccertati);
 		}
 		
 		for (Long c : capiPerPremio.get(cp)) {
@@ -165,16 +166,17 @@ public class ref03 {
 
 				for (Long anomali : capiAnomaliPerCodicePremio) {
 					if (anomali != null && anomali.equals(c)) {
-							capiAccertati--;
+							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
+							capiAnomali=capiAnomali.add(BigDecimal.ONE);
 						}
 					}
 				capiAnomaliPerCodicePremio.clear();
 			} catch (NullPointerException e) {
 			}
 		}		
-		result[0] = capiAccertati;
-		result[1] = capiAnomali;
-		result[2] = capiRichiesti;
+		result.put("accertati", capiAccertati);
+		result.put("anomali", capiAnomali);
+		result.put("richiesti",capiRichiesti);
 
 		return result;
 	}
@@ -186,20 +188,21 @@ public class ref03 {
 	 * @param esito
 	 * @return percRid -> percentuale di riduzione della quota riconosciuta al richiedente
 	 */
-	private double calcoloRiduzione(int capiAnomali, double esito) {
-		double percRid = -1;
-		if ((capiAnomali >= 0 && capiAnomali <= 3) || (capiAnomali > 3 && esito <= 0.1))
-			return percRid = esito;
-		if (capiAnomali > 3) {
+	private BigDecimal calcoloRiduzione(BigDecimal capiAnomali, BigDecimal esito) {
+//		BigDecimal percRid = new BigDecimal(-1);
+		if ((capiAnomali.compareTo(BigDecimal.ZERO) >= 0 && capiAnomali.compareTo(new BigDecimal(3)) <= 0) || 
+				(capiAnomali.compareTo(new BigDecimal(3))==1 && esito.compareTo(new BigDecimal("0.1")) <= 0))
+			return esito;
+		if (capiAnomali.compareTo(new BigDecimal(3))==1) {
 
-			if (esito > 0.1 && esito <= 0.2)
-				return percRid = esito * 2;
+			if (esito.compareTo(new BigDecimal("0.1")) >0 && esito.compareTo(new BigDecimal("0.2")) <= 0 )
+				return esito.multiply(new BigDecimal(2));
 
-			if (esito > 0.2 && esito <= 0.5)
-				return percRid = 1;
+			if (esito.compareTo(new BigDecimal("0.2")) >0  && esito.compareTo(new BigDecimal("0.5")) <= 0)
+				return BigDecimal.ONE;
 
-			if (esito > 0.5)
-				return percRid = 1;
+			if (esito.compareTo(new BigDecimal("0.5")) >0)
+				return BigDecimal.ONE;
 		}
 
 		// condizione momentaneamente sospesa, aspettare direttive per l'implementazione
@@ -207,7 +210,8 @@ public class ref03 {
 		 * if(Irregolarità intenzionale riscontrata) return percRid = 1;
 		 */
 
-		return percRid;
+//		return percRid;
+		return BigDecimal.ZERO;
 	}
 
 	/**
