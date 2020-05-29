@@ -14,13 +14,21 @@ import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pratica_zoote, Rpu_V_pratica_zoote_id>{
 
 	@Query(
-			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna ", 
+			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna", 
 			nativeQuery = true
 		  )
 	List<Rpu_V_pratica_zoote> findAll(@Param("annoCampagna") Integer annoCampagna);
 	
 	@Query(
-			value = "SELECT R FROM Rpu_V_pratica_zoote R WHERE R.codicePremio IN (:codiciPremio) AND R.annoCampagna = :annoCampagna"	
+			value = "SELECT R FROM Rpu_V_pratica_zoote R WHERE R.codicePremio IN (:codiciPremio) AND R.annoCampagna = :annoCampagna "	
 		)
 	List<Rpu_V_pratica_zoote> findByCodiciPremioAndAnnoCampagna(@Param("codiciPremio") List<String> codiciPremioList, @Param("annoCampagna") Integer annoCampagna);
+
+
+	@Query(
+			value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa", 
+			nativeQuery = true
+		)
+	List<String> findByCuaa(@Param("cuaa") String cuaa);
+
 }

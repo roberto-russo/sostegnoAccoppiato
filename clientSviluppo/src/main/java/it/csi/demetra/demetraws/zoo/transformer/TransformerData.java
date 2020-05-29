@@ -79,6 +79,9 @@ public class TransformerData {
 			model.setcCaprettiMacTot(x.getCaprettiMacellatiTotali());
 			model.setDataCensimento(x.getDataCensimento().toGregorianCalendar().getTime());
 			model.setDtComAutorita(x.getDataComunicazioneAutorita().toGregorianCalendar().getTime());
+			model.setCodQualificaScrapie(x.getCodiceQualificaScrapie());
+			model.setDescrQualificaScrapie(x.getDescrQualificaScrapie());
+			model.setDataRilevazioneQualifica(x.getDataRilevazioneQualifica().toGregorianCalendar().getTime());
 			model.setSessione(sessione);
 		}
 		return model;

@@ -27,4 +27,11 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 		   nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 	
+	
+	@Query(
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione and CUAA = :cuaa ",
+			nativeQuery = true
+		)
+	List<Dmt_t_Tws_bdn_du_capi_ovicaprini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
+	
 }
