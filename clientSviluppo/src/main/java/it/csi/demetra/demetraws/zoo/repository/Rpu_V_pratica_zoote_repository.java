@@ -20,10 +20,15 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	List<Rpu_V_pratica_zoote> findAll(@Param("annoCampagna") Integer annoCampagna);
 	
 	@Query(
-			value = "SELECT R FROM Rpu_V_pratica_zoote R WHERE R.codicePremio IN (:codiciPremio) AND R.annoCampagna = :annoCampagna "	
+			value = "SELECT R FROM Rpu_V_pratica_zoote R WHERE R.codicePremio IN (:codiciPremio) AND R.annoCampagna = :annoCampagna"	
 		)
 	List<Rpu_V_pratica_zoote> findByCodiciPremioAndAnnoCampagna(@Param("codiciPremio") List<String> codiciPremioList, @Param("annoCampagna") Integer annoCampagna);
-
+	
+	@Query(
+			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna and Cuaa = :cuaa and Codice_premio = :codicePremio", 
+			nativeQuery = true
+		  )
+	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremio(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 
 	@Query(
 			value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa", 
