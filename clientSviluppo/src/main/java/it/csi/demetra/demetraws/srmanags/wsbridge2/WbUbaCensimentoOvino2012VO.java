@@ -50,6 +50,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="oviniMaschiAdultiLib" type="{http://www.w3.org/2001/XMLSchema}decimal" minOccurs="0"/>
  *         &lt;element name="oviniMaschiRimonta" type="{http://www.w3.org/2001/XMLSchema}decimal" minOccurs="0"/>
  *         &lt;element name="oviniMaschiRimontaLib" type="{http://www.w3.org/2001/XMLSchema}decimal" minOccurs="0"/>
+ *         &lt;element name="dataRilevazioneQualifica" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="descrQualificaScrapie" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="codiceQualificaScrapie" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -90,7 +93,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "oviniMaschiAdulti",
     "oviniMaschiAdultiLib",
     "oviniMaschiRimonta",
-    "oviniMaschiRimontaLib"
+    "oviniMaschiRimontaLib",
+    "dataRilevazioneQualifica",
+    "descrQualificaScrapie",
+    "codiceQualificaScrapie"
 })
 public class WbUbaCensimentoOvino2012VO {
 
@@ -129,7 +135,38 @@ public class WbUbaCensimentoOvino2012VO {
     protected BigDecimal oviniMaschiAdultiLib;
     protected BigDecimal oviniMaschiRimonta;
     protected BigDecimal oviniMaschiRimontaLib;
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar dataRilevazioneQualifica;
+    protected String descrQualificaScrapie;
+    protected String codiceQualificaScrapie;
 
+    
+    
+    public XMLGregorianCalendar getDataRilevazioneQualifica() {
+    	return dataRilevazioneQualifica;
+    }
+    
+    public void setDataRilevazioneQualifica(XMLGregorianCalendar dataRilevazioneQualifica) {
+    	this.dataRilevazioneQualifica = dataRilevazioneQualifica;
+    }
+    
+    public String getDescrQualificaScrapie() {
+    	return this.descrQualificaScrapie;
+    }
+    
+    public void setDescrQualificaScrapie(String descrQualificaScrapie) {
+    	this.descrQualificaScrapie = descrQualificaScrapie;
+    }
+    
+    public String getCodiceQualificaScrapie() {
+    	return this.codiceQualificaScrapie;
+    }
+    
+    public void setCodiceQualificaScrapie(String codiceQualificaScrapie) {
+    	this.codiceQualificaScrapie = codiceQualificaScrapie;
+    }
+    
+    
     /**
      * Recupera il valore della propriet� agnelliMacellatiTotali.
      * 
