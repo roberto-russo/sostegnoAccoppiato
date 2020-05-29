@@ -1,0 +1,53 @@
+--------------------------------------------------------
+--  File creato - venerdì-maggio-29-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table DMT_T_OUTPUT_REF03
+--------------------------------------------------------
+
+  CREATE TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" 
+   (	"ANNO_CAMPAGNA" NUMBER(10,0), 
+	"CUAA" VARCHAR2(255 CHAR), 
+	"INTERVENTO" VARCHAR2(255 CHAR), 
+	"SESSIONE" NUMBER(19,0), 
+	"CAPI_ACCERTATI" NUMBER(10,0), 
+	"CAPI_ANOMALI" NUMBER(10,0), 
+	"CAPI_PAGABILI" FLOAT(126), 
+	"CAPI_RICHIESTI" NUMBER(10,0), 
+	"DIFF_RICHIESTI_ACCERTATI" NUMBER(10,0), 
+	"ESITO" FLOAT(126), 
+	"IMPORTO_PAGATO" FLOAT(126), 
+	"PERCENTUALE_RIDUZIONE" FLOAT(126)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "DEMETRA_TBL" ;
+REM INSERTING into DEMETRA.DMT_T_OUTPUT_REF03
+SET DEFINE OFF;
+--------------------------------------------------------
+--  DDL for Index IE_DMT_T_OUTPUT_REF03
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DEMETRA"."IE_DMT_T_OUTPUT_REF03" ON "DEMETRA"."DMT_T_OUTPUT_REF03" ("ANNO_CAMPAGNA", "CUAA", "INTERVENTO", "SESSIONE") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "DEMTRA_IDX " ;
+--------------------------------------------------------
+--  Constraints for Table DMT_T_OUTPUT_REF03
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" MODIFY ("ANNO_CAMPAGNA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" MODIFY ("CUAA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" MODIFY ("INTERVENTO" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" MODIFY ("SESSIONE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" ADD PRIMARY KEY ("ANNO_CAMPAGNA", "CUAA", "INTERVENTO", "SESSIONE")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "DEMETRA_TBL"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table DMT_T_OUTPUT_REF03
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_OUTPUT_REF03" ADD CONSTRAINT "FK_DMT_T_OUTPUT_REF03" FOREIGN KEY ("SESSIONE")
+	  REFERENCES "DEMETRA"."DMT_T_SESSIONE" ("ID_SESSIONE") ENABLE;
