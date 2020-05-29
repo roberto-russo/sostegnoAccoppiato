@@ -205,4 +205,9 @@ public class ControlliService {
 		
 		ref03Rep.save(output);
 	}
+	
+	public Dmt_t_output_controlli getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(Dmt_t_sessione sessione, String cuaa, Long anno, String codiceIntervento) {
+		
+		return outputRepository.findBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, anno, codiceIntervento);
+	}
 }
