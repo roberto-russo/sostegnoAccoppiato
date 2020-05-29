@@ -9,11 +9,11 @@ public class Dmt_t_importo_unitario_id implements Serializable{
 	 */
 	private static final long serialVersionUID = -2112366051331850859L;
 	
-	private Double importoUnitario;
+	private String intervento;
 	private Integer annoCampagna;
 	
-	public Dmt_t_importo_unitario_id(Double importoUnitario, Integer annoCampagna) {
-		this.importoUnitario = importoUnitario;
+	public Dmt_t_importo_unitario_id(String intervento, Integer annoCampagna) {
+		this.intervento = intervento;
 		this.annoCampagna = annoCampagna;
 	}
 
@@ -24,7 +24,7 @@ public class Dmt_t_importo_unitario_id implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((annoCampagna == null) ? 0 : annoCampagna.hashCode());
-		result = prime * result + ((importoUnitario == null) ? 0 : importoUnitario.hashCode());
+		result = prime * result + ((intervento == null) ? 0 : intervento.hashCode());
 		return result;
 	}
 
@@ -42,11 +42,12 @@ public class Dmt_t_importo_unitario_id implements Serializable{
 				return false;
 		} else if (!annoCampagna.equals(other.annoCampagna))
 			return false;
-		if (importoUnitario == null) {
-			if (other.importoUnitario != null)
+		if (intervento == null) {
+			if (other.intervento != null)
 				return false;
-		} else if (!importoUnitario.equals(other.importoUnitario))
+		} else if (!intervento.equals(other.intervento))
 			return false;
 		return true;
 	}
+
 }
