@@ -9,5 +9,4 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 @Repository
 public interface Dmt_t_output_ref03_repository extends CrudRepository<Dmt_t_output_ref03, Dmt_t_output_ref03_id>{
 
-	
 }
