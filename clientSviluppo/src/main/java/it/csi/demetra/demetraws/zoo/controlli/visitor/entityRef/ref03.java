@@ -15,6 +15,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
@@ -144,22 +145,19 @@ public class ref03 {
 	 */
 	private int[] precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
 
+		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
 		int capiAnomali = 0;
 		int capiAccertati = 0;
 		int capiRichiesti = 0;
-
 		int result[] = new int[3];
-
-		if (capiAnomali != 0)
-			capiAnomali = 0;
-
-		if (capiPerPremio.get(cp) != null)
-			capiAccertati = capiPerPremio.get(cp).size();
-		capiRichiesti = this.controlliService.getAllBoviniSessioneCuua(this.sessione, this.azienda.getCuaa(), cp).size()
-				+ this.controlliService
-						.getAllOvicapriniSessioneCuaa(this.sessione.getIdSessione(), this.azienda.getCuaa(), cp).size()
-				+ this.controlliService.getAllMacellatiSessioneCuua(this.sessione, this.azienda.getCuaa(), cp).size();
-
+		outputControlli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), cp);
+		
+		if(outputControlli != null) {
+			capiRichiesti = outputControlli.getCapiRichiesti();
+			capiAccertati = outputControlli.getCapiAmmissibili();
+			capiAnomali   = capiRichiesti - capiAccertati;
+		}
+		
 		for (Long c : capiPerPremio.get(cp)) {
 			try {
 				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
@@ -167,15 +165,13 @@ public class ref03 {
 
 				for (Long anomali : capiAnomaliPerCodicePremio) {
 					if (anomali != null && anomali.equals(c)) {
-						capiAnomali++;
-						capiAccertati--;
+							capiAccertati--;
+						}
 					}
-				}
 				capiAnomaliPerCodicePremio.clear();
 			} catch (NullPointerException e) {
 			}
-		}
-
+		}		
 		result[0] = capiAccertati;
 		result[1] = capiAnomali;
 		result[2] = capiRichiesti;
