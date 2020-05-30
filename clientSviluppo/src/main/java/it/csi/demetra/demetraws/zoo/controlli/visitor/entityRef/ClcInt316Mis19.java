@@ -24,7 +24,9 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
 @Component("ClcInt316Mis19")
 /**
- * Classe per il calcolo intervento 316 misura 19
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 316 – Misura 19:
+ * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal richiedente 
+ * per un periodo non inferiore ai dodici mesi.
  * @author Bcsoft
  *
  */
@@ -49,6 +51,12 @@ public class ClcInt316Mis19 extends Controllo {
 
 
 	@Override
+	/**
+	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
+	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
+	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 316 misura 19.
+	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
+	 */
 	public void preEsecuzione() throws ControlloException {
 		this.importoLiquidabile = 0;
 		this.contatoreBocciati = 0;
@@ -84,7 +92,7 @@ public class ClcInt316Mis19 extends Controllo {
 
 	@Override
 	/**
-	 * metodo in cui vengono eseguiti i controlli per il calcolo intervento 315 misura 5.
+	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 316 misura 19.
 	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di importo liquidabile
 	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
 	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
@@ -161,7 +169,7 @@ public class ClcInt316Mis19 extends Controllo {
 
 	@Override
 	/**
-	 * metodo in cui vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
 	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
 	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
 	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
@@ -201,7 +209,7 @@ public class ClcInt316Mis19 extends Controllo {
 	}
 
 	/**
-	 * metodo in cui viene calcolata la differenza in mesi tra due date
+	 * nel metodo differenzaMesi viene calcolata la differenza in mesi tra due date
 	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
 	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
 	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
@@ -213,6 +221,16 @@ public class ClcInt316Mis19 extends Controllo {
 		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
 		return monthsBetween;
 	}
+	
+	/**
+	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
+	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
+	 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi, 
+	 * i capi ammissibili sono pagati esclusivamente al detentore.
+	 * @param duplicatiMacellati lista delle richieste effettuate sullo stesso capo
+	 * @param cuaa codice fiscale del richiedente analizzato
+	 * @return boolean true se il capo può essere pagato al cuaa analizzato, false altrimenti
+	 */
 	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
 
 		Dmt_t_anagrafica_allevamenti allev1;
