@@ -22,7 +22,9 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
 @Component("ClcInt322Mis20")
 /**
- * Classe per il calcolo intervento 322 misura 20
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 322 – Misura 20:
+ * vacche nutrici non iscritte nei Libri genealogici o nel registro anagrafico
+ * e appartenenti ad allevamenti non iscritti nella BDN come allevamenti da latte.
  * @author Bcsoft
  *
  */
@@ -48,7 +50,10 @@ public class ClcInt322Mis20 extends Controllo {
 	
 	@Override
 	/**
-	 * metodo in cui vengono recuperati i dati, provenienti dalla BDN, dal db e vengono elaborati i controlli massivamente per soggetto
+	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
+	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
+	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 322 misura 20.
+	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
 	 */
 	public void preEsecuzione() throws ControlloException {
 		
@@ -112,7 +117,7 @@ try {
 
 	@Override
 	/**
-	 * metodo in cui vengono eseguiti i controlli per il calcolo intervento 322 misura 20.
+	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 322 misura 20.
 	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di capi ammissibili
 	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
 	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
@@ -168,7 +173,7 @@ try {
 
 	@Override
 	/**
-	 * metodo in cui vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
 	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
 	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
 	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
