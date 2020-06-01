@@ -7,22 +7,16 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_dsScarico_allevamenti_id;
-
 @Entity
 @Table(name = "dmt_t_dsScarico_allevamenti")
 public class Dmt_t_dsScarico_allevamenti implements Serializable {
 
-	/**
-	* 
-	*/
 	private static final long serialVersionUID = 9215943957155723524L;
 
 
