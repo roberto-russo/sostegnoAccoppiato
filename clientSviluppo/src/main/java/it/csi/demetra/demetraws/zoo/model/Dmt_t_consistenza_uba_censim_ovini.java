@@ -37,6 +37,9 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
   	@MapsId
   	@ManyToOne
   	@JoinColumn(name = "id_sessione", nullable = false)
+  	/**
+  	 * codice sessione associato all'esecuzione.
+  	 */
   	private Dmt_t_sessione sessione;
 
   	@Id
@@ -129,22 +132,42 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
         this.pTipoResponsabilita = pTipoResponsabilita;
     }
 
+    /**
+     * metodo getter che ritorna il codice di sessione associato all'esecuzione
+     * @return sessione codice di sessione associato all'esecuzione.
+     */
     public Dmt_t_sessione getSessione() {
         return sessione;
     }
 
+    /**
+     * metodo setter che imposta il codice di sessione associato all'esecuzione
+     * @param sessione codice di sessione associato all'esecuzione.
+     */
     public void setSessione(Dmt_t_sessione sessione) {
         this.sessione = sessione;
     }
 
+    /**
+     * metodo setter che imposta il codice fiscale del soggetto proprietario e/o detentore
+     * @param pCuaa codice fiscale del soggetto proprietario e/o detentore.
+     */
 	public void setpCuaa(String pCuaa) {
 		this.pCuaa = pCuaa;
 	}
 
+	/**
+	 * metodo getter che ritorna il codice di sessione associato all'esecuzione.
+	 * @return idSessione codice di sessione associato all'esecuzione.
+	 */
 	public Long getIdSessione() {
 		return idSessione;
 	}
 
+	/**
+	 * metodo setter che imposta il codice di sessione associato all'esecuzione
+	 * @param idSessione codice di sessione associato all'esecuzione.
+	 */
 	public void setIdSessione(Long idSessione) {
 		this.idSessione = idSessione;
 	}
