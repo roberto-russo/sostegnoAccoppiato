@@ -6,9 +6,6 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 
@@ -16,9 +13,6 @@ import javax.persistence.Table;
 @Table(name = "DMT_T_INFO_ALLEVAMENTI")
 public class Dmt_t_Info_Allevamenti implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7949322294669419786L;
 	
 	@Id
@@ -34,21 +28,21 @@ public class Dmt_t_Info_Allevamenti implements Serializable{
 	 */
 	private String flagZonaMontana;
 
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
-
-	public Dmt_t_sessione getSessione() {
-		return sessione;
-	}
-
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
-	}
+//	public Long getIdSessione() {
+//		return idSessione;
+//	}
+//
+//	public void setIdSessione(Long idSessione) {
+//		this.idSessione = idSessione;
+//	}
+//
+//	public Dmt_t_sessione getSessione() {
+//		return sessione;
+//	}
+//
+//	public void setSessione(Dmt_t_sessione sessione) {
+//		this.sessione = sessione;
+//	}
 
 	public String getFlagZonaMontana() {
 		return flagZonaMontana;
