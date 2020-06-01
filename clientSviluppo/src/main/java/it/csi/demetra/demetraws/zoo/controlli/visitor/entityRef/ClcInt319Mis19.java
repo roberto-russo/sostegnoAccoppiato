@@ -120,19 +120,19 @@ public class ClcInt319Mis19 extends Controllo {
 							getSessione().getIdSessione(), getAzienda().getCodicePremio());
 					this.certIgpDop = getControlliService().getCertificatoIgpDop(getAzienda().getCuaa());
 
-					/**
+					/*
 					 * Sia stato allevato per un periodo continuativo di 6 mesi;
 					 */
 					if ((m.getDtIngresso() == null || m.getDtUscita() == null)
 							|| (this.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
 
-						/**
+						/*
 						 * Sia certificato a denominazione di origine protetta o indicazione geografica
 						 * protetta
 						 */
 						if ((this.certIgpDop != null) && (this.certIgpDop.getFlagDop().equals("S") || this.certIgpDop.getFlagIgp().equals("S"))) {
 
-							/**
+							/*
 							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
 							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
 							 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
@@ -145,7 +145,7 @@ public class ClcInt319Mis19 extends Controllo {
 
 								this.numeroCapiAmmissibili++;
 							} else {
-								/**
+								/*
 								 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
 								 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 								 * 
@@ -156,7 +156,7 @@ public class ClcInt319Mis19 extends Controllo {
 							}
 
 						} else {
-							/**
+							/*
 							 * non e' certificato a denominaizone di origine protetta o indicazione
 							 * geografica protetta
 							 */
