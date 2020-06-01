@@ -3,7 +3,6 @@ package it.csi.demetra.demetraws.zoo.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 
 @Entity(name = "DMT_D_CLS_PREMIO_VAL_RESP")
@@ -19,13 +17,11 @@ import javax.persistence.OneToMany;
  * Classe model di response alle chiamate dei metodi getElencoCapiPremioNew e
  * getElencoCapiPremio2New
  *
- * @version 0.1 (02/04/2020)
+ * @version 1.0 (02/04/2020)
  * @author bcsoft
  */
 public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
-    /**
-     *
-     */
+   
     private static final long serialVersionUID = 5904304924784953743L;
     /**
      * Elenco dettagliato dei capi bovini eventualmente determinati dal filtro
@@ -39,21 +35,24 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tbdn_du_capi> clsCapo;
+   
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato dei capi ovicaprini eventualmente determinati dal
      * filtro in BDN.
      */
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> ClsCapoOvicaprino;
+    
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato delle vacche determinati dal filtro in BDN.
      */
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_bovini> ClsCapoVacca;
+  
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato dei capi bovini macellati determinati dal filtro BDN
      */
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_clsCapoMacellato> ClsCapoMacellato;
 
 	@ManyToOne
