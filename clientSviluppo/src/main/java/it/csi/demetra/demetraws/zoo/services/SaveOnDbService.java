@@ -71,7 +71,7 @@ public class SaveOnDbService {
             errore.setNomeMetodo("GetConsistenzaUbaCensimOVini2012");
             errore.setInput(input);
             System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
-            errore.setSessione(sessione);
+            errore.setIdSessione(sessione);
             erroreService.saveError(errore);
         }
     }

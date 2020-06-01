@@ -15,21 +15,21 @@ public class Dmt_w_Tpremio_zoo_id implements Serializable {
 	private String id_allev_bdn;
 	private String sco_specie;
 	private String cod_specie;
-	private long sessione;
+	private Long idSessione;
 
 	public Dmt_w_Tpremio_zoo_id() {
 
 	}
 
 	public Dmt_w_Tpremio_zoo_id(Long id_azienda, Long versione, String cod_allevamento, String id_allev_bdn,
-			String sco_specie, String cod_specie, long sessione) {
+			String sco_specie, String cod_specie, Long idSessione) {
 		this.id_azienda = id_azienda;
 		this.versione = versione;
 		this.cod_allevamento = cod_allevamento;
 		this.id_allev_bdn = id_allev_bdn;
 		this.sco_specie = sco_specie;
 		this.cod_specie = cod_specie;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Dmt_w_Tpremio_zoo_id implements Serializable {
 		int result = 1;
 		result = prime * result + ((cod_allevamento == null) ? 0 : cod_allevamento.hashCode());
 		result = prime * result + ((cod_specie == null) ? 0 : cod_specie.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((id_allev_bdn == null) ? 0 : id_allev_bdn.hashCode());
 		result = prime * result + ((id_azienda == null) ? 0 : id_azienda.hashCode());
 		result = prime * result + ((sco_specie == null) ? 0 : sco_specie.hashCode());
@@ -65,7 +65,7 @@ public class Dmt_w_Tpremio_zoo_id implements Serializable {
 				return false;
 		} else if (!cod_specie.equals(other.cod_specie))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (id_allev_bdn == null) {
 			if (other.id_allev_bdn != null)

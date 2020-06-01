@@ -14,7 +14,7 @@ public class Dmt_t_premio_capi_services {
 	Dmt_t_premio_capi_repository capiRepository;
 	
 	public void saveAll (List<Dmt_t_premio_capi> listaCapi) {
-		System.out.println(listaCapi.get(0).getSessione().getIdSessione());
+		System.out.println(listaCapi.get(0).getIdSessione().getIdSessione());
 		capiRepository.saveAll(listaCapi);
 	}
 	

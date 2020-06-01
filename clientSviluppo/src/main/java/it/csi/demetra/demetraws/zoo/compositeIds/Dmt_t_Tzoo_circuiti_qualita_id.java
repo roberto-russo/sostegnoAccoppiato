@@ -8,18 +8,18 @@ public class Dmt_t_Tzoo_circuiti_qualita_id implements Serializable {
 	private String id_allev_bdn;
 	private String sco_cat_cq;
 	private String sco_denom_cq;
-	private long sessione;
+	private Long idSessione;
 
 	public Dmt_t_Tzoo_circuiti_qualita_id() {
 
 	}
 
-	public Dmt_t_Tzoo_circuiti_qualita_id(String cuaa, String id_allev_bdn, String sco_cat_cq, String sco_denom_cq, long sessione) {
+	public Dmt_t_Tzoo_circuiti_qualita_id(String cuaa, String id_allev_bdn, String sco_cat_cq, String sco_denom_cq, Long idSessione) {
 		this.cuaa = cuaa;
 		this.id_allev_bdn = id_allev_bdn;
 		this.sco_cat_cq = sco_cat_cq;
 		this.sco_denom_cq = sco_denom_cq;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class Dmt_t_Tzoo_circuiti_qualita_id implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((id_allev_bdn == null) ? 0 : id_allev_bdn.hashCode());
 		result = prime * result + ((sco_cat_cq == null) ? 0 : sco_cat_cq.hashCode());
 		result = prime * result + ((sco_denom_cq == null) ? 0 : sco_denom_cq.hashCode());
@@ -48,7 +48,7 @@ public class Dmt_t_Tzoo_circuiti_qualita_id implements Serializable {
 				return false;
 		} else if (!cuaa.equals(other.cuaa))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (id_allev_bdn == null) {
 			if (other.id_allev_bdn != null)

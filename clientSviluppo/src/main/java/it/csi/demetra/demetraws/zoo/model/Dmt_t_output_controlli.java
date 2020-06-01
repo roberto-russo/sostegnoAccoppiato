@@ -17,8 +17,8 @@ public class Dmt_t_output_controlli implements Serializable {
 
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "cuaa")
@@ -38,12 +38,12 @@ public class Dmt_t_output_controlli implements Serializable {
 	@Column(name = "capi_ammissibili")
 	private Integer capiAmmissibili;
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public String getCuaa() {

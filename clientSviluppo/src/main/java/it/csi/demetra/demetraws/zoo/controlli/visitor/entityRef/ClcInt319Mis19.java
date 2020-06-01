@@ -216,7 +216,7 @@ public class ClcInt319Mis19 extends Controllo {
 			this.oc.setCuaa(getAzienda().getCuaa());
 			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 319
 			this.oc.setIntervento(getAzienda().getCodicePremio());
-			this.oc.setSessione(getSessione());
+			this.oc.setIdSessione(getSessione());
 			getControlliService().saveOutput(this.oc);
 		}
 
@@ -228,7 +228,7 @@ public class ClcInt319Mis19 extends Controllo {
 			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
 				this.outputEsclusi.setCalcolo("ClcInt319Mis19");
 				this.outputEsclusi.setCapoId(x.getCapoId());
-				this.outputEsclusi.setSessione(getSessione());
+				this.outputEsclusi.setIdSessione(getSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

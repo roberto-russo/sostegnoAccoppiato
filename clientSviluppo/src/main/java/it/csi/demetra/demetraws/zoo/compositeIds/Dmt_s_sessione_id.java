@@ -11,13 +11,13 @@ public class Dmt_s_sessione_id implements Serializable{
 	private static final long serialVersionUID = -2033093729894466812L;
 
 	private Date dataEora;
-	private long idSessione;
+	private Long idSessione;
 	
 	public Dmt_s_sessione_id() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Dmt_s_sessione_id(Date dataEora, long idSessione) {
+	public Dmt_s_sessione_id(Date dataEora, Long idSessione) {
 		this.dataEora = dataEora;
 		this.idSessione = idSessione;
 	}

@@ -13,18 +13,18 @@ public class Dmt_d_esito_controlli_preammissibilita_id implements Serializable{
 	private String cuaa;
 	private double anno;
 	private Long idGestore;
-	private long sessione;
+	private Long idSessione;
 	
 	public Dmt_d_esito_controlli_preammissibilita_id() {
 		
 	}
 	
-	public Dmt_d_esito_controlli_preammissibilita_id(Long id, String cuaa, double anno, Long idGestore, long idSessione) {
+	public Dmt_d_esito_controlli_preammissibilita_id(Long id, String cuaa, double anno, Long idGestore, Long idSessione) {
 		this.id = id;
 		this.cuaa = cuaa;
 		this.anno = anno;
 		this.idGestore = idGestore;
-		this.sessione = idSessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Dmt_d_esito_controlli_preammissibilita_id implements Serializable{
 		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idGestore == null) ? 0 : idGestore.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -67,7 +67,7 @@ public class Dmt_d_esito_controlli_preammissibilita_id implements Serializable{
 				return false;
 		} else if (!idGestore.equals(other.idGestore))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

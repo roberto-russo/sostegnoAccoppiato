@@ -6,7 +6,7 @@ public class Dmt_t_premio_capi_id implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long sessione;
+    private Long idSessione;
     private String cuaa;
     private Long idAllevamento;
     private String codicePremio;
@@ -16,8 +16,8 @@ public class Dmt_t_premio_capi_id implements Serializable {
 
     }
 
-    public Dmt_t_premio_capi_id(long idSessione, String cuaa, Long idAllevamento, String codicePremio, Long idCapo) {
-        this.sessione = idSessione;
+    public Dmt_t_premio_capi_id(Long idSessione, String cuaa, Long idAllevamento, String codicePremio, Long idCapo) {
+        this.idSessione = idSessione;
         this.cuaa = cuaa;
         this.idAllevamento = idAllevamento;
         this.codicePremio = codicePremio;
@@ -28,12 +28,12 @@ public class Dmt_t_premio_capi_id implements Serializable {
         return serialVersionUID;
     }
 
-    public long getSessione() {
-        return sessione;
+    public Long getIdSessione() {
+        return idSessione;
     }
 
-    public void setSessione(long sessione) {
-        this.sessione = sessione;
+    public void setIdSessione(Long idSessione) {
+        this.idSessione = idSessione;
     }
 
     public String getCuaa() {

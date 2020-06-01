@@ -30,17 +30,13 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
      */
     private static final long serialVersionUID = -6260458970616077053L;
 
-    @Id
-  	@Column(name = "id_sessione")
-  	private Long idSessione;
-  	
   	@MapsId
   	@ManyToOne
-  	@JoinColumn(name = "id_sessione", nullable = false)
+  	@JoinColumn(name = "idSessione", nullable = false)
   	/**
   	 * codice sessione associato all'esecuzione.
   	 */
-  	private Dmt_t_sessione sessione;
+  	private Dmt_t_sessione idSessione;
 
   	@Id
     @Column(name = "p_cuaa", length = 16)
@@ -136,16 +132,16 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
      * metodo getter che ritorna il codice di sessione associato all'esecuzione
      * @return sessione codice di sessione associato all'esecuzione.
      */
-    public Dmt_t_sessione getSessione() {
-        return sessione;
+    public Dmt_t_sessione getIdSessione() {
+        return idSessione;
     }
 
     /**
      * metodo setter che imposta il codice di sessione associato all'esecuzione
      * @param sessione codice di sessione associato all'esecuzione.
      */
-    public void setSessione(Dmt_t_sessione sessione) {
-        this.sessione = sessione;
+    public void setIdSessione(Dmt_t_sessione sessione) {
+        this.idSessione = sessione;
     }
 
     /**
@@ -156,20 +152,5 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
 		this.pCuaa = pCuaa;
 	}
 
-	/**
-	 * metodo getter che ritorna il codice di sessione associato all'esecuzione.
-	 * @return idSessione codice di sessione associato all'esecuzione.
-	 */
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	/**
-	 * metodo setter che imposta il codice di sessione associato all'esecuzione
-	 * @param idSessione codice di sessione associato all'esecuzione.
-	 */
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
 	
 }

@@ -21,17 +21,13 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	private static final long serialVersionUID = 5643073399146782350L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "idSessione", nullable = false)
 	 /**
      * id univoco associato all'istanza di sessione.
      */
-	private Dmt_t_sessione sessione;
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	/**
@@ -82,16 +78,16 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 * metodo getter che ritorna la sessione.
 	 * @return sessione codice di sessione associato all'esecuzione.
 	 */
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
 	/**
 	 * metodo setter che imposta la sessione.
 	 * @param sessione codice di sessione associato all'esecuzione
 	 */
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	/**
@@ -192,21 +188,5 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 */
 	public void setCodiceIntervento(String codiceIntervento) {
 		this.codiceIntervento = codiceIntervento;
-	}
-
-	/**
-	 * metodo getter che ritorna l' idSessione
-	 * @return idSessione codice sessione associato all'esecuzione.
-	 */
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	/**
-	 * metodo setter che imposta l' idSessioneS
-	 * @param idSessione codice sessione associato all'esecuzione
-	 */
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 }

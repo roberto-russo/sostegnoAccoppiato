@@ -9,13 +9,13 @@ public class Dmt_t_output_controlli_id implements Serializable {
 	 */
 	private static final long serialVersionUID = -6572779375292767533L;
 
-    private long sessione;
+    private Long idSessione;
 	private String cuaa;
 	private Integer annoCampagna;
 	private String intervento;
-	public Dmt_t_output_controlli_id(long sessione, String cuaa, Integer annoCampagna, String intervento) {
+	public Dmt_t_output_controlli_id(Long idSessione, String cuaa, Integer annoCampagna, String intervento) {
 		super();
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		this.cuaa = cuaa;
 		this.annoCampagna = annoCampagna;
 		this.intervento = intervento;
@@ -59,11 +59,12 @@ public class Dmt_t_output_controlli_id implements Serializable {
 			return false;
 		return true;
 	}
-	public long getSessione() {
-		return sessione;
+	public Long getIdSessione() {
+		return idSessione;
 	}
-	public void setSessione(long sessione) {
-		this.sessione = sessione;
+
+	public void setIdSessione(Long idSessione) {
+		this.idSessione = idSessione;
 	}
 	public String getCuaa() {
 		return cuaa;

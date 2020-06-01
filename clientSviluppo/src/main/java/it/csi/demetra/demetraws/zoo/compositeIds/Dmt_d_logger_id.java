@@ -9,7 +9,7 @@ public class Dmt_d_logger_id  implements Serializable{
 	 */
 	private static final long serialVersionUID = -4381086099452384189L;
 
-	private long sessione;
+	private Long idSessione;
 	private Long idLog;
 	
 	
@@ -17,9 +17,9 @@ public class Dmt_d_logger_id  implements Serializable{
 		super();
 	}
 	
-	public Dmt_d_logger_id(long sessione, Long idLog) {
+	public Dmt_d_logger_id(Long idSessione, Long idLog) {
 		super();
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		this.idLog = idLog;
 	}
 
@@ -28,7 +28,7 @@ public class Dmt_d_logger_id  implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idLog == null) ? 0 : idLog.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -46,7 +46,7 @@ public class Dmt_d_logger_id  implements Serializable{
 				return false;
 		} else if (!idLog.equals(other.idLog))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

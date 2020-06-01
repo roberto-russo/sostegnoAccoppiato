@@ -12,6 +12,6 @@ package it.csi.demetra.demetraws.zoo.repository;
 //public interface Dmt_t_Ref9902_repository extends CrudRepository<Dmt_t_Ref9902, Dmt_t_Ref9902_id> {
 //
 //	
-//	@Query(value = "SELECT * FROM DMT_T_REF9902 dtr WHERE FK_ID_SESSIONE = :idSessione AND cuaa = :cuaa ", nativeQuery = true)
+//	@Query(value = "SELECT * FROM DMT_T_REF9902 dtr where id_sessione = :idSessione AND cuaa = :cuaa ", nativeQuery = true)
 //	List<Dmt_t_Ref9902> findByIdSessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 //}

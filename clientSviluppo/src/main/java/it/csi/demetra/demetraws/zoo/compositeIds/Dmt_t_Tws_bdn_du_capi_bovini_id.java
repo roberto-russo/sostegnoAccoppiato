@@ -17,7 +17,7 @@ package it.csi.demetra.demetraws.zoo.compositeIds;
 //
 //	}
 //
-//	public Dmt_t_Tws_bdn_du_capi_bovini_id(long allev_id, long capoId, long vitelloCapoId, long idSessione) {
+//	public Dmt_t_Tws_bdn_du_capi_bovini_id(long allev_id, long capoId, long vitelloCapoId, Long idSessione) {
 //
 //		this.allev_id = allev_id;
 //		this.capoId = capoId;

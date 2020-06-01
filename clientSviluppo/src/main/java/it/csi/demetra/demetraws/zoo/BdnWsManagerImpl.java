@@ -77,7 +77,7 @@ public class BdnWsManagerImpl {
 			errore.setErroreDesc("dati non disponibili");
 			errore.setNomeMetodo("getAnagraficaAllevamenti");
 			errore.setInput(input);
-			errore.setSessione(sessione);
+			errore.setIdSessione(sessione);
 			erroreService.saveError(errore);
 		} 
 	}
@@ -117,7 +117,7 @@ public class BdnWsManagerImpl {
 			errore.setNomeMetodo("getElencoCapiPremioNew");
 			errore.setInput(input);
 //			System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
-			errore.setSessione(sessione);
+			errore.setIdSessione(sessione);
 			erroreService.saveError(errore);
 			
 //			System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");
@@ -159,7 +159,7 @@ public class BdnWsManagerImpl {
 			errore.setNomeMetodo("getElencoCapiPremio2New");
 			errore.setInput(input);
 //			System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
-			errore.setSessione(sessione);
+			errore.setIdSessione(sessione);
 			erroreService.saveError(errore);
 			
 //			System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");
@@ -205,7 +205,7 @@ public class BdnWsManagerImpl {
 			errore.setNomeMetodo("GetConsistenzaUbaCensimOVini2012");
 			errore.setInput(input);
 //			System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
-			errore.setSessione(sessione);
+			errore.setIdSessione(sessione);
 			erroreService.saveError(errore);
 			
 //			System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");

@@ -187,7 +187,7 @@ public class ClcInt315Mis5 extends Controllo {
 				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
 				this.oc.setCuaa(getAzienda().getCuaa());
 				this.oc.setIntervento(getAzienda().getCodicePremio());
-				this.oc.setSessione(getSessione());
+				this.oc.setIdSessione(getSessione());
 				getControlliService().saveOutput(this.oc);
 			}
 
@@ -200,7 +200,7 @@ public class ClcInt315Mis5 extends Controllo {
 				
 					this.oe.setCalcolo("ClcInt315Mis5");
 					this.oe.setCapoId(x.getCapoId());
-					this.oe.setSessione(getSessione());
+					this.oe.setIdSessione(getSessione());
 					this.oe.setMotivazioneEsclusione(this.motivazione);
 					this.getControlliService().saveOutputEscl(this.oe);
 				}

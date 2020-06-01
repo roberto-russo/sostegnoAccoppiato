@@ -18,8 +18,8 @@ public class Dmt_t_premio_capi implements Serializable {
 
     @MapsId
     @ManyToOne
-    @JoinColumn(name = "sessione", nullable = false)
-    private Dmt_t_sessione sessione;
+    @JoinColumn(name = "idSessione", nullable = false)
+    private Dmt_t_sessione idSessione;
 
     @Id
     @Column(name = "ID_ALLEVAMENTO")
@@ -55,12 +55,12 @@ public class Dmt_t_premio_capi implements Serializable {
     @Column(name = "MSG")
     private String msg;
 
-    public Dmt_t_sessione getSessione() {
-        return sessione;
+    public Dmt_t_sessione getIdSessione() {
+        return idSessione;
     }
 
-    public void setSessione(Dmt_t_sessione sessione) {
-        this.sessione = sessione;
+    public void setIdSessione(Dmt_t_sessione sessione) {
+        this.idSessione = sessione;
     }
 
     public Long getIdAllevamento() {

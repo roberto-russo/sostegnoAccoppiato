@@ -24,17 +24,13 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	 */
 	private static final long serialVersionUID = 4821666006881108733L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "idSessione", nullable = false)
 	/**
 	 * codice sessione associato all'esecuzione
 	 */
-	private Dmt_t_sessione sessione;
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "id_specie")
@@ -76,16 +72,16 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	 * metodo getter che ritorna il codice della sessione associato all'esecuzione.
 	 * @return sessione codice della sessione associata all'esecuzione.
 	 */
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
 	/**
 	 * metodo setter che imposta il codice della sessione associato all'esecuzione.
 	 * @param sessione codice della sessione associato all'esecuzione.
 	 */
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	/**
@@ -98,18 +94,6 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 
 	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
-	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	/**
-	 * metodo setter che imposta il codice sessione associato all'esecuzione
-	 * @param idSessione codice della sessione associato all'esecuzione.
-	 */
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 
 }

@@ -1,7 +1,6 @@
 package it.csi.demetra.demetraws.zoo.calcoli;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -569,7 +568,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		capoTmp.setCodiceAzienda(capo.getCapo().getAziendaCodice());	
 		capoTmp.setIdCapo(capo.getCapo().getCapoId());
 		capoTmp.setCuaa(getCuaa());
-		capoTmp.setSessione(capo.getCapo().getSessione());
+		capoTmp.setIdSessione(capo.getCapo().getIdSessione());
 		capoTmp.setFlagAmmissibile(ammissibile);
 		capoTmp.setCodiceVitello(capo.getCapo().getCodiceVitello());
 		capoTmp.setCodicePremio(capo.getCapo().getCodicePremio());

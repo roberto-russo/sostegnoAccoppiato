@@ -12,18 +12,18 @@ public class Dmt_t_clsPremio_Validazione_id implements Serializable {
 	private String codiceIntervento;
 	private String cuaa;
 	private Integer annoCampagna;
-	private long sessione;
+	private Long idSessione;
 
 	public Dmt_t_clsPremio_Validazione_id() {
 
 	}
 
-	public Dmt_t_clsPremio_Validazione_id(String codiceIntervento, String cuaa, Integer annoCampagna, long sessione) {
+	public Dmt_t_clsPremio_Validazione_id(String codiceIntervento, String cuaa, Integer annoCampagna, Long idSessione) {
 
 		this.codiceIntervento = codiceIntervento;
 		this.cuaa = cuaa;
 		this.annoCampagna = annoCampagna;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Dmt_t_clsPremio_Validazione_id implements Serializable {
 		result = prime * result + ((annoCampagna == null) ? 0 : annoCampagna.hashCode());
 		result = prime * result + ((codiceIntervento == null) ? 0 : codiceIntervento.hashCode());
 		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -61,7 +61,7 @@ public class Dmt_t_clsPremio_Validazione_id implements Serializable {
 				return false;
 		} else if (!cuaa.equals(other.cuaa))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

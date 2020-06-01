@@ -10,11 +10,11 @@ public class Dmt_d_Ref9903_id implements Serializable {
 	private static final long serialVersionUID = -8487247615949600950L;
 	
 	private String cuaa;
-	private long sessione;
+	private Long idSessione;
 	
-	public Dmt_d_Ref9903_id(String cuaa, long sessione) {
+	public Dmt_d_Ref9903_id(String cuaa, Long idSessione) {
 		this.cuaa = cuaa;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	public Dmt_d_Ref9903_id() {
@@ -26,7 +26,7 @@ public class Dmt_d_Ref9903_id implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -44,7 +44,7 @@ public class Dmt_d_Ref9903_id implements Serializable {
 				return false;
 		} else if (!cuaa.equals(other.cuaa))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

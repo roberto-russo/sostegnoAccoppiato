@@ -18,15 +18,10 @@ public class Dmt_t_errore implements Serializable {
 
     @Id
     private String input;
-
-    @Id
-    @Column(name = "id_sessione")
-    private Long idSessione;
-
     @MapsId
     @ManyToOne
-    @JoinColumn(name = "id_sessione", nullable = false)
-    private Dmt_t_sessione sessione;
+    @JoinColumn(name = "idSessione", nullable = false)
+    private Dmt_t_sessione idSessione;
 
     @Column(name = "errore_descrizione", length = 400)
     private String erroreDesc;
@@ -38,8 +33,8 @@ public class Dmt_t_errore implements Serializable {
         this.erroreDesc = erroreDesc;
     }
 
-    public Dmt_t_errore(Dmt_t_sessione sessione, String nomeMetodo, String input, String erroreDesc) {
-        this.sessione = sessione;
+    public Dmt_t_errore(Dmt_t_sessione idSessione, String nomeMetodo, String input, String erroreDesc) {
+        this.idSessione = idSessione;
         this.nomeMetodo = nomeMetodo;
         this.input = input;
         this.erroreDesc = erroreDesc;
@@ -49,12 +44,12 @@ public class Dmt_t_errore implements Serializable {
         return serialVersionUID;
     }
 
-    public Dmt_t_sessione getSessione() {
-        return sessione;
+    public Dmt_t_sessione getIdSessione() {
+        return idSessione;
     }
 
-    public void setSessione(Dmt_t_sessione sessione) {
-        this.sessione = sessione;
+    public void setIdSessione(Dmt_t_sessione sessione) {
+        this.idSessione = sessione;
     }
 
     public String getErroreDesc() {
@@ -89,13 +84,7 @@ public class Dmt_t_errore implements Serializable {
         this.input = input;
     }
 
-    public Long getIdSessione() {
-        return idSessione;
-    }
 
-    public void setIdSessione(Long idSessione) {
-        this.idSessione = idSessione;
-    }
 
     @Override
     public String toString() {
@@ -103,7 +92,7 @@ public class Dmt_t_errore implements Serializable {
                 "nomeMetodo='" + nomeMetodo + '\'' +
                 ", input='" + input + '\'' +
                 ", idSessione=" + idSessione +
-                ", sessione=" + sessione +
+                ", sessione=" + idSessione +
                 ", erroreDesc='" + erroreDesc + '\'' +
                 ", errorecodice='" + errorecodice + '\'' +
                 '}';

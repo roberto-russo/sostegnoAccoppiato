@@ -29,14 +29,10 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	 */
 	private static final long serialVersionUID = -9034733570550933438L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "id_domanda")
@@ -462,12 +458,12 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 		this.scostamentoPerc = scostamentoPerc;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public void setIdDomanda(Long idDomanda) {
@@ -488,14 +484,6 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 
 	public void setScoTipoCalcolo(String scoTipoCalcolo) {
 		this.scoTipoCalcolo = scoTipoCalcolo;
-	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 
 }

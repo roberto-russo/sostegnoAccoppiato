@@ -196,7 +196,7 @@ try {
 			this.oc.setCuaa(getAzienda().getCuaa());
 			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 322
 			this.oc.setIntervento(getAzienda().getCodicePremio());
-			this.oc.setSessione(getSessione());
+			this.oc.setIdSessione(getSessione());
 			getControlliService().saveOutput(this.oc);
 
 		}
@@ -209,7 +209,7 @@ try {
 
 				this.outputEsclusi.setCalcolo("ClcInt322Mis20");
 				this.outputEsclusi.setCapoId(x.getCapoId());
-				this.outputEsclusi.setSessione(getSessione());
+				this.outputEsclusi.setIdSessione(getSessione());
 				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}

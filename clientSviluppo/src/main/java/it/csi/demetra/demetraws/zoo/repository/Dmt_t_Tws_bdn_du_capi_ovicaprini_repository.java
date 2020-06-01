@@ -14,14 +14,14 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 	
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini> findAll();
 	
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione ", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA where id_sessione = :idSessione ", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSession(@Param("idSessione") Long idSessione);
 	
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND codice_premio = :codicePremio", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA where id_sessione = :idSessione AND CUAA = :cuaa AND codice_premio = :codicePremio", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA "
-				 + "WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa "
+				 + "where id_sessione = :idSessione AND CUAA = :cuaa "
 				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))>20 "
 				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))/12 <= 18", 
 		   nativeQuery = true)
@@ -29,7 +29,7 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 	
 	
 	@Query(
-			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA WHERE ID_SESSIONE = :idSessione and CUAA = :cuaa ",
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA where id_sessione = :idSessione and CUAA = :cuaa ",
 			nativeQuery = true
 		)
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);

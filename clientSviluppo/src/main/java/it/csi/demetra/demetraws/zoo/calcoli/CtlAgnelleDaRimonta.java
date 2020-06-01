@@ -231,7 +231,7 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
 
         sessione.setIdSessione(capiControllati9902.getIdSessione());
 
-        agnelleRimonta.setSessione(sessione);
+        agnelleRimonta.setIdSessione(sessione);
         agnelleRimonta.setEsito(capiControllati9902.isEsito() ? ESITO_OK : ESITO_KO);
         agnelleRimonta.setCuaa(capiControllati9902.getCuaa());
         agnelleRimonta.setMotivazioni(capiControllati9902.getMotivazioni());
@@ -277,7 +277,6 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
                     .quotaCapiPremioRichiesti(registroStalla.size())
                     .ubaOviniCensimento(censimento.get(0)).build();
         }
-
 
         return calcoloAgnelleDaRimontaPremioIn;
 
