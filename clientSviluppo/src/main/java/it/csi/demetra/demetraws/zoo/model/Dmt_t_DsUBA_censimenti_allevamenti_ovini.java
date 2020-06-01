@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,9 +22,6 @@ import javax.xml.bind.annotation.XmlElement;
 @Table(name = "DMT_T_UBA_CENSIM_ALLEV_OVINI")
 public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 624599232395935059L;
 
 	
