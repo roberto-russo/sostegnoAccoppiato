@@ -31,11 +31,17 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "id_sessione", nullable = false)
+	/**
+	 * codice sessione associato all'esecuzione
+	 */
 	private Dmt_t_sessione sessione;
 
 	@Id
 	@Column(name = "id_specie")
 	@NotNull
+	/**
+	 * Codice Specie animale allevata
+	 */
 	private Long idSpecie;
 
 	@Id
@@ -46,6 +52,10 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	@Column(name = "coefficiente", length = 5, precision = 3)
 	private double coefficiente;
 
+	/**
+	 * metodo getter che ritorna il codice specie animale allevata
+	 * @return idSpecie codice specie animale allevata
+	 */
 	public Long getIdSpecie() {
 		return idSpecie;
 	}
@@ -62,14 +72,26 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 		this.coefficiente = coefficiente;
 	}
 
+	/**
+	 * metodo getter che ritorna il codice della sessione associato all'esecuzione.
+	 * @return sessione codice della sessione associata all'esecuzione.
+	 */
 	public Dmt_t_sessione getSessione() {
 		return sessione;
 	}
 
+	/**
+	 * metodo setter che imposta il codice della sessione associato all'esecuzione.
+	 * @param sessione codice della sessione associato all'esecuzione.
+	 */
 	public void setSessione(Dmt_t_sessione sessione) {
 		this.sessione = sessione;
 	}
 
+	/**
+	 * metodo setter che imposta il codice della specie animale allevata.
+	 * @param idSpecie codice della specie animale allevata.
+	 */
 	public void setIdSpecie(Long idSpecie) {
 		this.idSpecie = idSpecie;
 	}
@@ -82,6 +104,10 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 		return idSessione;
 	}
 
+	/**
+	 * metodo setter che imposta il codice sessione associato all'esecuzione
+	 * @param idSessione codice della sessione associato all'esecuzione.
+	 */
 	public void setIdSessione(Long idSessione) {
 		this.idSessione = idSessione;
 	}
