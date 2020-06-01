@@ -56,8 +56,8 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     public List<Dmt_t_clsCapoMacellato> ClsCapoMacellato;
 
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
     @Column(name = "codice_errore", length = 400)
     /**
@@ -206,12 +206,12 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
         ClsCapoMacellato = clsCapoMacellato;
     }
 
-    public Dmt_t_sessione getSessione() {
-        return this.sessione;
+    public Dmt_t_sessione getIdSessione() {
+        return this.idSessione;
     }
 
-    public void setSessione(Dmt_t_sessione sessione) {
-        this.sessione = sessione;
+    public void setIdSessione(Dmt_t_sessione sessione) {
+        this.idSessione = sessione;
     }
 
 

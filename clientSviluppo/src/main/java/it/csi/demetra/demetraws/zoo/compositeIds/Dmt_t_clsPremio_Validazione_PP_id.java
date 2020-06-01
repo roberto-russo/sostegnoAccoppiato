@@ -9,7 +9,7 @@ public class Dmt_t_clsPremio_Validazione_PP_id implements Serializable{
 	 */
 	private static final long serialVersionUID = 5236761307926831527L;
 
-	private long sessione;
+	private Long idSessione;
 	private Long IdAlleBDN;
 	
 	
@@ -17,9 +17,9 @@ public class Dmt_t_clsPremio_Validazione_PP_id implements Serializable{
 		super();
 	}
 	
-	public Dmt_t_clsPremio_Validazione_PP_id(long sessione, Long idAlleBDN) {
+	public Dmt_t_clsPremio_Validazione_PP_id(Long idSessione, Long idAlleBDN) {
 		super();
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		IdAlleBDN = idAlleBDN;
 	}
 
@@ -28,7 +28,7 @@ public class Dmt_t_clsPremio_Validazione_PP_id implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((IdAlleBDN == null) ? 0 : IdAlleBDN.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -46,7 +46,7 @@ public class Dmt_t_clsPremio_Validazione_PP_id implements Serializable{
 				return false;
 		} else if (!IdAlleBDN.equals(other.IdAlleBDN))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

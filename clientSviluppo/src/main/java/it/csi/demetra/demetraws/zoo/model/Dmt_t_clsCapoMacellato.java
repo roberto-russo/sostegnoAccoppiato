@@ -38,11 +38,11 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "idSessione", nullable = false)
 	/**
 	 * codice di sessione associato all'esecuzione
 	 */
-	private Dmt_t_sessione sessione;
+	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
 	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
@@ -682,12 +682,12 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 		this.flagDelegatoIngresso = flagDelegatoIngresso;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return this.sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return this.idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public String getCodicePremio() {

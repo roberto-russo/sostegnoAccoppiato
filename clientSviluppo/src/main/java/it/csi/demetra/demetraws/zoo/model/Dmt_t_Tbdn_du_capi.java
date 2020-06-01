@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,8 +45,8 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
 	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
@@ -399,12 +398,12 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 		this.dtMacellazione = dtMacellazione;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return this.sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return this.idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public String getCodicePremio() {

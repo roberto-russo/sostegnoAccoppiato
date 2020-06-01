@@ -124,7 +124,7 @@ public class ref03 {
 			outputCalcolo.setImportoPagato(importoPagato.doubleValue());
 			outputCalcolo.setIntervento(cp);
 			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione.doubleValue());
-			outputCalcolo.setSessione(this.sessione);
+			outputCalcolo.setIdSessione(this.sessione);
 
 			if (esito.compareTo(new BigDecimal("0.5")) >0)
 				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati).intValue());

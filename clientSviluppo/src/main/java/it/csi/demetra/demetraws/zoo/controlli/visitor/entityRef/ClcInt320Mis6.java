@@ -170,7 +170,7 @@ public class ClcInt320Mis6 extends Controllo {
 		this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
 		this.oc.setCuaa(getAzienda().getCuaa());
 		this.oc.setIntervento(getAzienda().getCodicePremio());
-		this.oc.setSessione(getSessione());
+		this.oc.setIdSessione(getSessione());
 		getControlliService().saveOutput(this.oc);
 	}
 

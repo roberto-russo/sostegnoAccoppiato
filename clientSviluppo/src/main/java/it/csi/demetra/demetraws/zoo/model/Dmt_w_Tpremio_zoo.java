@@ -29,14 +29,10 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 */
 	private static final long serialVersionUID = -8597274421755170023L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	/*
 	 * Rif azienda
@@ -491,12 +487,12 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 		this.vacche_nutrici_ng = vacche_nutrici_ng;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public void setId_azienda(Long id_azienda) {
@@ -522,13 +518,4 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	public void setCod_specie(String cod_specie) {
 		this.cod_specie = cod_specie;
 	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
-
 }

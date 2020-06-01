@@ -22,7 +22,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	 */
 	List<Dmt_t_clsCapoMacellato>findAll();
 	
-	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE ID_SESSIONE = :idSessione ", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione ", nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base all' idSessione.
 	 * @param idSessione codice di sessione associato all'esecuzione
@@ -30,7 +30,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	 */
 	List<Dmt_t_clsCapoMacellato>findByIdSession(@Param("idSessione") Long idSessione);
 	
-	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento", nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base all'idSesione, il cuaa e il codiceIntervento
 	 * @param idSessione codice di sessione associato all'esecuzione
@@ -41,7 +41,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	List<Dmt_t_clsCapoMacellato>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO "
-				 + "WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa "
+				 + "where id_sessione = :idSessione AND CUAA = :cuaa "
 				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))>20 "
 				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))/12 <= 18", 
 		   nativeQuery = true)
@@ -65,7 +65,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 
 	
 	@Query(
-			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE ID_SESSIONE = :idSessione and CUAA = :cuaa ",
+			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa ",
 			nativeQuery = true
 		)
 	/**

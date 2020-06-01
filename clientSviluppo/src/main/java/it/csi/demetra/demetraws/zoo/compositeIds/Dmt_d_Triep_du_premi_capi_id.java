@@ -13,17 +13,17 @@ public class Dmt_d_Triep_du_premi_capi_id implements Serializable{
 	private String scoAttivita;
 	private Long idRichiesta;
 	private String codPremio;
-	private long sessione;
+	private Long idSessione;
 	
 	public Dmt_d_Triep_du_premi_capi_id() {
 		
 	}
 	
-	public Dmt_d_Triep_du_premi_capi_id(Long idDomanda, String scoAttivita, Long idRichiesta, String codPremio, long sessione) {
+	public Dmt_d_Triep_du_premi_capi_id(Long idDomanda, String scoAttivita, Long idRichiesta, String codPremio, Long idSessione) {
 		this.idDomanda = idDomanda;
 		this.scoAttivita = scoAttivita;
 		this.codPremio = codPremio;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		this.idRichiesta = idRichiesta;
 	}
 	
@@ -51,7 +51,7 @@ public class Dmt_d_Triep_du_premi_capi_id implements Serializable{
 		result = prime * result + ((codPremio == null) ? 0 : codPremio.hashCode());
 		result = prime * result + ((idDomanda == null) ? 0 : idDomanda.hashCode());
 		result = prime * result + ((idRichiesta == null) ? 0 : idRichiesta.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((scoAttivita == null) ? 0 : scoAttivita.hashCode());
 		return result;
 	}
@@ -80,7 +80,7 @@ public class Dmt_d_Triep_du_premi_capi_id implements Serializable{
 				return false;
 		} else if (!idRichiesta.equals(other.idRichiesta))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (scoAttivita == null) {
 			if (other.scoAttivita != null)

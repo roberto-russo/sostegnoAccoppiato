@@ -458,7 +458,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 		capoTmp.setCodiceAzienda(capoVacca.getAziendaCodice());	
 		capoTmp.setIdCapo(capoVacca.getCapoId());
 		capoTmp.setCuaa(getCuaa());
-		capoTmp.setSessione(capoVacca.getSessione());
+		capoTmp.setIdSessione(capoVacca.getIdSessione());
 		capoTmp.setFlagAmmissibile(ammissibile);
 		capoTmp.setCodiceVitello(capoVacca.getCodiceVitello());
 		capoTmp.setCodicePremio(capoVacca.getCodicePremio());
@@ -487,12 +487,12 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 		capoTmp.setCodiceAzienda(capo.getAziendaCodice());	
 		capoTmp.setIdCapo(capo.getCapoId());
 		capoTmp.setCuaa(getCuaa());
-		capoTmp.setSessione(capo.getSessione());
+		capoTmp.setIdSessione(capo.getIdSessione());
 		capoTmp.setFlagAmmissibile(ammissibile);
 		capoTmp.setCodicePremio(capo.getCodicePremio());
 		capoTmp.setIdAllevamento(capo.getAllevId());
 		capoTmp.setMsg(msg);
-		capoTmp.setSessione(sessione);
+		capoTmp.setIdSessione(sessione);
 		capoTmp.setCodiceVitello("");
 		return capoTmp;
 		
@@ -540,7 +540,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			model.setAnnoCampagna(getAnnoCampagna());
 			model.setCodiceIntervento(getCodIntrervento());
 			model.setCuaa(getCuaa());
-			model.setSessione(sessione);
+			model.setIdSessione(sessione);
 			model.setUba(ubaMinime);
 			
 			if(ubaMinime >= UBA) {

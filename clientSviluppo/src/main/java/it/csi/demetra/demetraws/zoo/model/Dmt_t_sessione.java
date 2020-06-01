@@ -36,99 +36,90 @@ public class Dmt_t_sessione implements Serializable {
     /**
      * id univoco associato all'istanza di sessione.
      */
-    private long idSessione;
+    private Long idSessione;
 
 
 
     /* CHIAVI ESTERNE */
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     /**
      * lista degli elementi di tipo Dmt_d_clsPremio_ValidazioneResponse
      * associati all'id di sessione attraverso la chiave esterna.
      */
     private List<Dmt_d_clsPremio_ValidazioneResponse> validResp;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_d_esito_controlli_preammissibilita> esitoContr;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_d_Triep_du_premi_capi> premiCapi;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_clsCapoMacellato> capiMacellati;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_clsPremio_Validazione_PP> premioValidazionePP;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_clsPremio_Validazione> premioValidazione;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_coefficienti_uba> coefficientiUBA;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_consistenza_uba_censim_ovini> consistCensimUBAOvini;
 
-    @OneToMany(mappedBy = "sessione")
-    private List<Dmt_t_dec_categoria> categoria;
-
-    @OneToMany(mappedBy = "sessione")
-    private List<Dmt_t_dec_specie> specie;
-
-    @OneToMany(mappedBy = "sessione")
-    private List<Dmt_t_dec_tipologia_gestore> tipologiaGestore;
-
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_errore> errore;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_gestori> gestori;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Intervento> intervento;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tbdn_du_capi> capi;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tlatte_mensile_arpea> mensArpea;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tlatte_sintesi_analisi> sintesiAnalisi;
 
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tws_bdn_du_capi_bovini> bovini;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> ovicaprini;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_Tzoo_circuiti_qualita> circuitiQualita;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_w_calcoli_interventi> calcoloInterventi;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_w_controlli_preammissibilita> contrPreamm;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_premio_capi> premioCapi;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_w_Tpremio_zoo> premioZoo;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> ubaCensimOvini;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_d_logger> logger;
 
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_output_controlli> outputControlli;
     
-    @OneToMany(mappedBy = "sessione")
+    @OneToMany(mappedBy = "idSessione")
     private List<Dmt_t_output_esclusi> outputEsclusi;
 
 //	@Column(name = "lista_zoote")
@@ -168,7 +159,7 @@ public class Dmt_t_sessione implements Serializable {
      *
      * @return idSessione id dell'elemento di sessione di tipo long
      */
-    public long getIdSessione() {
+    public Long getIdSessione() {
         return idSessione;
     }
 
@@ -177,7 +168,7 @@ public class Dmt_t_sessione implements Serializable {
      *
      * @oaram idSessione id dell'elemento di sessione.
      */
-    public void setIdSessione(long idSessione) {
+    public void setIdSessione(Long idSessione) {
         this.idSessione = idSessione;
     }
 }

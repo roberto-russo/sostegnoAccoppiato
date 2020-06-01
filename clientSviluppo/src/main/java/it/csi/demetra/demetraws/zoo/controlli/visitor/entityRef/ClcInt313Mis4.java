@@ -33,11 +33,17 @@ public class ClcInt313Mis4 extends Controllo {
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
 
+    private void init() {
+        listEsclusi = new ArrayList<>();
+        importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
+        importoLiquidabile = 0;
+    }
+
     @Override
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
         modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
+        init();
         if (modelVacche != null && modelVacche.size() > 0) {
             try {
                 ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
@@ -74,7 +80,7 @@ public class ClcInt313Mis4 extends Controllo {
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
-        outputControlli.setSessione(getSessione());
+        outputControlli.setIdSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
         outputControlli.setCapiRichiesti(importoRichiesto);

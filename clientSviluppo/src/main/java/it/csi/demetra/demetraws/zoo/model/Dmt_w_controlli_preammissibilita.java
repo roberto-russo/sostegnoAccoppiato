@@ -24,14 +24,10 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	 */
 	private static final long serialVersionUID = -6971116035802038379L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
-
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 	
 	@Id
 	@Column(name = "nome_classe_calcolo", length = 30)
@@ -63,12 +59,12 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 		this.ordineEsecuzione = ordineEsecuzione;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public void setNomeClasseCalcolo(String nomeClasseCalcolo) {
@@ -77,14 +73,6 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 
 	public void setIdIntervento(Long idIntervento) {
 		this.idIntervento = idIntervento;
-	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 
 }

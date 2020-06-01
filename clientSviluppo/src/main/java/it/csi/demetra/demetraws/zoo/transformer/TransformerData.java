@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.bind.JAXBException;
 
@@ -23,7 +22,6 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_dsScarico_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 public class TransformerData {
 	public TransformerData() {
@@ -82,7 +80,7 @@ public class TransformerData {
 			model.setCodQualificaScrapie(x.getCodiceQualificaScrapie());
 			model.setDescrQualificaScrapie(x.getDescrQualificaScrapie());
 			model.setDataRilevazioneQualifica(x.getDataRilevazioneQualifica().toGregorianCalendar().getTime());
-			model.setSessione(sessione);
+			model.setIdSessione(sessione);
 		}
 		return model;
 	}
@@ -128,7 +126,7 @@ public class TransformerData {
 				temp.setRazzaCodice(x.getRazzaCodice());
 				temp.setRuoloUtenteNascita(x.getRuoloUtenteNascita());
 				temp.setSesso(x.getSesso());
-				temp.setSessione(sessione);
+				temp.setIdSessione(sessione);
 				temp.setCodicePremio(codiceIntervento);
 				ovicaprini.add(temp);
 			}
@@ -158,7 +156,7 @@ public class TransformerData {
 				temp.setDtFineDetenzione(transformDate(x.getDtFineDetenzione()));
 				temp.setFlagDelegatoUscita(x.getFlagDelegatoUscita());
 				temp.setFlagDelegatoIngresso(x.getFlagDelegatoIngresso());
-				temp.setSessione(sessione);
+				temp.setIdSessione(sessione);
 				temp.setCodicePremio(codiceIntervento);
 				capiMacellati.add(temp);
 			}
@@ -199,7 +197,7 @@ public class TransformerData {
 				temp.setVitello_data_ins_bdn_ingresso(transformDate(x.getVitelloDtInserimentoBdnIngresso()));
 				temp.setVitelloDtInserBdnNascita(transformDate(x.getVitelloDtInserimentoBdnNascita()));
 				temp.setVitelloTipoOrigine(x.getVitelloTipoOrigine());
-				temp.setSessione(sessione);
+				temp.setIdSessione(sessione);
 				temp.setCodicePremio(codiceIntervento);
 				capiBovini.add(temp);
 			}
@@ -219,7 +217,7 @@ public class TransformerData {
 				temp.setDtNascita(transformDate(x.getDtNascita()));
 				temp.setRazzaCodice(x.getRazzaCodice());
 				temp.setSesso(x.getSesso());
-				temp.setSessione(sessione);
+				temp.setIdSessione(sessione);
 				temp.setCodicePremio(codiceIntervento);
 				capi.add(temp);
 			}
@@ -236,7 +234,7 @@ public class TransformerData {
 		}
 			model.setNumeroCapi(numeroCapi);
 			
-			model.setSessione(sessione);
+			model.setIdSessione(sessione);
 //			System.out.println("MODEL ID SESSIONE: " + model.getSessione().getIdSessione());
 		
 		if(!( capiMacellati.isEmpty() ) ) {
@@ -292,7 +290,7 @@ public class TransformerData {
 			model.setLongitudine(anagrafica.getLongitudine());
 			model.setOrientamentoProduttivo(anagrafica.getOrientamentoProduttivo());
 			model.setParticella(anagrafica.getParticella());
-			model.setSessione(sessione);
+			model.setIdSessione(sessione);
 			model.setSezione(anagrafica.getSezione());
 			model.setSoccida(anagrafica.getSoccida());
 			model.setSpeCodice(anagrafica.getCodiceSpecie());

@@ -20,7 +20,7 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
 
 	
 
-	@Query( value = "select * from dmt_t_output_esclusi where sessione = :sessione and calcolo LIKE '%' || :calcolo || '%' ",
+	@Query( value = "select * from dmt_t_output_esclusi where id_sessione = :sessione and calcolo LIKE '%' || :calcolo || '%' ",
 			nativeQuery = true
 			)
 	/**
@@ -32,7 +32,7 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
 	List<Dmt_t_output_esclusi> findBySessioneAndCalcolo(@Param("sessione") Long sessione, @Param("calcolo") String calcolo); 
 	
 	@Query(
-			value = "select distinct capo_id from dmt_t_output_esclusi where sessione = :idSessione and calcolo LIKE '%' || :calcolo || '%' ",
+			value = "select distinct capo_id from dmt_t_output_esclusi where id_sessione = :idSessione and calcolo LIKE '%' || :calcolo || '%' ",
 			nativeQuery = true
 		)
 	/**

@@ -1,6 +1,5 @@
 package it.csi.demetra.demetraws.zoo.compositeIds;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 
 public class Dmt_t_output_esclusi_id implements Serializable{
@@ -11,13 +10,13 @@ public class Dmt_t_output_esclusi_id implements Serializable{
 	private static final long serialVersionUID = 9217875139729319085L;
 
 
-	private Long sessione;
+	private Long idSessione;
 
 	private String calcolo;
 	private Long capoId;
-	public Dmt_t_output_esclusi_id(Long sessione, String calcolo, Long capoId) {
+	public Dmt_t_output_esclusi_id(Long idSessione, String calcolo, Long capoId) {
 		super();
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		this.calcolo = calcolo;
 		this.capoId = capoId;
 	}
@@ -30,7 +29,7 @@ public class Dmt_t_output_esclusi_id implements Serializable{
 		int result = 1;
 		result = prime * result + ((calcolo == null) ? 0 : calcolo.hashCode());
 		result = prime * result + ((capoId == null) ? 0 : capoId.hashCode());
-		result = prime * result + ((sessione == null) ? 0 : sessione.hashCode());
+		result = prime * result + ((idSessione == null) ? 0 : idSessione.hashCode());
 		return result;
 	}
 	@Override
@@ -52,10 +51,10 @@ public class Dmt_t_output_esclusi_id implements Serializable{
 				return false;
 		} else if (!capoId.equals(other.capoId))
 			return false;
-		if (sessione == null) {
-			if (other.sessione != null)
+		if (idSessione == null) {
+			if (other.idSessione != null)
 				return false;
-		} else if (!sessione.equals(other.sessione))
+		} else if (!idSessione.equals(other.idSessione))
 			return false;
 		return true;
 	}

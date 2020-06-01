@@ -24,8 +24,8 @@ public class Dmt_t_output_ref03 implements Serializable{
 	
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "cuaa")
@@ -63,12 +63,12 @@ public class Dmt_t_output_ref03 implements Serializable{
 	@Column(name = "diff_richiesti_accertati", nullable = true)
 	private Integer differenzaCapiRichiestiAccertati;
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public String getCuaa() {

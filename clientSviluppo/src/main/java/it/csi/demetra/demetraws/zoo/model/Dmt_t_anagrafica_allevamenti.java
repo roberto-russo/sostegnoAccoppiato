@@ -30,11 +30,11 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	private Long idAutogenerato;
 
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
+	@JoinColumn(name = "idSessione", nullable = false)
 	/**
 	 * codice sessione associato all'esecuzione
 	 */
-	private Dmt_t_sessione sessione;
+	private Dmt_t_sessione idSessione;
 
 	@Column(name = "allev_id")
 	/**
@@ -278,16 +278,16 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	 * metodo getter che ritorna il codice sessione associato all'esecuzione.
 	 * @return sessione sessione associata all'esecuzione.
 	 */
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
 	/**
 	 * metodo setter che imposta il codice sessione associato all'esecuzione
 	 * @param sessione sessione associata all'esecuzione.
 	 */
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	/**

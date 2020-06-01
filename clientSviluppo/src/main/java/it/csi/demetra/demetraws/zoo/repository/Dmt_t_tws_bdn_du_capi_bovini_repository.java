@@ -14,14 +14,14 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findAll();
 
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE id_sessione = :idSessione ", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione ", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSession(@Param("idSessione") Long idSessione);
 	
-	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
+	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV "
-			+ "WHERE id_sessione = :idSessione AND CUAA = :cuaa "
+			+ "where id_sessione = :idSessione AND CUAA = :cuaa "
 			+ "AND codice_premio = :codIntervento",
 			nativeQuery = true)
 			List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codIntervento") String codIntervento);
@@ -29,7 +29,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_capo = :idCapo and EXTRACT(YEAR FROM data_nascita_vitello) = :annoCampagna and cuaa = :cuaa and id_sessione = :idSessione", nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getVitelliOfVacca(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("idCapo") Long idCapo, @Param("annoCampagna") Long annoCampagna);
 
-	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov WHERE id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento ", 
+	@Query(value = "SELECT * FROM dmt_t_tws_bdn_du_capi_bov where id_sessione = :idSessione and id_capo = :idCapo and CODICE_PREMIO = :codiceIntervento ",
 		   nativeQuery = true)
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessioneAndIdCapo(@Param("idSessione") Long idSessione, @Param("idCapo") Long idCapo, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -39,7 +39,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"    ID_ALLEVAMENTO NOT IN " + 
 			"    	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 			"    		(   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
-			"       	 WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
+			"       	 where id_sessione = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " +
 			"        AND FLAG_ZONA_MONTANA = 'N') " + 
 			"    AND ID_SESSIONE = :idSessione " + 
 			"    AND CUAA = :cuaa " + 
@@ -52,7 +52,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"    ID_ALLEVAMENTO IN " + 
 			"    	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 			"    		(   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
-			"        	WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
+			"        	where id_sessione = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " +
 			"        AND FLAG_ZONA_MONTANA = 'N') " + 
 			"    AND ID_SESSIONE = :idSessione " + 
 			"    AND CUAA = :cuaa " + 
@@ -77,7 +77,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 		    " AND ID_ALLEVAMENTO NOT IN " + 
 		    "	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 		    " (   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
-		    " WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
+		    " where id_sessione = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " +
 		    " AND FLAG_ZONA_MONTANA = 'N') ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1ZonaMontana(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -96,7 +96,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 		    " AND ID_ALLEVAMENTO IN " + 
 		    "	(SELECT ALLEV_ID FROM DMT_T_INFO_ALLEVAMENTI WHERE ALLEV_ID IN " + 
 		    " (   SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
-		    " WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " + 
+		    " where id_sessione = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) " +
 		    " AND FLAG_ZONA_MONTANA = 'N') ", nativeQuery = true )
 	List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniIdoneiInt310Mis1NonDiZonaMontana(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -106,7 +106,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	
 	
 	@Query(value = "SELECT DISTINCT ID_ALLEVAMENTO FROM DMT_T_TWS_BDN_DU_CAPI_BOV " + 
-			" WHERE ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
+			" where id_sessione = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
 	List<Integer> getAllevamentiBySessioneCuaaCodIntervento(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
 
 	
@@ -189,7 +189,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
 
 	@Query(
-			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE ID_SESSIONE = :idSessione and CUAA = :cuaa ",
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione and CUAA = :cuaa ",
 			nativeQuery = true
 		)
 	List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);

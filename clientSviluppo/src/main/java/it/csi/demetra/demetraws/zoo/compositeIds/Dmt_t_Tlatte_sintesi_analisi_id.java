@@ -12,17 +12,17 @@ public class Dmt_t_Tlatte_sintesi_analisi_id implements Serializable{
 	 private String cuaa_azienda;
 	 private Long matricola_azienda;
 	 private Long anno_riferimento;
-	 private long sessione;
+	 private Long idSessione;
 	
 	 public Dmt_t_Tlatte_sintesi_analisi_id() {
 		 
 	 }
 	 
-	 public Dmt_t_Tlatte_sintesi_analisi_id(String cuaa_azienda, Long matricola_azienda, Long anno_riferimento, long sessione) {
+	 public Dmt_t_Tlatte_sintesi_analisi_id(String cuaa_azienda, Long matricola_azienda, Long anno_riferimento, Long idSessione) {
 		 this.cuaa_azienda = cuaa_azienda;
 		 this.matricola_azienda = matricola_azienda;
 		 this.anno_riferimento = anno_riferimento;
-		 this.sessione = sessione;
+		 this.idSessione = idSessione;
 	 }
 
 	@Override
@@ -31,7 +31,7 @@ public class Dmt_t_Tlatte_sintesi_analisi_id implements Serializable{
 		int result = 1;
 		result = prime * result + ((anno_riferimento == null) ? 0 : anno_riferimento.hashCode());
 		result = prime * result + ((cuaa_azienda == null) ? 0 : cuaa_azienda.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((matricola_azienda == null) ? 0 : matricola_azienda.hashCode());
 		return result;
 	}
@@ -55,7 +55,7 @@ public class Dmt_t_Tlatte_sintesi_analisi_id implements Serializable{
 				return false;
 		} else if (!cuaa_azienda.equals(other.cuaa_azienda))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (matricola_azienda == null) {
 			if (other.matricola_azienda != null)

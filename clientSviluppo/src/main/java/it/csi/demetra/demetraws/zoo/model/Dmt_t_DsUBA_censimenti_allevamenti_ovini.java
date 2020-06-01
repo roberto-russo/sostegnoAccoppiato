@@ -32,8 +32,8 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 	
 	@Column(name = "censimento_id")
 	@NotNull
@@ -449,11 +449,11 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 		this.dtComAutorita = dtComAutorita;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 }

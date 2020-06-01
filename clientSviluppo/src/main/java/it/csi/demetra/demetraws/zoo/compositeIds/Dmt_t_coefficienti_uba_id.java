@@ -11,14 +11,14 @@ public class Dmt_t_coefficienti_uba_id implements Serializable{
 
 	private Long idSpecie;
 	private Long idCategoria;
-	private long sessione;
+	private Long idSessione;
 	
 	public Dmt_t_coefficienti_uba_id() {}
 	
-	public Dmt_t_coefficienti_uba_id(Long idSpecie, Long idCategoria, long sessione) {
+	public Dmt_t_coefficienti_uba_id(Long idSpecie, Long idCategoria, Long idSessione) {
 		this.idSpecie = idSpecie;
 		this.idCategoria = idCategoria;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Dmt_t_coefficienti_uba_id implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idCategoria == null) ? 0 : idCategoria.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((idSpecie == null) ? 0 : idSpecie.hashCode());
 		return result;
 	}
@@ -45,7 +45,7 @@ public class Dmt_t_coefficienti_uba_id implements Serializable{
 				return false;
 		} else if (!idCategoria.equals(other.idCategoria))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (idSpecie == null) {
 			if (other.idSpecie != null)

@@ -49,7 +49,7 @@ public class AgnelleRimontaServiceTestCase {
         agnelleRimonta.setCuaa(cuaa);
         agnelleRimonta.setEsito("OK");
         agnelleRimonta.setMotivazioni("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel fringilla urna. Phasellus eget tortor elit. Morbi dictum quam mollis, pharetra augue sit amet, lacinia lectus. Sed placerat massa arcu, eu maximus orci mollis sit amet. Quisque eget massa sit amet purus lobortis euismod. Praesent eleifend purus purus, vitae posuere metus aliquam a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mauris erat, faucibus quis ante eget, aliquet faucibus mi. Donec lectus lectus, mollis quis dui sit amet, maximus feugiat sem. Praesent id justo vitae purus rhoncus dignissim. Donec eu vulputate orci, eget scelerisque libero");
-        agnelleRimonta.setSessione(sessione);
+        agnelleRimonta.setIdSessione(sessione);
         agnelleRimonta.setAnnoCampagna(annoCampagna);
         agnelleRimonta.setCodiceIntervento(codiceIntervento);
         agnelleRimonta.setQuotaCapiPremio(new Double(25));

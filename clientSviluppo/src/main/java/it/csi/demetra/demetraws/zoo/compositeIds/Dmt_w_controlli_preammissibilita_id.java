@@ -12,17 +12,17 @@ public class Dmt_w_controlli_preammissibilita_id implements Serializable {
     private String nomeClasseCalcolo;
     private Long idIntervento;
     private String ordineEsecuzione;
-    private long sessione;
+    private Long idSessione;
 
     public Dmt_w_controlli_preammissibilita_id() {
 
     }
 
-    public Dmt_w_controlli_preammissibilita_id(String nomeClasseCalcolo, Long idIntervento, String ordineEsecuzione, long sessione) {
+    public Dmt_w_controlli_preammissibilita_id(String nomeClasseCalcolo, Long idIntervento, String ordineEsecuzione, Long idSessione) {
         this.nomeClasseCalcolo = nomeClasseCalcolo;
         this.idIntervento = idIntervento;
         this.ordineEsecuzione = ordineEsecuzione;
-        this.sessione = sessione;
+        this.idSessione = idSessione;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Dmt_w_controlli_preammissibilita_id implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((idIntervento == null) ? 0 : idIntervento.hashCode());
-        result = prime * result + (int) (sessione ^ (sessione >>> 32));
+        result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
         result = prime * result + ((nomeClasseCalcolo == null) ? 0 : nomeClasseCalcolo.hashCode());
         result = prime * result + ((ordineEsecuzione == null) ? 0 : ordineEsecuzione.hashCode());
         return result;
@@ -50,7 +50,7 @@ public class Dmt_w_controlli_preammissibilita_id implements Serializable {
                 return false;
         } else if (!idIntervento.equals(other.idIntervento))
             return false;
-        if (sessione != other.sessione)
+        if (idSessione != other.idSessione)
             return false;
         if (nomeClasseCalcolo == null) {
             if (other.nomeClasseCalcolo != null)

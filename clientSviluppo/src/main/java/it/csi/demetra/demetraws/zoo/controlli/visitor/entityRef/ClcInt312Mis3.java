@@ -198,7 +198,7 @@ public class ClcInt312Mis3 extends Controllo{
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
-        outputControlli.setSessione(getSessione());
+        outputControlli.setIdSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
         outputControlli.setCapiRichiesti(sizeModelVacche);
@@ -220,7 +220,7 @@ public class ClcInt312Mis3 extends Controllo{
 	        escluso.setCalcolo(ClcInt311Mis2.class.getName());
 	        escluso.setCapoId(b.getCapoId());
 	        escluso.setMotivazioneEsclusione(motivazione);
-	        escluso.setSessione(getSessione());
+	        escluso.setIdSessione(getSessione());
 //	        escluso.setIdSessione(getSessione().getIdSessione());
 	        listEsclusi.add(escluso);
 	        
@@ -233,7 +233,7 @@ public class ClcInt312Mis3 extends Controllo{
         escluso.setCalcolo(ClcInt312Mis3.class.getSimpleName());
         escluso.setCapoId(capo.getCapoId());
         escluso.setMotivazioneEsclusione(motivazione);
-        escluso.setSessione(getSessione());
+        escluso.setIdSessione(getSessione());
 //      escluso.setIdSessione(getSessione().getIdSessione());
         listEsclusi.add(escluso);
 	}

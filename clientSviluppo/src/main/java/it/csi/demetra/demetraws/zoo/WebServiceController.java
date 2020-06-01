@@ -48,7 +48,7 @@ public class WebServiceController {
 
     @Autowired
     private ControlliFramework controlliFramework;
-    
+
     @Autowired
     private ref03 calcoloRef03;
 
@@ -72,7 +72,7 @@ public class WebServiceController {
      * @return
      */
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
-    public String calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna) {
+    public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
         List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
 
@@ -83,13 +83,6 @@ public class WebServiceController {
                     scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
                 System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
             else System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
-//            try {
-//                controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
-//            } catch (ControlloException e) {
-//                System.out.println(e.getMessage());
-//            } catch (CalcoloException e) {
-//                e.printStackTrace();
-//            }
         }
 
         System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
@@ -105,13 +98,11 @@ public class WebServiceController {
                 System.out.println(e.getMessage());
             }
         }
-        
-        for (Rpu_V_pratica_zoote azienda : list) {
-        	calcoloRef03.inizializzazione(sessione, azienda);
-        	calcoloRef03.esecuzione();
-        }
 
-        return "Procedura avviata";
+        for (Rpu_V_pratica_zoote azienda : list) {
+            calcoloRef03.inizializzazione(sessione, azienda);
+            calcoloRef03.esecuzione();
+        }
     }
 
     /* PROVA CHIAMATA AL DATABASE ORACLE */

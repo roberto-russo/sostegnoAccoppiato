@@ -28,7 +28,7 @@ public class UtilControlli {
         escluso.setCalcolo(calcolo);
         escluso.setCapoId(b.getCapoId());
         escluso.setMotivazioneEsclusione(motivazione);
-        escluso.setSessione(sessione);
+        escluso.setIdSessione(sessione);
 
         return escluso;
     }

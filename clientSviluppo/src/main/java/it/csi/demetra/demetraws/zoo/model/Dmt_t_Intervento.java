@@ -24,14 +24,11 @@ public class Dmt_t_Intervento implements Serializable {
 	 */
 	private static final long serialVersionUID = -4722066700077619343L;
 
-	@Id
-	@Column(name = "id_sessione")
-	private Long idSessione;
 
 	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "ID")
@@ -82,12 +79,12 @@ public class Dmt_t_Intervento implements Serializable {
 		return idCategoria;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 	public void setId(Long id) {
@@ -100,14 +97,6 @@ public class Dmt_t_Intervento implements Serializable {
 
 	public void setIdCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
-	}
-
-	public Long getIdSessione() {
-		return idSessione;
-	}
-
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
 	}
 	
 

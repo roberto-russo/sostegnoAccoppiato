@@ -9,14 +9,14 @@ public class Dmt_t_output_ref03_id implements Serializable {
 	 */
 	private static final long serialVersionUID = 838933985875477157L;
 	
-	private long sessione;
+	private Long idSessione;
 	private String cuaa;
 	private Integer annoCampagna;
 	private String intervento;
 	
-	public Dmt_t_output_ref03_id(long sessione, String cuaa, Integer annoCampagna, String intervento) {
+	public Dmt_t_output_ref03_id(Long idSessione, String cuaa, Integer annoCampagna, String intervento) {
 		super();
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 		this.cuaa = cuaa;
 		this.annoCampagna = annoCampagna;
 		this.intervento = intervento;
@@ -33,7 +33,7 @@ public class Dmt_t_output_ref03_id implements Serializable {
 		result = prime * result + ((annoCampagna == null) ? 0 : annoCampagna.hashCode());
 		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
 		result = prime * result + ((intervento == null) ? 0 : intervento.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		return result;
 	}
 
@@ -61,7 +61,7 @@ public class Dmt_t_output_ref03_id implements Serializable {
 				return false;
 		} else if (!intervento.equals(other.intervento))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		return true;
 	}

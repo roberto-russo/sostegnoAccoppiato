@@ -23,8 +23,8 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "id_sessione", nullable = false)
-	private Dmt_t_sessione sessione;
+	@JoinColumn(name = "idSessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "allev_id", precision = 10)
@@ -767,12 +767,12 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 		this.descrTipoAllevamento = descrTipoAllevamento;
 	}
 
-	public Dmt_t_sessione getSessione() {
-		return sessione;
+	public Dmt_t_sessione getIdSessione() {
+		return idSessione;
 	}
 
-	public void setSessione(Dmt_t_sessione sessione) {
-		this.sessione = sessione;
+	public void setIdSessione(Dmt_t_sessione sessione) {
+		this.idSessione = sessione;
 	}
 
 }

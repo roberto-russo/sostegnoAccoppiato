@@ -11,15 +11,11 @@ public class Dmt_t_gestori_id implements Serializable{
 	private static final long serialVersionUID = 6301971279336589749L;
 	
 	private Long id;
+	private Long idSessione;
 	private Long id_tipologia;
 	
 	public Dmt_t_gestori_id() {
 		
-	}
-	
-	public Dmt_t_gestori_id(Long id, Long id_tipologia) {
-		this.id = id;
-		this.id_tipologia = id_tipologia;
 	}
 
 	@Override

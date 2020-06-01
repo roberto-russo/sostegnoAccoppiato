@@ -14,20 +14,20 @@ public class Dmt_t_Tlatte_mensile_arpea_id implements Serializable {
 	private Long matrAzienda;
 	private Long annoRiferimentro;
 	private String scoMese;
-	private long sessione;
+	private Long idSessione;
 
 	public Dmt_t_Tlatte_mensile_arpea_id() {
 
 	}
 
 	public Dmt_t_Tlatte_mensile_arpea_id(Long annoSolare, Long matrAcquirente, Long matrAzienda, Long annoRiferimento,
-			String scoMese, long sessione) {
+			String scoMese, Long idSessione) {
 		this.annoSolare = annoSolare;
 		this.matrAcquirente = matrAcquirente;
 		this.matrAzienda = matrAzienda;
 		this.annoRiferimentro = annoRiferimento;
 		this.scoMese = scoMese;
-		this.sessione = sessione;
+		this.idSessione = idSessione;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class Dmt_t_Tlatte_mensile_arpea_id implements Serializable {
 		int result = 1;
 		result = prime * result + ((annoRiferimentro == null) ? 0 : annoRiferimentro.hashCode());
 		result = prime * result + ((annoSolare == null) ? 0 : annoSolare.hashCode());
-		result = prime * result + (int) (sessione ^ (sessione >>> 32));
+		result = prime * result + (int) (idSessione ^ (idSessione >>> 32));
 		result = prime * result + ((matrAcquirente == null) ? 0 : matrAcquirente.hashCode());
 		result = prime * result + ((matrAzienda == null) ? 0 : matrAzienda.hashCode());
 		result = prime * result + ((scoMese == null) ? 0 : scoMese.hashCode());
@@ -62,7 +62,7 @@ public class Dmt_t_Tlatte_mensile_arpea_id implements Serializable {
 				return false;
 		} else if (!annoSolare.equals(other.annoSolare))
 			return false;
-		if (sessione != other.sessione)
+		if (idSessione != other.idSessione)
 			return false;
 		if (matrAcquirente == null) {
 			if (other.matrAcquirente != null)

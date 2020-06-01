@@ -17,7 +17,7 @@ package it.csi.demetra.demetraws.zoo.compositeIds;
 //
 //	}
 //
-//	public Dmt_d_clsPremio_ValidazioneResponse_id(String ErrCod, Long numeroCapi, long idSessione) {
+//	public Dmt_d_clsPremio_ValidazioneResponse_id(String ErrCod, Long numeroCapi, Long idSessione) {
 //
 //		this.ErrCod = ErrCod;
 //		this.numeroCapi = numeroCapi;
