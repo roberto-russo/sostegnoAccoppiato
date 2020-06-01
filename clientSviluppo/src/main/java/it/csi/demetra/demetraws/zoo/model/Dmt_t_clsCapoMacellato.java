@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,20 +25,23 @@ import javax.validation.constraints.NotNull;
  */
 public class Dmt_t_clsCapoMacellato implements Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -787054678069256335L;
 
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name= "id_autogenerato")
+    /**
+     * id autogenerato associato all'oggetto di tipo Dmt_t_clsCapoMacellato
+     */
     private Long idAutogenerato;
 
 
 	@ManyToOne
 	@JoinColumn(name = "id_sessione", nullable = false)
+	/**
+	 * codice di sessione associato all'esecuzione
+	 */
 	private Dmt_t_sessione sessione;
 
 	@ManyToOne
