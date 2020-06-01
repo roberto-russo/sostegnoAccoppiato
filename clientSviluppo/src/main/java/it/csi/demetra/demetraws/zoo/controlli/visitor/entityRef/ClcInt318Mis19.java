@@ -122,17 +122,17 @@ public class ClcInt318Mis19 extends Controllo {
 					this.etic = getControlliService().getSistemaEtichettarua(getAzienda().getCuaa());
 					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
 					
-					/**
+					/*
 					 * 	Sia stato allevato per un periodo continuativo di 6 mesi
 					 * 
 					 */
 					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (this.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
 					
-							/**
+							/*
 							 * Sia stato allevato in conformità a sistemi di etichettatura facoltativa
 							 */
 							if(this.etic != null && this.etic.getFlagEtichettatura().equals("S")) {
-								/**
+								/*
 								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
 								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
 								 * i capi ammissibili sono pagati esclusivamente al detentore
@@ -140,7 +140,7 @@ public class ClcInt318Mis19 extends Controllo {
 								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
 									this.numeroCapiAmmissibili++;
 					} else {
-						/**
+						/*
 						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 						 */
 						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
@@ -148,7 +148,7 @@ public class ClcInt318Mis19 extends Controllo {
 						this.listaCapiBocciati.add(m);
 					}
 					}else {
-						/**
+						/*
 						 * le conformità a sistemi di etichettatura facoltativa non rispettati
 						 */
 						this.motivazione = "le conformita' a sistemi di etichettatura facoltativa non rispettati";
@@ -156,7 +156,7 @@ public class ClcInt318Mis19 extends Controllo {
 						this.listaCapiBocciati.add(m);
 					}
 					} else {
-						/**
+						/*
 						 * il capo non è stato allevato per un periodo minimo di 6 mesi continuativi 
 						 */
 						
