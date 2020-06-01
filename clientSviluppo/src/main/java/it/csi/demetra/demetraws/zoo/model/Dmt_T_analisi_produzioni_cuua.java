@@ -13,10 +13,17 @@ import java.util.Date;
 public class Dmt_T_analisi_produzioni_cuua {
 
     @Id
+    /**
+     * Codice fiscale del richiedente
+     */
     private String CUUA;
     @Id
     private Date dataAnalisi;
     @Id
+    /**
+     * Anno della campagna premi per cui si è formulata la
+     * richiesta di estrazione
+     */
     private int annoCampagna;
     private String ragioneSociale;
     private String codiceAsl;
