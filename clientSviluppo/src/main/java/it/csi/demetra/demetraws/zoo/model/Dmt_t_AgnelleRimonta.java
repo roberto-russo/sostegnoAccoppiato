@@ -19,9 +19,6 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_AgnelleRimonta_id;
 @IdClass(Dmt_t_AgnelleRimonta_id.class)
 public class Dmt_t_AgnelleRimonta implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5643073399146782350L;
 
 	@Id
@@ -31,94 +28,185 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "id_sessione", nullable = false)
+	 /**
+     * id univoco associato all'istanza di sessione.
+     */
 	private Dmt_t_sessione sessione;
 
 	@Id
+	/**
+	 * Codice fiscale del richiedente
+	 */
 	private String cuaa;
 
 	@Column(name = "esito")
+	/**
+	 * esito del controllo. Può essere positivo o negativo.
+	 */
 	private String esito;
 
 	@Column(name = "qt_capi_premio")
+	/**
+	 * la quota effettiva dei capi ammessi a premio.
+	 */
 	private Double quotaCapiPremio;
 
 	@Column(name = "motivazioni", length = 1000)
+	/**
+	 * nel caso in cui l'esito risulta essere negativo, verrà 
+	 * valorizzato il campo motivazioni con le motivazioni del
+	 * fallimento.
+	 */
 	private String motivazioni;
 
 	@Column(name = "anno_campagna")
 	@NotNull
+	/**
+	 * Anno della campagna premi per cui si è formulata la
+	 * richiesta di estrazione
+	 */
 	private Integer annoCampagna;
 
 	@Column(name = "codice_intervento", length = 400)
 	@NotNull
+	/**
+	 * Codice intervento, ovvero codice del premio per il
+     * quale si richiede l’estrazione dei capi.
+	 */
 	private String codiceIntervento;
 
 	public Dmt_t_AgnelleRimonta() {
 	}
 
+	/**
+	 * metodo getter che ritorna la sessione.
+	 * @return sessione codice di sessione associato all'esecuzione.
+	 */
 	public Dmt_t_sessione getSessione() {
 		return sessione;
 	}
 
+	/**
+	 * metodo setter che imposta la sessione.
+	 * @param sessione codice di sessione associato all'esecuzione
+	 */
 	public void setSessione(Dmt_t_sessione sessione) {
 		this.sessione = sessione;
 	}
 
+	/**
+	 * metodo getter che ritorna il codice fiscale del richiedente
+	 * @return cuaa codice fiscale del richiedente
+	 */
 	public String getCuaa() {
 		return cuaa;
 	}
 
+	/**
+	 * metodo setter che imposta il cuaa
+	 * @param cuaa codice fiscale del richiedente
+	 */
 	public void setCuaa(String cuaa) {
 		this.cuaa = cuaa;
 	}
 
+	/**
+	 * metodo getter che ritorna l'esito
+	 * @return esito
+	 */
 	public String getEsito() {
 		return esito;
 	}
 
+	/**
+	 * metodo setter che imposta l'esito
+	 * @param esito
+	 */
 	public void setEsito(String esito) {
 		this.esito = esito;
 	}
 
+	/**
+	 * metodo getter che ritorna la quota capi premio
+	 * @return quotaCapiPremio
+	 */
 	public Double getQuotaCapiPremio() {
 		return quotaCapiPremio;
 	}
 
+	/**
+	 * metodo setter che imposta la quotaCapiPremio
+	 * @param quotaCapiPremio
+	 */
 	public void setQuotaCapiPremio(Double quotaCapiPremio) {
 		this.quotaCapiPremio = quotaCapiPremio;
 	}
 
+	/**
+	 * metodo getter che ritorna le motivazioni
+	 * @return motivazioni
+	 */
 	public String getMotivazioni() {
 		return motivazioni;
 	}
 
+	/**
+	 * metodo setter che imposta le motivazioni
+	 * @param motivazioni
+	 */
 	public void setMotivazioni(String motivazioni) {
 		this.motivazioni = motivazioni;
 	}
 
+	/**
+	 * metodo getter che ritorna l'anno campagna
+	 * @return annoCampagna anno della campagna premi per cui si è formulata la
+	 * richiesta di estrazione
+	 */
 	public Integer getAnnoCampagna() {
 		return annoCampagna;
 	}
 
+	/**
+	 * metodo setter che imposta l'anno campagna
+	 * @param annoCampagna anno della campagna premi per cui si è formulata la
+	 * richiesta di estrazione 
+	 */
 	public void setAnnoCampagna(Integer annoCampagna) {
 		this.annoCampagna = annoCampagna;
 	}
 
+	/**
+	 * metodo getter che ritorna il codiceIntervento
+	 * @return codiceIntervento il codice del premio per il
+     * quale si richiede l’estrazione dei capi.
+	 */
 	public String getCodiceIntervento() {
 		return codiceIntervento;
 	}
 
+	/**
+	 * metodo setter che imposta il codiceIntervento
+	 * @param codiceIntervento codiceIntervento il codice del premio per il
+     * quale si richiede l’estrazione dei capi.
+	 */
 	public void setCodiceIntervento(String codiceIntervento) {
 		this.codiceIntervento = codiceIntervento;
 	}
 
+	/**
+	 * metodo getter che ritorna l' idSessione
+	 * @return idSessione codice sessione associato all'esecuzione.
+	 */
 	public Long getIdSessione() {
 		return idSessione;
 	}
 
+	/**
+	 * metodo setter che imposta l' idSessioneS
+	 * @param idSessione codice sessione associato all'esecuzione
+	 */
 	public void setIdSessione(Long idSessione) {
 		this.idSessione = idSessione;
 	}
-	
-
 }
