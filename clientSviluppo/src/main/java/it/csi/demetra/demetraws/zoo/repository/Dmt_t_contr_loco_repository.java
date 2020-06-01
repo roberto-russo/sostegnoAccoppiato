@@ -11,11 +11,23 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_contr_loco_id;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 
 @Repository
+/**
+ * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
+ * di tipo @see Dmt_t_contr_loco e le query ad esso associate.
+ * @author Bcsoft
+ */
 public interface Dmt_t_contr_loco_repository extends CrudRepository<Dmt_t_contr_loco, Dmt_t_contr_loco_id>{
 	
+	/**
+	 * query che ritorna la lista delle istanze che persistono a DB di tipo Dmt_t_contr_loco
+	 */
 	List<Dmt_t_contr_loco>findAll();
 
 	@Query(value = "select * from dmt_t_contr_loco where cuaa = :cuaa", nativeQuery = true)
+	/**
+	 * query che ritorna una lista di istanze di tipo Dmt_t_contr_loco in base al cuaa
+	 * @param cuaa codice fiscale del detentore
+	 * @return List<Dmt_t_contr_loco>
+	 */
 	List<Dmt_t_contr_loco> findByCuaa(@Param("cuaa")String cuaa);
-
 }
