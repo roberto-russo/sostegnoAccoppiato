@@ -20,11 +20,15 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_d_esito_controlli_preammiss
 @Entity
 @Table(name = "DMT_D_ESITO_CONTR_PREAMM")
 @IdClass(Dmt_d_esito_controlli_preammissibilita_id.class)
+/**
+ * Classe model di rappresentazione dell'output dei metodi getElencoCapiPremioNew e
+ * getElencoCapiPremio2New
+ *
+ * @version 1.0 (02/04/2020)
+ * @author bcsoft
+ */
 public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5710450180310221303L;
 
 	@Id
