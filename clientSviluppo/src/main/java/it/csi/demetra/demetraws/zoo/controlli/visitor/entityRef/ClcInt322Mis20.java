@@ -139,7 +139,7 @@ try {
 
 					this.listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
-					/**
+					/*
 					 * L’aiuto spetta al richiedente detentore della vacca al momento del parto.
 					 * Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
 					 * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
