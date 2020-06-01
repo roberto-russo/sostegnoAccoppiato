@@ -31,80 +31,158 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "sessione", nullable = false)
+	/**
+	 * codice sessione associato all'esecuzione
+	 */
 	private Dmt_t_sessione sessione;
 
 	@Id
+	/**
+	 * codice fiscale del richiedente
+	 */
 	private String cuaa;
 
 	@Column(name = "esito")
+	/**
+	 * esito del controllo
+	 */
 	private String esito;
 
 	@Column(name = "uba")
+	/**
+	 * unità bovina adulta
+	 */
 	private Double uba;
 
 	@Column(name = "motivazioni", length = 1000)
+	/**
+	 *  nel caso in cui il controllo delle uba minime fallisce,
+	 *   viene fornita una descrizione delle motivazioni del fallimento
+	 */
 	private String motivazioni;
 
 	@Column(name = "anno_campagna")
 	@NotNull
+	/**
+	 * anno campagna
+	 */
 	private Long annoCampagna;
 
 	@Column(name = "codice_intervento", length = 400)
 	@NotNull
+	/**
+	 * codice premio
+	 */
 	private String codiceIntervento;
 
+	/**
+	 * metodo getter che ritorna il codice di sessione associato all'esecuzione
+	 * @return sessione codice di sessione associato all'esecuzione
+	 */
 	public Dmt_t_sessione getSessione() {
 		return sessione;
 	}
 
+	/**
+	 * metodo setter che imposta il codice di sessione associato all'esecuzione.
+	 * @param sessione codice di sessione associato all'esecuzione.
+	 */
 	public void setSessione(Dmt_t_sessione sessione) {
 		this.sessione = sessione;
 	}
 
+	/**
+	 * metodo getter che ritorna il codice fiscale del richiedente
+	 * @return cuaa codice fiscale del richiedente
+	 */
 	public String getCuaa() {
 		return cuaa;
 	}
 
+	/**
+	 * metodo setter che imposta il codice fiscale del richiedente
+	 * @param cuaa codice fiscale del richiedente.
+	 */
 	public void setCuaa(String cuaa) {
 		this.cuaa = cuaa;
 	}
 
+	/**
+	 * metodo getter che ritorna l'esito del controllo
+	 * @return esito esito del controllo delle uba minime richieste
+	 */
 	public String getEsito() {
 		return esito;
 	}
 
+	/**
+	 * metodo setter che imposta l'esito del controllo
+	 * @param esito esito del controllo delle uba minime richieste
+	 */
 	public void setEsito(String esito) {
 		this.esito = esito;
 	}
 
+	/**
+	 * metodo getter che ritorna il numero delle unità bovine aulte
+	 * @return uba unità bovina adulta
+	 */
 	public Double getUba() {
 		return uba;
 	}
 
+	/**
+	 * metodo setter che ritorna il numero delle unità bovine adulte
+	 * @param uba unità bovina adulta
+	 */
 	public void setUba(Double uba) {
 		this.uba = uba;
 	}
 
+	/**
+	 * metodo getter che ritorna le motivazioni di fallimento del controllo
+	 * @return motivazioni motivazioni di fallimento del controllo
+	 */
 	public String getMotivazioni() {
 		return motivazioni;
 	}
 
+	/**
+	 * metodo setter che imposta le motivazioni di fallimento del controllo
+	 * @param motivazioni motivazioni di fallimento del controllo
+	 */
 	public void setMotivazioni(String motivazioni) {
 		this.motivazioni = motivazioni;
 	}
 
+	/**
+	 * metodo getter che ritorna l'anno campagna
+	 * @return annoCampagna anno campagna
+	 */
 	public Long getAnnoCampagna() {
 		return annoCampagna;
 	}
 
+	/**
+	 * metodo setter che imposta l'anno campagna
+	 * @param annoCampagna
+	 */
 	public void setAnnoCampagna(Long annoCampagna) {
 		this.annoCampagna = annoCampagna;
 	}
 
+	/**
+	 * metodo getter che ritorna il codice intervento
+	 * @return codiceIntervento
+	 */
 	public String getCodiceIntervento() {
 		return codiceIntervento;
 	}
 
+	/**
+	 * metodo setter che imposta il codiceIntervento
+	 * @param codiceIntervento
+	 */
 	public void setCodiceIntervento(String codiceIntervento) {
 		this.codiceIntervento = codiceIntervento;
 	}
