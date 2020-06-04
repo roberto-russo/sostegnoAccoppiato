@@ -61,7 +61,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	private long allevId;
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID_CAPO", length = 25)
+	@Column(name = "ID_CAPO")
 	@NotNull
 	/**
 	 * Identificativo univoco in BDN del capo bovino
@@ -69,14 +69,14 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	private long capoId;
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "CODICE", length = 15)
+	@Column(name = "CODICE")
 	@NotNull
 	/**
 	 * Codice della marca auricolare applicata al capo bovino
 	 */
 	private String codice;
 
-	@Column(name = "SESSO", length = 1)
+	@Column(name = "SESSO")
 	/**
 	 * Sesso del capo
 	 */
@@ -93,7 +93,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	 */
 	private Date dtNascita;
 
-	@Column(name = "COD_RAZZA", length = 3)
+	@Column(name = "COD_RAZZA")
 	@NotNull
 	@ColumnDefault("'TRB'")
 	/**
@@ -117,20 +117,20 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	 */
 	private Date dtFineDetenzione;
 
-	@Column(name = "COD_AZIENDA", length = 16)
+	@Column(name = "COD_AZIENDA")
 	/**
 	 * Codice aziendale
 	 */
 	private String aziendaCodice;
 
-	@Column(name = "CAPO_COD_MADRE", length = 25)
+	@Column(name = "CAPO_COD_MADRE")
 	/**
 	 * Codice della madre del vitello. Valorizzato solo a partire dalla campagna
 	 * 2010
 	 */
 	private String capoCodMadre;
 
-	@Column(name = "COD_LIBRO", length = 25)
+	@Column(name = "COD_LIBRO")
 	/**
 	 * Codice del libro genealogico a cui risulta iscritta la madre del vitello al
 	 * momento del parto. Valorizzato solo a partire dalla campagna 2010
@@ -138,7 +138,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	 */
 	private String codLibroMadre;
 
-	@Column(name = "DESC_LIBRO_MADRE", length = 50)
+	@Column(name = "DESC_LIBRO_MADRE")
 	/**
 	 * Descrizione estesa del libro genealogico a cui risulta iscritta la madre del
 	 * vitello al momento del parto. Valorizzato solo a partire dalla campagna 2010

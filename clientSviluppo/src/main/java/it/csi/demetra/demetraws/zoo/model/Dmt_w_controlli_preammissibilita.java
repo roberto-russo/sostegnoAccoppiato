@@ -30,7 +30,7 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	private Dmt_t_sessione idSessione;
 	
 	@Id
-	@Column(name = "nome_classe_calcolo", length = 30)
+	@Column(name = "nome_classe_calcolo")
 	@NotNull
 	private String nomeClasseCalcolo;
 
@@ -40,7 +40,7 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	private Long idIntervento;
 
 	@Id
-	@Column(name = "ordine_esecuzione", length = 10)
+	@Column(name = "ordine_esecuzione")
 	private String ordineEsecuzione;
 
 	public String getNomeClasseCalcolo() {

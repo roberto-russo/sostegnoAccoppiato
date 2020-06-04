@@ -28,15 +28,15 @@ public class Dmt_d_logger implements Serializable {
     @Column(name = "id_log")
     private Long idLog;
 
-    @Column(name = "tipo_log", length = 10)
+    @Column(name = "tipo_log")
     @ColumnDefault("'INFO'")
     private String tipoLog;
 
-    @Column(name = "nome_classe_chiamante", length = 100)
+    @Column(name = "nome_classe_chiamante")
     @NotNull
     private String nomeClasseChiamante;
 
-    @Column(name = "messaggio", length = 400)
+    @Column(name = "messaggio")
     @ColumnDefault("'no message avaible'")
     private String messaggio;
 

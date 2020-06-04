@@ -26,14 +26,14 @@ public class Dmt_t_output_esclusi implements Serializable {
 	private Dmt_t_sessione idSessione;
 
 	@Id
-	@Column(name = "calcolo", length = 20)
+	@Column(name = "calcolo")
 	private String calcolo;
 
 	@Id
 	@Column(name = "capo_id")
 	private Long capoId;
 
-	@Column(name = "motivazione_esclusione", length = 400)
+	@Column(name = "motivazione_esclusione")
 	private String motivazioneEsclusione;
 
 	public Dmt_t_sessione getIdSessione() {

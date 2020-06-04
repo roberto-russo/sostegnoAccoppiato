@@ -23,10 +23,10 @@ public class Dmt_t_errore implements Serializable {
     @JoinColumn(name = "idSessione", nullable = false)
     private Dmt_t_sessione idSessione;
 
-    @Column(name = "errore_descrizione", length = 400)
+    @Column(name = "errore_descrizione")
     private String erroreDesc;
 
-    @Column(name = "errore_codice", length = 400)
+    @Column(name = "errore_codice")
     private String errorecodice;
 
     public Dmt_t_errore() {

@@ -45,7 +45,7 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	@NotNull
 	private Long idCategoria;
 
-	@Column(name = "coefficiente", length = 5, precision = 3)
+	@Column(name = "coefficiente")
 	private double coefficiente;
 
 	/**

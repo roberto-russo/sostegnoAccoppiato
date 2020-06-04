@@ -26,18 +26,18 @@ public class Dmt_t_subentro_zoo implements Serializable{
 	private static final long serialVersionUID = 6478340611320768649L;
 
 	@Id
-	@Column(name= "id_subentro_zoo", precision = 10)
+	@Column(name= "id_subentro_zoo")
 	@NotNull
 	private long idSubentro;
 	
-	@Column(name = "anno_campagna", precision = 4)
+	@Column(name = "anno_campagna")
 	private int annoCampagna;
 	
-	@Column(name = "cuaa_domanda", length = 16)
+	@Column(name = "cuaa_domanda")
 	@NotNull
 	private String cuaaDomanda;
 	
-	@Column(name = "cuaa_subentro", length = 16)
+	@Column(name = "cuaa_subentro")
 	@NotNull
 	private String cuaaSubentro;
 	
@@ -49,10 +49,10 @@ public class Dmt_t_subentro_zoo implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date dataFine;
 	
-	@Column(name = "ext_id_utente_aggiornamento", precision= 10)
+	@Column(name = "ext_id_utente_aggiornamento")
 	private long extIdUtenteAggiornamento;
 	
-	@Column(name = "note", length = 4000)
+	@Column(name = "note")
 	private String note;
 
 	public long getIdSubentro() {

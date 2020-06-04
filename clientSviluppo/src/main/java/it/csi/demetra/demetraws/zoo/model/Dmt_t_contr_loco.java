@@ -39,7 +39,7 @@ public class Dmt_t_contr_loco implements Serializable {
 	 */
 	private long regioneIstat;
 	
-	@Column(name = "regione", length = 25)
+	@Column(name = "regione")
 	/**
 	 * denominazione della regione
 	 */
@@ -51,43 +51,43 @@ public class Dmt_t_contr_loco implements Serializable {
 	 */
 	private Integer provinciaIstat;
 	
-	@Column(name = "provincia", length =25)
-	/**
-	 * denominazione della provincia
+	@Column(name = "provincia")
+	/** 
+	* denominazione della provincia
 	 */
 	private String provincia;
 	
 	@Id
-	@Column(name = "cuaa", length = 16)
+	@Column(name = "cuaa")
 	@NotNull
 	/**
 	 * codice fiscale del richiedente.
 	 */
 	private String cuaa;
 	
-	@Column(name = "cuaa_normalizzato", length = 20)
+	@Column(name = "cuaa_normalizzato")
 	/**
 	 * codice fiscale del richiedente normalizzato.
 	 */
 	private String cuaaNormalizzato;
 	
-	@Column(name = "cod_ute", length = 5)
+	@Column(name = "cod_ute")
 	private String codUte;
 	
-	@Column(name = "cod_asl", length = 16)
+	@Column(name = "cod_asl")
 	private String codAsl;
 	
-	@Column(name = "cod_cai", length = 16)
+	@Column(name = "cod_cai")
 	private String codCai;
 	
 	@Id
-	@Column(name = "Marchio", length = 14)
+	@Column(name = "Marchio")
 	/**
 	 * codice del marchio apposto al capo animale.
 	 */
 	private String marchio;
 	
-	@Column(name = "note", length = 400)
+	@Column(name = "note")
 	/**
 	 * descrizione
 	 */
@@ -100,7 +100,7 @@ public class Dmt_t_contr_loco implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dtNascita;
 	
-	@Column(name = "sesso", length = 1)
+	@Column(name = "sesso")
 	/**
 	 * sesso del capo animale
 	 */
@@ -109,10 +109,10 @@ public class Dmt_t_contr_loco implements Serializable {
 	@Column(name = "anomalie_zoo")
 	private Integer anomalieZoo;
 	
-	@Column(name = "anomalie_cgo", length = 10)
+	@Column(name = "anomalie_cgo")
 	private String anomalie_cgo;
 	
-	@Column(name = "descrizione_anomalia", length = 400)
+	@Column(name = "descrizione_anomalia")
 	/**
 	 * descrizione dell'anomalia
 	 */

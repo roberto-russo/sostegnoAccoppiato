@@ -16,13 +16,13 @@ public class Dmt_t_Info_Allevamenti implements Serializable{
 	private static final long serialVersionUID = 7949322294669419786L;
 	
 	@Id
-	@Column(name = "allev_id", precision = 10)
+	@Column(name = "allev_id")
 	/**
 	 * identificativo univoco interno in BDN dell'allevamento
 	 */
 	private BigDecimal allevId;
 	
-	@Column(name = "flag_zona_montana", length = 10)
+	@Column(name = "flag_zona_montana")
 	/**
 	 * Flag che indica se l allevamento appartiene ad una zona montana
 	 */

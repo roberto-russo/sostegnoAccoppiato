@@ -39,7 +39,7 @@ public class Dmt_t_gestori implements Serializable {
     @NotNull
     private Long id_tipologia;
 
-    @Column(name = "nome_service", length = 30)
+    @Column(name = "nome_service")
     private String nomeService;
 
     public Long getId() {

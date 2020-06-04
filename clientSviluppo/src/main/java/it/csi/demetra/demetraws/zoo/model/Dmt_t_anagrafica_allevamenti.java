@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "dmt_t_anagrarfica_allev")
+@Table(name = "dmt_t_anagrafica_allev")
 public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	private static final long serialVersionUID = 9215943957155723524L;
@@ -42,57 +42,57 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	 */
 	private BigDecimal allevId;
 	
-	@Column(name = "azienda_codice", length = 15)
+	@Column(name = "azienda_codice")
 	/**
 	 * Codice aziendale assegnato all’allevamento.
 	 */
 	private String aziendacodice;
 	
-	@Column(name = "spe_codice", length = 15)
+	@Column(name = "spe_codice")
 	/**
 	 * Codice della specie allevata nell’allevamento di origine
 	 */
 	private String speCodice;
 	
-	@Column(name = "denominazione", length = 50)
+	@Column(name = "denominazione")
 	/**
 	 * Denominazione dell'allevamento
 	 */
 	private String denominazione;
 	
-	@Column(name = "indirizzo", length = 100)
+	@Column(name = "indirizzo")
 	/**
 	 * Indirizzo dell’allevamento (sede di ubicazione degli
 	 * animali). 
 	 */
 	private String indirizzo;
 	
-	@Column(name = "cap", length = 5)
+	@Column(name = "cap")
 	/**
 	 * Codice di Avviamento Postale dell’allevamento (sede di ubicazione degli animali).
 	 */
 	private String cap;
 	
-	@Column(name = "localita", length = 50)
+	@Column(name = "localita")
 	/**
 	 * Località dell’allevamento (sede di ubicazione degli animali).
 	 */
 	private String localita;
 	
-	@Column(name = "comune", length = 50)
+	@Column(name = "comune")
 	/**
 	 * Codice comune di ubicazione (dell’azienda).
 	 */
 	private String comune;
 	
-	@Column(name = "tipo_produzione", length = 20)
+	@Column(name = "tipo_produzione")
 	/**
 	 * Codice del tipo di produzione a cui risulta dedicata la
 	 * struttura
 	 */
 	private String tipoProduzione;
 	
-	@Column(name = "orientamento_produttivo", length = 50)
+	@Column(name = "orientamento_produttivo")
 	/**
 	 * Codice dell’orientamento produttivo che dipende dal
 	 * gruppo specie di appartenenza dell’allevamento e dal
@@ -100,7 +100,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	 */
 	private String orientamentoProduttivo;
 	
-	@Column(name = "autorizzazione_latte", length = 1)
+	@Column(name = "autorizzazione_latte")
 	/**
 	 * Flag indicante se l’allevamento ha o meno
 	 * l’autorizzazione sanitaria alla produzione di latte
@@ -190,13 +190,13 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	 */
 	private String soccida;
 	
-	@Column(name = "latitudine", precision = 11, scale = 6)
+	@Column(name = "latitudine")
 	/**
 	 * Coordinate geografiche – Latitudine.
 	 */
 	private BigDecimal latitudine;
 	
-	@Column(name = "longitudine", precision = 11, scale = 6)
+	@Column(name = "longitudine")
 	/**
 	 * LONGITUDINE Coordinate geografiche – Longitudine
 	 */

@@ -47,7 +47,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 */
 	private Double quotaCapiPremio;
 
-	@Column(name = "motivazioni", length = 1000)
+	@Column(name = "motivazioni")
 	/**
 	 * nel caso in cui l'esito risulta essere negativo, verrà 
 	 * valorizzato il campo motivazioni con le motivazioni del
@@ -63,7 +63,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 */
 	private Integer annoCampagna;
 
-	@Column(name = "codice_intervento", length = 400)
+	@Column(name = "codice_intervento")
 	@NotNull
 	/**
 	 * Codice intervento, ovvero codice del premio per il

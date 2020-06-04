@@ -39,26 +39,26 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
   	private Dmt_t_sessione idSessione;
 
   	@Id
-    @Column(name = "p_cuaa", length = 16)
+    @Column(name = "p_cuaa")
     @NotNull
     /**
      * Codice fiscale del soggetto proprietario e/o detentore
      */
     private String pCuaa;
 
-    @Column(name = "data_inizio_periodo", length = 400)
+    @Column(name = "data_inizio_periodo")
     /**
      * Data di inizio del periodo espressa nel formato dd/mm/yyyy
      */
     private String dataInizioPeriodo;
 
-    @Column(name = "data_fine_periodo", length = 400)
+    @Column(name = "data_fine_periodo")
     /**
      * Data di fine periodo espressa nel formato dd/mm/yyyy
      */
     private String dataFInePeriodo;
 
-    @Column(name = "p_tipo_responsabilita", length = 400)
+    @Column(name = "p_tipo_responsabilita")
     /**
      * Flag che rappresenta il tipo di responsabilità rispetto alla quale si vuole filtrare gli allevamenti
      */

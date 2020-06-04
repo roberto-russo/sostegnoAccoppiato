@@ -33,7 +33,7 @@ public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
     private Long id;
 
     @Id
-    @Column(name = "CUAA", length = 16)
+    @Column(name = "CUAA")
     @NotNull
     private String cuaa;
 
@@ -42,7 +42,7 @@ public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
     private Date data;
 
     @Id
-    @Column(name = "anno", length = 4, precision = 0)
+    @Column(name = "anno")
     @NotNull
     private double anno;
 
@@ -51,10 +51,10 @@ public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
     @NotNull
     private Long idGestore;
 
-    @Column(name = "esito", length = 1)
+    @Column(name = "esito")
     private String esito;
 
-    @Column(name = "msg", length = 400)
+    @Column(name = "msg")
     private String msg;
 
     public Long getId() {

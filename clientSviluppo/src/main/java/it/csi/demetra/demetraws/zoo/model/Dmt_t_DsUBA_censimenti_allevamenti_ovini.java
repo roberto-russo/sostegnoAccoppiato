@@ -43,19 +43,19 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	@NotNull
 	private BigDecimal pAllevId;
 
-	@Column(name = "azienda_codice", length = 400)
+	@Column(name = "azienda_codice")
 	private String aziendaCodice;
 
-	@Column(name = "cod_fiscale_prop", length = 400)
+	@Column(name = "cod_fiscale_prop")
 	private String codFiscaleProp;
 
-	@Column(name = "cod_fiscale_dete", length = 400)
+	@Column(name = "cod_fiscale_dete")
 	private String codFiscaleDete;
 
-	@Column(name = "specie_codice", length = 400)
+	@Column(name = "specie_codice")
 	private String specieCodice;
 
-	@Column(name = "specie_descrizione", length = 400)
+	@Column(name = "specie_descrizione")
 	private String specieDescrizione;
 
 	@Column(name = "data_inizio_periodo")
@@ -134,10 +134,10 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dtComAutorita;
 	
-	@Column(name = "codice_qualifica_scrapie", length = 10)
+	@Column(name = "codice_qualifica_scrapie")
 	private String codQualificaScrapie;
 	
-	@Column(name = "descr_qualifica_scrapie", length = 400)
+	@Column(name = "descr_qualifica_scrapie")
 	private String descrQualificaScrapie;
 	
 	@Column(name = "data_rilevazione_qualifica")

@@ -21,13 +21,13 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable{
 	
 	
 	@Id
-	@Column(name = "cuaa", length = 16)
+	@Column(name = "cuaa")
 	/**
 	 * cuaa del soggetto richiedente
 	 */
 	private String cuaa;
 	
-	@Column(name= "flag_etichettatura", length = 1)
+	@Column(name= "flag_etichettatura")
 	/**
 	 * S -> se l'intestatario conincide con il soggetto aderente a sistemi di etichettatura facoltativa
 	 * N -> se l'intenstatario non conincide con il soggetto aderente a sistemi di etichettatura facoltativa

@@ -45,21 +45,21 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
-	@Column(name = "id_allevamento", precision = 10)
+	@Column(name = "id_allevamento")
 	@NotNull
 	/**
 	 * Identificativo univoco in DBN dell’allevamento
 	 */
 	private long allev_id;
 
-	@Column(name = "id_capo", precision = 10)
+	@Column(name = "id_capo")
 	@NotNull
 	/**
 	 * Identificativo univoco in BDN del capo bovino
 	 */
 	private long capoId;
 
-	@Column(name = "sesso_vitello", length = 1)
+	@Column(name = "sesso_vitello")
 	/**
 	 * Sesso del vitello
 	 */
@@ -69,25 +69,25 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	@NotNull
 	private String codicePremio;
 
-	@Column(name = "codice_vitello", length = 16)
+	@Column(name = "codice_vitello")
 	/**
 	 * Codice identificativo del vitello
 	 */
 	private String codiceVitello;
 
-	@Column(name = "codice", length = 16)
+	@Column(name = "codice")
 	/**
 	 * Codice della marca auricolare applicata al capo bovino
 	 */
 	private String codice;
 
-	@Column(name = "cod_libro", length = 3)
+	@Column(name = "cod_libro")
 	/**
 	 * Codice del libro genealogico se iscritta
 	 */
 	private String codLibro;
 
-	@Column(name = "descr_libro", length = 500)
+	@Column(name = "descr_libro")
 	/**
 	 * Denominazione del libro genealogico se iscritta
 	 */
@@ -107,7 +107,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private Date dtNascitaVitello;
 
-	@Column(name = "cod_razza", length = 3)
+	@Column(name = "cod_razza")
 	/**
 	 * Codice della razza della vacca
 	 */
@@ -129,32 +129,32 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private Date dtFineDetenzione;
 
-	@Column(name = "cod_azienda", length = 12)
+	@Column(name = "cod_azienda")
 	/**
 	 * Codice dell''azienda presso cui è nato il vitello
 	 */
 	private String aziendaCodice;
 
-	@Column(name = "azienda_longitudine", precision = 11, scale = 6)
+	@Column(name = "azienda_longitudine")
 	/**
 	 * Longitudine dell azienda
 	 */
 	private double aziendaLongitudine;
 
-	@Column(name = "azienda_latitudine", precision = 11, scale = 6)
+	@Column(name = "azienda_latitudine")
 	/**
 	 * Latitudine dell azienda
 	 */
 	private double aziendaLatitudine;
 
-	@Column(name = "flag_ibr", length = 1)
+	@Column(name = "flag_ibr")
 	/**
 	 * Flag che indica se l azienda aderisce o meno, per l anno di campagna, a piani
 	 * di risanamento per la IBR
 	 */
 	private String flagIbr;
 
-	@Column(name = "flag_rispetto_prevalenza_ibr", length = 10)
+	@Column(name = "flag_rispetto_prevalenza_ibr")
 	/**
 	 * Flag che indica se l allevamento ha rispettato o meno l obiettivo prefissato
 	 * per il rispetto della sieroprevalenza per lâ€™anno di riferimento
@@ -203,32 +203,32 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private Date vitelloDtInserBdnNascita;
 
-	@Column(name = "flag_proroga_marcatura", length = 1)
+	@Column(name = "flag_proroga_marcatura")
 	/**
 	 * Flag che indica se l allevamento e o meno autorizzato a prorogare la
 	 * marcatura dei capi entro 180 giorni dalla nascita
 	 */
 	private String flagProrogaMarcatura;
 
-	@Column(name = "cuaa", length = 16)
+	@Column(name = "cuaa")
 	/**
 	 * Codice fiscale del richiedente
 	 */
 	private String cuaa;
 
-	@Column(name = "sesso", length = 1)
+	@Column(name = "sesso")
 	/**
 	 * Sesso del capo madre
 	 */
 	private String sesso;
 
-	@Column(name = "vitello_capo_id", precision = 16)
+	@Column(name = "vitello_capo_id")
 	/**
 	 * Identificativo univoco in BDN del vitello
 	 */
 	private long vitelloCapoId;
 
-	@Column(name = "vitello_tipo_origine", length = 1)
+	@Column(name = "vitello_tipo_origine")
 	/**
 	 * Flag che indica il tipo origine del vitello. N = nato in stella , W = nato in
 	 * stalla da parto gemellare
@@ -252,13 +252,13 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private Date vitello_data_ins_bdn_ingresso;
 
-	@Column(name = "flag_delegato", length = 10)
+	@Column(name = "flag_delegato")
 	/**
 	 * lag che indica se l allevamento ha conferito delega per operare in BDN
 	 */
 	private String flagDelegato;
 
-	@Column(name = "flag_delegato_ingresso_vacca", length = 1)
+	@Column(name = "flag_delegato_ingresso_vacca")
 	/**
 	 * Flag che assume i seguenti valori: N= se l’ingresso è stato registrato in BDN
 	 * dal detentore (e quindi non ha delegato altri ad operare in BDN) R= se la
@@ -270,7 +270,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private String flagDelegatoIngressoVacca;
 
-	@Column(name = "flag_delegato_nascita_vitello", length = 1)
+	@Column(name = "flag_delegato_nascita_vitello")
 	/**
 	 * Flag che assume i seguenti valori: N= se il capo è stato iscritto dal
 	 * detentore (e quindi non ha delegato altri ad operare in BDN) R= se la delega
@@ -282,7 +282,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private String flagDelegatoNascitaVitello;
 
-	@Column(name = "flag_delegato_ingresso_vitello", length = 1)
+	@Column(name = "flag_delegato_ingresso_vitello")
 	/**
 	 * Flag che assume i seguenti valori: N= se il capo è stato iscritto dal
 	 * detentore (e quindi non ha delegato altri ad operare in BDN) R= se la delega
@@ -294,19 +294,19 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private String flagDelegatoIngressoVitello;
 
-	@Column(name = "ruolo_utente_ingr_vacca", length = 3)
+	@Column(name = "ruolo_utente_ingr_vacca")
 	/**
 	 *
 	 */
 	private String ruoloUtenteIngressoVacca;
 
-	@Column(name = "ruolo_utente_nasc_vitello", length = 3)
+	@Column(name = "ruolo_utente_nasc_vitello")
 	/**
 	 *
 	 */
 	private String ruoloUtenteNascitaVitello;
 
-	@Column(name = "ruolo_utente_ingr_vitello", length = 3)
+	@Column(name = "ruolo_utente_ingr_vitello")
 	/**
 	 *
 	 */

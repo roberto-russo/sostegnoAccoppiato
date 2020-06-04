@@ -107,10 +107,17 @@ public class ref03 {
 			} else {
 				
 				capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(percentualeRiduzione)));
+				try{
+					
 				double importoUnit = this.controlliService
 						.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp)
 						.getImportoUnitario();
 				importoPagato = capiPagabili.multiply(new BigDecimal(importoUnit));
+				
+				} catch (NullPointerException e){
+					new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "nessun importo unitario disponibile");
+				
+				}
 			}
 			
 			outputCalcolo = new Dmt_t_output_ref03();

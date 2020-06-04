@@ -49,7 +49,7 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	 */
 	private Long annoSolare;
 
-	@Column(name = "mese", length = 10)
+	@Column(name = "mese")
 	/**
 	 * Mese di riferimento
 	 */
@@ -62,32 +62,32 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	 */
 	private Long matrAcquirente;
 
-	@Column(name = "cuaa_acquirente", length = 16)
+	@Column(name = "cuaa_acquirente")
 	/**
 	 * Identificativo Fiscale del soggetto che ha presentato la domanda
 	 */
 	private String cuaaAcquirente;
 
-	@Column(name = "denom_acquirente", length = 150)
+	@Column(name = "denom_acquirente")
 	/**
 	 * Denominazione dell'acquirente
 	 */
 	private String denomAcquirente;
 
 	@Id
-	@Column(name = "matr_azienda", unique = true)
+	@Column(name = "matr_azienda")
 	/**
 	 * Matricola settoriale azienda
 	 */
 	private Long matrAzienda;
 
-	@Column(name = "cuaa_azienda", length = 16)
+	@Column(name = "cuaa_azienda")
 	/**
 	 * Identificativo fiscale dell'azienda
 	 */
 	private String cuaaAzienda;
 
-	@Column(name = "denom_azienda", length = 500)
+	@Column(name = "denom_azienda")
 	/**
 	 * Denominazione azienda
 	 */
@@ -99,14 +99,14 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	 */
 	private Long qtConsegnata;
 
-	@Column(name = "ten_mat_grassa_periodo", length = 11, precision = 2)
+	@Column(name = "ten_mat_grassa_periodo")
 	/**
 	 * Tenore di materia grassa di periodo
 	 */
 	private double tentMatGrassaPeriodo;
 
 	@Id
-	@Column(name = "anno_riferimento", unique = true, length = 4)
+	@Column(name = "anno_riferimento", unique = true)
 	/**
 	 * Anno di riferimento dei dati ricevuti da Arpea
 	 */
@@ -116,10 +116,10 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	 * Flag che indica se le Produzioni del CUAA sono state oggetto di subentro con
 	 * le produzioni di altri CUAA
 	 */
-	@Column(name = "flag_subentro", length = 1)
+	@Column(name = "flag_subentro")
 	private String flagSubentro;
 
-	@Column(name = "cod_mese", length = 3)
+	@Column(name = "cod_mese")
 	@ColumnDefault("'MES'")
 	/**
 	 * Codice mese della decodifca_sop = ''MES''
@@ -127,7 +127,7 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	private String codMese;
 
 	@Id
-	@Column(name = "sco_mese", length = 3, unique = true)
+	@Column(name = "sco_mese")
 	/**
 	 * Sotto codice mese della decodifca_sop
 	 */

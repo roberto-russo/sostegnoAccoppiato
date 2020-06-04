@@ -35,10 +35,10 @@ public class Dmt_t_Intervento implements Serializable {
 	@NotNull
 	private Long id;
 
-	@Column(name = "Intervento", length = 3)
+	@Column(name = "Intervento")
 	private String intervento;
 
-	@Column(name = "Misura", length = 10, precision = 0)
+	@Column(name = "Misura")
 	private double misura;
 
 	@Id

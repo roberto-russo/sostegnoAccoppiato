@@ -43,13 +43,13 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	@NotNull
 	private Long idAzienda;
 
-	@Column(name = "cod_attivita", length = 3)
+	@Column(name = "cod_attivita")
 	@ColumnDefault("'TAT'")
 	@NotNull
 	private String codAttivita;
 
 	@Id
-	@Column(name = "sco_attivita", length = 3)
+	@Column(name = "sco_attivita")
 	@NotNull
 	private String scoAttivita;
 
@@ -64,38 +64,38 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	private Long tipoRiga;
 
 	@Id
-	@Column(name = "cod_premio", length = 3)
+	@Column(name = "cod_premio")
 	@NotNull
 	private String codPremio;
 
-	@Column(name = "importo_base", length = 12, precision = 2)
+	@Column(name = "importo_base")
 	private double importoBase;
 
-	@Column(name = "perc_base", length = 7, precision = 6)
+	@Column(name = "perc_base")
 	private double percBase;
 
-	@Column(name = "perc_present_tard", length = 7, precision = 6)
+	@Column(name = "perc_present_tard")
 	private double percPresentTard;
 
-	@Column(name = "imp_ante_modulazione", length = 12, precision = 2)
+	@Column(name = "imp_ante_modulazione")
 	private double impAnteModulazione;
 
-	@Column(name = "perc_modulazione", length = 7, precision = 6)
+	@Column(name = "perc_modulazione")
 	private double percModulazione;
 
-	@Column(name = "imp_post_modulazione", length = 12, precision = 2)
+	@Column(name = "imp_post_modulazione")
 	private double impPostModulazione;
 
-	@Column(name = "perc_condizionalita", length = 7, precision = 6)
+	@Column(name = "perc_condizionalita")
 	private double percCondizionalita;
 
 	@Column(name = "nr_capi_comp")
 	private Long nrCapiComp;
 
-	@Column(name = "nr_capi_corr", length = 11, precision = 2)
+	@Column(name = "nr_capi_corr")
 	private double nrCapiCorr;
 
-	@Column(name = "nr_capi_tot_bdn", length = 10, precision = 3)
+	@Column(name = "nr_capi_tot_bdn")
 	private double nrCapiTotBdn;
 
 	@Column(name = "nr_capi_anomali_bdn")
@@ -122,56 +122,56 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	@Column(name = "nr_capi_ma")
 	private Long nrCapiMa;
 
-	@Column(name = "perc_uba_sau", length = 10, precision = 6)
+	@Column(name = "perc_uba_sau")
 	private double percUbaSau;
 
-	@Column(name = "perc_pas_for", length = 7, precision = 6)
+	@Column(name = "perc_pas_for")
 	private double percPasFor;
 
-	@Column(name = "importo", length = 12, precision = 2)
+	@Column(name = "importo")
 	private double importo;
 
-	@Column(name = "cod_tipo_calcolo", length = 3)
+	@Column(name = "cod_tipo_calcolo" )
 	@NotNull
 	@ColumnDefault("'CLC'")
 	private String codTipoCalcolo;
 
-	@Column(name = "sco_tipo_calcolo", length = 3)
+	@Column(name = "sco_tipo_calcolo")
 	@NotNull
 	@ColumnDefault("'002'")
 	private String scoTipoCalcolo;
 
-	@Column(name = "data_calcolo", length = 6)
+	@Column(name = "data_calcolo")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCalcolo;
 
-	@Column(name = "imp_post_pres_tard", length = 12, precision = 2)
+	@Column(name = "imp_post_pres_tard")
 	private double impPostPresTard;
 
 	// Importo al netto della trattenuta per Disciplina Finanziaria
-	@Column(name = "imp_post_df", length = 12, precision = 2)
+	@Column(name = "imp_post_df")
 	private double impPostDf;
 
 	// utilizzato per salvare il numero di capi ammissibili nel caso di domanda a
 	// campione
-	@Column(name = "nr_capi_amm_camp", length = 14, precision = 2)
+	@Column(name = "nr_capi_amm_camp")
 	private double nrCapiAmmCamp;
 
 	// importo antecedente al riproporzionamento del piccolo agricoltore se
 	// l''importo totale dei premi e'' superiore ad un determinato importo
-	@Column(name = "importo_pre_taglio", length = 12, precision = 2)
+	@Column(name = "importo_pre_taglio")
 	private double importoPreTaglio;
 
 	// Esito percentuale calcolato sulla misura
-	@Column(name = "esito_perc_art52", length = 11, precision = 4)
+	@Column(name = "esito_perc_art52")
 	private double esitoPercArt52;
 
 	// Numero di capi anomali calcolati sulla misura
-	@Column(name = "capi_anomali_art52", length = 11, precision = 4)
+	@Column(name = "capi_anomali_art52")
 	private double capiAnomaliArt52;
 
 	// Scostamento calcolato sulla misura
-	@Column(name = "scostamento_perc", length = 11, precision = 2)
+	@Column(name = "scostamento_perc")
 	private double scostamentoPerc;
 
 	public Long getIdDomanda() {

@@ -44,28 +44,28 @@ public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 	 */
 	private Long IdAlleBDN;
 
-	@Column(name = "codice_intervento", length = 400)
+	@Column(name = "codice_intervento")
 	@NotNull
 	/**
 	 * Codice Intervento codificato nella tabella PREMI in BDN.
 	 */
 	private String codiceIntervento;
 
-	@Column(name = "cuaa", length = 16)
+	@Column(name = "cuaa")
 	@NotNull
 	/**
 	 * Identificativo Fiscale del soggetto che ha presentato la domanda
 	 */
 	private String cuaa;
 
-	@Column(name = "anno_campagna", length = 4, precision = 0)
+	@Column(name = "anno_campagna")
 	@NotNull
 	/**
 	 * Anno della campagna
 	 */
 	private Integer annoCampagna;
 
-	@Column(name = "cuaa2", length = 16)
+	@Column(name = "cuaa2")
 	@NotNull
 	/**
 	 * Identificativo Fiscale del secondo soggetto subentrato al primo nella

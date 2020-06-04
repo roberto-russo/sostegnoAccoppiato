@@ -44,11 +44,11 @@ public class Dmt_t_premio_capi implements Serializable {
     private String codiceVitello;
 
     @Id
-    @Column(name = "CUAA", length = 16)
+    @Column(name = "CUAA")
     @NotNull
     private String cuaa;
 
-    @Column(name = "FLAG_AMISSIBILE", length = 1)
+    @Column(name = "FLAG_AMISSIBILE")
     @NotNull
     private String flagAmmissibile;
 

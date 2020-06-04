@@ -40,7 +40,7 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	private Long idIntervento;
 
 	@Id
-	@Column(name = "ordine_esecuzione", length = 10)
+	@Column(name = "ordine_esecuzione")
 	private String ordineEsecuzione;
 
 	public Long getIdGestore() {

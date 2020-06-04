@@ -50,7 +50,7 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 	 */
 	private Double uba;
 
-	@Column(name = "motivazioni", length = 1000)
+	@Column(name = "motivazioni")
 	/**
 	 *  nel caso in cui il controllo delle uba minime fallisce,
 	 *   viene fornita una descrizione delle motivazioni del fallimento
@@ -64,7 +64,7 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 	 */
 	private Long annoCampagna;
 
-	@Column(name = "codice_intervento", length = 400)
+	@Column(name = "codice_intervento")
 	@NotNull
 	/**
 	 * codice premio

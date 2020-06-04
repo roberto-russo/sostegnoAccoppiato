@@ -39,7 +39,7 @@ public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 	private Dmt_t_sessione idSessione;
 
 	@Id
-	@Column(name = "CUAA_AZIENDA", length = 16)
+	@Column(name = "CUAA_AZIENDA")
 	@NotNull
 	/**
 	 * Identificativo Fiscale del soggetto che ha presentato la domanda
@@ -47,7 +47,7 @@ public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 	private String cuaa_azienda;
 
 	@Id
-	@Column(name = "MATRICOLA_AZIENDA", length = 11, precision = 0)
+	@Column(name = "MATRICOLA_AZIENDA")
 	@NotNull
 	/**
 	 * matricola aziendale
@@ -55,248 +55,248 @@ public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 	private Long matricola_azienda;
 
 	@Id
-	@Column(name = "ANNO_RIFERIMENTO", length = 4, precision = 0)
+	@Column(name = "ANNO_RIFERIMENTO")
 	@NotNull
 	/**
 	 * Anno di campagna di riferimento
 	 */
 	private Long anno_riferimento;
 
-	@Column(name = "CSOM_MED", length = 11, precision = 3)
+	@Column(name = "CSOM_MED")
 	/**
 	 * Media Geometrica del valore di Cellule Somatiche
 	 */
 	private Long csom_med;
 
-	@Column(name = "CMIC_MED", length = 11, precision = 3)
+	@Column(name = "CMIC_MED")
 	/**
 	 * Media Geometrica del valore di Carica Microbiotica
 	 */
 	private Long cmic_med;
 
-	@Column(name = "PP_MED", length = 11, precision = 3)
+	@Column(name = "PP_MED")
 	/**
 	 * Media Aritmetica del valore di Proteine
 	 */
 	private Long pp_med;
 
-	@Column(name = "CSOM_01_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_01_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 01
 	 */
 	private Long csom_01_n_an;
 
-	@Column(name = "CSOM_02_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_02_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 02
 	 */
 	private Long csom_02_n_an;
 
-	@Column(name = "CSOM_03_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_03_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 03
 	 */
 	private Long csom_03_n_an;
 
-	@Column(name = "CSOM_04_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_04_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 04
 	 */
 	private Long csom_04_n_an;
 
-	@Column(name = "CSOM_05_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_05_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 05
 	 */
 	private Long csom_05_n_an;
 
-	@Column(name = "CSOM_06_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_06_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 06
 	 */
 	private Long csom_06_n_an;
 
-	@Column(name = "CSOM_07_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_07_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 07
 	 */
 	private Long csom_07_n_an;
 
-	@Column(name = "CSOM_08_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_08_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 08
 	 */
 	private Long csom_08_n_an;
 
-	@Column(name = "CSOM_09_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_09_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 09
 	 */
 	private Long csom_09_n_an;
 
-	@Column(name = "CSOM_10_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_10_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 10
 	 */
 	private Long csom_10_n_an;
 
-	@Column(name = "CSOM_11_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_11_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 11
 	 */
 	private Long csom_11_n_an;
 
-	@Column(name = "CSOM_12_N_AN", length = 3, precision = 0)
+	@Column(name = "CSOM_12_N_AN")
 	/**
 	 * Numero di analisi per il valore di Cellule Somatiche - mese 12
 	 */
 	private Long csom_12_n_an;
 
-	@Column(name = "cmic_01_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_01_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 01
 	 */
 	private Long cmic_01_n_an;
 
-	@Column(name = "cmic_02_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_02_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 02
 	 */
 	private Long cmic_02_n_an;
 
-	@Column(name = "cmic_03_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_03_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 03
 	 */
 	private Long cmic_03_n_an;
 
-	@Column(name = "cmic_04_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_04_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 04
 	 */
 	private Long cmic_04_n_an;
 
-	@Column(name = "cmic_05_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_05_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 05
 	 */
 	private Long cmic_05_n_an;
 
-	@Column(name = "cmic_06_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_06_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 06
 	 */
 	private Long cmic_06_n_an;
 
-	@Column(name = "cmic_07_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_07_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 07
 	 */
 	private Long cmic_07_n_an;
 
-	@Column(name = "cmic_08_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_08_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 08
 	 */
 	private Long cmic_08_n_an;
 
-	@Column(name = "cmic_09_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_09_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 09
 	 */
 	private Long cmic_09_n_an;
 
-	@Column(name = "cmic_10_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_10_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 10
 	 */
 	private Long cmic_10_n_an;
 
-	@Column(name = "cmic_11_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_11_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 11
 	 */
 	private Long cmic_11_n_an;
 
-	@Column(name = "cmic_12_n_an", length = 3, precision = 0)
+	@Column(name = "cmic_12_n_an")
 	/**
 	 * Numero di analisi per il valore di Carica Microbiotica - mese 12
 	 */
 	private Long cmic_12_n_an;
 
-	@Column(name = "PP_01_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_01_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 01
 	 */
 	private Long pp_01_n_an;
 
-	@Column(name = "PP_02_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_02_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 02
 	 */
 	private Long pp_02_n_an;
 
-	@Column(name = "PP_03_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_03_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 03
 	 */
 	private Long pp_03_n_an;
 
-	@Column(name = "PP_04_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_04_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 04
 	 */
 	private Long pp_04_n_an;
 
-	@Column(name = "PP_05_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_05_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 05
 	 */
 	private Long pp_05_n_an;
 
-	@Column(name = "PP_06_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_06_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 06
 	 */
 	private Long pp_06_n_an;
 
-	@Column(name = "PP_07_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_07_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 07
 	 */
 	private Long pp_07_n_an;
 
-	@Column(name = "PP_08_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_08_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 07
 	 */
 	private Long pp_08_n_an;
 
-	@Column(name = "PP_09_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_09_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 08
 	 */
 	private Long pp_09_n_an;
 
-	@Column(name = "PP_10_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_10_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 10
 	 */
 	private Long pp_10_n_an;
 
-	@Column(name = "PP_11_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_11_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 11
 	 */
 	private Long pp_11_n_an;
 
-	@Column(name = "PP_12_N_AN", length = 3, precision = 0)
+	@Column(name = "PP_12_N_AN")
 	/**
 	 * Numero di analisi per il valore di Proteine - mese 12
 	 */
 	private Long pp_12_n_an;
 
-	@Column(name = "ALL_ASL", length = 10)
+	@Column(name = "ALL_ASL")
 	@NotNull
 	/**
 	 * Identificativo assegnato dalla BDN all''allevamento

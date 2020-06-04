@@ -36,7 +36,7 @@ public class Dmt_t_clsPremio_Validazione implements Serializable {
 	private Dmt_t_sessione idSessione;
 
 	@Id
-	@Column(name = "codice_Intervento", length = 400)
+	@Column(name = "codice_Intervento")
 	@NotNull
 	/**
 	 * Codice Intervento codificato nella tabella PREMI in BDN.
@@ -44,7 +44,7 @@ public class Dmt_t_clsPremio_Validazione implements Serializable {
 	private String codiceIntervento;
 
 	@Id
-	@Column(name = "cuaa", length = 16)
+	@Column(name = "cuaa")
 	@NotNull
 	/**
 	 * Identificativo Fiscale del soggetto che ha presentato la domanda
@@ -52,7 +52,7 @@ public class Dmt_t_clsPremio_Validazione implements Serializable {
 	private String cuaa;
 
 	@Id
-	@Column(name = "anno_campagna", length = 4, precision = 0)
+	@Column(name = "anno_campagna")
 	@NotNull
 	/**
 	 * Anno della campagna

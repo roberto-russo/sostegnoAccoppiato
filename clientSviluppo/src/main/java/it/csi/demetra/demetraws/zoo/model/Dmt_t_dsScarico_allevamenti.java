@@ -27,83 +27,83 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	private Dmt_t_sessione idSessione;
 
 	@Id
-	@Column(name = "allev_id", precision = 10)
+	@Column(name = "allev_id")
 	/**
 	 * identificativo univoco interno in BDN dell'allevamento
 	 */
 	private BigDecimal allevId;
 
-	@Column(name = "cod_tipo_allev", length = 10)
+	@Column(name = "cod_tipo_allev")
 	private String codTipoAllevamento;
 
-	@Column(name = "descr_tipo_allev", length = 400)
+	@Column(name = "descr_tipo_allev")
 	private String descrTipoAllevamento;
 
-	@Column(name = "azienda_codice", length = 12)
+	@Column(name = "azienda_codice")
 	/**
 	 * codice aziendale assegnato all'allevamento
 	 */
 	private String aziendaCodice;
 
-	@Column(name = "id_fiscale", length = 16)
+	@Column(name = "id_fiscale")
 	/**
 	 * identificativo fiscale dell'allevamento
 	 */
 	private String idFiscale;
 
-	@Column(name = "spe_codice", length = 10)
+	@Column(name = "spe_codice")
 	/**
 	 * codice specie animale allevata
 	 */
 	private String specodice;
 
-	@Column(name = "denominazione", length = 50)
+	@Column(name = "denominazione")
 	/**
 	 * denominazione allevamento
 	 */
 	private String denominazione;
 
-	@Column(name = "indirizzo", length = 50)
+	@Column(name = "indirizzo")
 	/**
 	 * indirizzo dell'allevamento (sede di ubicazione degli animali; dal punto di
 	 * vista tecnico viene reperito in BDN l'indirizzo dell'azienda)
 	 */
 	private String indirizzo;
 
-	@Column(name = "cap", length = 5)
+	@Column(name = "cap")
 	/**
 	 * CAP dell'allevamento (sede di ubicazione degli animali. dal punto di vista
 	 * tecnico viene reperito in BDN il CAP dell'azienda)
 	 */
 	private String cap;
 
-	@Column(name = "localita", length = 50)
+	@Column(name = "localita")
 	/**
 	 * localita dell'allevamento ( sede di ubicazione degli animali. dal punto di
 	 * vista tecnico viene reperito in BDN la licalità di ubicazione dell'azienda)
 	 */
 	private String localita;
 
-	@Column(name = "com_codice", length = 6)
+	@Column(name = "com_codice")
 	/**
 	 * codice istat del comune dell'azienda
 	 */
 	private String comCodice;
 
-	@Column(name = "pro_codice", length = 6)
+	@Column(name = "pro_codice")
 	/**
 	 * codice istat della provincia dell'azienda
 	 */
 	private String proCodice;
 
-	@Column(name = "flag_libri_genealogici", length = 1)
+	@Column(name = "flag_libri_genealogici")
 	/**
 	 * puo assumere i valori S,N in base all'iscrizione o meno dell'allevamento ad
 	 * un libro genealogico
 	 */
 	private String flagLibriGenealogici;
 
-	@Column(name = "orientamento_produttivo", length = 10)
+	@Column(name = "orientamento_produttivo" )
 	/**
 	 * codice dell'orientamento produttivo che dipende dal gruppo specie di
 	 * appartenenza dell'allevamento e al tipo_produzione. I valori ammissibili sono
@@ -111,7 +111,7 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	 */
 	private String orientamentoProduttivo;
 
-	@Column(name = "tipo_produzione", length = 10)
+	@Column(name = "tipo_produzione" )
 	/**
 	 * codice del tipo di produzione a cui risulta dedicata la struttura. Puo
 	 * assumere uno dei valori codificati nella tabella TIPI_PRODUZIONE
@@ -132,19 +132,19 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dtFineAttivita;
 
-	@Column(name = "cod_fiscale_prop", length = 16)
+	@Column(name = "cod_fiscale_prop" )
 	/**
 	 * codice fiscale della persona fisica o giuridica proprietaria dell'allevamento
 	 */
 	private String codFiscaleProp;
 
-	@Column(name = "denom_proprietario", length = 50)
+	@Column(name = "denom_proprietario")
 	/**
 	 * denominazione della persona fisica o giuridica proprietaria dell'allevamento
 	 */
 	private String denomProprietario;
 
-	@Column(name = "codice_fiscale_deten", length = 16)
+	@Column(name = "codice_fiscale_deten")
 	/**
 	 * codice fiscale della persona fisica o giuridica che risulta detentore degli
 	 * animali presenti in allevamento ( nel caso di allevamento in soccida riporta
@@ -153,7 +153,7 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	 */
 	private String codiceFiscaleDeten;
 
-	@Column(name = "denom_detentore", length = 50)
+	@Column(name = "denom_detentore")
 	/**
 	 * denominazione della persona fisica o giuridica che risulta detentore degli
 	 * animali in allevamento ( nel caso di allevamento in soccida riporta gli
@@ -178,7 +178,7 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	 */
 	private Date dtFineDetentore;
 
-	@Column(name = "soccida", length = 1)
+	@Column(name = "soccida")
 	/**
 	 * flag indicante se l'allevamento è gestito con più contratti di soccida. Può
 	 * assumere i seguenti valori: S -> l'allevamento e in contratto di soccida. N
@@ -186,44 +186,44 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 	 */
 	private String soccida;
 
-	@Column(name = "latitudine", precision = 11, scale = 6)
+	@Column(name = "latitudine")
 	/**
 	 * coordinate geografiche - Latitudine (vista logica AZIENDE)
 	 */
 	private BigDecimal latitudine;
 
-	@Column(name = "longitudine", precision = 11, scale = 6)
+	@Column(name = "longitudine")
 	/**
 	 * coordinate geografiche - Longitudine (vista logica AZIENDE)
 	 */
 	private BigDecimal longitudine;
 
-	@Column(name = "sezione", length = 10)
+	@Column(name = "sezione")
 	/**
 	 * sezione catastale - Sezione (vista logica AZIENDE)
 	 */
 	private String sezione;
 
-	@Column(name = "subalterno", length = 10)
+	@Column(name = "subalterno")
 	/**
 	 * subalterno dell'unita immobiliare come dichiarato nella mappa catastale -
 	 * Subalterno (vista logica AZIENDE)
 	 */
 	private String subalterno;
 
-	@Column(name = "foglio_catastale", length = 10)
+	@Column(name = "foglio_catastale")
 	/**
 	 * codice del foglio catastale in cui e' ubicata l'azienda
 	 */
 	private String foglioCatastale;
 
-	@Column(name = "particella", length = 10)
+	@Column(name = "particella")
 	/**
 	 * codice della particella catastale in cui e' ubicata l'azienda
 	 */
 	private String particella;
 
-	@Column(name = "autorizzazione_latte", length = 1)
+	@Column(name = "autorizzazione_latte")
 	/**
 	 * flag indicante se l'allevamento ha o meno l'autorizzazione sanitaria alla
 	 * produzione di latte alimentare. Puo' assumere i seguenti valori: S ->

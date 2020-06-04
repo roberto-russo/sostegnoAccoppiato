@@ -18,16 +18,16 @@ import javax.validation.constraints.NotNull;
  */
 public class Dmt_t_razze_ammissibili {
 
-	@Column(name = "associazione", length = 20)
+	@Column(name = "associazione")
 	private String associazione;
 	
-	@Column(name = "Denom_uff_LG", length = 50)
+	@Column(name = "Denom_uff_LG")
 	private String denominaizoneUfficialeLG;
 	
 	
 	
 	@Id
-	@Column(name = "Sezione_Razza", length = 20)
+	@Column(name = "Sezione_Razza")
 	@NotNull
 	private String razza;
 

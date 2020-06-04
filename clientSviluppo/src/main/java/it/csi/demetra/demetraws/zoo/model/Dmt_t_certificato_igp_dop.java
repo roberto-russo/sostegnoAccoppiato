@@ -14,20 +14,20 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
 
     @Id
-    @Column(name = "cuaa", length = 16)
+    @Column(name = "cuaa")
     /**
      * Codice fiscale del richiedente
      */
     private String cuaa;
 
-    @Column(name = "flag_igp", length = 1)
+    @Column(name = "flag_igp")
     /**
      * indicazione geografica protetta
      * puo' assumere valori: S, N
      */
     private String flagIgp;
 
-    @Column(name = "flag_dop", length = 1)
+    @Column(name = "flag_dop")
     /**
      * certificato a denominazione di origine protetta
      * puo' assumere valori: S, N

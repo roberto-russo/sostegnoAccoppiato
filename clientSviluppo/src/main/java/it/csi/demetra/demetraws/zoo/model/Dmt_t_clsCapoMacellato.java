@@ -66,19 +66,19 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	@NotNull
 	private String codicePremio;
 
-	@Column(name = "codice", length = 400)
+	@Column(name = "codice")
 	/**
 	 * Codice della marca auricolare applicata al capo bovino.
 	 */
 	private String codice;
 
-	@Column(name = "razza_codice", length = 400)
+	@Column(name = "razza_codice")
 	/**
 	 * Codice della razza del capo
 	 */
 	private String razzaCodice;
 
-	@Column(name = "sesso", length = 1)
+	@Column(name = "sesso")
 	/**
 	 * Sesso del capo.
 	 */
@@ -91,19 +91,19 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	 */
 	private Date dtNascita;
 
-	@Column(name = "azienda_codice", length = 400)
+	@Column(name = "azienda_codice")
 	/**
 	 * Codice dell’azienda di detenzione
 	 */
 	private String aziendaCodice;
 
-	@Column(name = "azienda_latitudine", length = 11, precision = 4)
+	@Column(name = "azienda_latitudine")
 	/**
 	 * Latitudine dell’azienda
 	 */
 	private Double aziendaLatitudine;
 
-	@Column(name = "azienda_longitudine", length = 11, precision = 4)
+	@Column(name = "azienda_longitudine")
 	/**
 	 * Longitudine dell’azienda
 	 */
@@ -123,13 +123,13 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	 */
 	private Date dtMacellazione;
 
-	@Column(name = "cod_libro", length = 400)
+	@Column(name = "cod_libro")
 	/**
 	 * Codice del libro genealogico, se iscritto
 	 */
 	private String codLibro;
 
-	@Column(name = "descr_libro", length = 400)
+	@Column(name = "descr_libro")
 	/**
 	 * Descrizione del libro genealogico, se iscritto
 	 */
@@ -191,26 +191,26 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	 */
 	private Date dtFineDetenzione;
 
-	@Column(name = "flag_delegato_ingresso", length = 10)
+	@Column(name = "flag_delegato_ingresso")
 	/**
 	 * Flag che assume valori a seconda dell'ingresso del capo
 	 */
 	private String flagDelegatoIngresso;
 
-	@Column(name = "ruolo_utente_ingresso", length = 10)
+	@Column(name = "ruolo_utente_ingresso")
 	/**
 	 * Flag che rappresenta il tipo delegato che ha registrato l'ingresso del capo
 	 * in BDN.
 	 */
 	private String ruoloUtenteIngresso;
 
-	@Column(name = "flag_delegato_uscita", length = 10)
+	@Column(name = "flag_delegato_uscita")
 	/**
 	 * Flag che assume valori a seconda dell'uscita del capo
 	 */
 	private String flagDelegatoUscita;
 
-	@Column(name = "ruolo_utente_uscita", length = 10)
+	@Column(name = "ruolo_utente_uscita")
 	/**
 	 * Flag che rappresenta il tipo delegato che ha registrato l’uscita del capo in
 	 * BDN.

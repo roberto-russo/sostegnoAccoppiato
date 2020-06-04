@@ -38,7 +38,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Rif azienda
 	 */
 	@Id
-	@Column(name = "ID_AZIENDA", length = 11, precision = 0)
+	@Column(name = "ID_AZIENDA")
 	@NotNull
 	private Long id_azienda;
 
@@ -46,7 +46,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Versione
 	 */
 	@Id
-	@Column(name = "VERSIONE", length = 11, precision = 0)
+	@Column(name = "VERSIONE")
 	@NotNull
 	private Long versione;
 
@@ -54,7 +54,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Codice allevamento BDN
 	 */
 	@Id
-	@Column(name = "COD_ALLEVAMENTO", length = 15)
+	@Column(name = "COD_ALLEVAMENTO")
 	@NotNull
 	private String cod_allevamento;
 
@@ -62,7 +62,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * ID allevamento BDN
 	 */
 	@Id
-	@Column(name = "ID_ALLEV_BDN", length = 25)
+	@Column(name = "ID_ALLEV_BDN")
 	@NotNull
 	private String id_allev_bdn;
 
@@ -70,7 +70,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Codice specie
 	 */
 	@Id
-	@Column(name = "SCO_SPECIE", length = 3)
+	@Column(name = "SCO_SPECIE")
 	@NotNull
 	private String sco_specie;
 
@@ -78,7 +78,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * sottcodice specie
 	 */
 	@Id
-	@Column(name = "COD_SPECIE", length = 3)
+	@Column(name = "COD_SPECIE")
 	@ColumnDefault("'TCA'")
 	@NotNull
 	private String cod_specie;
@@ -86,14 +86,14 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	/*
 	 * Denominazione
 	 */
-	@Column(name = "DENOMINAZIONE", length = 30)
+	@Column(name = "DENOMINAZIONE")
 	@NotNull
 	private String denominazione;
 
 	/*
 	 * Codice Titolarità
 	 */
-	@Column(name = "COD_TITOLARITA", length = 3)
+	@Column(name = "COD_TITOLARITA")
 	@ColumnDefault("'TCP'")
 	@NotNull
 	private String cod_titolarita;
@@ -101,59 +101,59 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	/*
 	 * Sottocodice Titolarità
 	 */
-	@Column(name = "SCO_TITOLARITA", length = 3)
+	@Column(name = "SCO_TITOLARITA")
 	@NotNull
 	private String sco_titolarita;
 
 	/*
 	 * Indirizzo
 	 */
-	@Column(name = "INDIRIZZO", length = 100)
+	@Column(name = "INDIRIZZO")
 	@NotNull
 	private String indirizzo;
 
 	/*
 	 * Frazione
 	 */
-	@Column(name = "FRAZIONE", length = 40)
+	@Column(name = "FRAZIONE")
 	private String frazione;
 
 	/*
 	 * Provincia
 	 */
-	@Column(name = "COD_ISTAT_PROV", length = 3)
+	@Column(name = "COD_ISTAT_PROV")
 	private String cod_istat_prov;
 
 	/*
 	 * Comune
 	 */
-	@Column(name = "COD_ISTAT_COM", length = 3)
+	@Column(name = "COD_ISTAT_COM")
 	@NotNull
 	private String cod_istat_com;
 
 	/*
 	 * CAP
 	 */
-	@Column(name = "CAP", length = 5)
+	@Column(name = "CAP")
 	private String cap;
 
 	/*
 	 * Telefono
 	 */
-	@Column(name = "TELEFONO", length = 20)
+	@Column(name = "TELEFONO")
 	private String telefono;
 
 	/*
 	 * Codice ASL
 	 */
-	@Column(name = "COD_ASL", length = 16)
+	@Column(name = "COD_ASL")
 	@NotNull
 	private String cod_asl;
 
 	/*
 	 * Data scarico da BDN
 	 */
-	@Column(name = "DATA_SCARICO", length = 6)
+	@Column(name = "DATA_SCARICO")
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date data_scarico;
@@ -161,38 +161,38 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	/*
 	 * Id fiscale da BDN
 	 */
-	@Column(name = "ID_FISCALE", length = 16)
+	@Column(name = "ID_FISCALE")
 	private String id_fiscale;
 
 	/*
 	 * Premio Vacche da Latte (art. 20)
 	 */
-	@Column(name = "VACCHE_LATTE", length = 1)
+	@Column(name = "VACCHE_LATTE")
 	private String vacche_latte;
 
 	/*
 	 * premio Aggiuntivo Vacche da Latte, presenti per almeno 6 mesi in zone montane
 	 * (art. 20)
 	 */
-	@Column(name = "VACCHE_MONTAGNA", length = 1)
+	@Column(name = "VACCHE_MONTAGNA")
 	private String vacche_montagna;
 
 	/*
 	 * Premio Bufale (art. 20)
 	 */
-	@Column(name = "BUFALE", length = 1)
+	@Column(name = "BUFALE")
 	private String bufale;
 
 	/*
 	 * Premio Vacche nutrici da carne (art. 21)
 	 */
-	@Column(name = "VACCHE_NUTRICI", length = 1)
+	@Column(name = "VACCHE_NUTRICI")
 	private String vacche_nutrici;
 
 	/*
 	 * Premio Vacche nutrici a duplice attitudine (art. 21)
 	 */
-	@Column(name = "VACCHE_NUTRICI_DA", length = 1)
+	@Column(name = "VACCHE_NUTRICI_DA")
 	private String vacche_nutrici_da;
 
 	/*
@@ -200,59 +200,59 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * gestione della razza finalizzati al risanamento dal virus responsabile della
 	 * IBR (art. 21)
 	 */
-	@Column(name = "VACCHE_CARNE_IBR", length = 1)
+	@Column(name = "VACCHE_CARNE_IBR")
 	private String vacche_carne_ibr;
 
 	/*
 	 * Premio Bovini macellati di almeno 6 mesi (art. 21)
 	 */
-	@Column(name = "BOVINI_MACELLATI", length = 1)
+	@Column(name = "BOVINI_MACELLATI")
 	private String bovini_macellati;
 
 	/*
 	 * Premio Aggiuntivo Bovini macellati di almeno 12 mesi (art. 21)
 	 */
-	@Column(name = "MACELLATI_12_MESI", length = 1)
+	@Column(name = "MACELLATI_12_MESI")
 	private String macellati_12_mesi;
 
 	/*
 	 * Premio Aggiuntivo Bovini macellati aderenti a sistemi di qualità nazionale o
 	 * regionale (art. 21)
 	 */
-	@Column(name = "MACELLATI_QUALITA", length = 1)
+	@Column(name = "MACELLATI_QUALITA")
 	private String macellati_qualita;
 
 	/*
 	 * Premio Aggiuntivo Bovini macellati allevati in conformità ad un disciplinare
 	 * di etichettatura facoltativa approvato dal Mipaaf (art. 21)
 	 */
-	@Column(name = "MACELLATI_ETICHETTATURA", length = 1)
+	@Column(name = "MACELLATI_ETICHETTATURA")
 	private String macellati_etichettatura;
 
 	/*
 	 * Premio Aggiuntivo Bovini macellati certificati ai sensi del reg. UE 1151/2012
 	 * (art. 21)
 	 */
-	@Column(name = "MACELLATI_IGP", length = 1)
+	@Column(name = "MACELLATI_IGP")
 	private String macellati_igp;
 
 	/*
 	 * premio Agnelle da rimonta
 	 */
-	@Column(name = "AGNELLE_RIMONTA", length = 1)
+	@Column(name = "AGNELLE_RIMONTA")
 	private String agnelle_rimonta;
 
 	/*
 	 * Premio Capi Ovini e Caprini macellati
 	 */
-	@Column(name = "OVICAPRINI_MACELLATI", length = 1)
+	@Column(name = "OVICAPRINI_MACELLATI")
 	private String ovicaprini_macellati;
 
 	/*
 	 * Premio Vacche nutrici non iscritte nei Libri genialogici o registro
 	 * anagrafico - premio 322
 	 */
-	@Column(name = "VACCHE_NUTRICI_NG", length = 1)
+	@Column(name = "VACCHE_NUTRICI_NG")
 	private String vacche_nutrici_ng;
 
 	public Long getId_azienda() {

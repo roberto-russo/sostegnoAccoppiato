@@ -59,7 +59,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
 	@JoinColumn(name = "idSessione", nullable = false)
 	private Dmt_t_sessione idSessione;
 
-    @Column(name = "codice_errore", length = 400)
+    @Column(name = "codice_errore")
     /**
      * Codice dell’errore verificatosi in BDN qualora l’operazione non fosse
      * andata a buon fine.
@@ -69,7 +69,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
      * Descrizione dell’errore verificatosi in BDN qualora l’operazione non
      * fosse andata a buon fine.
      */
-    @Column(name = "descrizione_errore", length = 400)
+    @Column(name = "descrizione_errore")
     private String ErrDescr;
     /**
      * Numero dei capi eleggibili a premio sulla base del filtro applicato alla

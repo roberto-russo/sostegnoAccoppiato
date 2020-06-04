@@ -45,14 +45,14 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
-	@Column(name = "ID_ALLEVAMENTO", length = 25)
+	@Column(name = "ID_ALLEVAMENTO")
 	@NotNull
 	/**
 	 * Identificativo univoco in BDN dell'allevamento
 	 */
 	private long allevId;
 
-	@Column(name = "ID_CAPO", length = 25)
+	@Column(name = "ID_CAPO")
 	@NotNull
 	/**
 	 * Identificativo univoco in BDN del capo ovicaprino
@@ -63,19 +63,19 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	@NotNull
 	private String codicePremio;
 
-	@Column(name = "CODICE", length = 16)
+	@Column(name = "CODICE")
 	/**
 	 * Codice della marca auricolare applicata al capo ovicaprino
 	 */
 	private String codice;
 
-	@Column(name = "SESSO", length = 1)
+	@Column(name = "SESSO")
 	/**
 	 * sesso del capo ovicaprino
 	 */
 	private String sesso;
 
-	@Column(name = "COD_RAZZA", length = 3)
+	@Column(name = "COD_RAZZA")
 	/**
 	 * Codice della razza del capo ovino
 	 */
@@ -112,7 +112,7 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	 */
 	private Date dtMacellazione;
 
-	@Column(name = "COD_AZIENDA", length = 16)
+	@Column(name = "COD_AZIENDA")
 	/**
 	 * codice aziendale.
 	 */
@@ -125,13 +125,13 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	 */
 	private Date dtRegistrMacellazione;
 
-	@Column(name = "GENOTIPO", length = 50)
+	@Column(name = "GENOTIPO")
 	/**
 	 * Genotipo di appartenenza del capo ovino
 	 */
 	private String genotipo;
 
-	@Column(name = "CONS_MEDIA", length = 11, precision = 4)
+	@Column(name = "CONS_MEDIA")
 	/**
 	 * Media aritmetica dei giorni di presenza del capo rispetto al numero dei
 	 * giorni dell anno campagna
@@ -173,13 +173,13 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	 */
 	private Date dtApplMarchio;
 
-	@Column(name = "CUAA", length = 16)
+	@Column(name = "CUAA")
 	/**
 	 * Codice fiscale del richiedente
 	 */
 	private String cuaa;
 
-	@Column(name = "FLAG_DELEGATO_NASCITA", length = 1)
+	@Column(name = "FLAG_DELEGATO_NASCITA")
 	/**
 	 * Flag che assume i seguenti valori: N= se il capo è stato iscritto dal
 	 * detentore (e quindi non ha delegato altri ad operare in BDN) R= se la delega
@@ -191,7 +191,7 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	 */
 	private String flagDelegatoNascita;
 
-	@Column(name = "RUOLO_UTENTE_NASCITA", length = 3)
+	@Column(name = "RUOLO_UTENTE_NASCITA")
 	/**
 	 * Acronimo che rappresenta il tipo delegato che ha effettuato l’iscrizione del
 	 * capo in BDN. Può assumere i seguenti valori: REG = il delegato è la regione

@@ -34,7 +34,7 @@ public class Dmt_t_Tzoo_circuiti_qualita implements Serializable {
 	private Dmt_t_sessione idSessione;
 
 	@Id
-	@Column(name = "CUAA", length = 16)
+	@Column(name = "CUAA")
 	@NotNull
 	/*
 	 * Id fiscale del proprietario e/o del detentore di un allevamento va cambiato
@@ -46,13 +46,13 @@ public class Dmt_t_Tzoo_circuiti_qualita implements Serializable {
 	 * ID dell'allevamento in BDN
 	 */
 	@Id
-	@Column(name = "ID_ALLEV_BDN", length = 25)
+	@Column(name = "ID_ALLEV_BDN")
 	private String id_allev_bdn;
 
 	/*
 	 * Codice aziendale dell' allevamento
 	 */
-	@Column(name = "COD_ALLEVAMENTO", length = 26)
+	@Column(name = "COD_ALLEVAMENTO")
 	private String cod_allevamento;
 
 	/*
@@ -69,32 +69,32 @@ public class Dmt_t_Tzoo_circuiti_qualita implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date data_fine;
 
-	@Column(name = "COD_CAT_CQ", length = 3)
+	@Column(name = "COD_CAT_CQ")
 	private String cod_cat_cq;
 
 	@Id
-	@Column(name = "SCO_CAT_CQ", length = 3)
+	@Column(name = "SCO_CAT_CQ")
 	@NotNull
 	private String sco_cat_cq;
 
-	@Column(name = "COD_DEMON_CQ", length = 3)
+	@Column(name = "COD_DEMON_CQ")
 	private String cod_denom_cq;
 
 	@Id
-	@Column(name = "SCO_DEMON_CQ", length = 3)
+	@Column(name = "SCO_DEMON_CQ")
 	@NotNull
 	private String sco_denom_cq;
 
-	@Column(name = "STRUTTURA", length = 100)
+	@Column(name = "STRUTTURA")
 	private String struttura;
 
 	/*
 	 * Struttura di controllo
 	 */
-	@Column(name = "PEC_STRUTTURA", length = 100)
+	@Column(name = "PEC_STRUTTURA")
 	private String pec_struttura;
 
-	@Column(name = "REGIONE_SOCIALE_AZIENDA", length = 200)
+	@Column(name = "REGIONE_SOCIALE_AZIENDA")
 	private String ragione_sociale_azienda;
 
 	public String getId_allev_bdn() {

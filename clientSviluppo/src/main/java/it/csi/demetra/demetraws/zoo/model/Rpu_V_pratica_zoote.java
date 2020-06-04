@@ -23,7 +23,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
 
 	@Id
-    @Column(name = "ANNO_CAMPAGNA", length = 4, precision = 0)
+    @Column(name = "ANNO_CAMPAGNA")
     @NotNull
     private int annoCampagna;
 
@@ -47,17 +47,17 @@ public class Rpu_V_pratica_zoote implements Serializable {
     private int extIdAzienda;
 
     @Id
-    @Column(name = "CUAA", length = 16)
+    @Column(name = "CUAA")
     @NotNull
     private String cuaa;
 
-    @Column(name = "DENOMINAZIONE", length = 50)
+    @Column(name = "DENOMINAZIONE")
     private String denominazione;
 
     @Column(name = "ID_STATO_PRATICA")
     private int idStatoPratica;
 
-    @Column(name = "DESCRIZIONE", length = 400)
+    @Column(name = "DESCRIZIONE")
     private String descrizione;
 
     @Id
