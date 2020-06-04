@@ -1,0 +1,83 @@
+--------------------------------------------------------
+--  File creato - mercoledì-giugno-03-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table DMT_T_TLATTE_SIN_AN
+--------------------------------------------------------
+
+  CREATE TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" 
+   (	"ANNO_RIFERIMENTO" NUMBER(19,0), 
+	"CUAA_AZIENDA" VARCHAR2(16 CHAR), 
+	"MATRICOLA_AZIENDA" NUMBER(19,0),  
+	"ID_SESSIONE" NUMBER(19,0), 
+	"ALL_ASL" VARCHAR2(10 CHAR), 
+	"CMIC_01_N_AN" NUMBER(19,0), 
+	"CMIC_02_N_AN" NUMBER(19,0), 
+	"CMIC_03_N_AN" NUMBER(19,0), 
+	"CMIC_04_N_AN" NUMBER(19,0), 
+	"CMIC_05_N_AN" NUMBER(19,0), 
+	"CMIC_06_N_AN" NUMBER(19,0), 
+	"CMIC_07_N_AN" NUMBER(19,0), 
+	"CMIC_08_N_AN" NUMBER(19,0), 
+	"CMIC_09_N_AN" NUMBER(19,0), 
+	"CMIC_10_N_AN" NUMBER(19,0), 
+	"CMIC_11_N_AN" NUMBER(19,0), 
+	"CMIC_12_N_AN" NUMBER(19,0), 
+	"CMIC_MED" NUMBER(19,0), 
+	"CSOM_01_N_AN" NUMBER(19,0), 
+	"CSOM_02_N_AN" NUMBER(19,0), 
+	"CSOM_03_N_AN" NUMBER(19,0), 
+	"CSOM_04_N_AN" NUMBER(19,0), 
+	"CSOM_05_N_AN" NUMBER(19,0), 
+	"CSOM_06_N_AN" NUMBER(19,0), 
+	"CSOM_07_N_AN" NUMBER(19,0), 
+	"CSOM_08_N_AN" NUMBER(19,0), 
+	"CSOM_09_N_AN" NUMBER(19,0), 
+	"CSOM_10_N_AN" NUMBER(19,0), 
+	"CSOM_11_N_AN" NUMBER(19,0), 
+	"CSOM_12_N_AN" NUMBER(19,0), 
+	"CSOM_MED" NUMBER(19,0), 
+	"PP_01_N_AN" NUMBER(19,0), 
+	"PP_02_N_AN" NUMBER(19,0), 
+	"PP_03_N_AN" NUMBER(19,0), 
+	"PP_04_N_AN" NUMBER(19,0), 
+	"PP_05_N_AN" NUMBER(19,0), 
+	"PP_06_N_AN" NUMBER(19,0), 
+	"PP_07_N_AN" NUMBER(19,0), 
+	"PP_08_N_AN" NUMBER(19,0), 
+	"PP_09_N_AN" NUMBER(19,0), 
+	"PP_10_N_AN" NUMBER(19,0), 
+	"PP_11_N_AN" NUMBER(19,0), 
+	"PP_12_N_AN" NUMBER(19,0), 
+	"PP_MED" NUMBER(19,0)
+   ) SEGMENT CREATION DEFERRED 
+
+  TABLESPACE "DEMETRA_TBL" ;
+--------------------------------------------------------
+--  DDL for Index IE_DMT_T_TLATTE_SIN_AN
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DEMETRA"."IE_DMT_T_TLATTE_SIN_AN" ON "DEMETRA"."DMT_T_TLATTE_SIN_AN" ("ANNO_RIFERIMENTO", "CUAA_AZIENDA", "MATRICOLA_AZIENDA", "ID_SESSIONE") 
+
+  TABLESPACE "DEMETRA_IDX" ;
+--------------------------------------------------------
+--  Constraints for Table DMT_T_TLATTE_SIN_AN
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" MODIFY ("ANNO_RIFERIMENTO" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" MODIFY ("CUAA_AZIENDA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" MODIFY ("MATRICOLA_AZIENDA" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" MODIFY ("ID_SESSIONE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" MODIFY ("ALL_ASL" NOT NULL ENABLE);
+ 
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" ADD CONSTRAINT "PK_DMT_T_TLATTE_SIN_AN" PRIMARY KEY ("ANNO_RIFERIMENTO", "CUAA_AZIENDA", "MATRICOLA_AZIENDA", "ID_SESSIONE");
+--------------------------------------------------------
+--  Ref Constraints for Table DMT_T_TLATTE_SIN_AN
+--------------------------------------------------------
+
+  ALTER TABLE "DEMETRA"."DMT_T_TLATTE_SIN_AN" ADD CONSTRAINT "FK_DMT_T_SESSIONE_29" FOREIGN KEY ("ID_SESSIONE")
+	  REFERENCES "DEMETRA"."DMT_T_SESSIONE" ("ID_SESSIONE") ENABLE;
