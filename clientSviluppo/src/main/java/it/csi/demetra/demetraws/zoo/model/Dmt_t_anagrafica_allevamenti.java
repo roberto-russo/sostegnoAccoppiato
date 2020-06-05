@@ -7,10 +7,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,7 +22,8 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	private static final long serialVersionUID = 9215943957155723524L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "anagrafica_allev_id_seq")
+	@SequenceGenerator(name="anagrafica_allev_id_seq",sequenceName="ANAGRAFICA_ALLEV_ID_SEQ", allocationSize=1)
 	@Column(name = "id_autogenerato")
 	/**
 	 * codice id autogenerato associato all'oggetto di tipo Dmt_t_anagrafica_allevamenti
