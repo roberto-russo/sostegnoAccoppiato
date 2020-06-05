@@ -105,6 +105,10 @@ public class ControlliService {
         return anagraficaAllevamentiRep.findByAllevId(allevId);
     }
 
+    public Dmt_t_anagrafica_allevamenti getAllevIdAndSessione(BigDecimal allevId, Long idSessione) {
+    	return anagraficaAllevamentiRep.findByAllevIdAndSessione(allevId, idSessione);
+    }
+
     public List<Integer> getAllevamentiBySessioneCuaaCodIntervento(Long idSessione, String cuaa,
                                                                    String codiceIntervento) {
         return boviniRepository.getAllevamentiBySessioneCuaaCodIntervento(idSessione, cuaa, codiceIntervento);

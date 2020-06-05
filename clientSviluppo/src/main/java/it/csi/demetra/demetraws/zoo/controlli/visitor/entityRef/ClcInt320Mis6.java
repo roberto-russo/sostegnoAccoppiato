@@ -118,8 +118,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 			for (Dmt_t_premio_capi capi : capiAmmessiUba) {
 
-				this.modelAllevamenti = getControlliService()
-						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(capi.getIdAllevamento()));
+				this.modelAllevamenti = getControlliService().getAllevIdAndSessione(BigDecimal.valueOf(3362330), getSessione().getIdSessione());
+//						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(capi.getIdAllevamento()));
 
 				String proprietario = modelAllevamenti.getCodFiscaleProp();
 				String detentore = modelAllevamenti.getCod_fiscale_deten();

@@ -15,8 +15,8 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini_services {
 	DsUBA_censimenti_allevamenti_ovini_repository censimOviniRepository;
 	
 	
-	public List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> getCensimOviniByIdSessioneAndCodiceAzienda(Long idSessione, String codiceAzienda) {
-		return censimOviniRepository.findByIdSessioneAndCodiceAzienda(idSessione, codiceAzienda);
+	public List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> getCensimOviniByIdSessioneAndCodFiscaleDete(Long idSessione, String codFiscaleDete) {
+		return censimOviniRepository.findByIdSessioneAndCodFiscaleDete(idSessione, codFiscaleDete);
 	}
 	
 	
