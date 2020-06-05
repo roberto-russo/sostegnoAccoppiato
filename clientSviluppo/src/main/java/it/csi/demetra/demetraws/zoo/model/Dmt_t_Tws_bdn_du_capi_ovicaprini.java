@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,7 +33,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	private static final long serialVersionUID = -8829170877502816563L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(generator = "capi_ovicaprini_id_seq")
+    @SequenceGenerator(name="capi_ovicaprini_id_seq",sequenceName="CAPI_OVICAPRINI_ID_SEQ", allocationSize=1)
     @Column(name= "id_autogenerato")
     private Long idAutogenerato;
 
