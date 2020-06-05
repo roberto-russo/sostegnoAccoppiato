@@ -6,11 +6,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 @Entity(name = "DMT_D_CLS_PREMIO_VAL_RESP")
 /**
@@ -29,7 +29,8 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
      */
    
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(generator = "premio_valid_resp_seq")
+    @SequenceGenerator(name="premio_valid_resp_seq",sequenceName="PREMIO_VALID_RESP_SEQ", allocationSize=1)
     @Column(name= "id_autogenerato")
     private Long idAutogenerato;
     
