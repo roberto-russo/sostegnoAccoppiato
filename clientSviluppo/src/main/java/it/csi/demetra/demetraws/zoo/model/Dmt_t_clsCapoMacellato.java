@@ -6,10 +6,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,7 +29,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(generator = "capo_macellato_id_seq")
+    @SequenceGenerator(name="capo_macellato_id_seq",sequenceName="CAPO_MACELLATO_ID_SEQ", allocationSize=1)
     @Column(name= "id_autogenerato")
     /**
      * id autogenerato associato all'oggetto di tipo Dmt_t_clsCapoMacellato
