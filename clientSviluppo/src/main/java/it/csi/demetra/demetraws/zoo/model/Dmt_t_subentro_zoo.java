@@ -28,21 +28,36 @@ public class Dmt_t_subentro_zoo implements Serializable{
 	private long idSubentro;
 	
 	@Column(name = "anno_campagna")
+	/**
+	 * Anno della campagna
+	 */
 	private int annoCampagna;
 	
 	@Column(name = "cuaa_domanda")
 	@NotNull
+	/**
+	 * codice fiscale del richiedente
+	 */
 	private String cuaaDomanda;
 	
 	@Column(name = "cuaa_subentro")
 	@NotNull
+	/**
+	 * Codice fiscale del subentrante
+	 */
 	private String cuaaSubentro;
 	
 	@Column(name = "data_inizio")
 	@Temporal(TemporalType.DATE)
+	/**
+	 * Data di inizio subentro
+	 */
 	private Date dataInizio;
 	
 	@Column(name = "data_fine")
+	/**
+	 * Data di fine subentro
+	 */
 	@Temporal(TemporalType.DATE)
 	private Date dataFine;
 	
@@ -60,42 +75,82 @@ public class Dmt_t_subentro_zoo implements Serializable{
 		this.idSubentro = idSubentro;
 	}
 
+	/**
+	 * Metodo getter che imposta l'anno della campagna
+	 * @return annoCampagna anno della campagna
+	 */
 	public int getAnnoCampagna() {
 		return annoCampagna;
 	}
 
+	/**
+	 * Metodo setter che imposta l'anno della campagna
+	 * @param annoCampagna anno della campagna
+	 */
 	public void setAnnoCampagna(int annoCampagna) {
 		this.annoCampagna = annoCampagna;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice fiscale del richiedente
+	 * @return cuaaDomanda codice fiscale del richiedente
+	 */
 	public String getCuaaDomanda() {
 		return cuaaDomanda;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice fiscale del richiedente
+	 * @param cuaaDomanda codice fiscale del richiedente
+	 */
 	public void setCuaaDomanda(String cuaaDomanda) {
 		this.cuaaDomanda = cuaaDomanda;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice fiscale del subentrante
+	 * @return cuaaSubentro codice fiscale del subentrante
+	 */
 	public String getCuaaSubentro() {
 		return cuaaSubentro;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice fiscale del subentrante
+	 * @param cuaaSubentro codice fiscale del subentro
+	 */
 	public void setCuaaSubentro(String cuaaSubentro) {
 		this.cuaaSubentro = cuaaSubentro;
 	}
 
+	/**
+	 * Metodo getter che ritorna la data di inizio subentro
+	 * @return dataInizio data di inizio subentro
+	 */
 	public Date getDataInizio() {
 		return dataInizio;
 	}
 
+	/**
+	 * Metodo setter che imposta la data di inizio subentro
+	 * @param dataInizio data di inizio subentro
+	 */
 	public void setDataInizio(Date dataInizio) {
 		this.dataInizio = dataInizio;
 	}
 
+	/**
+	 * Metodo getter che ritorna la data di fine subentro
+	 * @return dataFine data di fine subentro
+	 */
 	public Date getDataFine() {
 		return dataFine;
 	}
 
+	/**
+	 * Metodo setter che imposta la data di fine subentro
+	 * @param dataFine data di fine subentro
+	 */
 	public void setDataFine(Date dataFine) {
 		this.dataFine = dataFine;
 	}

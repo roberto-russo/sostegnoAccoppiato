@@ -9,11 +9,24 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativ
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_SistemiDiEtichettaturaFacoltativa_repository;
 
 @Service
+/**
+ * Classe service che utilizza le Query definite nel repository @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository
+ * per la persistenza di oggetti di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
+ * @author Bcsoft
+ */
 public class Dmt_t_SistemiDiEtichettaturaFacoltativa_services {
 
 	@Autowired
+	/**
+     * Repository in cui sono definite le Query di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository.
+     */
 	Dmt_t_SistemiDiEtichettaturaFacoltativa_repository rep;
 	
+	/**
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa.
+     * @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository.findAll
+     * @return List<Dmt_t_SistemiDiEtichettaturaFacoltativa> lista degli oggetti di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
+     */
 	public List<Dmt_t_SistemiDiEtichettaturaFacoltativa> getAll(){
 		return this.rep.findAll();
 	}

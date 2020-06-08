@@ -48,6 +48,9 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
@@ -58,7 +61,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	@Column(name = "ALLEV_ID")
 	@NotNull
 	/**
-	 * Identificativo univoco in BDN dell’allevamento di detenzione del capo
+	 * Identificativo univoco in BDN dell’allevamento
 	 */
 	private long allevId;
 
@@ -66,7 +69,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	@Column(name = "ID_CAPO")
 	@NotNull
 	/**
-	 * Identificativo univoco in BDN del capo bovino
+	 * Identificativo univoco in BDN del capo animale
 	 */
 	private long capoId;
 
@@ -74,7 +77,7 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 	@Column(name = "CODICE")
 	@NotNull
 	/**
-	 * Codice della marca auricolare applicata al capo bovino
+	 * Codice della marca auricolare applicata al capo animale
 	 */
 	private String codice;
 
@@ -86,6 +89,9 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 	@Column(name = "CODICE_PREMIO")
 	@NotNull
+	/**
+	 * Codice intervento
+	 */
 	private String codicePremio;
 
 	@Column(name = "DATA_NASCITA")

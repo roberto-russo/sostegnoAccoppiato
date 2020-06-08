@@ -25,96 +25,185 @@ public class Dmt_t_output_ref03 implements Serializable{
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 
 	@Id
 	@Column(name = "cuaa")
+	/**
+	 * Codice fiscale del richiedente.
+	 */
 	private String cuaa;
 
 	@Id
 	@Column(name = "anno_campagna")
+	/**
+	 * Anno della campagna
+	 */
 	private Integer annoCampagna;
 
 	@Id
 	@Column(name = "intervento")
+	/**
+	 * Codice intervento
+	 */
 	private String intervento;
 	
 	@Column(name = "importo_pagato")
+	/**
+	 * importo pagato al richiedente.
+	 */
 	private Double importoPagato;
 	
 	@Column(name = "capi_pagabili")
+	/**
+	 * numero di capi ammessi al pagamento
+	 */
 	private Double capiPagabili;
 	
 	@Column(name = "percentuale_riduzione")
+	/**
+	 * percentuale di riduzione del pagamento del premio
+	 */
 	private Double percentualeRiduzione;
 	
 	@Column(name = "esito")
 	private Double esito;
 	
 	@Column(name = "capi_accertati")
+	/**
+	 * Numero di capi accertati per il codice intervento
+	 */
 	private Integer capiAccertati;
 	
 	@Column(name = "capi_anomali")
+	/**
+	 * Capi controllati e risultati anomali, quindi non pagabili.
+	 */
 	private Integer capiAnomali;
 	
 	@Column(name = "capi_richiesti")
+	/**
+	 * Capi richiesti a premio dal richiedente
+	 */
 	private Integer capiRichiesti;
 	
 	@Column(name = "diff_richiesti_accertati", nullable = true)
+	/**
+	 * Differenza tra i capi richiesti e i capi ammessi a premio.
+	 */
 	private Integer differenzaCapiRichiestiAccertati;
 
+	/**
+	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * @return idSessione identificativo univoco associato all'esecuzione.
+	 */
 	public Dmt_t_sessione getIdSessione() {
 		return idSessione;
 	}
 
+	/**
+	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione.
+	 * @param sessione identificativo univoco associato all'esecuzione.
+	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice fiscale del richiedente.
+	 * @return cuaa codice fiscale del richiedente.
+	 */
 	public String getCuaa() {
 		return cuaa;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice fiscale del richiedente.
+	 * @param cuaa codice fiscale del richiedente.
+	 */
 	public void setCuaa(String cuaa) {
 		this.cuaa = cuaa;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'anno della campagna.
+	 * @return annoCampagna anno della campagna.
+	 */
 	public Integer getAnnoCampagna() {
 		return annoCampagna;
 	}
 
+	/**
+	 * Metodo setter che imposta l'anno della campagna.
+	 * @param annoCampagna anno della campagna.
+	 */
 	public void setAnnoCampagna(Integer annoCampagna) {
 		this.annoCampagna = annoCampagna;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice intervento.
+	 * @return intervento codice intervento.
+	 */
 	public String getIntervento() {
 		return intervento;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice intervento.
+	 * @param intervento codice intervento
+	 */
 	public void setIntervento(String intervento) {
 		this.intervento = intervento;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'importo pagato al richiedente
+	 * @return importoPagato importo pagato al richiedente.
+	 */
 	public Double getImportoPagato() {
 		return importoPagato;
 	}
 
+	/**
+	 * Metodo setter che imposta l'importo pagato al richiedente.
+	 * @param importoPagato importo pagato al richiedente.
+	 */
 	public void setImportoPagato(Double importoPagato) {
 		this.importoPagato = importoPagato;
 	}
 
+	/**
+	 * Metodo getter che ritorna il numero di capi ammessi al pagamento
+	 * @return capiPagaBili numero di capi ammessi al premio
+	 */
 	public Double getCapiPagabili() {
 		return capiPagabili;
 	}
 
+	/**
+	 * Metodo setter che imposta il numero di capi ammessi al pagamento.
+	 * @param capiPagabili numero di capi ammessi al pagamento.
+	 */
 	public void setCapiPagabili(Double capiPagabili) {
 		this.capiPagabili = capiPagabili;
 	}
 
+	/**
+	 * Metodo getter che ritorna la percentuale di riduzione del pagamento del premio
+	 * @return percentualeRiduzione percentuale di riduzione del pagamento del premio
+	 */
 	public Double getPercentualeRiduzione() {
 		return percentualeRiduzione;
 	}
 
+	/**
+	 * Metodo setter che imposta la percentuale di riduzione del pagamento del premio
+	 * @param percentualeRiduzione  percentuale di riduzione del pagamento del premio
+	 */
 	public void setPercentualeRiduzione(Double percentualeRiduzione) {
 		this.percentualeRiduzione = percentualeRiduzione;
 	}
@@ -127,34 +216,66 @@ public class Dmt_t_output_ref03 implements Serializable{
 		this.esito = esito;
 	}
 
+	/**
+	 * Metodo getter che ritorna il numero di capi accertati per il codice intervento
+	 * @return capiAccertati numero di capi accertati per il codice intervento.
+	 */
 	public Integer getCapiAccertati() {
 		return capiAccertati;
 	}
 
+	/**
+	 * Metodo setter che imposta il numero di capi accertati per il codice premio
+	 * @param capiAccertati numero di capi accertati per il codice premio
+	 */
 	public void setCapiAccertati(Integer capiAccertati) {
 		this.capiAccertati = capiAccertati;
 	}
 
+	/**
+	 * Metodo getter che ritorna il numero di capi anomali.
+	 * @return capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
+	 */
 	public Integer getCapiAnomali() {
 		return capiAnomali;
 	}
 
+	/**
+	 * Metodo setter che imposta il numero di capi anomali.
+	 * @param capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
+	 */
 	public void setCapiAnomali(Integer capiAnomali) {
 		this.capiAnomali = capiAnomali;
 	}
 
+	/**
+	 * Metodo getter che imposta il numero di capi richiesti dal richiedente.
+	 * @return capiRichiesti numero di capi richiesti dal richiedente
+	 */
 	public Integer getCapiRichiesti() {
 		return capiRichiesti;
 	}
 
+	/**
+	 * Metodo setter che imposta il numero di capi richiesti dal richiedente.
+	 * @param capiRichiesti numero di capi richiesti dal richiedente.
+	 */
 	public void setCapiRichiesti(Integer capiRichiesti) {
 		this.capiRichiesti = capiRichiesti;
 	}
 
+	/**
+	 * Metodo getter che ritorna la differenza tra il numero di capi richiesti ed il numero di capi ammissibili
+	 * @return differenzaCapiRichiestiAccertati differenza tra il numero di capi richiesti ed il numero di capi ammissibili.
+	 */
 	public Integer getDifferenzaCapiRichiestiAccertati() {
 		return differenzaCapiRichiestiAccertati;
 	}
 
+	/**
+	 * Metodo setter che imposta la differenza tra il numero di capi richiesti ed il numero di capi ammissibili
+	 * @param differenzaCapiRichiestiAccertati differenza tra il numero di capi richiesti ed il numero di capi ammissibili
+	 */
 	public void setDifferenzaCapiRichiestiAccertati(Integer differenzaCapiRichiestiAccertati) {
 		this.differenzaCapiRichiestiAccertati = differenzaCapiRichiestiAccertati;
 	}

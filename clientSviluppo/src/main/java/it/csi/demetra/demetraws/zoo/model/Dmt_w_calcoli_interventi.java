@@ -27,6 +27,9 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 
 	@Id
@@ -37,6 +40,9 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	@Id
 	@Column(name = "id_intervento")
 	@NotNull
+	/**
+	 * Codice intervento
+	 */
 	private Long idIntervento;
 
 	@Id
@@ -47,6 +53,10 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 		return idGestore;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice intervento
+	 * @return idIntervento codice intervento
+	 */
 	public Long getIdIntervento() {
 		return idIntervento;
 	}
@@ -55,10 +65,20 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 		return ordineEsecuzione;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * @return idSessione identificativo univoco associato all'esecuzione
+	 */
 	public Dmt_t_sessione getIdSessione() {
 		return idSessione;
 	}
 
+	/**
+	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione.
+	 * <b>ATTENZIONE</b> questo metodo non viene utilizzato in quanto l'identificativo univoco
+	 * associato all'esecuzione viene impostato automaticamente. @see Dmt_t_sessione
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
 	}
@@ -67,6 +87,10 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 		this.idGestore = idGestore;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice intervento
+	 * @param idIntervento codice intervento
+	 */
 	public void setIdIntervento(Long idIntervento) {
 		this.idIntervento = idIntervento;
 	}

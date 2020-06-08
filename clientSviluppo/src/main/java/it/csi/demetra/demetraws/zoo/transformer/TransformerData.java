@@ -24,9 +24,25 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+/**
+ * Classe di trasformazione degli oggetti per lo scarico da BDN
+ * @author Bcsoft
+ *
+ */
 public class TransformerData {
+	
+	/**
+	 * Costruttore senza parametri
+	 */
 	public TransformerData() {
 	}
+	
+	/**
+	 * Metodo che, presa in input una data, la trasforma  da tipo String a tipo Date.
+	 * @param date data in formato String
+	 * @return Data in formato Date
+	 * @throws ParseException errore di parsing della data.
+	 */
 	public Date transformDate(String date) throws ParseException {
 		if (date == null)
 			return null;
@@ -42,6 +58,14 @@ public class TransformerData {
 
 		return null;
 	}
+	
+	/**
+	 * Metodo che, dopo aver effettuato lo scarico da BDN, effettua la trasformazione dal tipo @see WbUbaCensimentoOvino2012VO a @see Dmt_t_DsUBA_censimenti_allevamenti_ovini
+	 * @param response contiene gli oggetti di ritorno dalla chiamata della BDN.
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
+	 * @throws JAXBException
+	 */
 	public Dmt_t_DsUBA_censimenti_allevamenti_ovini TransformDsUBA_censimenti_allevamenti_ovini(Response response, Dmt_t_sessione sessione)
 			throws JAXBException {
 		Dmt_t_DsUBA_censimenti_allevamenti_ovini model = new Dmt_t_DsUBA_censimenti_allevamenti_ovini();
@@ -85,6 +109,16 @@ public class TransformerData {
 		}
 		return model;
 	}
+	
+	/**
+	 * Metodo che, dopo aver effettuato lo scarico da BDN, effettua la trasformazione dal tipo @see Capo, @see CapoOvicaprino, @see CapoMacellato, @see CapoVacca  in 
+	 * @see Dmt_t_Tbdn_du_capi, @see Dmt_t_Tws_bdn_du_capi_ovicaprini, @see Dmt_t_clsCapoMacellato, @see Dmt_t_clsCapoMacellato.
+	 * @param response contiene gli oggetti di ritorno dalla chiamata della BDN.
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 * @param codiceIntervento codice intervento.
+	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
+	 * @throws JAXBException
+	 */
 	public Dmt_d_clsPremio_ValidazioneResponse TransformDmt_d_clsPremio_ValidazioneResponse(Response response, Dmt_t_sessione sessione, String codiceIntervento)
 			throws JAXBException, ParseException {
 		
@@ -259,6 +293,14 @@ public class TransformerData {
 		return model;
 	}
 
+	/**
+	 * Metodo che, dopo aver effettuato lo scarico da BDN, effettua la trasformazione dal tipo @see WbAnagraficaAllevamentoVO a @see Dmt_t_anagrafica_allevamenti
+	 * @param response contiene gli oggetti di ritorno dalla chiamata della BDN.
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 * @param codiceIntervento codice intervento.
+	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
+	 * @throws JAXBException
+	 */
 	public List<Dmt_t_anagrafica_allevamenti> getWbAnagraficaAllevamenti(Response response, Dmt_t_sessione sessione,
 			String codiceIntervento) throws ParseException {
 		List<Dmt_t_anagrafica_allevamenti> anagraficaAllevamenti = new ArrayList<>();

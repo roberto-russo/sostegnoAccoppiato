@@ -27,16 +27,25 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	@MapsId
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 	
 	@Id
 	@Column(name = "nome_classe_calcolo")
 	@NotNull
+	/**
+	 * nome del calcolo eseguito
+	 */
 	private String nomeClasseCalcolo;
 
 	@Id
 	@Column(name = "id_intervento")
 	@NotNull
+	/**
+	 * codice intervento
+	 */
 	private Long idIntervento;
 
 	@Id
@@ -47,6 +56,10 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 		return nomeClasseCalcolo;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice intervento
+	 * @return idIntervento codice intervento
+	 */
 	public Long getIdIntervento() {
 		return idIntervento;
 	}
@@ -59,18 +72,36 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 		this.ordineEsecuzione = ordineEsecuzione;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * @return idSessione identificativo univoco associato all'esecuzione
+	 */
 	public Dmt_t_sessione getIdSessione() {
 		return idSessione;
 	}
 
+	/**
+	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione.
+	 * <b>ATTENZIONE</b> l'identificativo univoco associato all'esecuzione viene 
+	 * impostato automaticamente.
+	 * @param sessione identificativo univoco associato all'esecuzione.
+	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
 	}
 
+	/**
+	 * Metodo setter che imposta il nome del calcolo eseguito
+	 * @param nomeClasseCalcolo nome del calcolo eseguito
+	 */
 	public void setNomeClasseCalcolo(String nomeClasseCalcolo) {
 		this.nomeClasseCalcolo = nomeClasseCalcolo;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice intervento
+	 * @param idIntervento codice intervento
+	 */
 	public void setIdIntervento(Long idIntervento) {
 		this.idIntervento = idIntervento;
 	}

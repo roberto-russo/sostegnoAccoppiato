@@ -40,6 +40,9 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
@@ -68,6 +71,9 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	@Column(name = "CODICE_PREMIO")
 	@NotNull
+	/**
+	 * codice intervento
+	 */
 	private String codicePremio;
 
 	@Column(name = "codice_vitello")
@@ -1024,18 +1030,34 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 		this.flagDelegatoIngressoVitello = flagDelegatoIngressoVitello;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * @return idSessione identificativo univoco associato all'esecuzione
+	 */
 	public Dmt_t_sessione getIdSessione() {
 		return this.idSessione;
 	}
 
+	/**
+	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice intervento
+	 * @return codicePremio codice intervento
+	 */
 	public String getCodicePremio() {
 		return codicePremio;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice intervento
+	 * @param codicePremio codice premio
+	 */
 	public void setCodicePremio(String codicePremio) {
 		this.codicePremio = codicePremio;
 	}

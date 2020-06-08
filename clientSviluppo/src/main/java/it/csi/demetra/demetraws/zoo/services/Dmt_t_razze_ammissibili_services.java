@@ -9,11 +9,24 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_razze_ammissibili;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_razze_ammissibili_repository;
 
 @Service
+/**
+ * Classe service che utilizza le Query definite nel repository @see Dmt_t_razze_ammissibili_repository
+ * per la persistenza di oggetti di tipo @see Dmt_t_razze_ammissibili
+ * @author Bcsoft
+ */
 public class Dmt_t_razze_ammissibili_services {
 
 	@Autowired
+	/**
+     * Repository in cui sono definite le Query di tipo @see Dmt_t_premio_capi_repository.
+     */
 	Dmt_t_razze_ammissibili_repository rep;
 	
+	/**
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_razze_ammissibili.
+     * @see Dmt_t_razze_ammissibili_repository.findAll
+     * @return List<Dmt_t_razze_ammissibili> lista degli oggetti di tipo @see Dmt_t_razze_ammissibili
+     */
 	 public List<Dmt_t_razze_ammissibili> getAll() {
 	        return rep.findAll();
 	    }

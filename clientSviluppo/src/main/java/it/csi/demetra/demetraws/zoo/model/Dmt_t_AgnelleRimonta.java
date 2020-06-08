@@ -25,7 +25,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
 	 /**
-     * id univoco associato all'istanza di sessione.
+     * id univoco associato all'istanza di esecuzione.
      */
 	private Dmt_t_sessione idSessione;
 

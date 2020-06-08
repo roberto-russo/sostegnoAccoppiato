@@ -25,16 +25,28 @@ public class Rpu_V_pratica_zoote implements Serializable {
 	@Id
     @Column(name = "ANNO_CAMPAGNA")
     @NotNull
+    /**
+     * Anno della campagna
+     */
     private int annoCampagna;
 
     @Column(name = "CODICE_MISURA")
     @NotNull
+    /**
+     * Codice della misura associata al codice premio
+     */
     private String codiceMisura;
 
     @Column(name = "ID_PRATICA")
+    /**
+     * Identificativo univoco associato alla pratica
+     */
     private int idPratica;
 
     @Column(name = "IDENTIFICATIVO")
+    /**
+     * Identificativo univoco dell'allevamento
+     */
     private long identificativo;
 
     @Column(name = "ID_FASE_AVANZAMENTO")
@@ -49,9 +61,15 @@ public class Rpu_V_pratica_zoote implements Serializable {
     @Id
     @Column(name = "CUAA")
     @NotNull
+    /**
+     * Codice fiscale del richiedente
+     */
     private String cuaa;
 
     @Column(name = "DENOMINAZIONE")
+    /**
+     * Denominazione del richiedente
+     */
     private String denominazione;
 
     @Column(name = "ID_STATO_PRATICA")
@@ -63,6 +81,9 @@ public class Rpu_V_pratica_zoote implements Serializable {
     @Id
     @Column(name = "CODICE_PREMIO")
     @NotNull
+    /**
+     * Codice intervento
+     */
     private String codicePremio;
 
     
@@ -72,18 +93,34 @@ public class Rpu_V_pratica_zoote implements Serializable {
 		this.identificativo = identificativo;
 	}
 
+    /**
+     * Metodo getter che ritorna l'anno della campagna
+     * @return annoCampagna anno della campagna
+     */
 	public int getAnnoCampagna() {
         return annoCampagna;
     }
 
+	/**
+	 * Metodo setter che imposta l'anno della campagna
+	 * @param annoCampagna anno della campagna
+	 */
     public void setAnnoCampagna(int annoCampagna) {
         this.annoCampagna = annoCampagna;
     }
 
+    /**
+     * Metodo getter che imposta il codice misura
+     * @return codiceMisura codice della misucra associato al codice intervento
+     */
     public String getCodiceMisura() {
         return codiceMisura;
     }
 
+    /**
+     * Metodo setter che imposta il codice misura associato al codice intervento
+     * @param codiceMisura codice misura associato al codice intervento
+     */
     public void setCodiceMisura(String codiceMisura) {
         this.codiceMisura = codiceMisura;
     }
@@ -128,18 +165,34 @@ public class Rpu_V_pratica_zoote implements Serializable {
         this.extIdAzienda = extIdAzienda;
     }
 
+    /**
+     * Metodo getter che ritorna il codice fiscale del richiedente
+     * @return
+     */
     public String getCuaa() {
         return cuaa;
     }
 
+    /**
+     * Metodo setter che imposta il codice fiscale del richiedente
+     * @param cuaa
+     */
     public void setCuaa(String cuaa) {
         this.cuaa = cuaa;
     }
 
+    /**
+     * Metodo getter che ritorna la denomionazione del richiedente
+     * @return
+     */
     public String getDenominazione() {
         return denominazione;
     }
 
+    /**
+     * Metodo setter che imposta la denominazione del richiedente
+     * @param denominazione
+     */
     public void setDenominazione(String denominazione) {
         this.denominazione = denominazione;
     }
@@ -160,10 +213,18 @@ public class Rpu_V_pratica_zoote implements Serializable {
         this.descrizione = descrizione;
     }
 
+    /**
+     * Metodo getter che ritorna il codice intervento
+     * @return codicePremio codice dell'intervento
+     */
     public String getCodicePremio() {
         return codicePremio;
     }
-
+    
+    /**
+     * Metodo setter che imposta il codice intervento 
+     * @param codicePremio codice intervento
+     */
     public void setCodicePremio(String codicePremio) {
         this.codicePremio = codicePremio;
     }

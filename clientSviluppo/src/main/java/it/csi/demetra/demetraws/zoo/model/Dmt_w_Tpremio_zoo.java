@@ -255,58 +255,114 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	@Column(name = "VACCHE_NUTRICI_NG")
 	private String vacche_nutrici_ng;
 
+	/**
+	 * Metodo getter che ritorna il Rif azienda
+	 * @return id_azienda Rif azienda
+	 */
 	public Long getId_azienda() {
 		return id_azienda;
 	}
 
+	/**
+	 * Metodo getter che ritorna la versione
+	 * @return versione 
+	 */
 	public Long getVersione() {
 		return versione;
 	}
 
+	/**
+	 * Meotdo getter che ritorna il codice allevamento in BDN
+	 * @return cod_allevamento codice allevamento in BDN
+	 */
 	public String getCod_allevamento() {
 		return cod_allevamento;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'id alevamento in BDN
+	 * @return id_allev_bdn id allevamento in BDN
+	 */
 	public String getId_allev_bdn() {
 		return id_allev_bdn;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice specie
+	 * @return sco_specie codice specie
+	 */
 	public String getSco_specie() {
 		return sco_specie;
 	}
 
+	/**
+	 * Metodo getter che ritorna il sottocodice specie
+	 * @return cod_specie sottocodice specie
+	 */
 	public String getCod_specie() {
 		return cod_specie;
 	}
 
+	/**
+	 * Metodo getter che ritorna la denominaizone
+	 * @return denominazione
+	 */
 	public String getDenominazione() {
 		return denominazione;
 	}
 
+	/**
+	 * Metodo setter che imposta la denominazione
+	 * @param denominazione
+	 */
 	public void setDenominazione(String denominazione) {
 		this.denominazione = denominazione;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice titolarità
+	 * @return cod_titolarità
+	 */
 	public String getCod_titolarita() {
 		return cod_titolarita;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice titolarità
+	 * @param cod_titolarita
+	 */
 	public void setCod_titolarita(String cod_titolarita) {
 		this.cod_titolarita = cod_titolarita;
 	}
 
+	/**
+	 * Metodo getter che ritorna il sottocodice di titolarità
+	 * @return sco_titolarita
+	 */
 	public String getSco_titolarita() {
 		return sco_titolarita;
 	}
 
+	/**
+	 * Metodoo setter che imposta il sottocodice di titolarità
+	 * @param sco_titolarita
+	 */
 	public void setSco_titolarita(String sco_titolarita) {
 		this.sco_titolarita = sco_titolarita;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'indirizzo dell'azienda
+	 * @return indirizzo
+	 */
 	public String getIndirizzo() {
 		return indirizzo;
 	}
 
+	/**
+	 * Metodo setter che ritorna l'indirizzo dell'azienda
+	 * @param indirizzo
+	 */
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
 	}

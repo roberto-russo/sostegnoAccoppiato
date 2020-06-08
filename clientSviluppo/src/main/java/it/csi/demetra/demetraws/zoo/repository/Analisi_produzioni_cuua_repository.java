@@ -10,9 +10,20 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
+ * di tipo @see Dmt_T_analisi_produzioni_cuaa e le query ad esso associate.
+ * @author Bcsoft
+ */
 public interface Analisi_produzioni_cuua_repository extends JpaRepository<Dmt_T_analisi_produzioni_cuua, Analisi_produzioni_cuua_id> {
 
     @Query(value = "SELECT * FROM Dmt_T_analisi_produzioni_cuua WHERE CUUA = :CUUA AND anno_campagna = :mYear", nativeQuery = true)
+    /**
+     * Query che ritorna una lista di istanze di tipo @see Dmt_T_analisi_produzioni_cuaa in base al cuaa e ad annoCampagna
+     * @param CUUA codice fiscale del richiedente
+     * @param mYear annoCampagna
+     * @return List<Dmt_T_analisi_produzioni_cuaa>
+     */
     List<Dmt_T_analisi_produzioni_cuua> getByCUUAAndYear(@Param("CUUA") String CUUA, @Param("mYear") int mYear);
 
 }

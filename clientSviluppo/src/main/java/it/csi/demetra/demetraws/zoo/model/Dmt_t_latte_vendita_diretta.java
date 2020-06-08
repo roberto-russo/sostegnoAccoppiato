@@ -24,10 +24,16 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
     private static final long serialVersionUID = -617789964633488044L;
 
     @Id
+    /**
+     * Codice fiscale del richiedente
+     */
     private String cuua;
     @Id
     private String mese;
     @Id
+    /**
+     * Anno della campagna
+     */
     private int annoCampagna;
     private String matricola;
     private Long quantita;
@@ -44,10 +50,18 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
         this.mese = mese;
     }
 
+    /**
+     * Metodo getter che ritorna il codice fiscale del richiedente
+     * @return cuaa codice fiscale del richiedente.
+     */
     public String getCuua() {
         return cuua;
     }
 
+    /**
+     * Metodo setter che imposta il codice fiscale del richiedente.
+     * @param cuua codice fiscale del richiedente.
+     */
     public void setCuua(String cuua) {
         this.cuua = cuua;
     }
@@ -68,10 +82,18 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
         this.quantita = quantita;
     }
 
+    /**
+     * Metodo getter che ritorna l'anno della campagna.
+     * @return annoCampagna anno della campagna.
+     */
     public int getAnnoCampagna() {
         return annoCampagna;
     }
 
+    /**
+     * Metodo setter che imposta l'anno della campagna.
+     * @param annoCampagna anno della campagna.
+     */
     public void setAnnoCampagna(int annoCampagna) {
         this.annoCampagna = annoCampagna;
     }

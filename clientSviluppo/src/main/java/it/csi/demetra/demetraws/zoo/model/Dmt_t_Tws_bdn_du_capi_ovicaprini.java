@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,6 +40,9 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
+	/**
+	 * Identificativo univoco associato all'esecuzione
+	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
@@ -57,36 +59,39 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	@Column(name = "ID_CAPO")
 	@NotNull
 	/**
-	 * Identificativo univoco in BDN del capo ovicaprino
+	 * Identificativo univoco in BDN del capo animale
 	 */
 	private long capoId;
 
 	@Column(name = "CODICE_PREMIO")
 	@NotNull
+	/**
+	 * Codice intervento
+	 */
 	private String codicePremio;
 
 	@Column(name = "CODICE")
 	/**
-	 * Codice della marca auricolare applicata al capo ovicaprino
+	 * Codice della marca auricolare applicata al capo animale
 	 */
 	private String codice;
 
 	@Column(name = "SESSO")
 	/**
-	 * sesso del capo ovicaprino
+	 * sesso del capo animale
 	 */
 	private String sesso;
 
 	@Column(name = "COD_RAZZA")
 	/**
-	 * Codice della razza del capo ovino
+	 * Codice della razza del capo animale
 	 */
 	private String razzaCodice;
 
 	@Column(name = "DATA_NASCITA")
 	@Temporal(TemporalType.DATE)
 	/**
-	 * Data di nascita del capo ovino
+	 * Data di nascita del capo animale
 	 */
 	private Date dtNascita;
 
@@ -123,13 +128,13 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	@Column(name = "DATA_REGISTR_MACELL")
 	@Temporal(TemporalType.DATE)
 	/**
-	 * Data di registrazione della macellazione del capo ovino
+	 * Data di registrazione della macellazione del capo animale
 	 */
 	private Date dtRegistrMacellazione;
 
 	@Column(name = "GENOTIPO")
 	/**
-	 * Genotipo di appartenenza del capo ovino
+	 * Genotipo di appartenenza del capo animale
 	 */
 	private String genotipo;
 
@@ -618,18 +623,34 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 		this.dtRegistrMacellazione = dtRegistrMacellazione;
 	}
 
+	/**
+	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * @return idSessione identificativo univoco associato all'esecuzione
+	 */
 	public Dmt_t_sessione getIdSessione() {
 		return this.idSessione;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice indetificativo associato all'esecuzione
+	 * @param sessione identificativo univoco associato all'esecuzione
+	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
 	}
 
+	/**
+	 * Metodo getter che ritorna il codice intervento
+	 * @return codicePremio codice intervento
+	 */
 	public String getCodicePremio() {
 		return codicePremio;
 	}
 
+	/**
+	 * Metodo setter che imposta il codice intervento
+	 * @param codicePremio codice intervento
+	 */
 	public void setCodicePremio(String codicePremio) {
 		this.codicePremio = codicePremio;
 	}
