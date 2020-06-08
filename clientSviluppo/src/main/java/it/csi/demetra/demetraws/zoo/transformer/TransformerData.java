@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.bind.JAXBException;
 
@@ -222,7 +223,7 @@ public class TransformerData {
 				capi.add(temp);
 			}
 		
-		if(response == null) {
+		if(Objects.isNull(response)) {
 //			System.out.println("RESPONSE NULL");
 			model.setErrCod("-1");
 			model.setErrDescr("dati non disponibili");
