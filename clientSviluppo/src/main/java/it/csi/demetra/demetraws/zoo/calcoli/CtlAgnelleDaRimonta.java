@@ -267,15 +267,18 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
 
         List<Dmt_t_Tws_bdn_du_capi_ovicaprini> registroStalla = bdnCapiOvicapriniService.getCapiOviByIdSessioneCuaaCodInt(idSessione, cuaa, this.getCodIntrervento());
 
-        // TODO Verificare unicità del censimento data una sessione e il codice azienda
-        List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> censimento = ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodiceAzienda(idSessione, cuaa);
+        // Verificare unicità del censimento data una sessione e il codice azienda
+        List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> censimento = ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodFiscaleDete(idSessione, cuaa);
 
         if (censimento != null && registroStalla != null) {
-            // TODO Verificare corretta valorizzazione dei campi
-            calcoloAgnelleDaRimontaPremioIn = CalcoloAgnelleDaRimontaPremioIn.builder().idSessione(idSessione)
-                    .bdnOviniRegistroStallaList(registroStalla).cuaa(cuaa)
-                    .quotaCapiPremioRichiesti(registroStalla.size())
-                    .ubaOviniCensimento(censimento.get(0)).build();
+        	// Verificare corretta valorizzazione dei campi
+        	calcoloAgnelleDaRimontaPremioIn = new CalcoloAgnelleDaRimontaPremioIn(idSessione, cuaa, registroStalla.size(), censimento != null && !censimento.isEmpty()? censimento.get(0):null, registroStalla);
+
+        	
+//        	            calcoloAgnelleDaRimontaPremioIn = CalcoloAgnelleDaRimontaPremioIn.builder().idSessione(idSessione)
+//                    .bdnOviniRegistroStallaList(registroStalla).cuaa(cuaa)
+//                    .quotaCapiPremioRichiesti(registroStalla.size())
+//                    .ubaOviniCensimento(censimento.get(0)).build();
         }
 
         return calcoloAgnelleDaRimontaPremioIn;

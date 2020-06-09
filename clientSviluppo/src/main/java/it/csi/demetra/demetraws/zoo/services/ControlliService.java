@@ -263,7 +263,11 @@ public class ControlliService {
         return anagraficaAllevamentiRep.findByAllevId(allevId);
     }
 
-    /**
+    public Dmt_t_anagrafica_allevamenti getAllevIdAndSessione(BigDecimal allevId, Long idSessione) {
+    	return anagraficaAllevamentiRep.findByAllevIdAndSessione(allevId, idSessione);
+    }
+
+	 /**
      * Metodo che ritorna una Lista di identificativi univoci di allevamenti in base ad idSessione, cuaa e codiceIntervento.
      * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.getAllevamentiBySessioneCuaaCodIntervento
      * @param idSessione identificativo univoco associato all'esecuzione
@@ -456,8 +460,8 @@ public class ControlliService {
      * @param codicePremio codice intervento
      * @return Rpu_V_pratica_zoote
      */
-    public Rpu_V_pratica_zoote getByAnnoCampagnaAndCuaaAndCodicePremio(Integer annoCampagna, String cuaa, String codicePremio) {
-        return rpuVPraticaRep.findByAnnoCampagnaAndCuaaAndCodicePremio(annoCampagna, cuaa, codicePremio);
+    public Rpu_V_pratica_zoote getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(Integer annoCampagna, String cuaa, String codicePremio, BigDecimal idAllevamento) {
+    	return rpuVPraticaRep.findByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(annoCampagna, cuaa, codicePremio, idAllevamento);
     }
 
     /**

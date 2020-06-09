@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -41,17 +42,17 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	List<Rpu_V_pratica_zoote> findByCodiciPremioAndAnnoCampagna(@Param("codiciPremio") List<String> codiciPremioList, @Param("annoCampagna") Integer annoCampagna);
 	
 	@Query(
-			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna and Cuaa = :cuaa and Codice_premio = :codicePremio", 
+			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna and Cuaa = :cuaa and Codice_premio = :codicePremio AND Identificativo = :idAllevamento", 
 			nativeQuery = true
 		  )
-	/**
+		  /**
 	 * Query che ritorna un'istanza di tipo @see Rpu_V_pratica_zoote_repository in base ad annoCampagna, cuaa e codicePremio
 	 * @param annoCampagna anno della campagna
 	 * @param cuaa codice fiscale del detentore
 	 * @param codicePremio codice intervento
 	 * @return Rpu_V_pratica_zoote_repository
 	 */
-	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremio(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
+	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio, @Param("idAllevamento") BigDecimal idAllevamento );
 
 	@Query(
 			value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa", 
