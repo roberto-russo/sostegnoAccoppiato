@@ -17,12 +17,14 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovi
  */
 public interface DsUBA_censimenti_allevamenti_ovini_repository extends CrudRepository<Dmt_t_DsUBA_censimenti_allevamenti_ovini, Long>{
 
-	@Query(value = "SELECT * FROM DMT_T_UBA_CENSIM_ALLEV_OVINI  where id_sessione = :idSessione AND AZIENDA_CODICE  = :codiceAzienda ", nativeQuery = true)
-	/**
+	@Query(value = "SELECT * FROM DMT_T_UBA_CENSIM_ALLEV_OVINI  where id_sessione = :idSessione AND COD_FISCALE_DETE  = :codFiscaleDete", nativeQuery = true)
+		/**
 	 * Query che ritorna una lista di istanze di tipo @see DsUBA_censimenti_allevamenti_ovini_repository in base ad idSessione e codiceAzienda
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param codiceAzienda codice identificativo dell'azienda
 	 * @return List<DsUBA_censimenti_allevamenti_ovini_repository>
 	 */
-	List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> findByIdSessioneAndCodiceAzienda(@Param("idSessione") Long idSessione, @Param("codiceAzienda") String codiceAzienda);
+	List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> findByIdSessioneAndCodFiscaleDete(@Param("idSessione") Long idSessione, @Param("codFiscaleDete") String codFiscaleDete);
+	
+
 }

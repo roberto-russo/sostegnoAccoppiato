@@ -327,6 +327,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 					
 					this.listaCapiOvicaprini = (List<Dmt_t_Tws_bdn_du_capi_ovicaprini>) listaCapi;
 					this.quotaCapiPremio = capiOvicapriniService.getQuotaCapiPremioByIdSessioneAndCuaa(getIdSessione(), getCuaa(),getCodIntrervento());
+					for (Dmt_t_Tws_bdn_du_capi_ovicaprini capo : listaCapiOvicaprini ) {
+						Dmt_t_premio_capi tmp = inizializzaCapoOvicaprino(capo, "S", "Capo ovicaprino ammesso a premio");
+						listaCapiResult.add(tmp);
+					}
 					
 					if( quotaCapiPremio == null ) {
 						
@@ -497,6 +501,37 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 		return capoTmp;
 		
 	}
+	/**
+	 * inizializzaCapoOvicaprino()
+	 * 
+	 * Serve ad inizializzare un oggetto di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini,
+	 * così da poter aggiungere il capo ovicaprino alla listaCapiAmmessi, che, tramite service,
+	 * sarà salvata su DB
+	 * 
+	 * @param capoOvicaprino
+	 * @param msg 
+	 * 
+	 * @return capoTmp
+	 * 
+	  **/
+	private Dmt_t_premio_capi inizializzaCapoOvicaprino(Dmt_t_Tws_bdn_du_capi_ovicaprini capo, String ammissibile, String msg) {
+		
+		Dmt_t_premio_capi capoTmp = new Dmt_t_premio_capi();
+		capoTmp.setCodiceAzienda(capo.getAziendaCodice());	
+		capoTmp.setIdCapo(capo.getCapoId());
+		capoTmp.setCuaa(getCuaa());
+		capoTmp.setIdSessione(capo.getIdSessione());
+		capoTmp.setFlagAmmissibile(ammissibile);
+		capoTmp.setCodicePremio(capo.getCodicePremio());
+		capoTmp.setIdAllevamento(capo.getAllevId());
+		capoTmp.setMsg(msg);
+		capoTmp.setIdSessione(sessione);
+		capoTmp.setCodiceVitello("");
+		return capoTmp;
+		
+	}
+	
+	
 	
 	/**
 	 * Il metodo saveOnDB()

@@ -30,6 +30,14 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	 * @return Dmt_t_anagrafica_allevamenti
 	 */
 	Dmt_t_anagrafica_allevamenti findByAllevId(@Param("allevId")BigDecimal allevId);
+
+	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId and id_sessione = :idSessione", nativeQuery = true)
+	/**
+	 * query che ritorna l'istanza di tipo Dmt_t_anagrafica_allevamenti in base all'identificativo dell'allevamento
+	 * @param allevId identificativo dell'allevamento
+	 * @return Dmt_t_anagrafica_allevamenti
+	 */
+	Dmt_t_anagrafica_allevamenti findByAllevIdAndSessione(@Param("allevId")BigDecimal allevId, @Param("idSessione")Long idSessione);
 	
 	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE cod_fiscale_prop = :cuaa ", nativeQuery = true)
 	/**
