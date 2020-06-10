@@ -89,17 +89,17 @@ public class Ref9902TestCase {
 		
 		when(aziendaService.getByCodiciPremioAndAnnoCampagna(Mockito.isA(List.class), Mockito.isA(Integer.class))).thenReturn(aziendeSupplier.get());
 
-		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodiceAzienda(Mockito.isA(Long.class), Mockito.isA(String.class))).thenReturn(dsUBaCensimOviniSupplier.get());
+		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodFiscaleDete(Mockito.isA(Long.class), Mockito.isA(String.class))).thenReturn(dsUBaCensimOviniSupplier.get());
     
 		//when(bdnCapiOvicapriniService.getCapiOvicapriniBdnByIdSessioneAndCuaa(Mockito.isA(Long.class), Mockito.isA(String.class))).thenReturn(bdnCapiOvicapriniSupplier.get());
 		
 		// testSingleCuaaPreEsecuzioneError mocking
-		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodiceAzienda(Mockito.eq(3L), Mockito.eq("GHGFNC64M66D969A"))).thenReturn(null);
+		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodFiscaleDete(Mockito.eq(3L), Mockito.eq("GHGFNC64M66D969A"))).thenReturn(null);
 		//when(bdnCapiOvicapriniService.getCapiOvicapriniBdnByIdSessioneAndCuaa(Mockito.eq(3L), Mockito.eq("GHGFNC64M66D969A"))).thenReturn(null);
 
 
 		// missing livello scrapie test case mocking
-		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodiceAzienda(Mockito.isA(Long.class), Mockito.eq("GHGFNC64M66D969C"))).thenReturn(wrongDsUBaCensimOviniSupplier.get());
+		when(ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodFiscaleDete(Mockito.isA(Long.class), Mockito.eq("GHGFNC64M66D969C"))).thenReturn(wrongDsUBaCensimOviniSupplier.get());
 
 		
 	 }

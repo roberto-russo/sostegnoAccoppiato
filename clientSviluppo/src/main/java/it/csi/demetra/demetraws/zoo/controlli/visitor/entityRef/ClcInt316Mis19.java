@@ -47,7 +47,6 @@ public class ClcInt316Mis19 extends Controllo {
 	private int contatoreBocciati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private String motivazione;
-	long numeroMesi = 0;
 
 
 	@Override
@@ -67,7 +66,6 @@ public class ClcInt316Mis19 extends Controllo {
 		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
 		this.motivazione = null;
-		this.numeroMesi = 0;
 		this.ubaMin = new ResultCtlUbaMinime();
 	
 	// controlli di preammissibilità

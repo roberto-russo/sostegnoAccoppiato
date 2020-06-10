@@ -66,6 +66,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 		try {
 
+//			CALCOLO TRASVERSALE REF9902
+			
 			ref9902.init(getSessione().getIdSessione(), getAzienda().getCodicePremio(),
 					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 
@@ -82,6 +84,9 @@ public class ClcInt320Mis6 extends Controllo {
 		this.capiOvicaprini = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
 				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
+		
+//		CALCOLO TRASVERSALE 9903
+		
 		ref9903.init(this.capiOvicaprini, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
 				getAzienda().getCuaa(), getSessione());
 		try {
@@ -97,6 +102,8 @@ public class ClcInt320Mis6 extends Controllo {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 
+//		LISTA DI CAPI AMMESSI
+		
 		capiAmmessiUba = ubaMin.getListaCapi();
 
 	}
@@ -109,39 +116,61 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	public void esecuzione() throws ControlloException {
 
+		
+//		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE   CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
 		this.numeroCapiRichiesti = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
 				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		
+//		QUERY SULLA TABELLA DELL'ESTRAZIONE A CAMPIONE "DMT_T_CONTR_LOCO"
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
 
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
 			for (Dmt_t_premio_capi capi : capiAmmessiUba) {
 
-				this.modelAllevamenti = getControlliService()
+				
+//				QUERY SU ANAGRAFICA ALLEVAMENTI CHE PRENDE I VALORI IN BASE ALL'ID ALLEVAMENTO          
+//				IL METODO getAllevIdAndSessione COMMENTATO SERVE PER IL TESTING PER PROBLEMI SU SCARICO BDN
+				this.modelAllevamenti = getControlliService()//.getAllevIdAndSessione(BigDecimal.valueOf(4141548), getSessione().getIdSessione());
 						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(capi.getIdAllevamento()));
 
+//				CUAA PROPRIETARIO
 				String proprietario = modelAllevamenti.getCodFiscaleProp();
+				
+//				CUAA DETENTORE
 				String detentore = modelAllevamenti.getCod_fiscale_deten();
 
+				
+//				SE CUAA DETENTORE E CUAA PROPRIETARIO COINCIDONO IL CONTATORE INCREMENTA
 				if (proprietario.equals(detentore)) {
 					if (proprietario.equals(getAzienda().getCuaa())) {
 						numeroCapiAmmissibili++;
 					}
 
+//					SE CUAA DETENTORE E CUAA PROPRIETARIO NON COINCIDONO
 				} else {
+					
+//					VIENE CONTROLLATO SE IL RICHIEDENTE È IL DENTENTORE
 					if (detentore.equals(getAzienda().getCuaa())) {
 						numeroCapiAmmissibili++;
 
+//					SE IL RICHIEDENTE NON È DETENTORE
 					} else {
 
-						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremio(
-								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio());
+						
+//						QUERY SU RPU_V_PRATICA_ZOOTE CHE CONTROLLA SE LA RICHIESTA È GIÀ STATA FATTA DAL DETENTORE
+						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(
+								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio(),modelAllevamenti.getAllevId());
+								
 
+//						SE NON TROVA VALORI NELLA TABELLA 
 						if (richiestaDetentore == null) {
 							numeroCapiAmmissibili++;
 
-						} else if (richiestaDetentore != null) {
+//							SE TROVA TROVA VALORI
+						} else {
+							
+//							DA CONTROLLARE SE DEVE FARE ALTRO
 							System.out.println("il premio è già stato chiesto dal detentore dell'allevamento");
 						}
 					}
@@ -164,6 +193,8 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	public void postEsecuzione() throws ControlloException {
 
+		
+//		SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
 		this.oc = new Dmt_t_output_controlli();
 		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);

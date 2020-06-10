@@ -28,8 +28,14 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini_services {
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param codiceAzienda identificativo asssociato all'azienda
 	 * @return List<Dmt_t_DsUBA_censimenti_allevamenti_ovini>
-	 */
-	public List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> getCensimOviniByIdSessioneAndCodiceAzienda(Long idSessione, String codiceAzienda) {
-		return censimOviniRepository.findByIdSessioneAndCodiceAzienda(idSessione, codiceAzienda);
+	 */	
+	public List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> getCensimOviniByIdSessioneAndCodFiscaleDete(Long idSessione, String codFiscaleDete) {
+		return censimOviniRepository.findByIdSessioneAndCodFiscaleDete(idSessione, codFiscaleDete);
 	}
+	
+	
+	
+	 
+	
+
 }
