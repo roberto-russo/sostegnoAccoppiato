@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
-import it.csi.demetra.demetaws.zoo.compositeIds.Dmt_t_perc_gg_ritardo_id;
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_perc_gg_ritardo_id;
 
 @Entity
 @Table(name = "DMT_T_PERC_GG_RITARDO")
