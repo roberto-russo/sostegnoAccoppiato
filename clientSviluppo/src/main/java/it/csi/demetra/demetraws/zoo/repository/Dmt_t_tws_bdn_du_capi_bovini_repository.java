@@ -95,10 +95,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
-			"        OE.SESSIONE = :idSessione AND " + 
+			"        OE.ID_SESSIONE = :idSessione AND " + 
 			"        OE.CALCOLO LIKE ('%Int310Mis1') " + 
 			"        )" + 
-			" AND PC.SESSIONE = :idSessione " + 
+			" AND PC.ID_SESSIONE = :idSessione " + 
 			" AND PC.CUAA = :cuaa ) " +
 		    " AND id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento " +
 		    " AND ID_ALLEVAMENTO NOT IN " + 
@@ -114,10 +114,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" NOT IN (SELECT capo_id " + 
 			"        FROM DMT_T_OUTPUT_ESCLUSI OE " + 
 			"        WHERE" + 
-			"        OE.SESSIONE = :idSessione AND " + 
+			"        OE.ID_SESSIONE = :idSessione AND " + 
 			"        OE.CALCOLO LIKE ('%Int310Mis1') " + 
 			"        )" + 
-			" AND PC.SESSIONE = :idSessione " + 
+			" AND PC.ID_SESSIONE = :idSessione " + 
 			" AND PC.CUAA = :cuaa ) " +
 		    " AND id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento " +
 		    " AND ID_ALLEVAMENTO IN " + 
