@@ -90,6 +90,7 @@ public class SaveOnDbService {
     Dmt_t_premio_capi_repository premioCapiService;
     
     
+    
     /**
      * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo @see Dmt_t_anagrafica_allevamenti.
      * @see Dmt_t_anagrafica_allevamenti_repository.save
@@ -97,8 +98,11 @@ public class SaveOnDbService {
      */
     public void saveOnDb(List<Dmt_t_anagrafica_allevamenti> beans) {
     	try {
-    		for(Dmt_t_anagrafica_allevamenti bean : beans)
+    		for(Dmt_t_anagrafica_allevamenti bean : beans) {
+    			if(anagraficaRep.findByIdSessioneAndAllevIdAndAziendaCodice(bean.getIdSessione().getIdSessione(), bean.getAllevId(), bean.getAziendacodice()).equals(new Integer(0))) {
     			anagraficaRep.save(bean);
+    			}
+    		}
     		
     	} catch(ConstraintViolationException e) {
     		System.out.println(e.getMessage());

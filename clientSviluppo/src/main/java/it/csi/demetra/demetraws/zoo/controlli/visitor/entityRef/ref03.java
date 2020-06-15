@@ -180,21 +180,21 @@ public class ref03 {
 			capiAnomali   = capiRichiesti.subtract(capiAccertati);
 		}
 		
-		for (Long c : capiPerPremio.get(cp)) {
-			try {
-				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
-						cp);
-
-				for (Long anomali : capiAnomaliPerCodicePremio) {
-					if (anomali != null && anomali.equals(c)) {
-							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
-							capiAnomali=capiAnomali.add(BigDecimal.ONE);
-						}
-					}
-				capiAnomaliPerCodicePremio.clear();
-			} catch (NullPointerException e) {
-			}
-		}		
+//		for (Long c : capiPerPremio.get(cp)) {
+//			try {
+//				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
+//						cp);
+//
+//				for (Long anomali : capiAnomaliPerCodicePremio) {
+//					if (anomali != null && anomali.equals(c)) {
+//							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
+//							capiAnomali=capiAnomali.add(BigDecimal.ONE);
+//						}
+//					}
+//				capiAnomaliPerCodicePremio.clear();
+//			} catch (NullPointerException e) {
+//			}
+//		}		
 		result.put("accertati", capiAccertati);
 		result.put("anomali", capiAnomali);
 		result.put("richiesti",capiRichiesti);

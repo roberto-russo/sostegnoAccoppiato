@@ -64,6 +64,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		if( listaCapi!=null && idSessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
 			if( !listaCapi.isEmpty() ) {
 				
+				this.clearLists();
 				setListaVacche(listaCapi);
 				setIdBdn(idSessione);
 				setCodIntrervento(codIntervento);
@@ -665,6 +666,16 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	public List<List<Dmt_t_Tws_bdn_du_capi_bovini>> calcoloMassivo() throws CalcoloException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void clearLists() {
+		this.capiControllati.getListaCapi9901().clear();
+		this.listaVacche.clear();
+		this.listaVaccheAmmesse.clear();
+		this.listaVaccheEscluse.clear();
+		this.output.clear();		
+		this.mapVaccaVitelli.clear();
+		this.listaCapiResult.clear();
 	}
 	
 }
