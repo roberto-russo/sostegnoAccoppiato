@@ -19,7 +19,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
 public interface Dmt_t_importo_unitario_repository extends CrudRepository<Dmt_t_importo_unitario, Dmt_t_importo_unitario_id>{
 
 	
-	@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA = :annoCampagna ",
+	@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA_INIZIO = :annoCampagna ",
 			nativeQuery = true
 		)
 	/**
@@ -29,7 +29,7 @@ public interface Dmt_t_importo_unitario_repository extends CrudRepository<Dmt_t_
 	 */
 		List<Dmt_t_importo_unitario> findByAnnoCampagna(@Param("annoCampagna") Integer annoCampagna);
 		
-		@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA = :annoCampagna AND intervento = :intervento ",
+		@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA_INIZIO = :annoCampagna AND CODICE = :intervento ",
 				nativeQuery = true
 			)
 		/**
@@ -40,7 +40,7 @@ public interface Dmt_t_importo_unitario_repository extends CrudRepository<Dmt_t_
 		 */
 			Dmt_t_importo_unitario findByAnnoCampagnaAndIntervento(@Param("annoCampagna") Integer annoCampagna, @Param("intervento") String intervento);
 		
-		@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA = :annoCampagna AND intervento IN :interventi ",
+		@Query( value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA_INIZIO = :annoCampagna AND CODICE IN :interventi ",
 				nativeQuery = true
 			)
 		/**

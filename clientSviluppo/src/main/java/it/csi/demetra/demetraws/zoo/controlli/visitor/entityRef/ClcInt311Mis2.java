@@ -3,7 +3,9 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,6 +57,11 @@ public class ClcInt311Mis2 extends Controllo{
     
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
+		
+		/*
+		 * pulizia delle liste prima dell'esecuzione.
+		 **/
+		this.resetLists();
 		/*
 		 * Prendo dal DB tutte le vacche richieste per sessione cua e codice Intervento
 		 * */
@@ -86,7 +93,8 @@ public class ClcInt311Mis2 extends Controllo{
 			 * in detenzione presso l'allevamento montano per un periodo minore di 6 mesi,
 			 * ai sensi del Reg. (CE) n. 1257/1999.
 			 * */
-			for ( Dmt_t_Tws_bdn_du_capi_bovini capo: modelVaccheAmmesse ) {
+			for(Dmt_t_Tws_bdn_du_capi_bovini capo : modelVaccheAmmesse) {
+				
 				
 				if(capo.getDtInizioDetenzione() != null & capo.getDtFineDetenzione() != null && capo.getDtNascitaVitello() != null ) {
 					
@@ -98,7 +106,7 @@ public class ClcInt311Mis2 extends Controllo{
 					
 					if ( mesiDiDetenzione < DETENZIONE_MINIMA) {
 						
-						modelVaccheAmmesse.remove(capo);
+						//modelVaccheAmmesse.remove(capo);
 						modelVaccheEscluse.add(capo);
 						if(modelVaccheAmmesse.isEmpty())
 							break;
@@ -107,13 +115,17 @@ public class ClcInt311Mis2 extends Controllo{
 					
 				} else {
 					
-					modelVaccheAmmesse.remove(capo);
+					//modelVaccheAmmesse.remove(capo);
 					modelVaccheEscluse.add(capo);
 					if(modelVaccheAmmesse.isEmpty())
 						break;
 				}
 				
 			}
+			
+			for(Dmt_t_Tws_bdn_du_capi_bovini capo : modelVaccheEscluse) 
+				if(modelVaccheAmmesse.contains(capo))
+					modelVaccheAmmesse.remove(capo);
 			
 		    try {
 		    	/*
@@ -244,7 +256,7 @@ public class ClcInt311Mis2 extends Controllo{
 		for  (Dmt_t_Tws_bdn_du_capi_bovini b: bovini) {
 			
 	        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-	        escluso.setCalcolo(ClcInt311Mis2.class.getName());
+	        escluso.setCalcolo(ClcInt311Mis2.class.getSimpleName());
 	        escluso.setCapoId(b.getCapoId());
 	        escluso.setMotivazioneEsclusione(motivazione);
 	        escluso.setIdSessione(getSessione());
@@ -253,6 +265,27 @@ public class ClcInt311Mis2 extends Controllo{
 	        
 		}
         
+	}
+	
+	private void resetLists() {
+		
+		if(this.listEsclusi != null)
+			this.listEsclusi.clear();
+		
+		if(this.modelVacche != null)
+			this.modelVacche.clear();
+		
+		if(this.modelVaccheAmmesse != null)
+			this.modelVaccheAmmesse.clear();
+		
+		if(this.modelVaccheAmmesseInt310Mis1 != null)
+			this.modelVaccheAmmesseInt310Mis1.clear();
+		
+		if(this.modelVaccheAmmesseUba != null)
+			this.modelVaccheAmmesseUba.clear();
+		
+		if(this.modelVaccheEscluse != null)
+			this.modelVaccheEscluse.clear();
 	}
 
 }

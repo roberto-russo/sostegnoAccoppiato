@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -669,12 +670,26 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	
 	private void clearLists() {
-		this.capiControllati.getListaCapi9901().clear();
-		this.listaVacche.clear();
-		this.listaVaccheAmmesse.clear();
+		
+		if(this.capiControllati != null)
+			this.capiControllati.getListaCapi9901().clear();
+		
+		if(this.listaVacche != null)
+			this.listaVacche.clear();
+		
+		if(this.listaVaccheAmmesse != null)
+			this.listaVaccheAmmesse.clear();
+		
+		if(this.listaVaccheEscluse != null)
 		this.listaVaccheEscluse.clear();
-		this.output.clear();		
-		this.mapVaccaVitelli.clear();
+		
+		if(this.output != null)
+			this.output.clear();	
+		
+		if(this.mapVaccaVitelli != null)
+			this.mapVaccaVitelli.clear();
+		
+		if(this.listaCapiResult != null)
 		this.listaCapiResult.clear();
 	}
 	
