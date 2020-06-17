@@ -286,6 +286,9 @@ public class ClcInt311Mis2 extends Controllo{
 		
 		if(this.modelVaccheEscluse != null)
 			this.modelVaccheEscluse.clear();
+		
+		if(this.importoLiquidabile > 0)
+			this.importoLiquidabile = 0;
 	}
 
 }
