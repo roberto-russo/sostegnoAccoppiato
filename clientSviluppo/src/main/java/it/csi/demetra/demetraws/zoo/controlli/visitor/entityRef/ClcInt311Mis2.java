@@ -58,9 +58,9 @@ public class ClcInt311Mis2 extends Controllo{
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		
-		/*
-		 * pulizia delle liste prima dell'esecuzione.
-		 **/
+	   /*
+		* pulizia delle liste prima dell'esecuzione.
+		* */
 		this.resetLists();
 		/*
 		 * Prendo dal DB tutte le vacche richieste per sessione cua e codice Intervento

@@ -225,9 +225,9 @@ public class ControlliService {
      * @param cuaa codice fiscale del richiedente
      * @return List<Dmt_t_contr_loco>
      */
-    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa) {
+    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa, Integer annoCampagna) {
 
-        return contrLocoRepository.findByCuaa(cuaa);
+        return contrLocoRepository.findByCuaa(cuaa, annoCampagna);
     }
 
     /**

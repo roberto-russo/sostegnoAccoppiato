@@ -102,7 +102,7 @@ public class ClcInt315Mis5 extends Controllo {
 			numeroCapiRichiesti = getControlliService()
 				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 		
 		
 		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
