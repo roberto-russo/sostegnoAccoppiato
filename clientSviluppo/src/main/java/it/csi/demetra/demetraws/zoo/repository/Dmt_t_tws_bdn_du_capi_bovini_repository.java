@@ -142,10 +142,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" dmt_bov.id_sessione = :idSessione " + 
 			" and dmt_bov.id_allevamento in (     " + 
 			"    SELECT DISTINCT dmt_allev.allev_id " + 
-			"    FROM dmt_t_anagrarfica_allev dmt_allev " + 
+			"    FROM dmt_t_anagrafica_allev dmt_allev " + 
 			"    WHERE dmt_allev.id_autogenerato  in ( " + 
 			"                                                        SELECT DISTINCT  dmt_allev2.id_autogenerato " + 
-			"                                                        FROM dmt_t_anagrarfica_allev  dmt_allev2 " + 
+			"                                                        FROM dmt_t_anagrafica_allev  dmt_allev2 " + 
 			"                                                        WHERE " + 
 			"                                                        dmt_allev2.allev_id in (" + 
 			"                                                                                SELECT DISTINCT dcb.ID_ALLEVAMENTO " + 
@@ -160,7 +160,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"                                )" + 
 			"     AND NVL(dmt_allev.COD_FISCALE_DETEN,dmt_allev.COD_FISCALE_PROP) in ( " + 
 			"					                                                       SELECT DISTINCT NVL(a.cod_fiscale_deten,a.cod_fiscale_prop) as detentore  " + 
-			"					                                                       FROM dmt_t_anagrarfica_allev  a " + 
+			"					                                                       FROM dmt_t_anagrafica_allev  a " + 
 			"					                                                       WHERE  " + 
 			"					                                                       a.allev_id in ( " + 
 			"					                                                                               SELECT DISTINCT d.ID_ALLEVAMENTO  " + 
@@ -181,10 +181,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			" dmt_bov.id_sessione = :idSessione " + 
 			" and dmt_bov.id_allevamento in (     " + 
 			"    SELECT DISTINCT dmt_allev.allev_id " + 
-			"    FROM dmt_t_anagrarfica_allev dmt_allev " + 
+			"    FROM dmt_t_anagrafica_allev dmt_allev " + 
 			"    WHERE dmt_allev.id_autogenerato not in ( " + 
 			"                                                        SELECT DISTINCT  dmt_allev2.id_autogenerato " + 
-			"                                                        FROM dmt_t_anagrarfica_allev  dmt_allev2 " + 
+			"                                                        FROM dmt_t_anagrafica_allev  dmt_allev2 " + 
 			"                                                        WHERE " + 
 			"                                                        dmt_allev2.allev_id in (" + 
 			"                                                                                SELECT DISTINCT dcb.ID_ALLEVAMENTO " + 
@@ -199,7 +199,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			"                                )" + 
 			"     AND NVL(dmt_allev.COD_FISCALE_DETEN,dmt_allev.COD_FISCALE_PROP) in ( " + 
 			"					                                                       SELECT DISTINCT NVL(a.cod_fiscale_deten,a.cod_fiscale_prop) as detentore  " + 
-			"					                                                       FROM dmt_t_anagrarfica_allev  a " + 
+			"					                                                       FROM dmt_t_anagrafica_allev  a " + 
 			"					                                                       WHERE  " + 
 			"					                                                       a.allev_id in ( " + 
 			"					                                                                               SELECT DISTINCT d.ID_ALLEVAMENTO  " + 
