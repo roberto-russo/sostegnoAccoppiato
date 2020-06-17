@@ -386,7 +386,7 @@ public class ref03 {
 									}
 								} else if (listaImportiMassimi.size() > 1) {
 									if (!entry.getKey().equals(listaImportiMassimi.get(0).getIntervento())
-											|| !entry.getKey().equals(listaImportiMassimi.get(1).getIntervento())) {
+											&& !entry.getKey().equals(listaImportiMassimi.get(1).getIntervento())) {
 										tempHash.get(entry.getKey()).add(l);
 									}
 								}
