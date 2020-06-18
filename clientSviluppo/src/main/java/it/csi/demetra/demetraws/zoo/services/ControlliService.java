@@ -278,8 +278,8 @@ public class ControlliService {
      * @param aziendaCodice codice univoco aziendale
      * @return Dmt_t_anagrafica_allevamenti
      */
-    public Dmt_t_anagrafica_allevamenti getAnagraficaByIdAllevamentoAndAziendaCodice(BigDecimal allevId, String aziendaCodice, Long idSessione) {
-        return anagraficaAllevamentiRep.findByAllevIdAndAziendaCodice(allevId, aziendaCodice, idSessione);
+    public String getCodFiscaleDetenByAziendaCodiceAndIdSessione(String aziendaCodice, Long idSessione) {
+        return anagraficaAllevamentiRep.findByAziendaCodiceAndIdSessione(aziendaCodice, idSessione);
     }
 
     public Dmt_t_anagrafica_allevamenti getAllevIdAndSessione(BigDecimal allevId, Long idSessione) {

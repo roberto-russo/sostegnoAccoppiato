@@ -1,6 +1,5 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,17 +128,13 @@ public class ClcInt320Mis6 extends Controllo {
 			for (Dmt_t_premio_capi capi : capiAmmessiUba) {
 
 				
-//				QUERY SU ANAGRAFICA ALLEVAMENTI CHE PRENDE I VALORI IN BASE ALL'ID ALLEVAMENTO          
-//				IL METODO getAllevIdAndSessione COMMENTATO SERVE PER IL TESTING PER PROBLEMI SU SCARICO BDN
-				this.modelAllevamenti = getControlliService()//.getAllevIdAndSessione(BigDecimal.valueOf(4141548), getSessione().getIdSessione());
-						.getAnagraficaByIdAllevamentoAndAziendaCodice(BigDecimal.valueOf(capi.getIdAllevamento()), capi.getCodiceAzienda(), this.getSessione().getIdSessione());
-
-//				CUAA PROPRIETARIO
-				String proprietario = modelAllevamenti.getCodFiscaleProp();
-				
 //				CUAA DETENTORE
-				String detentore = modelAllevamenti.getCod_fiscale_deten();
+				String detentore = getControlliService().getCodFiscaleDetenByAziendaCodiceAndIdSessione(capi.getCodiceAzienda(), this.getSessione().getIdSessione());
+				
+//				CUAA PROPRIETARIO
+				String proprietario =  capi.getCuaa();
 
+				if(detentore != null && !detentore.isEmpty()) {
 				
 //				SE CUAA DETENTORE E CUAA PROPRIETARIO COINCIDONO IL CONTATORE INCREMENTA
 				if (proprietario.equals(detentore)) {
@@ -174,6 +169,9 @@ public class ClcInt320Mis6 extends Controllo {
 							System.out.println("il premio è già stato chiesto dal detentore dell'allevamento");
 						}
 					}
+				}
+				} else {
+					new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "", "errore, cuaa proprietario o cuaa detentore non trovato");
 				}
 			}
 		} else {
