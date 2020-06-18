@@ -23,11 +23,11 @@ public interface Dmt_t_contr_loco_repository extends CrudRepository<Dmt_t_contr_
 	 */
 	List<Dmt_t_contr_loco>findAll();
 
-	@Query(value = "select * from dmt_t_contr_loco where cuaa = :cuaa", nativeQuery = true)
+	@Query(value = "select * from dmt_t_contr_loco where cuaa = :cuaa and anno = :annoCampagna", nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_contr_loco in base al cuaa
 	 * @param cuaa codice fiscale del detentore
 	 * @return List<Dmt_t_contr_loco>
 	 */
-	List<Dmt_t_contr_loco> findByCuaa(@Param("cuaa")String cuaa);
+	List<Dmt_t_contr_loco> findByCuaa(@Param("cuaa")String cuaa, @Param("annoCampagna") Integer annoCampagna);
 }

@@ -122,7 +122,7 @@ public class ClcInt320Mis6 extends Controllo {
 				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		
 //		QUERY SULLA TABELLA DELL'ESTRAZIONE A CAMPIONE "DMT_T_CONTR_LOCO"
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
@@ -132,7 +132,7 @@ public class ClcInt320Mis6 extends Controllo {
 //				QUERY SU ANAGRAFICA ALLEVAMENTI CHE PRENDE I VALORI IN BASE ALL'ID ALLEVAMENTO          
 //				IL METODO getAllevIdAndSessione COMMENTATO SERVE PER IL TESTING PER PROBLEMI SU SCARICO BDN
 				this.modelAllevamenti = getControlliService()//.getAllevIdAndSessione(BigDecimal.valueOf(4141548), getSessione().getIdSessione());
-						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(capi.getIdAllevamento()));
+						.getAnagraficaByIdAllevamentoAndAziendaCodice(BigDecimal.valueOf(capi.getIdAllevamento()), capi.getCodiceAzienda(), this.getSessione().getIdSessione());
 
 //				CUAA PROPRIETARIO
 				String proprietario = modelAllevamenti.getCodFiscaleProp();

@@ -72,9 +72,12 @@ public class ref03 {
 		BigDecimal esito = new BigDecimal(0);
 		BigDecimal percentualeRiduzione = new BigDecimal(0);
 		BigDecimal capiPagabili = new BigDecimal(0);
-		BigDecimal importoPagato = new BigDecimal(0);
+		BigDecimal importoPagatoLordoDecurtazione = new BigDecimal(0);
 		HashMap<String, List<Long>> capiPerPremio = new HashMap<String, List<Long>>();
 		HashMap<String,BigDecimal> result = new HashMap<String,BigDecimal>();
+		Integer giorniRitardo = this.controlliService.getGiorniRitardoPresentazioneDomanda(this.azienda.getCuaa(), this.azienda.getCodicePremio(), this.azienda.getAnnoCampagna());
+		BigDecimal percDecurtazione = null;
+		BigDecimal importoPagatoNettoDecurtazione = null;
 
 		
 		capiPerPremio = buildMap(listaCapiBovini, listaCapiOvicaprini, listaCapiMacellati, codiciPremio);
@@ -112,12 +115,20 @@ public class ref03 {
 				double importoUnit = this.controlliService
 						.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp)
 						.getImportoUnitario();
-				importoPagato = capiPagabili.multiply(new BigDecimal(importoUnit));
-				
+				importoPagatoLordoDecurtazione = capiPagabili.multiply(new BigDecimal(importoUnit));
+
 				} catch (NullPointerException e){
-					new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "nessun importo unitario disponibile");
-				
+					new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "errore durante il calcolo dell'importo lordo");
 				}
+				
+					if(giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
+						try {
+						percDecurtazione = giorniRitardo <= 20 ? this.controlliService.getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo) : new BigDecimal(100);
+						importoPagatoNettoDecurtazione = importoPagatoLordoDecurtazione.subtract((importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100)));
+						} catch(NullPointerException e) {
+							new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "errore durante il calcolo dell'importo lordo");
+						} 
+					}
 			}
 			
 			outputCalcolo = new Dmt_t_output_ref03();
@@ -128,9 +139,11 @@ public class ref03 {
 			outputCalcolo.setCapiRichiesti(capiRichiesti.intValue());
 			outputCalcolo.setCuaa(this.azienda.getCuaa());
 			outputCalcolo.setEsito(esito.doubleValue());
-			outputCalcolo.setImportoPagato(importoPagato.doubleValue());
+			outputCalcolo.setImportoPagatoLordoDecurtazione(importoPagatoLordoDecurtazione);
+			outputCalcolo.setImportoPagatoNettoDecurtazione(importoPagatoNettoDecurtazione);
 			outputCalcolo.setIntervento(cp);
 			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione.doubleValue());
+			outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
 			outputCalcolo.setIdSessione(this.sessione);
 
 			if (esito.compareTo(new BigDecimal("0.5")) >0)
@@ -167,21 +180,21 @@ public class ref03 {
 			capiAnomali   = capiRichiesti.subtract(capiAccertati);
 		}
 		
-		for (Long c : capiPerPremio.get(cp)) {
-			try {
-				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
-						cp);
-
-				for (Long anomali : capiAnomaliPerCodicePremio) {
-					if (anomali != null && anomali.equals(c)) {
-							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
-							capiAnomali=capiAnomali.add(BigDecimal.ONE);
-						}
-					}
-				capiAnomaliPerCodicePremio.clear();
-			} catch (NullPointerException e) {
-			}
-		}		
+//		for (Long c : capiPerPremio.get(cp)) {
+//			try {
+//				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
+//						cp);
+//
+//				for (Long anomali : capiAnomaliPerCodicePremio) {
+//					if (anomali != null && anomali.equals(c)) {
+//							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
+//							capiAnomali=capiAnomali.add(BigDecimal.ONE);
+//						}
+//					}
+//				capiAnomaliPerCodicePremio.clear();
+//			} catch (NullPointerException e) {
+//			}
+//		}		
 		result.put("accertati", capiAccertati);
 		result.put("anomali", capiAnomali);
 		result.put("richiesti",capiRichiesti);
@@ -373,7 +386,7 @@ public class ref03 {
 									}
 								} else if (listaImportiMassimi.size() > 1) {
 									if (!entry.getKey().equals(listaImportiMassimi.get(0).getIntervento())
-											|| !entry.getKey().equals(listaImportiMassimi.get(1).getIntervento())) {
+											&& !entry.getKey().equals(listaImportiMassimi.get(1).getIntervento())) {
 										tempHash.get(entry.getKey()).add(l);
 									}
 								}

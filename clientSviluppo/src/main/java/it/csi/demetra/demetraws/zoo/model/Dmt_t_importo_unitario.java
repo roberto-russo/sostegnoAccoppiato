@@ -20,24 +20,30 @@ public class Dmt_t_importo_unitario implements Serializable {
 	private static final long serialVersionUID = 8638592301852966273L;
 
 	@Id
-	@Column(name="intervento")
+	@Column(name="codice")
 	/**
 	 * codice intervento.
 	 */
 	private String intervento;
 	
 	@Id
-	@Column (name="anno_campagna")
+	@Column (name="anno_campagna_inizio")
 	/**
 	 * Anno della campagna
 	 */
 	private Integer annoCampagna;
 	
-	@Column(name="importo_unitario")
+	@Column(name="importo_premio")
 	/**
 	 * importo unitario associato al codice intervento.
 	 */
 	private Double importoUnitario;
+	
+	@Column(name = "descrizione")
+	/**
+	 * descrizione dell'importo unitario associato al premio
+	 */
+	private String descrizione;
 
 	/**
 	 * metodo getter che ritorna il codice intervento.
@@ -87,4 +93,20 @@ public class Dmt_t_importo_unitario implements Serializable {
 		this.importoUnitario = importoUnitario;
 	}
 
+	/**
+	 * Metodo getter che ritorna la descrizione dell'importo unitario associato al premio
+	 * @return descrizione descrizione dell'importo unitario associato al premio
+	 */
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	/**
+	 * Metodo setter che imposta la descrizione dell'importo unitario associato al premio
+	 * @param descrizione descrizione dell'importo unitario associato al premio
+	 */
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+	
 }

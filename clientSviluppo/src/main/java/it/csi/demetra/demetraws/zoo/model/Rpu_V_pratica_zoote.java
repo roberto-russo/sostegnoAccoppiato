@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,11 +86,32 @@ public class Rpu_V_pratica_zoote implements Serializable {
      * Codice intervento
      */
     private String codicePremio;
+    
+    @Column(name = "GIORNI_DI_RITARDO")
+    /**
+     * Giorni di ritardo della presentazione della domanda
+     */
+    BigDecimal giorniDiRitardo;
 
     
     
-    
-    public void setIdentificativo(long identificativo) {
+    /**
+     * Metodo getter che ritorna il numero di giorni di ritardo della presentazione della domanda
+     * @return giorniDiRitardo numero di giorni di ritardo della presentazione della domanda
+     */
+    public BigDecimal getGiorniDiRitardo() {
+		return giorniDiRitardo;
+	}
+
+    /**
+     * Metodo setter che imposta il numero di giorni di ritardo della presentazione della domanda
+     * @param giorniDiRitardo giorni di ritardo della presentazione della domanda
+     */
+	public void setGiorniDiRitardo(BigDecimal giorniDiRitardo) {
+		this.giorniDiRitardo = giorniDiRitardo;
+	}
+
+	public void setIdentificativo(long identificativo) {
 		this.identificativo = identificativo;
 	}
 

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		if( listaCapi!=null && idSessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
 			if( !listaCapi.isEmpty() ) {
 				
+				this.clearLists();
 				setListaVacche(listaCapi);
 				setIdBdn(idSessione);
 				setCodIntrervento(codIntervento);
@@ -665,6 +667,30 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	public List<List<Dmt_t_Tws_bdn_du_capi_bovini>> calcoloMassivo() throws CalcoloException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void clearLists() {
+		
+		if(this.capiControllati != null)
+			this.capiControllati.getListaCapi9901().clear();
+		
+		if(this.listaVacche != null)
+			this.listaVacche.clear();
+		
+		if(this.listaVaccheAmmesse != null)
+			this.listaVaccheAmmesse.clear();
+		
+		if(this.listaVaccheEscluse != null)
+		this.listaVaccheEscluse.clear();
+		
+		if(this.output != null)
+			this.output.clear();	
+		
+		if(this.mapVaccaVitelli != null)
+			this.mapVaccaVitelli.clear();
+		
+		if(this.listaCapiResult != null)
+		this.listaCapiResult.clear();
 	}
 	
 }

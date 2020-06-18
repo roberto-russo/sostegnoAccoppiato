@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,11 +52,11 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 */
 	private String intervento;
 	
-	@Column(name = "importo_pagato")
+	@Column(name = "imp_pagato_lordo_decurt")
 	/**
 	 * importo pagato al richiedente.
 	 */
-	private Double importoPagato;
+	private BigDecimal importoPagatoLordoDecurtazione;
 	
 	@Column(name = "capi_pagabili")
 	/**
@@ -95,9 +96,60 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Differenza tra i capi richiesti e i capi ammessi a premio.
 	 */
 	private Integer differenzaCapiRichiestiAccertati;
+	
+	@Column(name = "imp_pagato_netto_decurt")
+	/**
+	 * Importo pagato al netto della decurtazione calcolata.
+	 */
+	BigDecimal importoPagatoNettoDecurtazione;
+	
+	@Column(name = "percentuale_decurtazione")
+	/**
+	 * Percentuale di decurtazione calcolata.
+	 */
+	BigDecimal percentualeDecurtazione;
+	
+	
+	/**
+	 * Metodo getter che ritorna la percentuale di decurtazione calcolata.
+	 * La percentuale di decurtazione e' calcolata in base ai giorni di ritardo
+	 * di presentazione della domanda.
+	 * @return percentualeDecurtazioneCalcolata percentuale di decurtazione del premio.
+	 */
+	public BigDecimal getPercentualeDecurtazione() {
+		return percentualeDecurtazione;
+	}
 
 	/**
-	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 * Metodo setter che imposta la percentuale di decurtazione calcolata.
+	 * La percentuale di decurtazione e' calcolata in base ai giorni di ritardo
+	 * di presentazione della domanda.
+	 * @param percentualeDecurtazioneCalcolata percentuale di decurtazione del premio.
+	 */
+	public void setPercentualeDecurtazione(BigDecimal percentualeDecurtazione) {
+		this.percentualeDecurtazione = percentualeDecurtazione;
+	}
+
+	/**
+	 * Metodo getter che ritorna l'importo pagato al netto della decurtazione calcolata.
+	 * La decurtazione viene calcolata in base al numero di giorni di ritardo di presentazione della domanda.
+	 * @return importoPagatoNettoDecurtazione importo pagato al netto della decurtazione calcolata.
+	 */
+	public BigDecimal getImportoPagatoNettoDecurtazione() {
+		return importoPagatoNettoDecurtazione;
+	}
+
+	/**
+	 * Metodo getter che ritorna l'importo pagato al netto della decurtazione calcolata.
+	 * La decurtazione viene calcolata in base al numero di giorni di ritardo di presentazione della domanda.
+	 * @param importoPagatoNettoDecurtazione importo pagato al netto della decurtazione calcolata.
+	 */
+	public void setImportoPagatoNettoDecurtazione(BigDecimal importoPagatoNettoDecurtazione) {
+		this.importoPagatoNettoDecurtazione = importoPagatoNettoDecurtazione;
+	}
+
+	/**
+	 * Metodo getter che imposta l'identificativo univoco associato all'esecuzione
 	 * @return idSessione identificativo univoco associato all'esecuzione.
 	 */
 	public Dmt_t_sessione getIdSessione() {
@@ -164,16 +216,16 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna l'importo pagato al richiedente
 	 * @return importoPagato importo pagato al richiedente.
 	 */
-	public Double getImportoPagato() {
-		return importoPagato;
+	public BigDecimal getImportoPagatoLordoDecurtazione() {
+		return importoPagatoLordoDecurtazione;
 	}
 
 	/**
 	 * Metodo setter che imposta l'importo pagato al richiedente.
 	 * @param importoPagato importo pagato al richiedente.
 	 */
-	public void setImportoPagato(Double importoPagato) {
-		this.importoPagato = importoPagato;
+	public void setImportoPagatoLordoDecurtazione(BigDecimal importoPagatoLordoDecurtazione) {
+		this.importoPagatoLordoDecurtazione = importoPagatoLordoDecurtazione;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class Dmt_t_contr_loco implements Serializable {
 	private static final long serialVersionUID = -244181523082419370L;
 
 	
-	
+	@Id
 	@Column(name = "anno")
 	/**
 	 * Anno della campagna premi per cui si è formulata la

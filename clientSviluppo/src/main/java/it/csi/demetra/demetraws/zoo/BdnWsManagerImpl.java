@@ -67,7 +67,6 @@ public class BdnWsManagerImpl {
 			
 			
 			
-			
 		}catch(WSBridgeInternalException_Exception | NullPointerException | ParseException e) {
 			System.out.println(e.getMessage());
 			

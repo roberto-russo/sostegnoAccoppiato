@@ -31,6 +31,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_importo_unitario_repository
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_esclusi_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_ref03_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_perc_gg_ritardo_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_w_controllo_bean_repository;
 import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
@@ -52,6 +53,7 @@ import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
  * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository
  * @see Dmt_t_importo_unitario_repository
  * @see Dmt_t_output_ref03_repository
+ * @see Dmt_t_perc_gg_ritardo_repository
  * @author Bcsoft
  */
 public class ControlliService {
@@ -70,75 +72,81 @@ public class ControlliService {
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_w_controllo_bean_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_w_controllo_bean.
      */
     Dmt_w_controllo_bean_repository controlloBeanRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli.
      */
     Dmt_t_output_controlli_repository outputRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_output_esclusi_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_output_esclusi.
      */
     Dmt_t_output_esclusi_repository esclusiRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_contr_loco_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_contr_loco.
      */
     Dmt_t_contr_loco_repository contrLocoRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_clsCapoMacellato_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_clsCapoMacellato.
      */
     Dmt_t_clsCapoMacellato_repository macellatiRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa.
      */
     Dmt_t_SistemiDiEtichettaturaFacoltativa_repository etichettaturaRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_certificato_igp_dop_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_certificato_igp_dop.
      */
     Dmt_t_certificato_igp_dop_repository igpDopRepository;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti.
      */
     Dmt_t_anagrafica_allevamenti_repository anagraficaAllevamentiRep;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Rpu_V_pratica_zoote_repository.
+     * Repository in cui sono definite le Query di tipo Rpu_V_pratica_zoote.
      */
     Rpu_V_pratica_zoote_repository rpuVPraticaRep;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini.
      */
     Dmt_t_Tws_bdn_du_capi_ovicaprini_repository ovicapriniRep;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_importo_unitario_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_importo_unitario.
      */
     Dmt_t_importo_unitario_repository importoUnitRep;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_output_ref03_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_output_ref03.
      */
     Dmt_t_output_ref03_repository ref03Rep;
+    
+    @Autowired
+    /**
+     * Repository in cui sono definite le Query di tipo Dmt_t_perc_gg_ritardo.
+     */
+    Dmt_t_perc_gg_ritardo_repository ggRitardoRep;
 
 
     /**
@@ -217,9 +225,9 @@ public class ControlliService {
      * @param cuaa codice fiscale del richiedente
      * @return List<Dmt_t_contr_loco>
      */
-    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa) {
+    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa, Integer annoCampagna) {
 
-        return contrLocoRepository.findByCuaa(cuaa);
+        return contrLocoRepository.findByCuaa(cuaa, annoCampagna);
     }
 
     /**
@@ -261,6 +269,17 @@ public class ControlliService {
      */
     public Dmt_t_anagrafica_allevamenti getAnagraficaByIdAllevamento(BigDecimal allevId) {
         return anagraficaAllevamentiRep.findByAllevId(allevId);
+    }
+    
+    /**
+     * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad allevId e aziendaCodice.
+     * @see Dmt_t_anagrafica_allevamenti.findByAllevIdAndAziendaCodice
+     * @param allevId identificativo univoco interno in BDN associato all'allevamento
+     * @param aziendaCodice codice univoco aziendale
+     * @return Dmt_t_anagrafica_allevamenti
+     */
+    public Dmt_t_anagrafica_allevamenti getAnagraficaByIdAllevamentoAndAziendaCodice(BigDecimal allevId, String aziendaCodice, Long idSessione) {
+        return anagraficaAllevamentiRep.findByAllevIdAndAziendaCodice(allevId, aziendaCodice, idSessione);
     }
 
     public Dmt_t_anagrafica_allevamenti getAllevIdAndSessione(BigDecimal allevId, Long idSessione) {
@@ -475,5 +494,15 @@ public class ControlliService {
      */
     public Dmt_t_output_controlli getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(Dmt_t_sessione sessione, String cuaa, Long valueOf, String cp) {
         return outputRepository.findBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, valueOf, cp);
+    }
+    
+    public Integer getGiorniRitardoPresentazioneDomanda(String cuaa, String codicePremio, Integer annoCampagna) {
+    	
+    	return rpuVPraticaRep.findByCuaaAndCodicePremioAndAnnoCampagna(cuaa, codicePremio,  annoCampagna);
+    }
+    
+    public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniDiRitardo) {
+    	
+    	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniDiRitardo);
     }
 }

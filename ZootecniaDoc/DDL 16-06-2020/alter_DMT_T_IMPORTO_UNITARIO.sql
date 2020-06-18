@@ -1,0 +1,1 @@
+ALTER TABLE dmt_t_importo_unitario ADD descrizione VARCHAR2(150 CHAR);

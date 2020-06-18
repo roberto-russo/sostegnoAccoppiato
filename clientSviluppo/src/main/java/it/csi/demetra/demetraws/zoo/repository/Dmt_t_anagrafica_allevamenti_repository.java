@@ -18,6 +18,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
  */
 public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<Dmt_t_anagrafica_allevamenti, Long>{
 	
+	
+	@Query(value = "SELECT COUNT(*) FROM dmt_t_anagrafica_allev where id_sessione = :idSessione  and allev_id = :allevId and azienda_codice = :aziendaCodice",
+			nativeQuery = true)
+	Integer findByIdSessioneAndAllevIdAndAziendaCodice(@Param("idSessione")Long idSessione, @Param("allevId") BigDecimal allevId, @Param("aziendaCodice") String aziendaCodice);
+	
 	/**
 	 * query che ritorna la lista delle istanze che persistono a DB di tipo Dmt_t_anagrafica_allevamenti
 	 */
@@ -30,6 +35,14 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	 * @return Dmt_t_anagrafica_allevamenti
 	 */
 	Dmt_t_anagrafica_allevamenti findByAllevId(@Param("allevId")BigDecimal allevId);
+	
+	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId AND azienda_codice = :aziendaCodice AND id_sessione = :idSessione", nativeQuery = true)
+	/**
+	 * query che ritorna l'istanza di tipo Dmt_t_anagrafica_allevamenti in base all'identificativo dell'allevamento e al codice aziendale
+	 * @param allevId identificativo dell'allevamento
+	 * @return Dmt_t_anagrafica_allevamenti
+	 */
+	Dmt_t_anagrafica_allevamenti findByAllevIdAndAziendaCodice(@Param("allevId")BigDecimal allevId, @Param("aziendaCodice") String aziendaCodice, @Param("idSessione") Long idSessione);
 
 	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId and id_sessione = :idSessione", nativeQuery = true)
 	/**

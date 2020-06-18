@@ -127,7 +127,7 @@ try {
 		LOGGER.info("inizio esecuzione()");
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa());
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 		numeroCapiRichiesti = getControlliService()
 				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		

@@ -63,6 +63,10 @@ public class ClcInt312Mis3 extends Controllo{
 	
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
+		
+		//reset delle variabili di classe prima di iniziare l'esecuzione
+		this.resetLists();
+		
 		/*
 		 * Prendo dal DB tutte le vacche richieste per sessione cua e codice Intervento
 		 * */
@@ -190,8 +194,6 @@ public class ClcInt312Mis3 extends Controllo{
 		} else {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessuna vacca presente impossibile eseguire il calcolo del premio"));
 		}
-		
-		
 	}
 
 	@Override
@@ -217,7 +219,7 @@ public class ClcInt312Mis3 extends Controllo{
 		for  (Dmt_t_Tws_bdn_du_capi_bovini b: bovini) {
 			
 	        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-	        escluso.setCalcolo(ClcInt311Mis2.class.getName());
+	        escluso.setCalcolo(ClcInt311Mis2.class.getSimpleName());
 	        escluso.setCapoId(b.getCapoId());
 	        escluso.setMotivazioneEsclusione(motivazione);
 	        escluso.setIdSessione(getSessione());
@@ -236,6 +238,34 @@ public class ClcInt312Mis3 extends Controllo{
         escluso.setIdSessione(getSessione());
 //      escluso.setIdSessione(getSessione().getIdSessione());
         listEsclusi.add(escluso);
+	}
+	
+	private void resetLists() {
+		
+		if(this.importoLiquidabile > 0)
+			this.importoLiquidabile = 0;
+		
+		if(this.listEsclusi != null)
+			this.listEsclusi.clear();
+		
+		if(this.listVaccheDetentoriAllevAttivi != null)
+			this.listVaccheDetentoriAllevAttivi.clear();
+		
+		if(this.listVaccheDetentoriAllevNonAttivi != null)
+			this.listVaccheDetentoriAllevNonAttivi.clear();
+		
+		if(this.modelVacche != null)
+			this.modelVacche.clear();
+		
+		if(this.modelVaccheAmmesseRegCapi != null)
+			this.modelVaccheAmmesseRegCapi.clear();
+		
+		if(this.modelVaccheAmmesseUba != null)
+			this.modelVaccheAmmesseUba.clear();
+		
+		if(this.modelVaccheTmp != null)
+			this.modelVaccheTmp.clear();
+		
 	}
 	
 }
