@@ -42,7 +42,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	List<Rpu_V_pratica_zoote> findByCodiciPremioAndAnnoCampagna(@Param("codiciPremio") List<String> codiciPremioList, @Param("annoCampagna") Integer annoCampagna);
 	
 	@Query(
-			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna and Cuaa = :cuaa and Codice_premio = :codicePremio AND Identificativo = :idAllevamento", 
+			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna and Cuaa = :cuaa and Codice_premio = :codicePremio", 
 			nativeQuery = true
 		  )
 		  /**
@@ -52,7 +52,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	 * @param codicePremio codice intervento
 	 * @return Rpu_V_pratica_zoote_repository
 	 */
-	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio, @Param("idAllevamento") BigDecimal idAllevamento );
+	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremio(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 
 	@Query(
 			value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa", 
