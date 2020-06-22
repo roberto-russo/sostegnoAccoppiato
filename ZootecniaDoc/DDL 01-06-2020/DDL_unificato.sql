@@ -8,7 +8,7 @@
   CREATE TABLE "DEMETRA"."DMT_T_SESSIONE" 
    (	"ID_SESSIONE" NUMBER(19,0), 
 	"DATA_E_ORA" TIMESTAMP (6)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -50,7 +50,7 @@ DROP TABLE "DEMETRA"."DMT_D_CLS_PREMIO_VAL_RESP";
 	"DESCRIZIONE_ERRORE" VARCHAR2(255 CHAR), 
 	"NUMERO_CAPI" NUMBER(19,0), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
   
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1324,7 +1324,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"SPECIE_CODICE" VARCHAR2(25 CHAR), 
 	"SPECIE_DESCRIZIONE" VARCHAR2(255 CHAR), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1425,7 +1425,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"ESITO" VARCHAR2(10 CHAR), 
 	"MOTIVAZIONI" VARCHAR2(255 CHAR), 
 	"QT_CAPI_PREMIO" NUMBER(*,2)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1469,7 +1469,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"ID_SESSIONE" NUMBER(19,0), 
 	"ERRORE_DESCRIZIONE" VARCHAR2(100 CHAR), 
 	"ERRORE_CODICE" VARCHAR2(100 CHAR)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1628,7 +1628,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"SESSO" VARCHAR2(1 CHAR), 
 	"FK_DMT_D_CLS_PREM_VALID" NUMBER(19,0), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1710,7 +1710,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"TIPO_ALLEV_DESCR" VARCHAR2(25 CHAR), 
 	"TIPO_PRODUZIONE" VARCHAR2(5 CHAR), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
   
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1830,7 +1830,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"DATA_INIZIO" DATE, 
 	"EXT_ID_UTENTE_AGGIORNAMENTO" NUMBER(19,0), 
 	"NOTE" VARCHAR2(255 CHAR)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -1878,7 +1878,7 @@ ALTER TABLE demetra.dmt_t_latte_vendita_diretta ADD CONSTRAINT "PK_dmt_t_latte_v
 	"ESITO" NUMBER(10,2), 
 	"IMPORTO_PAGATO" NUMBER(10,2), 
 	"PERCENTUALE_RIDUZIONE" NUMBER(10,2)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
  
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
@@ -2306,7 +2306,7 @@ DROP TABLE "DEMETRA"."DMT_T_CLS_CAPO_MACELLATO";
 	"ID_STATO_PRATICA" NUMBER(10,0), 
 	"IDENTIFICATIVO" NUMBER(19,0), 
 	"TIPO_FASE" NUMBER(10,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

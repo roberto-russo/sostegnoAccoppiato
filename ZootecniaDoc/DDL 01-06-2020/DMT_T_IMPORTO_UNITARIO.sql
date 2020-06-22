@@ -9,7 +9,7 @@
    (	"ANNO_CAMPAGNA_INIZIO" NUMBER(10,0), 
 	"IMPORTO_PREMIO" NUMBER(*,0), 
 	"CODICE" VARCHAR2(3 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

@@ -18,7 +18,7 @@
 	"ID_STATO_PRATICA" NUMBER(10,0), 
 	"IDENTIFICATIVO" NUMBER(19,0), 
 	"TIPO_FASE" NUMBER(10,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

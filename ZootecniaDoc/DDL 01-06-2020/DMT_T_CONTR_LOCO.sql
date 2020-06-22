@@ -29,7 +29,7 @@ DROP TABLE "DEMETRA"."DMT_T_CONTR_LOCO";
 	"REGIONE" VARCHAR2(25 CHAR), 
 	"REGIONE_ISTAT" NUMBER(19,0), 
 	"SESSO" VARCHAR2(1 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

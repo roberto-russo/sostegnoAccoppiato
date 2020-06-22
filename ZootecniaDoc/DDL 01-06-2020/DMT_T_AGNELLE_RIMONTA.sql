@@ -13,7 +13,7 @@
 	"ESITO" VARCHAR2(10 CHAR), 
 	"MOTIVAZIONI" VARCHAR2(255 CHAR), 
 	"QT_CAPI_PREMIO" NUMBER(*,2)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

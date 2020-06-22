@@ -50,7 +50,7 @@
 	"PP_11_N_AN" NUMBER(19,0), 
 	"PP_12_N_AN" NUMBER(19,0), 
 	"PP_MED" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

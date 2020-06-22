@@ -11,7 +11,7 @@
 	"MESE" VARCHAR2(10 CHAR), 
 	"MATRICOLA" VARCHAR2(25 CHAR), 
 	"QUANTITA" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

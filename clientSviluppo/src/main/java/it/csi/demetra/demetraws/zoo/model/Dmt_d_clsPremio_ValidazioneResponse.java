@@ -29,8 +29,8 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
      */
    
     @Id
-    @GeneratedValue(generator = "premio_valid_resp_seq")
-    @SequenceGenerator(name="premio_valid_resp_seq",sequenceName="PREMIO_VALID_RESP_SEQ", allocationSize=1)
+    @GeneratedValue(generator = "seq_dmt_d_cls_pr_valid_resp")
+    @SequenceGenerator(name="seq_dmt_d_cls_pr_valid_resp",sequenceName="SEQ_DMT_D_CLS_PR_VALID_RESP", allocationSize=1)
     @Column(name= "id_autogenerato")
     private Long idAutogenerato;
     

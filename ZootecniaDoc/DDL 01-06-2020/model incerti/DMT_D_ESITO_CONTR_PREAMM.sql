@@ -14,7 +14,7 @@
 	"DATA" DATE, 
 	"ESITO" VARCHAR2(1 CHAR), 
 	"MSG" VARCHAR2(400 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
 --  DDL for Index IE_DMT_D_ESITO_CONTR_PREAMM

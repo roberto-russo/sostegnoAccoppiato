@@ -154,8 +154,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 						
 //						QUERY SU RPU_V_PRATICA_ZOOTE CHE CONTROLLA SE LA RICHIESTA È GIÀ STATA FATTA DAL DETENTORE
-						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(
-								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio(),modelAllevamenti.getAllevId());
+//						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(
+//								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio(),modelAllevamenti.getAllevId());
 								
 
 //						SE NON TROVA VALORI NELLA TABELLA 

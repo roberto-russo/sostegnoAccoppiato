@@ -26,8 +26,8 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 
 	
     @Id
-    @GeneratedValue(generator = "uba_cens_allev_ovini_id_seq")
-    @SequenceGenerator(name="uba_cens_allev_ovini_id_seq",sequenceName="UBA_CENS_ALLEV_OVINI_SEQ", allocationSize=1)
+    @GeneratedValue(generator = "seq_dmt_t_uba_cens_allev_ov")
+    @SequenceGenerator(name="seq_dmt_t_uba_cens_allev_ov",sequenceName="SEQ_DMT_T_UBA_CENS_ALLEV_OV", allocationSize=1)
     @Column(name= "id_autogenerato")
     private Long idAutogenerato;
 	

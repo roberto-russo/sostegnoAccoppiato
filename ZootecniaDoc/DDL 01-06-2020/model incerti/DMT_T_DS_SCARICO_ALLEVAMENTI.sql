@@ -57,7 +57,7 @@
 	"TIPO_PRODUZIONE" VARCHAR2(10 CHAR), 
 	"VACCHE_DA_LATTE" NUMBER(*,2), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

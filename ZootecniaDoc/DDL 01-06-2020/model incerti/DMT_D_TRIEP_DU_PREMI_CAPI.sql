@@ -45,7 +45,7 @@
 	"SCO_TIPO_CALCOLO" VARCHAR2(3 CHAR) DEFAULT '002', 
 	"SCOSTAMENTO_PERC" FLOAT(126), 
 	"TIPO_RIGA" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   )
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
 --  DDL for Index IE_DMT_D_TRIEP_DU_PREMI_CAPI

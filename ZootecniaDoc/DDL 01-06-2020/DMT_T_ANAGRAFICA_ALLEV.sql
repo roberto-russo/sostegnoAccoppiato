@@ -44,7 +44,7 @@
 	"TIPO_ALLEV_DESCR" VARCHAR2(25 CHAR), 
 	"TIPO_PRODUZIONE" VARCHAR2(5 CHAR), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
   
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

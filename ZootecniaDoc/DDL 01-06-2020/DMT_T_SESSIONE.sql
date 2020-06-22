@@ -8,7 +8,7 @@
   CREATE TABLE "DEMETRA"."DMT_T_SESSIONE" 
    (	"ID_SESSIONE" NUMBER(19,0), 
 	"DATA_E_ORA" TIMESTAMP (6)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

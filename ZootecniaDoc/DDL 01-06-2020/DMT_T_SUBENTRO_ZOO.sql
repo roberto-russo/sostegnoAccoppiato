@@ -20,7 +20,7 @@
 	"DATA_INIZIO" DATE, 
 	"EXT_ID_UTENTE_AGGIORNAMENTO" NUMBER(19,0), 
 	"NOTE" VARCHAR2(255 CHAR)
-   ) SEGMENT CREATION IMMEDIATE 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

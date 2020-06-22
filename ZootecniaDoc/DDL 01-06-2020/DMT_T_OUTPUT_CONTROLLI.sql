@@ -18,7 +18,7 @@
 	"ID_SESSIONE" NUMBER(19,0), 
 	"CAPI_AMMISSIBILI" NUMBER(*,2), 
 	"CAPI_RICHIESTI" NUMBER(10,0)
-   ) SEGMENT CREATION DEFERRED 
+   )
  
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

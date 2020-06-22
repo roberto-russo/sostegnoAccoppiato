@@ -30,8 +30,8 @@ public class Dmt_t_sessione implements Serializable {
     private Date dataEora;
 
     @Id
-    @GeneratedValue(generator = "sessione_id_seq")
-    @SequenceGenerator(name="sessione_id_seq",sequenceName="SESSIONE_ID_SEQ", allocationSize=1)
+    @GeneratedValue(generator = "seq_dmt_t_sessione")
+    @SequenceGenerator(name="seq_dmt_t_sessione",sequenceName="SEQ_DMT_T_SESSIONE", allocationSize=1)
     @Column(name = "id_sessione")
     @NotNull
     /**

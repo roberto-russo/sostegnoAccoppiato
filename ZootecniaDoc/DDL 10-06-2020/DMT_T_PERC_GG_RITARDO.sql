@@ -10,7 +10,7 @@
     "ANNO" NUMBER(19,0), 
 	"GIORNI_RITARDO" NUMBER(19,0), 
 	"PERC_DECURTAZIONE" DECIMAL(5,2)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
   TABLESPACE "DEMETRA_TBL" ;
   
 --------------------------------------------------------

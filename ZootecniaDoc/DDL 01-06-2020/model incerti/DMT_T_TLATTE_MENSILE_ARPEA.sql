@@ -23,7 +23,7 @@
 	"PRIMO_ANNO_CAMPAGNA" NUMBER(19,0), 
 	"QT_CONSEGNATA" NUMBER(19,0), 
 	"TEN_MAT_GRASSA_PERIODO" NUMBER(*,2)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

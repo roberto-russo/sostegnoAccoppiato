@@ -22,8 +22,8 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	private static final long serialVersionUID = 9215943957155723524L;
 
 	@Id
-	@GeneratedValue(generator = "anagrafica_allev_id_seq")
-	@SequenceGenerator(name="anagrafica_allev_id_seq",sequenceName="ANAGRAFICA_ALLEV_ID_SEQ", allocationSize=1)
+	@GeneratedValue(generator = "seq_dmt_t_anagrafica_allev")
+	@SequenceGenerator(name="seq_dmt_t_anagrafica_allev",sequenceName="SEQ_DMT_T_ANAGRAFICA_ALLEV", allocationSize=1)
 	@Column(name = "id_autogenerato")
 	/**
 	 * codice id autogenerato associato all'oggetto di tipo Dmt_t_anagrafica_allevamenti

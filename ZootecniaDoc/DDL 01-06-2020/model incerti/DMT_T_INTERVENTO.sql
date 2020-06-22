@@ -12,7 +12,7 @@
 	"ID_SPECIE" NUMBER(10,0), 
 	"INTERVENTO" VARCHAR2(3 CHAR), 
 	"MISURA" NUMBER(*,2)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

@@ -17,7 +17,7 @@ DROP TABLE "DEMETRA"."DMT_T_CERTIF_IGP_DOP";
 	"FLAG_IGP" VARCHAR2(1 CHAR), 
 	"ALPEGGIO" VARCHAR2(1 CHAR), 
 	"ZONA" VARCHAR2(1 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
    
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

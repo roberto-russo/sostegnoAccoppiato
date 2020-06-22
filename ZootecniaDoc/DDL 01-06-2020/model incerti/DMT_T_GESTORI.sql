@@ -10,7 +10,7 @@
 	"ID_TIPOLOGIA" NUMBER(19,0), 
 	"ID_SESSIONE" NUMBER(19,0), 
 	"NOME_SERVICE" VARCHAR2(30 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

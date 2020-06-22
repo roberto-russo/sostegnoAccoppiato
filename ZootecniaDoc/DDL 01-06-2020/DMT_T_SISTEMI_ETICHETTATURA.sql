@@ -8,7 +8,7 @@
   CREATE TABLE "DEMETRA"."DMT_T_SISTEMI_ETICHETTATURA" 
    (	"CUAA" VARCHAR2(16 CHAR), 
 	"FLAG_ETICHETTATURA" VARCHAR2(1 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

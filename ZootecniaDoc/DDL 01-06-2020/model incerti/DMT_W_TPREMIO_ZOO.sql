@@ -39,7 +39,7 @@
 	"VACCHE_NUTRICI" VARCHAR2(1 CHAR), 
 	"VACCHE_NUTRICI_DA" VARCHAR2(1 CHAR), 
 	"VACCHE_NUTRICI_NG" VARCHAR2(1 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

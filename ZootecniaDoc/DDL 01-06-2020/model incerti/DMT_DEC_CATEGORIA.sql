@@ -9,7 +9,7 @@
    (	"ID_SESSIONE" NUMBER(19,0), 
 	"DESCRIZIONE" VARCHAR2(255 CHAR), 
 	"ID" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   )
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
 --  DDL for Index IE_DMT_DEC_CATEGORIA

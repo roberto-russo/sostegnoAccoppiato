@@ -11,7 +11,7 @@
 	"ID_SESSIONE" NUMBER(19,0), 
 	"ERRORE_DESCRIZIONE" VARCHAR2(100 CHAR), 
 	"ERRORE_CODICE" VARCHAR2(100 CHAR)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

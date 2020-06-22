@@ -32,8 +32,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	private static final long serialVersionUID = -8829170877502816563L;
 
     @Id
-    @GeneratedValue(generator = "capi_ovicaprini_id_seq")
-    @SequenceGenerator(name="capi_ovicaprini_id_seq",sequenceName="CAPI_OVICAPRINI_ID_SEQ", allocationSize=1)
+    @GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_ov")
+    @SequenceGenerator(name="seq_dmt_t_bdn_du_capi_ov",sequenceName="SEQ_DMT_T_BDN_DU_CAPI_OV", allocationSize=1)
     @Column(name= "id_autogenerato")
     private Long idAutogenerato;
 

@@ -12,7 +12,7 @@
 	"MESSAGGIO" VARCHAR2(255 CHAR) DEFAULT 'no message avaible', 
 	"NOME_CLASSE_CHIAMANTE" VARCHAR2(50 CHAR), 
 	"TIPO_LOG" VARCHAR2(10 CHAR) DEFAULT 'INFO'
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

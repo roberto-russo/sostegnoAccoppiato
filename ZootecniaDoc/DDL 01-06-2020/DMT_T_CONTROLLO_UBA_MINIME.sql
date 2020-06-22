@@ -19,7 +19,7 @@ DROP TABLE "DEMETRA"."DMT_T_CONTROLLO_UBA_MINIME";
 	"ESITO" VARCHAR2(5 CHAR), 
 	"MOTIVAZIONI" VARCHAR2(255 CHAR), 
 	"UBA" NUMBER(10,2)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
   
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

@@ -9,7 +9,7 @@
    (	"SEZIONE_RAZZA" VARCHAR2(20 CHAR), 
 	"ASSOCIAZIONE" VARCHAR2(20 CHAR), 
 	"DENOM_UFF_LG" VARCHAR2(50 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

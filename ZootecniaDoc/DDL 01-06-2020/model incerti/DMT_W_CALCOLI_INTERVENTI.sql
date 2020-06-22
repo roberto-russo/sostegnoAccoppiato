@@ -10,7 +10,7 @@
 	"ID_INTERVENTO" NUMBER(19,0), 
 	"ORDINE_ESECUZIONE" VARCHAR2(10 CHAR),
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

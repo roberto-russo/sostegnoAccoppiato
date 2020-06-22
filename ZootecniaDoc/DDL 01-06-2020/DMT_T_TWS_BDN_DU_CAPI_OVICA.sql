@@ -37,7 +37,7 @@
 	"SESSO" VARCHAR2(1 CHAR), 
 	"FK_DMT_D_CLS_PREM_VALID" NUMBER(19,0), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

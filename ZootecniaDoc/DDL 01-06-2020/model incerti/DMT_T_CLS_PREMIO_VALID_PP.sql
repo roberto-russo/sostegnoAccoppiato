@@ -12,7 +12,7 @@
 	"CODICE_INTERVENTO" VARCHAR2(3 CHAR), 
 	"CUAA" VARCHAR2(16 CHAR), 
 	"CUAA2" VARCHAR2(16 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   )
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
 --  DDL for Index IE_DMT_T_CLS_PREMIO_VALID_PP

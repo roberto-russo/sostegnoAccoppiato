@@ -14,7 +14,7 @@
 	"CODICE_MESE" VARCHAR2(3 CHAR) DEFAULT 'MES', 
 	"QUANTITA" NUMBER(19,0), 
 	"SOTTO_CODICE_MESE" VARCHAR2(3 CHAR)
-   ) SEGMENT CREATION DEFERRED 
+   ) 
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

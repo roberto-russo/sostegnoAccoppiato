@@ -48,7 +48,7 @@
 	"SPECIE_CODICE" VARCHAR2(25 CHAR), 
 	"SPECIE_DESCRIZIONE" VARCHAR2(255 CHAR), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

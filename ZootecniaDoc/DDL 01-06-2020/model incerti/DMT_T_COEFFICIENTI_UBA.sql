@@ -10,7 +10,7 @@
 	"ID_SPECIE" NUMBER(19,0), 
 	"ID_SESSIONE" NUMBER(19,0), 
 	"COEFFICIENTE" NUMBER(*,2)
-   ) SEGMENT CREATION DEFERRED 
+   )
 
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

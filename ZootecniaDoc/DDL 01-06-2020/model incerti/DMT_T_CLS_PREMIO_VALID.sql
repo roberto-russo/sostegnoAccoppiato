@@ -10,7 +10,7 @@
 	"CODICE_INTERVENTO" VARCHAR2(3 CHAR), 
 	"CUAA" VARCHAR2(16 CHAR), 
 	"ID_SESSIONE" NUMBER(19,0)
-   ) SEGMENT CREATION DEFERRED 
+   )
  
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------

@@ -24,7 +24,7 @@
 	"ESITO" NUMBER(10,2), 
 	"IMPORTO_PAGATO" NUMBER(10,2), 
 	"PERCENTUALE_RIDUZIONE" NUMBER(10,2)
-   ) SEGMENT CREATION IMMEDIATE 
+   )
  
   TABLESPACE "DEMETRA_TBL" ;
 --------------------------------------------------------
