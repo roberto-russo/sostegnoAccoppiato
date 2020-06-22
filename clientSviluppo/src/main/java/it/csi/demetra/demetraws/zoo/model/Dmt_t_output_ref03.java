@@ -109,7 +109,18 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 */
 	BigDecimal percentualeDecurtazione;
 	
+	@Column(name = "importo_a_recupero")
+	private BigDecimal importoARecupero;
 	
+	
+	public BigDecimal getImportoARecupero() {
+		return importoARecupero;
+	}
+
+	public void setImportoARecupero(BigDecimal importoARecupero) {
+		this.importoARecupero = importoARecupero;
+	}
+
 	/**
 	 * Metodo getter che ritorna la percentuale di decurtazione calcolata.
 	 * La percentuale di decurtazione e' calcolata in base ai giorni di ritardo
