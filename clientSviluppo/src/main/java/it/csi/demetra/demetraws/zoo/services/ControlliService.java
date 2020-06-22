@@ -15,6 +15,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_irregolarita_intenzionale;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
@@ -28,6 +29,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_certificato_igp_dop_reposit
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_importo_unitario_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_irregolarita_intenzionale_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_esclusi_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_ref03_repository;
@@ -147,7 +149,9 @@ public class ControlliService {
      * Repository in cui sono definite le Query di tipo Dmt_t_perc_gg_ritardo.
      */
     Dmt_t_perc_gg_ritardo_repository ggRitardoRep;
-
+    
+    @Autowired
+    Dmt_t_irregolarita_intenzionale_repository irregolaritaRep;
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base alla sessione, cuaa e codiceIntervento
@@ -479,8 +483,8 @@ public class ControlliService {
      * @param codicePremio codice intervento
      * @return Rpu_V_pratica_zoote
      */
-    public Rpu_V_pratica_zoote getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(Integer annoCampagna, String cuaa, String codicePremio, BigDecimal idAllevamento) {
-    	return rpuVPraticaRep.findByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(annoCampagna, cuaa, codicePremio, idAllevamento);
+    public Rpu_V_pratica_zoote getByAnnoCampagnaAndCuaaAndCodicePremio(Integer annoCampagna, String cuaa, String codicePremio) {
+    	return rpuVPraticaRep.findByAnnoCampagnaAndCuaaAndCodicePremio(annoCampagna, cuaa, codicePremio);
     }
 
     /**
@@ -504,5 +508,9 @@ public class ControlliService {
     public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniDiRitardo) {
     	
     	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniDiRitardo);
+    }
+
+    public List<Dmt_t_irregolarita_intenzionale> getIrregolaritaByCuaa(String cuaa) {
+    	return irregolaritaRep.findIrregByCuaa(cuaa);
     }
 }
