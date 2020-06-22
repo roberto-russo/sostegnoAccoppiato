@@ -1,0 +1,1 @@
+alter table Dmt_t_output_ref03 add importo_a_recupero NUMBER(10,2);
