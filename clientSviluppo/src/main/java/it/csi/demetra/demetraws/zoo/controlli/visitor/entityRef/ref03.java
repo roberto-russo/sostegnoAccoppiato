@@ -17,6 +17,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_irregolarita_intenzionale;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
@@ -34,6 +35,7 @@ public class ref03 {
 	private Rpu_V_pratica_zoote azienda;
 	private Dmt_t_sessione sessione;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ref03.class);
+	Boolean isIrregolaritaIntenzionale;
 
 	@Autowired
 	ControlliService controlliService;
@@ -58,6 +60,7 @@ public class ref03 {
 
 		LOGGER.info("inizio esecuzione()");
 		
+		this.isIrregolaritaIntenzionale = false;
 		Dmt_t_output_ref03 outputCalcolo = null;
 		List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini = this.controlliService
 				.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
@@ -123,8 +126,8 @@ public class ref03 {
 				
 					if(giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
 						try {
-						percDecurtazione = giorniRitardo <= 20 ? this.controlliService.getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo) : new BigDecimal(100);
-						importoPagatoNettoDecurtazione = importoPagatoLordoDecurtazione.subtract((importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100)));
+						percDecurtazione = this.controlliService.getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo);
+						importoPagatoNettoDecurtazione = percDecurtazione != null ? importoPagatoLordoDecurtazione.subtract((importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100))) : BigDecimal.ZERO;
 						} catch(NullPointerException e) {
 							new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "errore durante il calcolo dell'importo lordo");
 						} 
@@ -146,7 +149,7 @@ public class ref03 {
 			outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
 			outputCalcolo.setIdSessione(this.sessione);
 
-			if (esito.compareTo(new BigDecimal("0.5")) >0)
+			if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale)
 				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati).intValue());
 
 			this.controlliService.saveOutputRef03(outputCalcolo);
@@ -211,28 +214,34 @@ public class ref03 {
 	 * @return percRid -> percentuale di riduzione della quota riconosciuta al richiedente
 	 */
 	private BigDecimal calcoloRiduzione(BigDecimal capiAnomali, BigDecimal esito) {
-//		BigDecimal percRid = new BigDecimal(-1);
-		if ((capiAnomali.compareTo(BigDecimal.ZERO) >= 0 && capiAnomali.compareTo(new BigDecimal(3)) <= 0) || 
-				(capiAnomali.compareTo(new BigDecimal(3))==1 && esito.compareTo(new BigDecimal("0.1")) <= 0))
-			return esito;
-		if (capiAnomali.compareTo(new BigDecimal(3))==1) {
 
-			if (esito.compareTo(new BigDecimal("0.1")) >0 && esito.compareTo(new BigDecimal("0.2")) <= 0 )
+		if ((capiAnomali.compareTo(BigDecimal.ZERO) >= 0 && capiAnomali.compareTo(new BigDecimal(3)) <= 0) || 
+				(capiAnomali.compareTo(new BigDecimal(3)) == 1 && esito.compareTo(new BigDecimal("0.1")) <= 0))
+			return esito;
+		if (capiAnomali.compareTo(new BigDecimal(3)) == 1) {
+
+			if (esito.compareTo(new BigDecimal("0.1")) > 0 && esito.compareTo(new BigDecimal("0.2")) <= 0 )
 				return esito.multiply(new BigDecimal(2));
 
-			if (esito.compareTo(new BigDecimal("0.2")) >0  && esito.compareTo(new BigDecimal("0.5")) <= 0)
+			if (esito.compareTo(new BigDecimal("0.2")) > 0  && esito.compareTo(new BigDecimal("0.5")) <= 0)
 				return BigDecimal.ONE;
 
-			if (esito.compareTo(new BigDecimal("0.5")) >0)
+			if (esito.compareTo(new BigDecimal("0.5")) > 0)
 				return BigDecimal.ONE;
 		}
 
-		// condizione momentaneamente sospesa, aspettare direttive per l'implementazione
-		/*
-		 * if(Irregolarità intenzionale riscontrata) return percRid = 1;
-		 */
+		 if(isIrregolaritaIntenzionale().compareTo(BigDecimal.ZERO) > 0) { 
+			 
+			 if(esito.compareTo(new BigDecimal("0.2")) <= 0)
+				 return BigDecimal.ZERO;
+			 
+			 else
+				 if(esito.compareTo(new BigDecimal("0.2")) > 0) {
+					 this.isIrregolaritaIntenzionale = true;
+					 return BigDecimal.ONE;
+				 }
+		 }
 
-//		return percRid;
 		return BigDecimal.ZERO;
 	}
 
@@ -419,6 +428,22 @@ public class ref03 {
 				return true;
 
 		return false;
+	}
+	
+	private BigDecimal isIrregolaritaIntenzionale() {
+		BigDecimal numeroAnimaliAnomali = new BigDecimal(0);
+		List<Dmt_t_irregolarita_intenzionale> listaIrregolaritaIntenzionali = this.controlliService.getIrregolaritaByCuaa(this.azienda.getCuaa());
+		
+		if(listaIrregolaritaIntenzionali != null && !listaIrregolaritaIntenzionali.isEmpty() && listaIrregolaritaIntenzionali.size() == 1)
+			return listaIrregolaritaIntenzionali.get(0).getIntenzionalitaRiscontrata().equals("S") ? new BigDecimal(listaIrregolaritaIntenzionali.get(0).getNumeroAnimaliAnomali()) : BigDecimal.ZERO;
+		else
+			if(listaIrregolaritaIntenzionali != null && !listaIrregolaritaIntenzionali.isEmpty() && listaIrregolaritaIntenzionali.size() > 1 )
+				for(Dmt_t_irregolarita_intenzionale ir : listaIrregolaritaIntenzionali)
+					if(ir.getIntenzionalitaRiscontrata().equals("S"))
+						numeroAnimaliAnomali.add(BigDecimal.ONE);
+					
+		listaIrregolaritaIntenzionali.clear();
+		return numeroAnimaliAnomali;
 	}
 
 }
