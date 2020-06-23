@@ -36,6 +36,7 @@ public class ref03 {
 	private Dmt_t_sessione sessione;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ref03.class);
 	Boolean isIrregolaritaIntenzionale;
+	BigDecimal importoUnit;
 
 	@Autowired
 	ControlliService controlliService;
@@ -60,6 +61,7 @@ public class ref03 {
 
 		LOGGER.info("inizio esecuzione()");
 		
+		this.importoUnit = new BigDecimal(0);
 		this.isIrregolaritaIntenzionale = false;
 		Dmt_t_output_ref03 outputCalcolo = null;
 		List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini = this.controlliService
@@ -105,25 +107,25 @@ public class ref03 {
 
 			percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
 			
-//			if (percentualeRiduzione == -1)
-//				return;
-			
 			if (cp.equals("320")) {
+			
+//				PRENDERE L'OUTPUT DI SALVATORE E CALCOLARE L' importoPagatoLordoDecurtazione   
 				
 			} else {
 				
 				capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(percentualeRiduzione)));
+				
 				try{
 					
-				double importoUnit = this.controlliService
+				 this.importoUnit = new BigDecimal(this.controlliService
 						.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp)
-						.getImportoUnitario();
-				importoPagatoLordoDecurtazione = capiPagabili.multiply(new BigDecimal(importoUnit));
+						.getImportoUnitario());
+				importoPagatoLordoDecurtazione = capiPagabili.multiply(this.importoUnit);
 
 				} catch (NullPointerException e){
 					new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "errore durante il calcolo dell'importo lordo");
 				}
-				
+			}
 					if(giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
 						try {
 						percDecurtazione = this.controlliService.getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo);
@@ -132,7 +134,6 @@ public class ref03 {
 							new Dmt_t_errore(this.sessione, this.getClass().getSimpleName(), "", "errore durante il calcolo dell'importo lordo");
 						} 
 					}
-			}
 			
 			outputCalcolo = new Dmt_t_output_ref03();
 			outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
@@ -149,8 +150,10 @@ public class ref03 {
 			outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
 			outputCalcolo.setIdSessione(this.sessione);
 
-			if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale)
+			if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale) {
 				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati).intValue());
+				outputCalcolo.setImportoARecupero(new BigDecimal(outputCalcolo.getDifferenzaCapiRichiestiAccertati()).multiply(this.importoUnit));
+			}
 
 			this.controlliService.saveOutputRef03(outputCalcolo);
 		}
