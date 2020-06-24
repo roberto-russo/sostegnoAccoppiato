@@ -36,7 +36,6 @@ public class ClcInt320Mis6 extends Controllo {
 	private int numeroCapiRichiesti;
 	private Dmt_t_output_controlli oc;
 	private Rpu_V_pratica_zoote richiestaDetentore;
-	private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> capiOvicaprini;
 	private List<Dmt_t_premio_capi> capiAmmessiUba;
 
 	@Autowired
@@ -60,7 +59,6 @@ public class ClcInt320Mis6 extends Controllo {
 		this.richiestaDetentore = null;
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.modelAllevamenti = null;
-		this.capiOvicaprini = null;
 		this.capiAmmessiUba = null;
 
 		try {
@@ -80,13 +78,12 @@ public class ClcInt320Mis6 extends Controllo {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
 		}
 
-		this.capiOvicaprini = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
-				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
 		
 //		CALCOLO TRASVERSALE 9903
 		
-		ref9903.init(this.capiOvicaprini, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
+		ref9903.init(getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
+				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
 				getAzienda().getCuaa(), getSessione());
 		try {
 			this.ubaMin = ref9903.calcolo();
@@ -116,7 +113,7 @@ public class ClcInt320Mis6 extends Controllo {
 	public void esecuzione() throws ControlloException {
 
 		
-//		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE   CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
+//		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
 		this.numeroCapiRichiesti = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
 				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
 		
@@ -129,8 +126,9 @@ public class ClcInt320Mis6 extends Controllo {
 
 				
 //				CUAA DETENTORE
+
 				String detentore = getControlliService().getCodFiscaleDetenByAziendaCodiceAndIdSessione(capi.getCodiceAzienda(), this.getSessione().getIdSessione());
-				
+
 //				CUAA PROPRIETARIO
 				String proprietario =  capi.getCuaa();
 
@@ -154,8 +152,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 						
 //						QUERY SU RPU_V_PRATICA_ZOOTE CHE CONTROLLA SE LA RICHIESTA È GIÀ STATA FATTA DAL DETENTORE
-//						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremioAndIdAllev(
-//								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio(),modelAllevamenti.getAllevId());
+						richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremio(
+								getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio());
 								
 
 //						SE NON TROVA VALORI NELLA TABELLA 
