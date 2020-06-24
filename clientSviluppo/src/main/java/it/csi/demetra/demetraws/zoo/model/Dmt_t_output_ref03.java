@@ -135,7 +135,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta la percentuale di decurtazione calcolata.
 	 * La percentuale di decurtazione e' calcolata in base ai giorni di ritardo
 	 * di presentazione della domanda.
-	 * @param percentualeDecurtazioneCalcolata percentuale di decurtazione del premio.
+	 * @param percentualeDecurtazione percentuale di decurtazione del premio.
 	 */
 	public void setPercentualeDecurtazione(BigDecimal percentualeDecurtazione) {
 		this.percentualeDecurtazione = percentualeDecurtazione;
@@ -233,7 +233,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 
 	/**
 	 * Metodo setter che imposta l'importo pagato al richiedente.
-	 * @param importoPagato importo pagato al richiedente.
+	 * @param importoPagatoLordoDecurtazione importo pagato al richiedente.
 	 */
 	public void setImportoPagatoLordoDecurtazione(BigDecimal importoPagatoLordoDecurtazione) {
 		this.importoPagatoLordoDecurtazione = importoPagatoLordoDecurtazione;
