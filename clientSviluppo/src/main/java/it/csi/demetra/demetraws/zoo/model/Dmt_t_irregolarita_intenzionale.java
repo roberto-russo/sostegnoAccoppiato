@@ -41,6 +41,18 @@ public class Dmt_t_irregolarita_intenzionale implements Serializable{
 	
 	@Column(name = "N_ANIMALI_ANOMALI")
 	private BigInteger numeroAnimaliAnomali;
+	
+	@Column(name = "ANNO_CAMPAGNA")
+	Integer annoCampagna;
+	
+	
+	public Integer getAnnoCampagna() {
+		return annoCampagna;
+	}
+
+	public void setAnnoCampagna(Integer annoCampagna) {
+		this.annoCampagna = annoCampagna;
+	}
 
 	public String getCuaa() {
 		return cuaa;
@@ -50,7 +62,6 @@ public class Dmt_t_irregolarita_intenzionale implements Serializable{
 		return progressivo;
 	}
 	
-
 	public void setCuaa(String cuaa) {
 		this.cuaa = cuaa;
 	}

@@ -101,7 +101,11 @@ public class WebServiceController {
 
         for (Rpu_V_pratica_zoote azienda : list) {
             calcoloRef03.inizializzazione(sessione, azienda);
+            try {
             calcoloRef03.esecuzione();
+            } catch(CalcoloException e) {
+            	System.out.println(e.getMessage());
+            }
         }
     }
 

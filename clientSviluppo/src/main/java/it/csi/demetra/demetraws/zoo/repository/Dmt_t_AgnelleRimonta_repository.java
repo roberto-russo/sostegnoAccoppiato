@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -47,4 +48,8 @@ public interface Dmt_t_AgnelleRimonta_repository extends CrudRepository<Dmt_t_Ag
 	 * @return List<Dmt_t_agnelleRimonta> lista delle istanze di Dmt_t_AgnelleRimonta.
 	 */
 	List<Dmt_t_AgnelleRimonta> findByIdSessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("annoCampagna") Integer annoCampagna);
+
+	@Query(value = "select qt_capi_premio from dmt_t_agnelle_rimonta where cuaa = :cuaa and id_sessione = :idSessione and anno_campagna = :annoCampagna and codice_intervento  = :codInt",
+			nativeQuery = true)
+	BigDecimal getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(@Param("cuaa") String cuaa, @Param("idSessione") Long idSessione, @Param("annoCampagna") Integer annoCampagna, @Param("codInt")String codInt);
 }

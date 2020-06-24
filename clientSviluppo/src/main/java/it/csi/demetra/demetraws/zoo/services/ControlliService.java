@@ -22,6 +22,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_w_controllo_bean;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_AgnelleRimonta_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_SistemiDiEtichettaturaFacoltativa_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repository;
@@ -152,6 +153,9 @@ public class ControlliService {
     
     @Autowired
     Dmt_t_irregolarita_intenzionale_repository irregolaritaRep;
+    
+    @Autowired
+    Dmt_t_AgnelleRimonta_repository agnelleRep;
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base alla sessione, cuaa e codiceIntervento
@@ -512,5 +516,9 @@ public class ControlliService {
 
     public List<Dmt_t_irregolarita_intenzionale> getIrregolaritaByCuaa(String cuaa) {
     	return irregolaritaRep.findIrregByCuaa(cuaa);
+    }
+    
+    public BigDecimal getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(String cuaa, Long idSessione, Integer annoCampagna, String codInt) {
+    	return agnelleRep.getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(cuaa, idSessione, annoCampagna, codInt);
     }
 }
