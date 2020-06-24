@@ -160,10 +160,9 @@ public class ControlliService {
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base alla sessione, cuaa e codiceIntervento
      * @param sessione identificativo univoco associato all'esecuzione.
-     * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.findByIdSessionAndCuaa
      * @param cuua codice fiscale del richiedente
      * @param codiceIntervento codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+     * @return Dmt_t_Tws_bdn_du_capi_bovini
      */
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getAllBoviniSessioneCuua(Dmt_t_sessione sessione, String cuua,
                                                                        String codiceIntervento) {
@@ -172,11 +171,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione, idCapo e codiceIntervento.
-     * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.findByIdSessioneAndIdCapo
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param idCapo identificativo univoco associato al capo animale
      * @param codiceIntervento codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+     * @return Dmt_t_Tws_bdn_du_capi_bovini
      */
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getVitelliNatiDaBovini(Long idSessione, Long idCapo,
                                                                      String codiceIntervento) {
@@ -185,9 +183,8 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un container Optional di istanze di tipo Dmt_w_controllo_bean in base al codicePremio.
-     * @see Dmt_w_controllo_bean_repository.findByCodicePremio
      * @param codicePremio codcie intervento
-     * @return Optional<Dmt_w_controllo_bean>
+     * @return Dmt_w_controllo_bean
      */
     public Optional<Dmt_w_controllo_bean> findByIdControlloBean(String codicePremio) {
         return controlloBeanRepository.findByCodicePremio(codicePremio);
@@ -195,7 +192,6 @@ public class ControlliService {
 
     /**
      * Metodo che effettua la persistenza di un oggetto di tipo @see Dmt_t_output_controlli.
-     * @see Dmt_t_output_controlli_repository.save
      * @param output istanza di tipo @see Dmt_t_output_controlli da salvare a DB
      */
     public void saveOutput(Dmt_t_output_controlli output) {
@@ -204,11 +200,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_clsCapoMacellato in base al capoId, idSessione e codiceIntervento.
-     * @see Dmt_t_clsCapoMacellato_repository.findByCapoId
      * @param capoId identificativo univoco associato al capo animale
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param codiceIntervento codice intervento
-     * @return @see List<Dmt_t_clsCapoMacellato>
+     * @return Dmt_t_clsCapoMacellato Lista di capi di tipo @see Dmt_t_clsCapoMacellato
      */
     public List<Dmt_t_clsCapoMacellato> getDuplicati(Long capoId, Long idSessione, String codiceIntervento) {
         return macellatiRepository.FindByCapoId(idSessione, capoId, codiceIntervento);
@@ -216,11 +211,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_clsCapoMacellato in base a sessione, cuaa e codiceIntervento.
-     * @see Dmt_t_clsCapoMacellato_repository.findByIdSessionAndCuaa
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codiceIntervento codice intervento
-     * @return List<Dmt_t_clsCapoMacellato>
+     * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
      */
     public List<Dmt_t_clsCapoMacellato> getAllMacellatiSessioneCuua(Dmt_t_sessione sessione, String cuaa,
                                                                     String codiceIntervento) {
@@ -229,9 +223,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_contr_loco in base al cuaa.
-     * @see Dmt_t_contr_loco_repository.findByCuaa
      * @param cuaa codice fiscale del richiedente
-     * @return List<Dmt_t_contr_loco>
+     * @param annoCampagna anno della campagna
+     * @return Dmt_t_contr_loco Lista di tipo @see Dmt_t_contr_loro
      */
     public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa, Integer annoCampagna) {
 
@@ -240,7 +234,6 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un'istanza di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa in base al cuaa
-     * @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository.findByCuaa
      * @param cuaa codice fiscale del richiedente
      * @return Dmt_t_SistemiDiEtichettaturaFacoltativa
      */
@@ -251,7 +244,7 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un'istanza di tipo @see Dmt_t_certificato_igp_dop in base al cuaa.
-     * @see Dmt_t_certificato_igp_dop_repository.findByCuaa
+     * @see Dmt_t_certificato_igp_dop_repository
      * @param cuaa codice fiscale del richiedente
      * @return Dmt_t_certificato_igp_dop
      */
@@ -261,7 +254,6 @@ public class ControlliService {
 
     /**
      * Metodo che effettua la persistenza a DB di un oggetto di tipo @see Dmt_t_output_esclusi.
-     * @see Dmt_t_output_esclusi_repository.save
      * @param output oggetto di tipo Dmt_t_output_esclusi
      */
     public void saveOutputEscl(Dmt_t_output_esclusi output) {
@@ -271,7 +263,6 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad allevId.
-     * @see Dmt_t_anagrafica_allevamenti.findByAllevId
      * @param allevId identificativo univoco interno in BDN associato all'allevamento
      * @return Dmt_t_anagrafica_allevamenti
      */
@@ -281,9 +272,9 @@ public class ControlliService {
     
     /**
      * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad allevId e aziendaCodice.
-     * @see Dmt_t_anagrafica_allevamenti.findByAllevIdAndAziendaCodice
      * @param allevId identificativo univoco interno in BDN associato all'allevamento
      * @param aziendaCodice codice univoco aziendale
+     * @param idSessione identificativo univoco associato all'esecuzione corrente.
      * @return Dmt_t_anagrafica_allevamenti
      */
     public String getCodFiscaleDetenByAziendaCodiceAndIdSessione(String aziendaCodice, Long idSessione) {
@@ -296,11 +287,10 @@ public class ControlliService {
 
 	 /**
      * Metodo che ritorna una Lista di identificativi univoci di allevamenti in base ad idSessione, cuaa e codiceIntervento.
-     * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.getAllevamentiBySessioneCuaaCodIntervento
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codiceIntervento codice intervento
-     * @return List<Integer> lista di allevamenti.
+     * @return Integer lista di allevamenti.
      */
     public List<Integer> getAllevamentiBySessioneCuaaCodIntervento(Long idSessione, String cuaa,
                                                                    String codiceIntervento) {
@@ -309,11 +299,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base a idSessione, cuaa e codiceIntervento.
-     * @see Dmt_t_Tws_bdn_du_capi_bovini.getBoviniOfDetentoriAllevamentiAttivi
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codiceIntervento codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+     * @return Dmt_t_Tws_bdn_du_capi_bovini
      */
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiAttivi(Long idSessione, String cuaa,
                                                                                     String codiceIntervento) {
@@ -322,11 +311,10 @@ public class ControlliService {
     
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base a idSessione, cuaa e codiceIntervento
-     * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.getBoviniOfDetentoriAllevamentiNonAttivi
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codiceIntervento codice intervento.
-     * @return  List<Dmt_t_Tws_bdn_du_capi_bovini>
+     * @return  Dmt_t_Tws_bdn_du_capi_bovini
      */
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(Long idSessione, String cuaa,
                                                                                        String codiceIntervento) {
@@ -335,9 +323,8 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di codici premio in base al cuaa.
-     * @see Rpu_V_pratica_zoote_repository.findByCuaa
      * @param cuaa codice fiscale del richiedente
-     * @return List<String> lista dei codici premio associati al codice fiscale del richiedente.
+     * @return String lista dei codici premio associati al codice fiscale del richiedente.
      */
     public List<String> getCodicePremioPerCuaa(String cuaa) {
         return rpuVPraticaRep.findByCuaa(cuaa);
@@ -351,10 +338,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_clsCapoMacellato in base alla sessione e il cuaa.
-     * @see Dmt_t_clsCapoMacellato_repository.findBySessioneAndCuaa.
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
-     * @return List<Dmt_t_clsCapoMacellato>
+     * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
      */
     public List<Dmt_t_clsCapoMacellato> getCapiMacellatiDaCuaaAndIdSessione(Long sessione, String cuaa) {
 
@@ -363,10 +349,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base alla sessione e il cuaa
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.findBySessioneAndCuaa
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del detentore
-     * @return  List<Dmt_t_Tws_bdn_du_capi_ovicaprini>
+     * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniDaCuaaAndIdSessione(Long sessione, String cuaa) {
 
@@ -376,11 +361,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base a idSessione, cuaa e codiceIntervento.
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.findByIdSessionAndCuaa
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codiceIntervento codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_ovicaprini>
+     * @return istanza di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getAllOvicapriniSessioneCuaa(Long idSessione, String cuaa,
                                                                                String codiceIntervento) {
@@ -389,10 +373,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_output_esclusi in base a idSessione e calcolo.
-     * @see Dmt_t_output_esclusi_repository.getAllCapoIdAnomali
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param calcolo calcolo intervento associato al codice intervento.
-     * @return List<Dmt_t_output_esclusi>
+     * @return istanza di tipo @see Dmt_t_output_esclusi
      */
     public List<Dmt_t_output_esclusi> getAllCapoIdAnomali(Long idSessione, String calcolo) {
         return esclusiRepository.findBySessioneAndCalcolo(idSessione, calcolo);
@@ -400,9 +383,8 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_importo_unitario in base ad annoCampagna
-     * @see Dmt_t_importo_unitario_repository.findByAnnoCampagna
      * @param annoCampagna anno della campagna
-     * @return List<Dmt_t_importo_unitario>
+     * @return lista di istanze di tipo @see Dmt_t_importo_unitario
      */
     public List<Dmt_t_importo_unitario> getAllImportoUnitarioByAnnoCampagna(Integer annoCampagna) {
 
@@ -411,10 +393,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un'istanza di tipo @see Dmt_t_importo_unitario in base ad annoCampagna e intervento.
-     * @see Dmt_t_importo_unitario_repository.findByAnnoCampagnaAndIntervento
      * @param annoCampagna anno della campagna
      * @param intervento codice intervento
-     * @return Dmt_t_importo_unitario
+     * @return istanza di tipo @see Dmt_t_importo_unitario
      */
     public Dmt_t_importo_unitario getImportoUnitarioByAnnoCampagnaAndIntervento(Integer annoCampagna,
                                                                                 String intervento) {
@@ -424,10 +405,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista codici premio in base a idCapo ed idSessione.
-     * @see Dmt_t_Tws_bdn_du_capi_bovini_repository.findCodiciPremioBuIdSessione
      * @param idCapo identificativo univoco associato al capo animale
      * @param idSessione identificativo univoco associato all'esecuzione
-     * @return List<String> lista di codici premio associati ad un capo animale.
+     * @return lista di codici premio associati ad un capo animale.
      */
     public List<String> getCodiciPremioPerCapo(Long idCapo, Long idSessione) {
         return boviniRepository.findCodiciPremioByIdCapoAndIdSessione(idCapo, idSessione);
@@ -436,10 +416,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_importo_unitario in base ad annoCampagna ed una lista di codici intervento
-     * @see Dmt_t_importo_unitario_repository.findByAnnoCampagnaAndIntervento
      * @param annoCampagna anno della campagna
      * @param interventi lista di codici interventi
-     * @return List<Dmt_t_importo_unitario> lista degli importi unitari in base ad una lista di codici intervento
+     * @return lista degli importi unitari in base ad una lista di codici intervento
      */
     public List<Dmt_t_importo_unitario> getListImportiUnitariByAnnoCampagnaAndIntervento(Integer annoCampagna, List<String> interventi) {
 
@@ -448,10 +427,9 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di capo_id in base ad idSessione e calcolo-
-     * @see Dmt_t_output_esclusi_repository.isAnomalo. 
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param calcolo calcolo intervento associato al codice intervento
-     * @return List<Long> lista di capo_id
+     * @return Long lista di capo_id
      */
     public List<Long> isAnomalo(Long idSessione, String calcolo) {
 
@@ -460,8 +438,7 @@ public class ControlliService {
 
     /**
      * Metodo che effettua il salvataggio a DB di un'istanza di @see Dmt_t_output_ref03.
-     * @see Dmt_t_output_ref03.repository.saveOutputRef03
-     * @param output
+     * @param output istanza di tipo @see Dmt_t_output_ref03
      */
     public void saveOutputRef03(Dmt_t_output_ref03 output) {
 
@@ -470,11 +447,10 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base a idSessione, cuaa e codicePremio.
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.findByIdSessioneAndCuaa
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codicePremio codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_ovicaprini>
+     * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getOvicapriniBySessioneCuaaCodIntervento(Long idSessione, String cuaa, String codicePremio) {
         return ovicapriniRep.findByIdSessionAndCuaa(idSessione, cuaa, codicePremio);
@@ -493,12 +469,11 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna un'istanza di tipo @see Dmt_t_output_controlli in base a sessione, cuaa, valueOf e cp
-     * @see Dmt_t_output_controlli_repository.findBySessioneAndCuaaAndAnnoCampagnaAndIntervento
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param valueOf annoCampagna
      * @param cp codice premio
-     * @return
+     * @return Dmt_t_output_controlli
      */
     public Dmt_t_output_controlli getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(Dmt_t_sessione sessione, String cuaa, Long valueOf, String cp) {
         return outputRepository.findBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, valueOf, cp);
@@ -514,8 +489,8 @@ public class ControlliService {
     	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniDiRitardo);
     }
 
-    public List<Dmt_t_irregolarita_intenzionale> getIrregolaritaByCuaa(String cuaa) {
-    	return irregolaritaRep.findIrregByCuaa(cuaa);
+    public List<Dmt_t_irregolarita_intenzionale> getIrregolaritaByCuaaAndAnnoCampagna(String cuaa, Integer annoCampagna) {
+    	return irregolaritaRep.findIrregByCuaaAndAnnoCampagna(cuaa, annoCampagna);
     }
     
     public BigDecimal getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(String cuaa, Long idSessione, Integer annoCampagna, String codInt) {
