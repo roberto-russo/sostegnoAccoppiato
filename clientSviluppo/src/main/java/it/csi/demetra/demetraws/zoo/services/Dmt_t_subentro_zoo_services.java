@@ -25,18 +25,17 @@ public class Dmt_t_subentro_zoo_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_subentro_zoo.
-     * @see Dmt_t_subentro_zoo_repository.findAll
-     * @return List<Dmt_t_SistemiDiEtichettaturaFacoltativa> lista degli oggetti di tipo @see Dmt_t_subentro_zoo
+     * @see Dmt_t_subentro_zoo_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_subentro_zoo
      */
 	public List<Dmt_t_subentro_zoo> getAll() {
 		return rep.findAll();
 	}
 	/**
 	 * Metodo che ritorna un'istanza di tipo @see Dmt_t_subentro_zoo in base ad annoCampagna e a cuaaDomanda-
-	 * @see Dmt_t_sunentro_zoo_repository.findSubentroByData
 	 * @param annoCampagna anno della campagna
 	 * @param cuaaDomanda codice fiscale del richiedente
-	 * @return Dmt_t_subentro_zoo
+	 * @return istanza di tipo @see Dmt_t_subentro_zoo
 	 */
 	public Dmt_t_subentro_zoo getSubentro(long annoCampagna, String cuaaDomanda) {
 		return rep.findSubentroByData(annoCampagna, cuaaDomanda);
@@ -44,7 +43,7 @@ public class Dmt_t_subentro_zoo_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_subentro_zoo
-	 * @see Dmt_t_subentro_zoo_repository.saveSubentro
+	 * @see Dmt_t_subentro_zoo_repository
 	 * @param subentro istanza da salvare a DB
 	 */
 	public void saveSubentro(Dmt_t_subentro_zoo subentro) {

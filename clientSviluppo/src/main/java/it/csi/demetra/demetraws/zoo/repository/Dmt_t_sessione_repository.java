@@ -27,7 +27,7 @@ public interface Dmt_t_sessione_repository  extends JpaRepository<Dmt_t_sessione
 	/**
 	 * Query che ritorna un'istanza di tipo @see Dmt_t_sessione in base a dataEora
 	 * @param dataEora data in cui viene generato l'idSessione
-	 * @return dmt_t_sessione
+	 * @return istanza di tipo @see Dmt_t_sessione
 	 */
 	Dmt_t_sessione findSessioneByDataEora(@Param("dataEora") Date dataEora);
 }

@@ -390,8 +390,7 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 
 	/**
 	 * Metodo set che setta il codice della decodifica_sop = ''MES''
-	 *
-	 * @param codMese
+	 * @param codMese sottocodice della decodifica_sop = ''MES''
 	 */
 	public void setCodMese(String codMese) {
 		this.codMese = codMese;

@@ -24,8 +24,7 @@ public class Dmt_t_dsScarico_allevamenti_services {
 
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_dsScarico_allevamenti in base ad annoCampagna.
-     * @see Dmt_t_dsScarico_allevamenti_repository.findAll
-     * @return List<Dmt_t_clsCapoMacellato> lista degli oggetti di tipo @see Dmt_t_dsScarico_allevamenti
+     * @return lista degli oggetti di tipo @see Dmt_t_dsScarico_allevamenti
      */
 	public List<Dmt_t_dsScarico_allevamenti> getAll() {
 		return rep.findAll();

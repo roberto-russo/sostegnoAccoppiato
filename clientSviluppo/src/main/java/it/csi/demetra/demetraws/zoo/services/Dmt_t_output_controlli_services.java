@@ -22,7 +22,7 @@ public class Dmt_t_output_controlli_services {
 
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_output_controlli.
-	 * @see Dmt_t_output_controlli_repository.save
+	 * @see Dmt_t_output_controlli_repository
 	 * @param output istanza da salvare a DB
 	 */
 	public void saveOutput(Dmt_t_output_controlli output) {

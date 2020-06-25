@@ -56,7 +56,7 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	/**
 	 * query che ritorna la lista delle listanze di tipo Dmt_t_anagrafica_allevamenti in base al codice fiscale del proprietario dell'allevamento
 	 * @param cuaa codice fiscale del proprietario dell'allevamento
-	 * @return List<Dmt_t_anagrafica_allevamenti>
+	 * @return lista di istanze di tipo @see Dmt_t_anagrafica_allevamenti
 	 */
 	List <Dmt_t_anagrafica_allevamenti> findPropByCuaa(@Param("cuaa")String cuaa);
 
@@ -65,7 +65,7 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	 * query che ritorna il codice fiscale del detentore degli aimali presenti in allevamento in base all'identificativo dell'allevamento
 	 * per cui risulta detentore
 	 * @param allevId identificativo dell'allevamento
-	 * @return cod_fiscale_deten
+	 * @return cod_fiscale_deten codice fiscale del detentore aka cuaa
 	 */
 	String findDeteByCuaa(@Param("allevId")BigDecimal allevId);
 	

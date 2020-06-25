@@ -24,8 +24,8 @@ public class Dmt_t_errore_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_errore in base ad annoCampagna.
-     * @see Dmt_t_errore_repository.findAll
-     * @return List<Dmt_t_errore> lista degli oggetti di tipo @see Dmt_t_errore
+     * @see Dmt_t_errore_repository
+     * @return Dmt_t_errore lista degli oggetti di tipo @see Dmt_t_errore
      */
 	public List<Dmt_t_errore> getAll() {
 		return error_rep.findAll();
@@ -33,7 +33,7 @@ public class Dmt_t_errore_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_errore.
-	 * @see Dmt_t_errore_repository.save
+	 * @see Dmt_t_errore_repository
 	 * @param errore istanza da salvare a DB
 	 */
 	public void saveError(Dmt_t_errore errore) {

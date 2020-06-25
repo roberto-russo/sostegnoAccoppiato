@@ -21,7 +21,7 @@ public interface Dmt_w_controllo_bean_repository extends JpaRepository<Dmt_w_con
 	/**
 	 * Query che ritorna un Container Optional di tipo @see Dmt_w_controllo_bean_repository in base al codicePremio
 	 * @param codicePremio codice intervento
-	 * @return Optional<Dmt_w_controllo_bean_repository>
+	 * @return collezzione Optional di tipo @see Dmt_w_controllo_bean
 	 */
 	Optional<Dmt_w_controllo_bean>findByCodicePremio(@Param("codicePremio") String codicePremio);
 }

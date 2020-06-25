@@ -355,8 +355,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
 	/**
 	 * Imposta la latituine dell'azienda
-	 *
-	 * @param aziendLatitudine la latitudine dell'azineda
+	 * @param aziendaLatitudine la latitudine dell'azineda
 	 */
 	public void setAziendaLatitudine(Double aziendaLatitudine) {
 		this.aziendaLatitudine = aziendaLatitudine;
@@ -535,8 +534,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	 * Recupera la data di comunicazione all’autorità competente dell’uscita del
 	 * capo verso il macello
 	 *
-	 * @param dtComAutoritaUscita la data di comunicazione dell'uscita del capo
-	 *                            verso il macello
+	 * @return dtComAutoritaUscita la data di comunicazione dell'uscita del capo
+	 * verso il macello
 	 */
 	public Date getDtComAutoritaUscita() {
 		return dtComAutoritaUscita;
@@ -546,7 +545,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	 * Imposta la data di comunicazione all’autorità competente dell’uscita del capo
 	 * verso il macello
 	 *
-	 * @return dtComAutoritaUscita la data di comunicazione dell'uscita del capo
+	 * @param dtComAutoritaUscita la data di comunicazione dell'uscita del capo
 	 *         verso il macello
 	 */
 	public void setDtComAutoritaUscita(Date dtComAutoritaUscita) {
@@ -603,7 +602,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 	/**
 	 * Imposta la data di inizio detenzione del capo
 	 *
-	 * @param dtInzioDetenzione la data di inizio detenzione del capo
+	 * @param dtInizioDetenzione la data di inizio detenzione del capo
 	 */
 	public void setDtInizioDetenzione(Date dtInizioDetenzione) {
 		this.dtInizioDetenzione = dtInizioDetenzione;
@@ -620,8 +619,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
 	/**
 	 * Imposta la data di fine detenzione del capo
-	 *
-	 * @Param dtFineDetenzione la data di fine detenzione del capo
+	 * @param dtFineDetenzione la data di fine detenzione del capo
 	 */
 	public void setDtFineDetenzione(Date dtFineDetenzione) {
 		this.dtFineDetenzione = dtFineDetenzione;
@@ -676,8 +674,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
 	/**
 	 * Imposta il flag che assume valori a seconda dell'ingresso del capo
-	 *
-	 * @param flagDelegatoUscita il flag dell'ingresso del capo
+	 * @param flagDelegatoIngresso il flag dell'ingresso del capo
 	 */
 	public void setFlagDelegatoIngresso(String flagDelegatoIngresso) {
 		this.flagDelegatoIngresso = flagDelegatoIngresso;

@@ -17,22 +17,22 @@ public abstract class Controllo {
     /**
      * preEsecuzione() dei controlli
      *
-     * @throws ControlloException
-     * @throws CalcoloException
+     * @throws ControlloException eccezione relativa al controllo @see Controllo
+     * @throws CalcoloException   eccezione relativa al calcolo
      */
     abstract public void preEsecuzione() throws ControlloException, CalcoloException;
 
     /**
      * esecuzione() dei controlli
      *
-     * @throws ControlloException
+     * @throws ControlloException eccezzione riferita al controllo @see Controllo
      */
     abstract public void esecuzione() throws ControlloException;
 
     /**
      * postEsecuzione() dei controlli
      *
-     * @throws ControlloException
+     * @throws ControlloException eccezione riferita al controllo
      */
     abstract public void postEsecuzione() throws ControlloException;
 

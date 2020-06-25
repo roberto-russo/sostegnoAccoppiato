@@ -161,7 +161,7 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 
 	/**
 	 * metodo setter che imposta l'anno campagna
-	 * @param annoCampagna
+	 * @param annoCampagna anno della campagna
 	 */
 	public void setAnnoCampagna(Long annoCampagna) {
 		this.annoCampagna = annoCampagna;
@@ -177,7 +177,7 @@ public class Dmt_t_ControlloUbaMinime implements Serializable {
 
 	/**
 	 * metodo setter che imposta il codiceIntervento
-	 * @param codiceIntervento
+	 * @param codiceIntervento codice premio
 	 */
 	public void setCodiceIntervento(String codiceIntervento) {
 		this.codiceIntervento = codiceIntervento;

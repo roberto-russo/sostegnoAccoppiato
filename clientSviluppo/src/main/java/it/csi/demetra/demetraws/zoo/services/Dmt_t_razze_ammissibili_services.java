@@ -24,8 +24,8 @@ public class Dmt_t_razze_ammissibili_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_razze_ammissibili.
-     * @see Dmt_t_razze_ammissibili_repository.findAll
-     * @return List<Dmt_t_razze_ammissibili> lista degli oggetti di tipo @see Dmt_t_razze_ammissibili
+     * @see Dmt_t_razze_ammissibili_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_razze_ammissibili
      */
 	 public List<Dmt_t_razze_ammissibili> getAll() {
 	        return rep.findAll();

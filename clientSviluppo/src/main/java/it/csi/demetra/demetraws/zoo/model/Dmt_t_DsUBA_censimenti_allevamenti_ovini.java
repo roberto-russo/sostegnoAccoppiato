@@ -162,7 +162,7 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	/**
 	 * Totale agnelli da macello marcati collettivamente
 	 * (da non computare nei "capi totali presenti in
-	 * allevamento marcati/da marcare individualmente”)
+	 * allevamento marcati/da marcare individualmente")
 	 */
 	private BigDecimal oAgnelliMacTot;
 
@@ -225,7 +225,7 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	/**
 	 * Totale capretti da macello marcati collettivamente
 	 * (da non computare nei "capi caprini totali presenti in
-	 * allevamento marcati/da marcare individualmente”)
+	 * allevamento marcati/da marcare individualmente")
 	 */
 	private BigDecimal cCaprettiMacTot;
 
@@ -282,7 +282,7 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	/**
 	 * Metodo setter che imposta il codice che rappresenta l'ultima qualifica
 	 * sanitaria comunicata rispetto al periodo di interesse.
-	 * @param codQualificaScrapie
+	 * @param codQualificaScrapie codice qualifica scrapie
 	 */
 	public void setCodQualificaScrapie(String codQualificaScrapie) {
 		this.codQualificaScrapie = codQualificaScrapie;
@@ -849,7 +849,7 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 
 	/**
 	 * Metodo setter che imposta il numero totale di capretti da macello marcati collettivamente.
-	 * @param cCaprettiMacTot
+	 * @param cCaprettiMacTot numero totale di capretti destinati alla macellazione
 	 */
 	public void setcCaprettiMacTot(BigDecimal cCaprettiMacTot) {
 		this.cCaprettiMacTot = cCaprettiMacTot;

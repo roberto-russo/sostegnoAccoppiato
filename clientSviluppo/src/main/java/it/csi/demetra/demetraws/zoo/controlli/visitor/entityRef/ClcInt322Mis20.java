@@ -19,6 +19,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 
 @Component("ClcInt322Mis20")
 /**
@@ -31,6 +32,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 public class ClcInt322Mis20 extends Controllo {
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private int numeroCapiAmmissibili;
 	private int numeroCapiRichiesti;
@@ -39,6 +41,8 @@ public class ClcInt322Mis20 extends Controllo {
 	private CtlVerificaRegistrazioneCapi ref9901;
 	@Autowired
 	private CtlUbaMinime ref9903;
+	 @Autowired
+	    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
 	private Dmt_t_output_controlli oc;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
 	private int numeroCapiBocciati;
@@ -46,6 +50,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private Dmt_t_output_esclusi outputEsclusi;
 	private String motivazione;
 	private ResultCtlUbaMinime ubaMin;
+
 
 	
 	@Override
@@ -70,6 +75,7 @@ public class ClcInt322Mis20 extends Controllo {
 		this.outputEsclusi = null;
 		this.motivazione = null;
 		this.ubaMin = new ResultCtlUbaMinime();
+		this.modelVaccheFiltrate = null;
 
 		LOGGER.info("inizio preEsecuzione()");
 
@@ -113,6 +119,8 @@ try {
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
+		
+		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 	}
 
 	@Override
@@ -135,7 +143,7 @@ try {
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
 			try {
-				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVacche) {
+				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVaccheFiltrate) {
 
 					this.listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());

@@ -1,6 +1,5 @@
 package it.csi.demetra.demetraws.zoo.repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -26,7 +25,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	/**
 	 * Query che ritorna una lista di istanze di tipo @see Rpu_V_pratica_zoote_repository in base ad annoCampagna
 	 * @param annoCampagna anno della campagna
-	 * @return  List<Rpu_V_pratica_zoote_repository>
+	 * @return  lista di istanze di tipo @see Rpu_V_pratica_zoote_repository
 	 */
 	List<Rpu_V_pratica_zoote> findAll(@Param("annoCampagna") Integer annoCampagna);
 	
@@ -37,7 +36,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	 * Query che ritorna una lista di istanze di tipo @see Rpu_V_pratica_zoote_repository in base ad una lista di codiciPremio e ad annoCampagna
 	 * @param codiciPremioList lista dei codici premio 
 	 * @param annoCampagna anno della campagna
-	 * @return List<Rpu_V_pratica_zoote_repository>
+	 * @return lista di istanze di tipo @see Rpu_V_pratica_zoote_repository
 	 */
 	List<Rpu_V_pratica_zoote> findByCodiciPremioAndAnnoCampagna(@Param("codiciPremio") List<String> codiciPremioList, @Param("annoCampagna") Integer annoCampagna);
 	
@@ -50,7 +49,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	 * @param annoCampagna anno della campagna
 	 * @param cuaa codice fiscale del detentore
 	 * @param codicePremio codice intervento
-	 * @return Rpu_V_pratica_zoote_repository
+	 * @return istanza di tipo @see Rpu_V_pratica_zoote_repository
 	 */
 	Rpu_V_pratica_zoote findByAnnoCampagnaAndCuaaAndCodicePremio(@Param("annoCampagna") Integer annoCampagna, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 
@@ -61,7 +60,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	/**
 	 * Query che ritorna una lista di codici premio in base a cuaa
 	 * @param cuaa codice fiscale del detentore
-	 * @return List<String> lista dei codici premio associati al codice fiscale del richiedente
+	 * @return lista dei codici premio associati al codice fiscale del richiedente
 	 */
 	List<String> findByCuaa(@Param("cuaa") String cuaa);
 	

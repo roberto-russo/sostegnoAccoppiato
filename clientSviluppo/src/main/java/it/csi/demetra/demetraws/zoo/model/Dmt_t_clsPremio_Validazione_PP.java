@@ -82,6 +82,7 @@ public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 
 	/**
 	 * Costruttore che serve a Impostare il parametro IdAlleBdn
+	 * @param IdAlleBDN identificativo univoco in BDN dell’allevamento
 	 */
 	public Dmt_t_clsPremio_Validazione_PP(Long IdAlleBDN) {
 		this.IdAlleBDN = IdAlleBDN;
@@ -166,7 +167,7 @@ public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 	 * Imposta l'dentificativo Fiscale del secondo soggetto subentrato al primo
 	 * nella richiesta di premio
 	 *
-	 * @param cuaa l'identeificativo fiscale del richiedente
+	 * @param cuaa2 l'identeificativo fiscale del richiedente
 	 */
 	public void setCuaa2(String cuaa2) {
 		this.cuaa2 = cuaa2;

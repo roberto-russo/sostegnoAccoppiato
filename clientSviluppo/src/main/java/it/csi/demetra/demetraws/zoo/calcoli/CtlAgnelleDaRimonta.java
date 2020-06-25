@@ -82,17 +82,10 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
     }
 
     /**
-     * CALCOLO 9902
-     * <p>
-     * <p>
-     * Il metodo ritorna un oggetto contenente :
-     * <p>
-     * 1- la quota dei capi ammessi a premio 2- un campo booleano esito che indica
-     * se il calcolo è andato a buon fine 3- una stringa motivazioneEsitoCalcolo che
-     * contiene le motivazioni dell'esito del calcolo
-     *
-     * @return capiControllati9902
-     * @throws CalcoloException
+     * Il metodo ritorna un oggetto contenente: la quota dei capi ammessi a premio, un campo booleano esito che indica
+     * se il calcolo è andato a buon fine, ed una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo.
+     * @return capiControllati9902 - istanza di tipo @see capiControllati9902
+     * @throws CalcoloException - eccezione relativa al calcolo {@linkplain}
      */
     @Override
     public CapiControllati9902 calcolo() throws CalcoloException {

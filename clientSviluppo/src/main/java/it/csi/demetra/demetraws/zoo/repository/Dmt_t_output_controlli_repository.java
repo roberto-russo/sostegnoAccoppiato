@@ -27,7 +27,7 @@ public interface Dmt_t_output_controlli_repository extends CrudRepository<Dmt_t_
 	 * query che ritorna una lista di tipo Dmt_t_output_controlli in base allla sessione e al calcolo.
 	 * @param sessione codice di sessione associato all'esecuzione
 	 * @param calcolo nome del calcolo che ha prodotto l'output in Dmt_t_output_controlli.
-	 * @return List<Dmt_t_output_controlli>
+	 * @return lista di istanze di tipo @see Dmt_t_output_controlli
 	 */
 	List<Dmt_t_output_controlli> findBySessioneAndCalcolo(@Param("sessione") Long sessione, @Param("calcolo") String calcolo);
 	
@@ -42,7 +42,7 @@ public interface Dmt_t_output_controlli_repository extends CrudRepository<Dmt_t_
 	 * @param cuaa codice fiscale del richiedente
 	 * @param anno anno di campagna per cui viene effettuato lo scarico
 	 * @param codiceIntervento codice premio per cui il cuaa effettua la richiesta
-	 * @return Dmt_t_output_controlli
+	 * @return istanza di tipo @see Dmt_t_output_controlli
 	 */
 	Dmt_t_output_controlli findBySessioneAndCuaaAndAnnoCampagnaAndIntervento(@Param("sessione") Dmt_t_sessione sessione, @Param("cuaa") String cuaa, @Param("anno") Long anno, @Param("codiceIntervento") String codiceIntervento);
 

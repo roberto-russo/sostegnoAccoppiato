@@ -92,7 +92,7 @@ public class Dmt_t_errore implements Serializable {
      * Metodo setter che imposta il codice univoco associato all'esecuzione.
      * <b>ATTENZIONE</b> questo metodo non viene utilizzato in quanto il codice
      * univoco della sessione viene generato automaticamente, @see Dmt_t_sessione.
-     * @param sessione
+     * @param sessione identificativo univoco associato all'esecuzione
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
         this.idSessione = sessione;

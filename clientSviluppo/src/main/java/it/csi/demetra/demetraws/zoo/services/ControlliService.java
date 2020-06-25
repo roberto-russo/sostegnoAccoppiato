@@ -271,16 +271,21 @@ public class ControlliService {
     }
     
     /**
-     * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad allevId e aziendaCodice.
-     * @param allevId identificativo univoco interno in BDN associato all'allevamento
+     * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad aziendaCodice e idSessione.
      * @param aziendaCodice codice univoco aziendale
      * @param idSessione identificativo univoco associato all'esecuzione corrente.
-     * @return Dmt_t_anagrafica_allevamenti
+     * @return istanza di tipo String
      */
     public String getCodFiscaleDetenByAziendaCodiceAndIdSessione(String aziendaCodice, Long idSessione) {
         return anagraficaAllevamentiRep.findByAziendaCodiceAndIdSessione(aziendaCodice, idSessione);
     }
 
+    /**
+     * Metodo che ritorna un'istanza di tipo @see Dmt_t_anagrafica_allevamenti in base ad allevId e idSessione.
+     * @param allevId identificativo univoco associato all'allevamento in BDN.
+     * @param idSessione identificativo univoco associato all'esecuzione corrente.
+     * @return istanza di tipo @see Dmt_t_anagrafica_allevamenti
+     */
     public Dmt_t_anagrafica_allevamenti getAllevIdAndSessione(BigDecimal allevId, Long idSessione) {
     	return anagraficaAllevamentiRep.findByAllevIdAndSessione(allevId, idSessione);
     }

@@ -24,6 +24,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 
 @Component("ClcInt319Mis19")
 /**
@@ -37,9 +38,12 @@ public class ClcInt319Mis19 extends Controllo {
 
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
+	private List<Dmt_t_clsCapoMacellato> listaCapiMacellatiFiltrati;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt319Mis19.class);
 	@Autowired
 	private CtlUbaMinime ref9903;
+	@Autowired
+	private Dmt_t_clsCapoMacellato_services capiMacellatiService;
 	List<Dmt_t_contr_loco> estrazioneACampione;
 	private int numeroCapiAmmissibili;
 	private int numeroCapiRichiesti; 
@@ -71,6 +75,8 @@ public class ClcInt319Mis19 extends Controllo {
 		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
 		this.ubaMin = new ResultCtlUbaMinime();
+		this.listaCapiMacellatiFiltrati = null;
+		
 		LOGGER.info("inizio preEsecuzione()");
 
 		this.listaCapiMacellati = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
@@ -89,6 +95,8 @@ public class ClcInt319Mis19 extends Controllo {
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
+		
+		this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 	}
 
 	@Override
@@ -102,7 +110,7 @@ public class ClcInt319Mis19 extends Controllo {
 	public void esecuzione() throws ControlloException {
 		LOGGER.info("inizio esecuzione()");
 		
-		if(listaCapiMacellati == null)
+		if(listaCapiMacellatiFiltrati == null)
 			return;
 
 		
@@ -114,7 +122,7 @@ public class ClcInt319Mis19 extends Controllo {
 		
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 			try {
-				for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellati) {
+				for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
 
 					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
 							getSessione().getIdSessione(), getAzienda().getCodicePremio());

@@ -24,8 +24,7 @@ public class Dmt_t_premio_capi_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo @see Dmt_t_premio_capi.
-	 * @see Dmt_t_premio_capi_repository.saveAll
-	 * @param output istanza da salvare a DB
+	 * @param listaCapi output istanza da salvare a DB
 	 */
 	public void saveAll (List<Dmt_t_premio_capi> listaCapi) {
 //		System.out.println(listaCapi.get(0).getIdSessione().getIdSessione());

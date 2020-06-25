@@ -64,7 +64,7 @@ public class TransformerData {
 	 * @param response contiene gli oggetti di ritorno dalla chiamata della BDN.
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
-	 * @throws JAXBException
+	 * @throws JAXBException eccezzione JAXB
 	 */
 	public Dmt_t_DsUBA_censimenti_allevamenti_ovini TransformDsUBA_censimenti_allevamenti_ovini(Response response, Dmt_t_sessione sessione)
 			throws JAXBException {
@@ -111,13 +111,22 @@ public class TransformerData {
 	}
 	
 	/**
-	 * Metodo che, dopo aver effettuato lo scarico da BDN, effettua la trasformazione dal tipo @see Capo, @see CapoOvicaprino, @see CapoMacellato, @see CapoVacca  in 
-	 * @see Dmt_t_Tbdn_du_capi, @see Dmt_t_Tws_bdn_du_capi_ovicaprini, @see Dmt_t_clsCapoMacellato, @see Dmt_t_clsCapoMacellato.
+	 * Metodo che, dopo aver effettuato lo scarico da BDN, effettua la trasformazione dal tipo: 
+	 * @see Capo lista generica di animali in WSBridge. <b>ATTENZIONE</b> la lista è deprecata.
+	 * @see CapoOvicaprino lista di capi di tipo Ovicaprino in WSBridge
+	 * @see CapoMacellato  lista di capi di tipo Macellato  in WSBridge
+	 * @see CapoVacca      lista di capi di tipo Bovino     in WSBridge
+	 * 		in 
+	 * @see Dmt_t_Tbdn_du_capi               lista di animali di tipo generico. <b>ATTENZIONE</b> la lista è deprecata.
+	 * @see Dmt_t_Tws_bdn_du_capi_ovicaprini lista di animali di tipo Ovicaprino.
+	 * @see Dmt_t_clsCapoMacellato           lista di animali di tipo Macellato
+	 * @see Dmt_t_Tws_bdn_du_capi_bovini     lista di animali di tipo Bovino.
 	 * @param response contiene gli oggetti di ritorno dalla chiamata della BDN.
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 * @param codiceIntervento codice intervento.
 	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
-	 * @throws JAXBException
+	 * @throws JAXBException eccezione JAXB
+	 * @throws ParseException eccezione di parsing
 	 */
 	public Dmt_d_clsPremio_ValidazioneResponse TransformDmt_d_clsPremio_ValidazioneResponse(Response response, Dmt_t_sessione sessione, String codiceIntervento)
 			throws JAXBException, ParseException {
@@ -299,7 +308,7 @@ public class TransformerData {
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 * @param codiceIntervento codice intervento.
 	 * @return oggetto trasformato nel tipo Dmt_t_DsUBA_censimenti_allevamenti_ovini.
-	 * @throws JAXBException
+	 * @throws ParseException eccezione di parsing
 	 */
 	public List<Dmt_t_anagrafica_allevamenti> getWbAnagraficaAllevamenti(Response response, Dmt_t_sessione sessione,
 			String codiceIntervento) throws ParseException {

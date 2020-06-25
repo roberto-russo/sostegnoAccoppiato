@@ -189,7 +189,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice fiscale del richiedente
-     * @return
+     * @return cuaa - codice fiscale del richiedente
      */
     public String getCuaa() {
         return cuaa;
@@ -197,7 +197,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo setter che imposta il codice fiscale del richiedente
-     * @param cuaa
+     * @param cuaa - codice fiscale del richiedente
      */
     public void setCuaa(String cuaa) {
         this.cuaa = cuaa;
@@ -205,7 +205,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo getter che ritorna la denomionazione del richiedente
-     * @return
+     * @return denominazione denominazione del richiedente
      */
     public String getDenominazione() {
         return denominazione;
@@ -213,7 +213,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo setter che imposta la denominazione del richiedente
-     * @param denominazione
+     * @param denominazione - denominazione del richiedente
      */
     public void setDenominazione(String denominazione) {
         this.denominazione = denominazione;

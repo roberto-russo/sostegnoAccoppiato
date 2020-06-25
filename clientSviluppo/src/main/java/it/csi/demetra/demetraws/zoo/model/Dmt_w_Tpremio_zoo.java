@@ -313,7 +313,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 
 	/**
 	 * Metodo setter che imposta la denominazione
-	 * @param denominazione
+	 * @param denominazione denominazione
 	 */
 	public void setDenominazione(String denominazione) {
 		this.denominazione = denominazione;
@@ -329,7 +329,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 
 	/**
 	 * Metodo setter che imposta il codice titolarità
-	 * @param cod_titolarita
+	 * @param cod_titolarita codice di ritolarità
 	 */
 	public void setCod_titolarita(String cod_titolarita) {
 		this.cod_titolarita = cod_titolarita;
@@ -345,7 +345,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 
 	/**
 	 * Metodoo setter che imposta il sottocodice di titolarità
-	 * @param sco_titolarita
+	 * @param sco_titolarita sottocodice di titolarità
 	 */
 	public void setSco_titolarita(String sco_titolarita) {
 		this.sco_titolarita = sco_titolarita;
@@ -361,7 +361,7 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 
 	/**
 	 * Metodo setter che ritorna l'indirizzo dell'azienda
-	 * @param indirizzo
+	 * @param indirizzo indirizzo dell'azienda
 	 */
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;

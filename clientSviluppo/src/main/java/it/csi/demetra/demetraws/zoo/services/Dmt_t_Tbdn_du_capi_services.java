@@ -24,8 +24,8 @@ public class Dmt_t_Tbdn_du_capi_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_Tbdn_du_capi.
-     * @see Dmt_t_Tbdn_du_capi_repository.findAll
-     * @return List<Dmt_t_Tbdn_du_capi> lista degli oggetti di tipo @see Dmt_t_Tbdn_du_capi
+     * @see Dmt_t_Tbdn_du_capi_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_Tbdn_du_capi
      */
 	public List<Dmt_t_Tbdn_du_capi> getCapo(){
 		return rep.findAll();
@@ -33,8 +33,8 @@ public class Dmt_t_Tbdn_du_capi_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo @see Dmt_t_Tbdn_du_capi
-	 * @see Dmt_t_Tbdn_du_capi_repository.saveAll
-	 * @param subentro istanza da salvare a DB
+	 * @see Dmt_t_Tbdn_du_capi_repository
+	 * @param capo subentro istanza da salvare a DB
 	 */
 	public void saveCapo(List<Dmt_t_Tbdn_du_capi> capo) {
 		rep.saveAll(capo);

@@ -27,7 +27,7 @@ public interface Dmt_t_subentro_zoo_repository extends CrudRepository<Dmt_t_sube
 	 * Query che ritorna un'istanza di tipo @see Dmt_t_subentro_zoo in base ad annoCampagna e cuaaDomanda
 	 * @param annoCampagna anno della campagna
 	 * @param cuaaDomanda codice fiscale del richiedente
-	 * @return Dmt_t_subentro_zoo
+	 * @return istanza di tipo @see Dmt_t_subentro_zoo
 	 */
 	Dmt_t_subentro_zoo findSubentroByData(@Param("annoCampagna") long annoCampagna, @Param("cuaaDomanda") String cuaaDomanda);
 }

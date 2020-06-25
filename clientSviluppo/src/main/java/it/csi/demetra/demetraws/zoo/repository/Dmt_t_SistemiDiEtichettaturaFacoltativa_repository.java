@@ -26,7 +26,7 @@ public interface Dmt_t_SistemiDiEtichettaturaFacoltativa_repository extends Crud
 	/**
 	 * Query che ritorna un'istanza di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa in base al cuaa
 	 * @param cuaa codice fiscale del richiedente
-	 * @return dmt_t_sistemiDiEtichettaturaFacoltativa
+	 * @return istanza di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
 	 */
 	Dmt_t_SistemiDiEtichettaturaFacoltativa findByCuaa(@Param("cuaa") String cuaa);
 }

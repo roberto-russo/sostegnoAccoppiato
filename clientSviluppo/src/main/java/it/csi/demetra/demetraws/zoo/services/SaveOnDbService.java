@@ -93,7 +93,7 @@ public class SaveOnDbService {
     
     /**
      * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo @see Dmt_t_anagrafica_allevamenti.
-     * @see Dmt_t_anagrafica_allevamenti_repository.save
+     * @see Dmt_t_anagrafica_allevamenti_repository
      * @param beans lista di istanze da salvare a DB.
      */
     public void saveOnDb(List<Dmt_t_anagrafica_allevamenti> beans) {
@@ -110,8 +110,9 @@ public class SaveOnDbService {
     }
 
     /**
-     * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_DsUBA_censimenti_allevamenti_ovini in base a sessione.
-     * @see Dmt_t_DsUBA_censimenti_allevamenti_ovini_repository.save
+     * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_DsUBA_censimenti_allevamenti_ovini
+     * in base a sessione.
+     * @see Dmt_t_DsUBA_censimenti_allevamenti_ovini_repository
      */
     public void saveOnDb(Dmt_t_DsUBA_censimenti_allevamenti_ovini bean, Dmt_t_sessione sessione) {
         try {
@@ -130,9 +131,9 @@ public class SaveOnDbService {
 
     /**
      * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_d_clsPremio_ValidazioneResponse.
-     * @see Dmt_t_clsCapoMacellato_repository.save
-     * @see Dmt_t_Tws_bdn_du_capi_bovini.save
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini.save
+     * @see Dmt_t_clsCapoMacellato_repository
+     * @see Dmt_t_Tws_bdn_du_capi_bovini
+     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public void saveOnDb(Dmt_d_clsPremio_ValidazioneResponse bean) {
 

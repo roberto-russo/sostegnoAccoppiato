@@ -22,7 +22,7 @@ public interface Dmt_t_tlatte_vendita_diretta_repository extends CrudRepository<
      * Query che ritorna una lista di istanze di tipo @see Dmt_t_tlatte_vendita_diretta in base al cuaa e ad annoCampagna
      * @param cuua codice fiscale del richiedente
      * @param annoCampagna anno della campagna
-     * @return List<Dmt_t_tlatte_vendita_diretta>
+     * @return lista di istanze di tipo @see Dmt_t_latte_vendita_diretta
      */
     List<Dmt_t_latte_vendita_diretta> findByCUUAAndAnnoCampagna(@Param("cuua") String cuua, @Param("annoCampagna") int annoCampagna);
 }

@@ -18,12 +18,12 @@ public class EntityFactory {
      * getControllo() si occupa di associare ad un codicePremio il corrispondente controllo (bean) da eseguire.
      * La corrispondenza tra codice premio e controllo è inserita in db nell'Entity Dmt_s_controllo_bean
      *
-     * @param azienda
-     * @param sessione
-     * @param controlliService
-     * @param ctx
-     * @return
-     * @throws ControlloException
+     * @param azienda  istanza relativa all'azienda presentatrice della domanda unica, è reperita dalla tabella @see Rpu_V_pratica_zoote
+     * @param sessione istanza relativa all'identificazione della sessione, è reperita dalla tabella @see Dmt_t_sessione
+     * @param controlliService istanza relativa al servizio di persistenza e recupero dal database
+     * @param ctx application context
+     * @return Controllo istanza di tipo @see Controllo
+     * @throws ControlloException eccezione rifetia al controllo
      */
     public Controllo getControllo(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessione, ControlliService controlliService, ApplicationContext ctx) throws ControlloException {
         Optional<Dmt_w_controllo_bean> c = controlliService.findByIdControlloBean(azienda.getCodicePremio());

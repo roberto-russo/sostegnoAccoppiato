@@ -24,9 +24,8 @@ public class Dmt_t_anagrafica_allevamenti_services {
 
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo Dmt_t_anagrafica_allevamenti in base ad annoCampagna.
-     * @see Dmt_t_anagrafica_allevamenti_repository.findAll
-     * @param annoCampagna anno della campagna
-     * @return List<Dmt_t_anagrafica_allevamenti> lista degli oggetti di tipo Dmt_t_anagrafica_allevamenti
+     * @see Dmt_t_anagrafica_allevamenti_repository
+     * @return Dmt_t_anagrafica_allevamenti lista degli oggetti di tipo Dmt_t_anagrafica_allevamenti
      */
 	public List<Dmt_t_anagrafica_allevamenti> getAll() {
 		return rep.findAll();

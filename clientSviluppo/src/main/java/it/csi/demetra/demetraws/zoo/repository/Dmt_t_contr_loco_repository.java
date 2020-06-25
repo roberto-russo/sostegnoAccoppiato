@@ -27,7 +27,7 @@ public interface Dmt_t_contr_loco_repository extends CrudRepository<Dmt_t_contr_
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_contr_loco in base al cuaa
 	 * @param cuaa codice fiscale del detentore
-	 * @return List<Dmt_t_contr_loco>
+	 * @return lista di istanze di tipo @see Dmt_t_contr_loco
 	 */
 	List<Dmt_t_contr_loco> findByCuaa(@Param("cuaa")String cuaa, @Param("annoCampagna") Integer annoCampagna);
 }

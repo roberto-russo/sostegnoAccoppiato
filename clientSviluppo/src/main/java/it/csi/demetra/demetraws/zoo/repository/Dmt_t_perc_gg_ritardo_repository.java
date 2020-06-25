@@ -19,7 +19,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_perc_gg_ritardo;
 public interface Dmt_t_perc_gg_ritardo_repository extends CrudRepository<Dmt_t_perc_gg_ritardo, Dmt_t_perc_gg_ritardo_id>{
 
 	/**
-	 * query che ritorna la lista delle istanze che persistono a DB di tipo Dmt_t_perc_gg_ritardo
+	 * query che ritorna la lista delle istanze che persistono a DB di tipo @see Dmt_t_perc_gg_ritardo
 	 */
 	public List<Dmt_t_perc_gg_ritardo>findAll();
 	

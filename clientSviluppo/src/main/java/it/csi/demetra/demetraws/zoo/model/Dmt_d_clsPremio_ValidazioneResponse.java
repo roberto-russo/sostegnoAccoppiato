@@ -109,7 +109,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     /**
      * Metodo set che imposta il codice dell'eventuale errore
      *
-     * @param errCod codice dell'eventuale errore
+     * @param errDescr codice dell'eventuale errore
      */
     public void setErrDescr(String errDescr) {
         ErrDescr = errDescr;
@@ -136,8 +136,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     /**
      * Metodo get che ritorna l'elenco dei capi bovini determinati dal filtro
      *
-     * @return clsCapo l'elenco degli eventuali capi bovini determinati dal
-     * filtro
+     * @return  lista degli animali di tipo @see Dmt_t_Tbdn_du_capi
      */
     public List<Dmt_t_Tbdn_du_capi> getClsCapo() {
         return clsCapo;
@@ -164,8 +163,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
 
     /**
      * Metodo set che imposta l'elenco dei capi ovicaprini accettabili
-     *
-     * @param ClsCapoOvicaprino l'elenco degli eventuali capi ovicaprini
+     * @param clsCapoOvicaprino l'elenco degli eventuali capi ovicaprini
      */
     public void setClsCapoOvicaprino(List<Dmt_t_Tws_bdn_du_capi_ovicaprini> clsCapoOvicaprino) {
         ClsCapoOvicaprino = clsCapoOvicaprino;
@@ -207,14 +205,21 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
         ClsCapoMacellato = clsCapoMacellato;
     }
 
+    /**
+     * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+     * @return idSessione identificativo univoco associato all'esecuzione
+     */
     public Dmt_t_sessione getIdSessione() {
         return this.idSessione;
     }
 
+    /**
+     * Metodo setter che imposta l'identificativo univoco associato all'esecuzione
+     * @param sessione identificativo univoco associato all'esecuzione
+     */
     public void setIdSessione(Dmt_t_sessione sessione) {
         this.idSessione = sessione;
     }
-
 
 	public Long getIdAutogenerato() {
 		return idAutogenerato;

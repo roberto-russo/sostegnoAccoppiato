@@ -24,8 +24,8 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa.
-     * @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository.findAll
-     * @return List<Dmt_t_SistemiDiEtichettaturaFacoltativa> lista degli oggetti di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
+     * @see Dmt_t_SistemiDiEtichettaturaFacoltativa_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
      */
 	public List<Dmt_t_SistemiDiEtichettaturaFacoltativa> getAll(){
 		return this.rep.findAll();

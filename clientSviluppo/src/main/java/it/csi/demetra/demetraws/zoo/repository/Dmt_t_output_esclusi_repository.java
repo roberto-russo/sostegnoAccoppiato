@@ -27,7 +27,7 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
 	 * query che ritorna una lista di istanze di tipo Dmt_t_output_esclusi in base alla sessione e al calcolo
 	 * @param sessione codice di sessione associato all'esecuzione
 	 * @param calcolo codice premio per cui il cuaa effettua la richiesta
-	 * @return List<Dmt_t_output_esclusi>
+	 * @return lista di istanze di tipo @see Dmt_t_output_esclusi
 	 */
 	List<Dmt_t_output_esclusi> findBySessioneAndCalcolo(@Param("sessione") Long sessione, @Param("calcolo") String calcolo); 
 	
@@ -39,7 +39,7 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
 	 * query che ritorna una lista di identificativi di capo animale in base alla sessione e al calcolo
 	 * @param idSessione codice di sessione associato all'esecuzione
 	 * @param calcolo codice premio per cui il cuaa effettua la richiesta
-	 * @return List<Long>
+	 * @return lista di identificativi di capo animale.
 	 */
 	List<Long> isAnomalo(@Param("idSessione") Long idSessione, @Param("calcolo") String calcolo);
 }

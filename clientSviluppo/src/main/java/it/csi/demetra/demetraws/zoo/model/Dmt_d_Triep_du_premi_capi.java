@@ -24,9 +24,6 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_d_Triep_du_premi_capi_id;
 @IdClass(Dmt_d_Triep_du_premi_capi_id.class)
 public class Dmt_d_Triep_du_premi_capi implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9034733570550933438L;
 
 	@MapsId

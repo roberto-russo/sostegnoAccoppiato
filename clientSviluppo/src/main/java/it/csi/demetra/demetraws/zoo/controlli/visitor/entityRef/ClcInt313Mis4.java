@@ -1,19 +1,22 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 
 /**
  * Author: Federico Pomponii
@@ -25,18 +28,24 @@ public class ClcInt313Mis4 extends Controllo {
     @Autowired
     CtlVerificaRegistrazioneCapi ref9901;
     @Autowired
-    CtlUbaMinime ref9903;
+    CtlUbaMinime ref9903;   
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
 
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
     private Integer importoLiquidabile;
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
+	private ResultCtlUbaMinime ubaMin;
 
     private void init() {
         listEsclusi = new ArrayList<>();
         importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
         importoLiquidabile = 0;
+        modelVaccheFiltrate = null;
+        ubaMin = null;
     }
 
     @Override
@@ -54,19 +63,25 @@ public class ClcInt313Mis4 extends Controllo {
 
             try {
                 ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
-                ref9903.calcolo();
+              ubaMin = ref9903.calcolo();
+              if( ubaMin.isErrors())
+  				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
+  			else
+  				if(!ubaMin.isResult())
+  					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt310Mis1", getInput(), "controllo uba minime non rispettato"));
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
             }
+    		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
         }
     }
 
     @Override
     public void esecuzione() throws ControlloException {
-        if (null == modelVacche) return;
+        if (null == modelVaccheFiltrate) return;
 
         importoLiquidabile = 0;
-        for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
+        for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
             if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));

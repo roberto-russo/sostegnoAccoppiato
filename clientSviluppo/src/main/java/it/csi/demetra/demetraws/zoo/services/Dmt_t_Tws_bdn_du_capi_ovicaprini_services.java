@@ -1,11 +1,12 @@
 package it.csi.demetra.demetraws.zoo.services;
 
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
-import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
 
 @Service
 /**
@@ -23,8 +24,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 
     /**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini.
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.findAll
-     * @return List<Dmt_t_Tws_bdn_du_capi_ovicaprini> lista degli oggetti di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapo() {
         return rep.findAll();
@@ -32,8 +33,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 
     /**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
-	 * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.saveAll
-	 * @param subentro istanza da salvare a DB
+	 * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository
+	 * @param capo subentro istanza da salvare a DB
 	 */
     public void saveCapo(List<Dmt_t_Tws_bdn_du_capi_ovicaprini> capo) {
         rep.saveAll(capo);
@@ -44,14 +45,28 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 //    }
 
     /**
-     * Metodo che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini in base a idSessione, cuaa e codiceIntervento.
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.findByIdSessionAndCuaa
+     * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+     * in base a idSessione, cuaa e codiceIntervento.
+     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codIntervento codice intervento
-     * @return List<Dmt_t_Tws_bdn_du_capi_ovicaprini>
+     * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOviByIdSessioneCuaaCodInt(Long idSessione, String cuaa, String codIntervento) {
         return rep.findByIdSessionAndCuaa(idSessione, cuaa, codIntervento);
     }
+    
+    /**
+	 * Metodo che ritorna una lista di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 * in base a idSessione, cuaa e codiceIntervento.
+	 * @see Dmt_t_Tws_bdn_du_capi_bovini_repository
+	 * @param idSessione identificativo univoco associato all'esecuzione
+	 * @param cuaa codice fiscale del richiedente
+	 * @param codIntervento codice intervento
+	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 */
+	public List<Dmt_t_Tws_bdn_du_capi_ovicaprini>getOvicapriniUbaMinime(Long idSessione, String cuaa, String codIntervento) {
+		return rep.getOvicapriniUbaMinime(idSessione, cuaa, codIntervento);
+	}
 }

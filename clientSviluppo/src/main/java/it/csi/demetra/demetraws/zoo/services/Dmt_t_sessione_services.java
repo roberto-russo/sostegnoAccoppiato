@@ -26,8 +26,8 @@ public class Dmt_t_sessione_services {
 
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_sessione.
-     * @see Dmt_t_sessione_repository.findAll
-     * @return List<Dmt_t_sessione> lista degli oggetti di tipo @see Dmt_t_sessione
+     * @see Dmt_t_sessione_repository
+     * @return lista degli oggetti di tipo @see Dmt_t_sessione
      */
 	public List<Dmt_t_sessione> getAll() {
 		return rep.findAll();
@@ -35,9 +35,9 @@ public class Dmt_t_sessione_services {
 	
 	/**
 	 * Metodo che ritorna un'istanza di tipo @see Dmt_t_sessione in base a dataEora.
-	 * @see Dmt_t_sessione_repository.get
+	 * @see Dmt_t_sessione_repository
 	 * @param dataEora data in cui è stato creata la sessione
-	 * @return Dmt_t_sessione
+	 * @return istanza di tipo @see Dmt_t_sessione
 	 */
 	public Dmt_t_sessione get(Date dataEora) {
 		return rep.findSessioneByDataEora(dataEora);
@@ -45,9 +45,9 @@ public class Dmt_t_sessione_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_sessione.
-	 * @see Dmt_t_sessione_repository.saveSession.
+	 * @see Dmt_t_sessione_repository.
 	 * @param sessione identificativo univoco associato all'esecuzione
-	 * @return Dmt_t_sessione istanza di tipo @see Dmt_t_sessione da salvare a DB
+	 * @return istanza di tipo @see Dmt_t_sessione da salvare a DB
 	 */
 	public Dmt_t_sessione saveSession(Dmt_t_sessione sessione) {
 		return rep.save(sessione);
@@ -55,9 +55,9 @@ public class Dmt_t_sessione_services {
 	
 	/**
 	 * Metodo che ritorna un'istanza di tipo @see Dmt_t_sessione in base a idSessione
-	 * @see Dmt_t_sessione_repository.findById
+	 * @see Dmt_t_sessione_repository
 	 * @param idSessione identificativo univoco associato all'esecuzione
-	 * @return Dmt_t_sessione
+	 * @return istanza di tipo @see Dmt_t_sessione
 	 */
 	public Dmt_t_sessione getById(Long idSessione) {
 		return rep.findById(idSessione).orElseThrow( () ->  new NoSuchElementException());

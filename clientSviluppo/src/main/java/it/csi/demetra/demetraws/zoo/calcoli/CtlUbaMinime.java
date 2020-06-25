@@ -107,7 +107,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	public void init(List<?> listaCapi, String codIntervento,Long annoCampagna, String cuaa, Dmt_t_sessione sessione) {
 		if( listaCapi!=null && sessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
 			if( !listaCapi.isEmpty() ) {
-						
+				
 				this.listaCapi = listaCapi;		
 				setCodIntrervento(codIntervento);
 				setAnnoCampagna(annoCampagna);
@@ -142,8 +142,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 * - response true uba raggiunte - false uba non raggiunte
 	 * - errors true se ci sono stati errori - false altrimenti
 	 * 
-	 * @return resultCtlUbaMinime
-	 * @throws CalcoloException 
+	 * @return istanza di tipo @see ResultCtlUbaMinime
+	 * @throws CalcoloException eccezione riferita al calcolo @see Calcolo
 	 */
 	@Override
 	public ResultCtlUbaMinime calcolo() throws CalcoloException {
@@ -157,8 +157,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 					esecuzione();
 				}
 			}
-			postEsecuzione();
-			
+			postEsecuzione();			
 		} catch (CalcoloException e) {
 			
 			LOGGER.error("Errore Calcolo 9903: ",e);
@@ -597,5 +596,4 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			LOGGER.error("Errore durante il salvataggio capi controllati 9903 : ",e);
 		}
 	}
-	
 }

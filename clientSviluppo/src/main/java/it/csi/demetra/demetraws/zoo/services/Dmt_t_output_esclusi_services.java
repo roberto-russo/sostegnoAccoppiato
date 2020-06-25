@@ -23,7 +23,7 @@ public class Dmt_t_output_esclusi_services {
 
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_output_esclusi.
-	 * @see Dmt_t_output_esclusi_repository.save
+	 * @see Dmt_t_output_esclusi_repository
 	 * @param output istanza da salvare a DB
 	 */
 	public void saveOutputEscl(Dmt_t_output_esclusi output) {

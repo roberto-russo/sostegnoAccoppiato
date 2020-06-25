@@ -319,43 +319,43 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private String ruoloUtenteIngressovitello;
 
-	/**
-	 * @return
+	/** Metodo getter che restituisce il ruoloUtenteIngressoVacca
+	 * @return ruoloUtenteIngressoVacca
 	 */
 	public String getRuoloUtenteIngressoVacca() {
 		return ruoloUtenteIngressoVacca;
 	}
 
-	/**
-	 * @param ruoloUtenteIngressoVacca
+	/** Metodo setter che imposta il ruoloUtenteIngressoVacca
+	 * @param ruoloUtenteIngressoVacca ruoloUtenteIngressoVacca
 	 */
 	public void setRuoloUtenteIngressoVacca(String ruoloUtenteIngressoVacca) {
 		this.ruoloUtenteIngressoVacca = ruoloUtenteIngressoVacca;
 	}
 
-	/**
-	 * @return
+	/** Metodo getter che ritorna il ruoloUtenteNascitaVitello
+	 * @return ruoloUtenteNascitaVitello
 	 */
 	public String getRuoloUtenteNascitaVitello() {
 		return ruoloUtenteNascitaVitello;
 	}
 
-	/**
-	 * @param ruoloUtenteNascitaVitello
+	/** Metodo setter che imposta il ruoloUtenteNascitaVitello
+	 * @param ruoloUtenteNascitaVitello ruoloUtenteNascitaVitello
 	 */
 	public void setRuoloUtenteNascitaVitello(String ruoloUtenteNascitaVitello) {
 		this.ruoloUtenteNascitaVitello = ruoloUtenteNascitaVitello;
 	}
 
-	/**
-	 * @return
+	/** Metodo getter che ritorna il ruoloUtenteIngressovitello
+	 * @return ruoloUtenteIngressovitello
 	 */
 	public String getRuoloUtenteIngressovitello() {
 		return ruoloUtenteIngressovitello;
 	}
 
-	/**
-	 * @param ruoloUtenteIngressovitello
+	/** Metodo setter che imposta il ruoloUtenteIngressovitello
+	 * @param ruoloUtenteIngressovitello ruoloUtenteIngressovitello
 	 */
 	public void setRuoloUtenteIngressovitello(String ruoloUtenteIngressovitello) {
 		this.ruoloUtenteIngressovitello = ruoloUtenteIngressovitello;
@@ -518,8 +518,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta la data di nascita del vitello
-	 *
-	 * @param dataNascitaVitello data di nascita del vitello
+	 * @param dtNascitaVitello data di nascita del vitello
 	 */
 	public void setDtNascitaVitello(Date dtNascitaVitello) {
 		this.dtNascitaVitello = dtNascitaVitello;
@@ -572,8 +571,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta la data di fine detenzione
-	 *
-	 * @param dtFineDetenzione
+	 * @param dtFineDetenzione data di fine detenzione
 	 */
 
 	public void setDtFineDetenzione(Date dtFineDetenzione) {
@@ -582,7 +580,6 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo get che ritorna il codice dell'azienda presso cui è nato il vitello
-	 *
 	 * @return aziendaCodice codice dell'azienda presso cui è nato il vitello
 	 */
 	public String getAziendaCodice() {
@@ -856,8 +853,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta il sesso del capo
-	 *
-	 * @param sesso
+	 * @param sesso sesso del capo animale
 	 */
 	public void setSesso(String sesso) {
 		this.sesso = sesso;
@@ -957,8 +953,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	/**
 	 * Metodo set che setta il flag che indica se l'allevamento ha conferito delega
 	 * per operare in BDN
-	 *
-	 * @param flagDelegato
+	 * @param flagDelegato flag che indica se l'allevamento ha conferito delega
 	 */
 	public void setFlagDelegato(String flagDelegato) {
 		this.flagDelegato = flagDelegato;

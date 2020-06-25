@@ -166,8 +166,7 @@ public class Dmt_t_sessione implements Serializable {
 
     /**
      * metodo set che imposta l'attributo idStorico.
-     *
-     * @oaram idSessione id dell'elemento di sessione.
+     * @param idSessione id dell'elemento di sessione.
      */
     public void setIdSessione(Long idSessione) {
         this.idSessione = idSessione;

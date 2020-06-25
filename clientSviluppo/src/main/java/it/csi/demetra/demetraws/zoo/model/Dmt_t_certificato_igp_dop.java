@@ -39,18 +39,34 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
     @Column(length = 1)
     private String zona;
 
+    /**
+     * Metodo getter che ritorna il flag di alpeggio
+     * @return alpeggio flag di alpeggio
+     */
     public String getAlpeggio() {
         return alpeggio;
     }
 
+    /**
+     * Metodo setter che imposta il flag di alpeggio
+     * @param alpeggio flag di alpeggio
+     */
     public void setAlpeggio(String alpeggio) {
         this.alpeggio = alpeggio;
     }
 
+    /**
+     * Metodo getter che ritorna la zona in cui è situato l'allevamento
+     * @return zona zona in cui è situato l'allevamento
+     */
     public String getZona() {
         return zona;
     }
 
+    /**
+     * Metodo setter che imposta la zona in cui è situato l'allevamento
+     * @param zona zona in cui è situato l'allevamento
+     */
     public void setZona(String zona) {
         this.zona = zona;
     }

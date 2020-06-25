@@ -259,7 +259,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	/**
 	 * metodo getter che ritorna l'id autogenerato associato all'oggetto di tipo Dmt_t_anagrafica_allevamenti
-	 * @return idAutogenerarto id autogenerato associato all'oggetto di tipo Dmt_t_anagrafica_allevamenti.
+	 * @return idAutogenerarto id autogenerato associato all'oggetto di tipo  @see Dmt_t_anagrafica_allevamenti.
 	 */
 	public Long getIdAutogenerato() {
 		return idAutogenerato;
@@ -269,7 +269,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	 * metodo setter che imposta l'id autogenerato dell'oggetto di tipo Dmt_t_anagrafica_allevamenti.
 	 * <b>ATTENZIONE</b> questo setter non dovrebbe essere utilizzato poichè l'id viene generato
 	 * automaticamente dal framework.
-	 * @param idAutogenerato
+	 * @param idAutogenerato id autogenerato associato all'oggetto di tipo @see Dmt_t_anagrafica_allevamenti
 	 */
 	public void setIdAutogenerato(Long idAutogenerato) {
 		this.idAutogenerato = idAutogenerato;
@@ -341,7 +341,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	/**
 	 * metodo getter che ritorna la denominazione dell'allevamento.
-	 * @return
+	 * @return denominazione denominazione
 	 */
 	public String getDenominazione() {
 		return denominazione;
@@ -349,7 +349,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	/**
 	 * metodo setter che imposta la denominazione dell'allevamento.
-	 * @param denominazione
+	 * @param denominazione denominazione
 	 */
 	public void setDenominazione(String denominazione) {
 		this.denominazione = denominazione;
@@ -357,7 +357,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	/**
 	 * metodo getter che ritorna l'indirizzo dell’allevamento (sede di ubicazione degli animali). 
-	 * @return indiritto indirizzo dell'allevamento.
+	 * @return indirizzo indirizzo dell'allevamento.
 	 */
 	public String getIndirizzo() {
 		return indirizzo;
@@ -460,7 +460,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	/**
 	 * metodo getter che ritorna il flag indicante se l’allevamento ha o meno
 	 * l’autorizzazione sanitaria alla produzione di latte alimentare.
-	 * @return sutorizzazioneLatte flag indicante se l'allevamento ha o meno
+	 * @return autorizzazioneLatte flag indicante se l'allevamento ha o meno
 	 * l'autorizzazione sanitaria alla produzione di latte alimentare.
 	 */
 	public String getAutorizzazioneLatte() {
@@ -479,7 +479,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 
 	/**
 	 * metodo getter che ritorna la data di apertura dell’allevamento
-	 * @return data di apertura dell'allevamento.
+	 * @return dtInizioAttivita data di apertura dell'allevamento.
 	 */
 	public Date getDtInizioAttivita() {
 		return dtInizioAttivita;

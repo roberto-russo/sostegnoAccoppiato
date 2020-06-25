@@ -28,8 +28,7 @@ public class Dmt_t_contr_loco_services implements Serializable{
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_contr_loco in base ad annoCampagna.
-     * @see Dmt_t_clsCapoMacellato_repository.findAll
-     * @return List<Dmt_t_clsCapoMacellato> lista degli oggetti di tipo @see Dmt_t_contr_loco
+     * @return lista degli oggetti di tipo @see Dmt_t_contr_loco
      */
 	public List<Dmt_t_contr_loco>getAll(){
 		return rep.findAll();

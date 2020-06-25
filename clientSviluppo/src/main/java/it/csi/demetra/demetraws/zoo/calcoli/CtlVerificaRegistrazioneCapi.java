@@ -641,7 +641,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		}
 	}
 
-	/**
+	/*
 	 * Il metodo getVaccaVitelliFromDB()
 	 * 
 	 * Serve a recuperare i vitelli partoriti da una vacca nell'anno campagna richiesto nel calcolo

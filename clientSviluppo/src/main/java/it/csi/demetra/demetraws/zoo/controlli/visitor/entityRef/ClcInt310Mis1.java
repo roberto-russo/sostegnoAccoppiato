@@ -3,11 +3,14 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
+import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.repository.Analisi_produzioni_cuua_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tlatte_vendita_diretta_repository;
+import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,26 +45,34 @@ public class ClcInt310Mis1 extends Controllo {
     Analisi_produzioni_cuua_repository analisiProduzioniCuuaRepository;
     @Autowired
     Dmt_t_tlatte_vendita_diretta_repository dmt_t_tlatte_vendita_diretta_repository; //DA CONVERTIRE IN SERVICE
+    
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
 
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
     private Integer importoLiquidabile;
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi;
     private String motivazioneEsclusione = "";
     private Boolean isProduttoreChecked;
+	private ResultCtlUbaMinime ubaMin;
+
+
 
     private void init() {
         listEsclusi = new ArrayList<>();
         importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
         importoLiquidabile = 0;
+        modelVaccheFiltrate = null;
     }
 
     /**
      * ClcInt310Mis1 - preEsecuzione() intervento 310 Misura 1
      * Ref case utilizzati : Ref99.01 - Ref99.03
      *
-     * @throws ControlloException
+     * @throws ControlloException eccezzione relativa al controllo @see Controllo
      */
     @Override
     public void preEsecuzione() throws ControlloException {
@@ -78,10 +89,16 @@ public class ClcInt310Mis1 extends Controllo {
 
             ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
             try {
-                ref9903.calcolo();
+            	ubaMin = ref9903.calcolo();
+            	if( ubaMin.isErrors())
+    				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
+    			else
+    				if(!ubaMin.isResult())
+    					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt310Mis1", getInput(), "controllo uba minime non rispettato"));
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
             }
+    		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
         }
     }
 
@@ -90,11 +107,11 @@ public class ClcInt310Mis1 extends Controllo {
      * ClcInt310Mis1 - Esecuzione()
      * Esecuzione dei controlli per l'intervento 310 Misura 1
      *
-     * @throws ControlloException
+     * @throws ControlloException eccezione relativa al controllo @see Controllo
      */
     @Override
     public void esecuzione() throws ControlloException {
-        if (null == modelVacche) return;
+        if (null == modelVaccheFiltrate) return;
         /**
          * PUNTI APERTI DA CHIARIRE.
          * Per valutare se un allevamento è adibito alla vendita diretta di latte controllo la tabella
@@ -218,7 +235,7 @@ public class ClcInt310Mis1 extends Controllo {
         }
 
         if (isProduttoreChecked) {
-            for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVacche) {
+            for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
                 /**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */

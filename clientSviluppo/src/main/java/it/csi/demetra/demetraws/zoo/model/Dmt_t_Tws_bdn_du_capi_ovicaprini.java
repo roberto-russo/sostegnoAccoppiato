@@ -266,8 +266,7 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 
 	/**
 	 * Metodo set che setta il codice della marca auricolare applicata al capo ovino
-	 *
-	 * @param codice
+	 * @param codice codice della marca auricolare applicata al capo ovino
 	 */
 	public void setCodice(String codice) {
 		this.codice = codice;
@@ -572,10 +571,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	}
 
 	/**
-	 * Metodo che ritorna i seguenti valori: N R S, maggiori dettagli vedere
-	 * descrizione attributo
-	 *
-	 * @param flagDelegatoNascita
+	 * Metodo che ritorna i seguenti valori: N R S.
+	 * @param flagDelegatoNascita flag che può assumere i seguenti valori: N R S
 	 */
 	public void setFlagDelegatoNascita(String flagDelegatoNascita) {
 		this.flagDelegatoNascita = flagDelegatoNascita;
@@ -594,8 +591,8 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	/**
 	 * Metodo set che setta l'Acronimo che rappresenta il tipo delegato che ha
 	 * effettuato l’iscrizione del capo in BDN.
-	 *
-	 * @return ruoloUtenteNascita
+	 * @param ruoloUtenteNascita acronimo che rappresenta il tipo delegato.
+	 * effettuato l'iscrizione del capo in BDN
 	 */
 	public void setRuoloUtenteNascita(String ruoloUtenteNascita) {
 		this.ruoloUtenteNascita = ruoloUtenteNascita;
@@ -606,7 +603,7 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 	 * ovino
 	 *
 	 * @return dtRegistrMacellazione Data di registrazione della macellazione del
-	 *         capo ovino
+	 * capo ovino
 	 */
 	public Date getDtRegistrMacellazione() {
 		return dtRegistrMacellazione;

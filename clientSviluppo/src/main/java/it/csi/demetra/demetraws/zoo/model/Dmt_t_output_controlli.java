@@ -66,7 +66,7 @@ public class Dmt_t_output_controlli implements Serializable {
 
 	/**
 	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione.
-	 * @param idSessione identificativo univoco associato all'esecuzione.
+	 * @param sessione identificativo univoco associato all'esecuzione.
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;

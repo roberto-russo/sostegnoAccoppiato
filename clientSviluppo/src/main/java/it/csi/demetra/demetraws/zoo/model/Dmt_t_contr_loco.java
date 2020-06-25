@@ -282,7 +282,7 @@ public class Dmt_t_contr_loco implements Serializable {
 
 	/**
 	 * metodo setter che imposta le note
-	 * @param note
+	 * @param note note
 	 */
 	public void setNote(String note) {
 		this.note = note;

@@ -26,7 +26,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	/**
 	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione
 	 * @param idSessione identificativo univoco associato all'esecuzione
-	 * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSession(@Param("idSessione") Long idSessione);
 	
@@ -36,7 +36,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice intervento
-	 * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -49,7 +49,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			 * @param idSessione identificativo univoco associato all'esecuzione
 			 * @param cuaa codice fiscale del richiedente
 			 * @param codIntervento codice intervento 
-			 * @return List<Dmt_t_Tws_bdn_du_capi_bovini>
+			 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
 			 */
 			List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codIntervento") String codIntervento);
 	
@@ -227,5 +227,4 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			nativeQuery = true
 		)
 	List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
-	
 }

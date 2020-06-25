@@ -22,7 +22,7 @@ public interface DsUBA_censimenti_allevamenti_ovini_repository extends CrudRepos
 	 * Query che ritorna una lista di istanze di tipo @see DsUBA_censimenti_allevamenti_ovini_repository in base ad idSessione e codiceAzienda
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param codiceAzienda codice identificativo dell'azienda
-	 * @return List<DsUBA_censimenti_allevamenti_ovini_repository>
+	 * @return lista di istanze di tipo @see Dmt_t_DsUBA_censimenti_allevamenti_ovini
 	 */
 	List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> findByIdSessioneAndCodFiscaleDete(@Param("idSessione") Long idSessione, @Param("codFiscaleDete") String codFiscaleDete);
 	

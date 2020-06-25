@@ -24,7 +24,6 @@ public class Dmt_t_AgnelleRimonta_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_AgnelleRimonta
-	 * @see Dmt_t_AgnelleRimonta_repository.save
 	 * @param agnelleRimonta istanza da salvare a DB
 	 * @return Dmt_t_AgnelleRimonta istanza salvata a DB
 	 */
@@ -35,10 +34,9 @@ public class Dmt_t_AgnelleRimonta_services {
 	
 	/**
 	 * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_AgnelleRimonta in base ad idSessione e cuaa
-	 * @see Dmt_t_AgnelleRimonta_repository.findBiIdSessioneAndCuaa.
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
-	 * @return List<dmt_t_AgnelleRimonta>
+	 * @return lista di istanze di tipo @see Dmt_t_AgnelleRimonta
 	 */
 	public List<Dmt_t_AgnelleRimonta> getByIdSessioneAndCuaa(Long idSessione, String cuaa) {
 		return agnelleRimontaRepository.findByIdSessioneAndCuaa(idSessione, cuaa);
@@ -46,7 +44,6 @@ public class Dmt_t_AgnelleRimonta_services {
 	
 	/**
 	 * Metodo che ritorna la quotaCapiPremio in base ad idSessione, cuaa e codiceIntervento
-	 * @see Dmt_t_AgnelleRimonta_repository.getQuotaCapiPremioByIdSessioneAndCuaa
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice intervento

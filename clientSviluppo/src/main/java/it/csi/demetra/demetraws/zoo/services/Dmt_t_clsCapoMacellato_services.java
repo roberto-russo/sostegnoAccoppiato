@@ -24,8 +24,7 @@ public class Dmt_t_clsCapoMacellato_services {
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_clsCapoMacellato in base ad annoCampagna.
-     * @see Dmt_t_clsCapoMacellato_repository.findAll
-     * @return List<Dmt_t_clsCapoMacellato> lista degli oggetti di tipo @see Dmt_t_clsCapoMacellato
+     * @return Dmt_t_clsCapoMacellato lista degli oggetti di tipo @see Dmt_t_clsCapoMacellato
      */
 	public List<Dmt_t_clsCapoMacellato> getCapo(){
 		return rep.findAll();
@@ -33,7 +32,6 @@ public class Dmt_t_clsCapoMacellato_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio di una lista di istanze di tipo @see Dtm_t_clsCapoMacellato
-	 * @see Dmt_t_clsCapoMacellato_repository.saveAll
 	 * @param capo lista di istanze da salvare a DB
 	 */
 	public void saveCapo(List<Dmt_t_clsCapoMacellato> capo) {
@@ -42,11 +40,10 @@ public class Dmt_t_clsCapoMacellato_services {
 	
 	/**
 	 * Metodo che ritorna una lista di istanze di tipo @see Dmt_t_clsCapoMacellato in base a capoId, idSessione e codiceIntervento
-	 * @see Dmt_t_clsCapoMacellato_repository.findByCapoId
 	 * @param capoId identificativo univoco associato al capo animale
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param codiceIntervento codice intervento
-	 * @return List<Dmt_t_clsCapoMacellato>
+	 * @return Dmt_t_clsCapoMacellato
 	 */
 	public List<Dmt_t_clsCapoMacellato> getDuplicazioni(Long capoId, Long idSessione, String codiceIntervento){
 		return rep.FindByCapoId(idSessione, capoId, codiceIntervento);
@@ -54,13 +51,24 @@ public class Dmt_t_clsCapoMacellato_services {
 	
 	/**
 	 * Metodo che ritorna una lista di tipo @see Dmt_t_clsCapoMacellato in base a idSessione, cuaa e codiceIntervento
-	 * @see Dmt_t_clsCapoMacellato_repository.findByIdSessionAndCuaa
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice intervento
-	 * @return List<Dmt_t_clsCapoMacellato>
+	 * @return Dmt_t_clsCapoMacellato
 	 */
 	public List<Dmt_t_clsCapoMacellato> getCapiMacellatiByIDSessionCuaaCodInt(Long idSessione,String cuaa,String codiceIntervento){
 		return rep.findByIdSessionAndCuaa(idSessione, cuaa, codiceIntervento);
+	}
+	
+	/**
+	 * Metodo che ritorna una lista di tipo @see Dmt_t_clsCapoMacellato in base a idSessione, cuaa e codiceIntervento.
+	 * @see Dmt_t_clsCapoMacellato_repository
+	 * @param idSessione identificativo univoco associato all'esecuzione
+	 * @param cuaa codice fiscale del richiedente
+	 * @param codIntervento codice intervento
+	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 */
+	public List<Dmt_t_clsCapoMacellato>getMacellatiUbaMinime(Long idSessione, String cuaa, String codIntervento) {
+		return rep.getMacellatiUbaMinime(idSessione, cuaa, codIntervento);
 	}
 }

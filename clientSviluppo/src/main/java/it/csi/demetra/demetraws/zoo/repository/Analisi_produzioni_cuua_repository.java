@@ -22,7 +22,7 @@ public interface Analisi_produzioni_cuua_repository extends JpaRepository<Dmt_T_
      * Query che ritorna una lista di istanze di tipo @see Dmt_T_analisi_produzioni_cuaa in base al cuaa e ad annoCampagna
      * @param CUUA codice fiscale del richiedente
      * @param mYear annoCampagna
-     * @return List<Dmt_T_analisi_produzioni_cuaa>
+     * @return lista di tipo @see Dmt_T_analisi_produzioni_cuua
      */
     List<Dmt_T_analisi_produzioni_cuua> getByCUUAAndYear(@Param("CUUA") String CUUA, @Param("mYear") int mYear);
 

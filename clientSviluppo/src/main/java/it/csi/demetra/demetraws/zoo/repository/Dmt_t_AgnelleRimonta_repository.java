@@ -25,7 +25,7 @@ public interface Dmt_t_AgnelleRimonta_repository extends CrudRepository<Dmt_t_Ag
 	 * query che ritorna una lista di istanze di tipo Dmt_t_agnelleRimonta in base all'idSessione e cuaa.
 	 * @param idSessione id della sessione associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
-	 * @return List<Dmt_t_agnelleRimonta> lista delle occorrenze di agnelleRimonta.
+	 * @return lista delle occorrenze di agnelleRimonta di tipo @see Dmt_t_AgnelleRimonta.
 	 */
 	List<Dmt_t_AgnelleRimonta> findByIdSessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 	
@@ -35,7 +35,7 @@ public interface Dmt_t_AgnelleRimonta_repository extends CrudRepository<Dmt_t_Ag
 	 * @param idSessione codice sessione associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice premio per cui il richiedente effettua la richiesta.
-	 * @return wuotaCapiPremio
+	 * @return quotaCapiPremio
 	 */
 	Double getQuotaCapiPremioByIdSessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa,  @Param("codiceIntervento") String codiceIntervento);
 
@@ -45,7 +45,7 @@ public interface Dmt_t_AgnelleRimonta_repository extends CrudRepository<Dmt_t_Ag
 	 * @param idSessione codice di sessione associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param annoCampagna anno di campagna per cui viene effettuato lo scarico.
-	 * @return List<Dmt_t_agnelleRimonta> lista delle istanze di Dmt_t_AgnelleRimonta.
+	 * @return lista delle istanze di tipo @see Dmt_t_AgnelleRimonta.
 	 */
 	List<Dmt_t_AgnelleRimonta> findByIdSessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("annoCampagna") Integer annoCampagna);
 

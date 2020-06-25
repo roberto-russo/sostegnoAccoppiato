@@ -61,7 +61,7 @@ public class ref03 {
 	 * analizzata e dei codici premio per cui tale azienda concorre. Dopo aver
 	 * effettuato tali calcoli, verranno salvati a db nella rispettiva tabella di
 	 * output. @see Dmt_t_output_ref03
-	 * 
+	 * @throws CalcoloException eccezione riferita al calcolo @see Calcolo
 	 */
 	public void esecuzione() throws CalcoloException {
 
@@ -275,15 +275,15 @@ public class ref03 {
 	 * al riconosciumento del singolo capo. Le altre informazioni vengono ignorate
 	 * poiche' ritenute non necessarie ai fini del calcolo.
 	 * 
-	 * @param listaCapiBovini     -> lista degli animali di tipo bovino appartenenti
+	 * @param listaCapiBovini     - lista degli animali di tipo bovino appartenenti
 	 *                            all'azienda che si sta analizzando.
-	 * @param listaCapiOvicaprini -> lista degli animali di tipo ovicaprino
+	 * @param listaCapiOvicaprini - lista degli animali di tipo ovicaprino
 	 *                            appartenenti all'azienda che si sta analizzando.
-	 * @param listaCapiMacellati  -> lista degli animali di tipo macellato
+	 * @param listaCapiMacellati  - lista degli animali di tipo macellato
 	 *                            appartenenti all'azienda che si sta analizzando.
-	 * @param codiciPremio        -> codici premio per cui concorre l'azienda che si
+	 * @param codiciPremio        - codici premio per cui concorre l'azienda che si
 	 *                            sta analizzando.
-	 * @return tempHashmap -> hashmap valorizzata (codice_premio, lista_capi)
+	 * @return tempHashmap - hashmap valorizzata (codice_premio, lista_capi)
 	 */
 	public HashMap<String, List<Long>> buildMap(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini,
 			List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini, List<Dmt_t_clsCapoMacellato> listaCapiMacellati,
@@ -450,11 +450,11 @@ public class ref03 {
 	 * associati al dato animale, allora viene ritornato un valore booleano true,
 	 * altrimenti viene ritornato un valore booleano false
 	 * 
-	 * @param codiciPremioFiltratiPerAnimaliAPremio -> lista dei codici premio per
+	 * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per
 	 *                                              cui un dato animale concorre.
-	 * @param codPremio                             -> codice premio che si sta
+	 * @param codPremio                             - codice premio che si sta
 	 *                                              analizzando.
-	 * @return boolean -> (true se codPremio si trova in
+	 * @return boolean - (true se codPremio si trova in
 	 *         codiciPremioFiltratiPerAnimaliAPremio, false altrimenti).
 	 */
 	public Boolean contains(List<String> codiciPremioFiltratiPerAnimaliAPremio, String codPremio) {
@@ -469,7 +469,7 @@ public class ref03 {
 	private BigDecimal isIrregolaritaIntenzionale() {
 		BigDecimal numeroAnimaliAnomali = new BigDecimal(0);
 		List<Dmt_t_irregolarita_intenzionale> listaIrregolaritaIntenzionali = this.controlliService
-				.getIrregolaritaByCuaa(this.azienda.getCuaa());
+				.getIrregolaritaByCuaaAndAnnoCampagna(this.azienda.getCuaa(), new Integer(this.azienda.getAnnoCampagna()));
 
 		if (listaIrregolaritaIntenzionali != null && !listaIrregolaritaIntenzionali.isEmpty()
 				&& listaIrregolaritaIntenzionali.size() == 1)

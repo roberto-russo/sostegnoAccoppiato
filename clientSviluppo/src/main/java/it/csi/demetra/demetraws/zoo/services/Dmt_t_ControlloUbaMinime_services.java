@@ -22,7 +22,7 @@ public class Dmt_t_ControlloUbaMinime_services {
 	
 	/**
 	 * Metodo che esegue il salvataggio a DB di un'istanza di tipo @see Dmt_t_controlloUbaMinime.
-	 * @see Dmt_t_ControlloUbaMinime_repository.save
+	 * @see Dmt_t_ControlloUbaMinime_repository
 	 * @param model istanza da salvare a DB
 	 */
 	public void save (Dmt_t_ControlloUbaMinime model ) {

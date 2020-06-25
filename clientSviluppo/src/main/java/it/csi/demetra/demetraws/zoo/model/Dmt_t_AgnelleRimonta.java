@@ -76,7 +76,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo getter che ritorna la sessione.
-	 * @return sessione codice di sessione associato all'esecuzione.
+	 * @return idSessione identificativo univoco associato all'esecuzione
 	 */
 	public Dmt_t_sessione getIdSessione() {
 		return idSessione;
@@ -84,7 +84,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo setter che imposta la sessione.
-	 * @param sessione codice di sessione associato all'esecuzione
+	 * @param sessione identificativo univoco associato all'esecuzione
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
 		this.idSessione = sessione;
@@ -108,7 +108,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo getter che ritorna l'esito
-	 * @return esito
+	 * @return esito esito
 	 */
 	public String getEsito() {
 		return esito;
@@ -116,7 +116,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo setter che imposta l'esito
-	 * @param esito
+	 * @param esito esito
 	 */
 	public void setEsito(String esito) {
 		this.esito = esito;
@@ -124,7 +124,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo getter che ritorna la quota capi premio
-	 * @return quotaCapiPremio
+	 * @return quotaCapiPremio quota capi per premio
 	 */
 	public Double getQuotaCapiPremio() {
 		return quotaCapiPremio;
@@ -132,7 +132,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo setter che imposta la quotaCapiPremio
-	 * @param quotaCapiPremio
+	 * @param quotaCapiPremio quota capi per premio
 	 */
 	public void setQuotaCapiPremio(Double quotaCapiPremio) {
 		this.quotaCapiPremio = quotaCapiPremio;
@@ -140,7 +140,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo getter che ritorna le motivazioni
-	 * @return motivazioni
+	 * @return motivazioni motivazioni esclusione
 	 */
 	public String getMotivazioni() {
 		return motivazioni;
@@ -148,7 +148,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	/**
 	 * metodo setter che imposta le motivazioni
-	 * @param motivazioni
+	 * @param motivazioni motivazioni esclusione
 	 */
 	public void setMotivazioni(String motivazioni) {
 		this.motivazioni = motivazioni;
