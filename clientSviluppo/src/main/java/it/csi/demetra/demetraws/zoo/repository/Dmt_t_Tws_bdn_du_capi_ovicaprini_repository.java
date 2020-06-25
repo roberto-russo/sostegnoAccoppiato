@@ -12,7 +12,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 @Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
- * di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini_repository e le query ad esso associate.
+ * di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_repository e le query ad esso associate.
  * @author Bcsoft
  */
 public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudRepository<Dmt_t_Tws_bdn_du_capi_ovicaprini, Long>{
@@ -24,9 +24,9 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_OVICA where id_sessione = :idSessione ", nativeQuery = true)
 	/**
-	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base adidSessione
+	 * Query che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini in base adidSessione
 	 * @param idSessione codice identificativo univoco associato all'esecuzione
-	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSession(@Param("idSessione") Long idSessione);
 	
@@ -36,7 +36,7 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codicePremio codice intervento
-	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 	
@@ -46,10 +46,10 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 				 + "AND months_between(SYSDATE,TO_DATE(:dataNascita,'dd/mm/yy'))/12 <= 18", 
 		   nativeQuery = true)
 	/**
-	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base ad idSessione e cuaa
+	 * Query che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini in base ad idSessione e cuaa
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del detentore
-	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 	
@@ -59,10 +59,10 @@ public interface Dmt_t_Tws_bdn_du_capi_ovicaprini_repository extends CrudReposit
 			nativeQuery = true
 		)
 	/**
-	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini in base ad idSessione e cuaa
+	 * Query che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini in base ad idSessione e cuaa
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
-	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+	 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_ovicaprini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
 	

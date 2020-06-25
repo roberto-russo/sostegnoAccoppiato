@@ -15,24 +15,21 @@ public abstract class Controllo {
     private Rpu_V_pratica_zoote azienda;
 
     /**
-     * preEsecuzione() dei controlli
-     *
-     * @throws ControlloException eccezione relativa al controllo @see Controllo
-     * @throws CalcoloException   eccezione relativa al calcolo
+     * preEsecuzione dei controlli
+     * @throws ControlloException eccezione relativa al controllo  di tipo {@link ControlloException}
+     * @throws CalcoloException   eccezione relativa al calcolo    di tipo {@link CalcoloException}
      */
     abstract public void preEsecuzione() throws ControlloException, CalcoloException;
 
     /**
-     * esecuzione() dei controlli
-     *
-     * @throws ControlloException eccezzione riferita al controllo @see Controllo
+     * esecuzione dei controlli
+     * @throws ControlloException eccezzione riferita al controllo di tipo {@link ControlloException}
      */
     abstract public void esecuzione() throws ControlloException;
 
     /**
-     * postEsecuzione() dei controlli
-     *
-     * @throws ControlloException eccezione riferita al controllo
+     * postEsecuzione dei controlli
+     * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
      */
     abstract public void postEsecuzione() throws ControlloException;
 

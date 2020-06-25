@@ -19,13 +19,13 @@ public class UtilControlli {
 
     /**
      * Questo metodo genera l'oggetto 'escluso', che verrà successivamente salvato in db in modo tale da avere
-     * uno storico dei capi non liquidabili per un controllo
+     * uno storico dei capi non liquidabili per un controllo.
      *
-     * @param b istanza relativa al capo bovino di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
-     * @param sessione istanza relativa all'identificazione della sessione di tipo @see Dmt_t_sessione
+     * @param b istanza relativa al capo bovino di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
+     * @param sessione istanza relativa all'identificazione della sessione di tipo {@link Dmt_t_sessione}
      * @param motivazione motivazione dell'esclusione del capo dal premio di tipo String
      * @param calcolo calcolo per cui il capo bovino è stato escluso
-     * @return istanza di tipo @see Dmt_t_output_esclusi
+     * @return istanza di tipo  {@link Dmt_t_output_esclusi}
      */
     public static Dmt_t_output_esclusi generaEscluso(Dmt_t_Tws_bdn_du_capi_bovini b, Dmt_t_sessione sessione, String motivazione, String calcolo) {
         Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
@@ -41,9 +41,9 @@ public class UtilControlli {
      * Metodo che restituisce la data di nascita del vitello più giovane nel caso in cui un bovino abbia partorito più
      * volte
      *
-     * @param b           istanza relativa al capo bovino di tipo @see Dmt_t_Tws_bdn_du_capi_bovini 
-     * @param listVitelli lista di istanze relative ai vitelli di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
-     * @return istanza di tipo Date relativa alla data del vitello più giovane
+     * @param b           istanza relativa al capo bovino di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
+     * @param listVitelli lista di istanze relative ai vitelli di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}i
+     * @return istanza di tipo Date relativa alla data del vitello più giovane.
      */
     public static Date getVitelloGiovane(Dmt_t_Tws_bdn_du_capi_bovini b, List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli) {
         Date dataGiovane = b.getDtNascitaVitello();
@@ -63,9 +63,9 @@ public class UtilControlli {
      * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
      * detentore presso il quale è nato il primo capo.
      *
-     * @param b           istanza relativa al capo bovino di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
-     * @param listVitelli lista di istanze relative ai vitelli di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
-     * @return valore booleano che identifica se il capo animale è in detenzione
+     * @param b           istanza relativa al capo bovino di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
+     * @param listVitelli lista di istanze relative ai vitelli di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
+     * @return <b>true:</b> se il capo animale è in detenzione, <b>false:</b> altrimenti
      */
     public static Boolean isDetentoreParto(Dmt_t_Tws_bdn_du_capi_bovini b, List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli) {
         Date dataGiovane = UtilControlli.getVitelloGiovane(b, listVitelli);

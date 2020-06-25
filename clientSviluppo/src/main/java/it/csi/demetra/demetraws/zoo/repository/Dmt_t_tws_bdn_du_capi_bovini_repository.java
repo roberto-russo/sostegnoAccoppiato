@@ -12,7 +12,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 @Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
- * di tipo @see Dmt_t_tws_bdn_du_capi_bovini_repository e le query ad esso associate.
+ * di tipo Dmt_t_tws_bdn_du_capi_bovini_repository e le query ad esso associate.
  * @author Bcsoft
  */
 public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<Dmt_t_Tws_bdn_du_capi_bovini, Long> {
@@ -24,7 +24,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione ", nativeQuery = true)
 	/**
-	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione
+	 * Query che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
 	 */
@@ -32,11 +32,11 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	
 	@Query(value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento ", nativeQuery = true)
 	/**
-	 * Query che ritorna una lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione, cuaa e codiceIntervento
+	 * Query che ritorna una lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_bovini in base ad idSessione, cuaa e codiceIntervento
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice intervento
-	 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
+	 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_bovini
 	 */
 	List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -49,7 +49,7 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 			 * @param idSessione identificativo univoco associato all'esecuzione
 			 * @param cuaa codice fiscale del richiedente
 			 * @param codIntervento codice intervento 
-			 * @return lista di istanze di tipo @see Dmt_t_Tws_bdn_du_capi_bovini
+			 * @return lista di istanze di tipo Dmt_t_Tws_bdn_du_capi_bovini
 			 */
 			List<Dmt_t_Tws_bdn_du_capi_bovini>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codIntervento") String codIntervento);
 	

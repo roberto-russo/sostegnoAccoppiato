@@ -16,12 +16,12 @@ public class Dmt_t_ControlloUbaMinime_services {
 
 	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_ControlloUbaMinime_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_ControlloUbaMinime_repository.
      */
 	Dmt_t_ControlloUbaMinime_repository repo;
 	
 	/**
-	 * Metodo che esegue il salvataggio a DB di un'istanza di tipo @see Dmt_t_controlloUbaMinime.
+	 * Metodo che esegue il salvataggio a DB di un'istanza di tipo Dmt_t_controlloUbaMinime.
 	 * @see Dmt_t_ControlloUbaMinime_repository
 	 * @param model istanza da salvare a DB
 	 */

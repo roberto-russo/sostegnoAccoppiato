@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,25 +88,16 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	/**
 	 * CALCOLO 9901
 	 * 
-	 * Il calcolo esegue:
-	 * 
-	 * -preEsecuzione() in cui si inizializzano tutti i dati che occorrono al calcolo
-	 * -esecuzione() in cui si esegue il calcolo effettivo
-	 * -postEsecuzione() in cui si controlla l'esito del calcolo e lo si salva su DB
-	 * 
-	 * Il metodo ritorna un oggetto contenente :
-	 * 
-	 * - la lista dei capi ammessi
-	 * - la lista vuota se nessun capo è stato ammesso
-	 * - null se ci sono stati errori
-	 * 
+	 * Il calcolo esegue: <b>preEsecuzione()</b> in cui si inizializzano tutti i dati che occorrono al calcolo,
+	 * <b>esecuzione()</b> in cui si esegue il calcolo effettivo, e <b>postEsecuzione()</b> in cui si controlla l'esito del calcolo e lo si salva su DB.
+	 * Il metodo ritorna un oggetto contenente : la lista dei capi ammessi, la lista vuota se nessun capo è stato ammesso e null se ci sono stati errori
 	 */
 //	 * 1- la lista dei capi controllati con flagCapoAmmesso = 'S'/'N' e la motivazione
 //	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
 //	 * 3- una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo
 //	 * 
-//	 * @return capiControllati
-//	 * @throws CalcoloException 
+//	 * @return capiControllati lista dei capi filtrati
+//	 * @throws CalcoloException  eccezione riferita al Calcolo @see  it.csi.demetra.demetraws.zoo.calcoli.Calcolo
 //	 */
 	
 	@Override
@@ -135,15 +125,15 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * 
 	 * tempisticaRegistrazione = tI + tR
 	 * 
-	 * Il calcolo dei due parametri è dato da:
+	 * Il calcolo dei due parametri è dato da: <br>
 	 * 
-	 *	tI = [Data di identificazione del vitello] - [Data di nascita del vitello] 
-	 *	tR = [Data di registrazione in BDN della nascita del capo] - [Data di identificazione del vitello]
+	 *	tI = [Data di identificazione del vitello] - [Data di nascita del vitello]  <br>
+	 *	tR = [Data di registrazione in BDN della nascita del capo] - [Data di identificazione del vitello] <br>
 	 * 
-	 * Se l'esecuzione non presenta problemi: return true
+	 * Se l'esecuzione non presenta problemi: return true <br>
 	 * Se ci sono stati errori durante l'esecuzione: return false
 	 * 
-	 * @param listaCapi 
+	 * @param listaCapi - lista dei capi di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
 	 * 
 	 * @return true/false
 	 * 
@@ -325,13 +315,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	
 	/**
 	 * 
-	 * VERIFICA DI AMMISSIBILITÀ 
+	 * VERIFICA DI AMMISSIBILITÀ <br>
 	 * Se tutti i capi sono stati ammessi,
 	 * allora la vacca è ammissibile a premio (esito=true),
 	 * altrimenti la vacca non è ammissibile a premio (esito=false).
 	 * 
-	 * @param capiControllati
-	 * 
+	 * @param capiControllati - istanza di tipo {@link it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9901}
 	 */
 	private void controllaAmmissibilita(CapiControllati9901 capiControllati) {
 		
@@ -359,12 +348,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	
 	/**
 	 * 
-	 * RECUPERO DATI 
+	 * RECUPERO DATI <br>
 	 * Il metodo recuperaDatiCapi() serve a 
 	 * recuperare la lista di vitelli per ogni capo.
 	 * I dati sono organizzati in una Map contenente:
-	 * 	- key -> idCapo
-	 * 	- value -> lista dei vitelli
+	 * 	- key - idCapo
+	 * 	- value - lista dei vitelli
 	 * 
 	 */
 //	private void recuperoDatiCapi() {
@@ -404,7 +393,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * Questa lista sarà utilizzata nell'oggetto di tipo CapiControllati9901
 	 * necessaria al calcolo della tempistica di registrazione dei capi.
 	 * 
-	 * @param listaVacche
+	 * @param listaVacche - lista di istanze di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
 	 * 
 	 */
 	private void setListaCapi9901(List<Dmt_t_Tws_bdn_du_capi_bovini> listaVacche) {
@@ -430,9 +419,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		
 	}
 	/**
-	 * Metodo setListaVacche()
-	 * 
-	 * @param listaCapi
+	 * Metodo setter che imposta una lista di istanze di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
+	 * @param listaCapi - lista di istanze di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
 	 * */
 	private void setListaVacche(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi) {
 		listaVacche = listaCapi;	
@@ -452,8 +440,6 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	
 	/**
-	 * Metodo esecuzione()
-	 * 
 	 * Nell' esecuzione si effettua il calcolo vero e proprio.
 	 * Per ogni lista di vitelli delle vacche, va effettuato il calcoloTempisticaDiRegistrazione().
 	 * Se il metodo viene eseguito correttamente, si controlla l'esito e se positivo, la vacca è ammessa a premio,
@@ -504,8 +490,6 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 //		}
 	}
 	/**
-	 * Metodo postEsecuzione()
-	 * 
 	 * Nella postesecuzione si provvede al salvataggio dei dati su DB.
 	 * Inoltre si setta la lista di vacche ammesse che sarà restituita dal metodo calcolo().
 	 * Se nessuna vacca sarà ammessa, allora l'output sarà null.
@@ -553,15 +537,13 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	
 	/**
-	 * inizializzaVitelloAmmesso()
-	 * 
 	 * Serve ad inizializzare un oggetto di tipo Dmt_w_Tdu_premio_capi,
 	 * così da poter aggiungere il vitello alla listaCapiAmmessi, che, tramite service,
 	 * sarà salvata su DB
+	 *
+	 * @param capo istanza di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
 	 * 
-	 * @param capo
-	 * 
-	 * @return capoTmp
+	 * @return capoTmp istanza di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
 	 * 
 	 * */
 	private Dmt_t_premio_capi inizializzaVitello(Capo9901 capo, String ammissibile) {
@@ -642,11 +624,9 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 
 	/*
-	 * Il metodo getVaccaVitelliFromDB()
-	 * 
 	 * Serve a recuperare i vitelli partoriti da una vacca nell'anno campagna richiesto nel calcolo
 	 * 
-	 * @param idCapo
+	 * @param idCapo - identificativo univoco associato al capo animale in BDN
 	 * 
 	 * */
 //	private List<Dmt_t_Tws_bdn_du_capi_bovini> getVaccaVitelliFromDB(Long idCapo) {

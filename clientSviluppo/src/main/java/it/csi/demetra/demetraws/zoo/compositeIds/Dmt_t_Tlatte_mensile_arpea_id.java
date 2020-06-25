@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_Tlatte_mensile_arpea_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 659624631818140514L;
 
 	private Long annoSolare;

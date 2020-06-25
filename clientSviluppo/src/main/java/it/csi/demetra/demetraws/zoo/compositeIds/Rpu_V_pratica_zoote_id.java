@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Rpu_V_pratica_zoote_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8792097162764936807L;
 	
 	private int annoCampagna;

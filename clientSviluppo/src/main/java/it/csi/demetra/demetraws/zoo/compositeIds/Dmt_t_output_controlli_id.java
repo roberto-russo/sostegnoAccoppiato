@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_output_controlli_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6572779375292767533L;
 
     private Long idSessione;

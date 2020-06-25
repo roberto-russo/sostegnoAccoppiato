@@ -13,7 +13,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 @Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
- * di tipo @see Dmt_t_sessione e le query ad esso associate.
+ * di tipo Dmt_t_sessione e le query ad esso associate.
  * @author Bcsoft
  */
 public interface Dmt_t_sessione_repository  extends JpaRepository<Dmt_t_sessione,Long> {
@@ -27,7 +27,7 @@ public interface Dmt_t_sessione_repository  extends JpaRepository<Dmt_t_sessione
 	/**
 	 * Query che ritorna un'istanza di tipo @see Dmt_t_sessione in base a dataEora
 	 * @param dataEora data in cui viene generato l'idSessione
-	 * @return istanza di tipo @see Dmt_t_sessione
+	 * @return istanza di tipo Dmt_t_sessione
 	 */
 	Dmt_t_sessione findSessioneByDataEora(@Param("dataEora") Date dataEora);
 }

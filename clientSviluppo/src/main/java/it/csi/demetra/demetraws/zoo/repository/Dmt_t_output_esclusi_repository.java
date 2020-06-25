@@ -13,7 +13,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 @Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
- * di tipo @see Dmt_t_output_esclusi e le query ad esso associate.
+ * di tipo Dmt_t_output_esclusi e le query ad esso associate.
  * @author Bcsoft
  */
 public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_output_esclusi, Dmt_t_output_esclusi_id>{
@@ -27,7 +27,7 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
 	 * query che ritorna una lista di istanze di tipo Dmt_t_output_esclusi in base alla sessione e al calcolo
 	 * @param sessione codice di sessione associato all'esecuzione
 	 * @param calcolo codice premio per cui il cuaa effettua la richiesta
-	 * @return lista di istanze di tipo @see Dmt_t_output_esclusi
+	 * @return lista di istanze di tipo Dmt_t_output_esclusi
 	 */
 	List<Dmt_t_output_esclusi> findBySessioneAndCalcolo(@Param("sessione") Long sessione, @Param("calcolo") String calcolo); 
 	

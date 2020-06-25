@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_consistenza_uba_censim_ovini_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3861768116996488618L;
 
 	private Long idSessione;

@@ -5,9 +5,6 @@ import java.util.Date;
 
 public class Dmt_s_sessione_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2033093729894466812L;
 
 	private Date dataEora;

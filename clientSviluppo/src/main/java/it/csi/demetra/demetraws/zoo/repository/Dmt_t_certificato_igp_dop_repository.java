@@ -25,7 +25,7 @@ public interface Dmt_t_certificato_igp_dop_repository extends CrudRepository<Dmt
 	@Query(value = "select * from Dmt_t_certif_igp_dop where cuaa = :cuaa", nativeQuery = true)
 	/**
 	 * query che ritorna l'istanza di tipo Dmt_t_certificato_igp_dop in base al codice fiscale del richiedente
-	 * @param cuaa codice fiscale del richiedente
+	 * @param cuaa - codice fiscale del richiedente
 	 * @return Dmt_t_certificato_igp_dop
 	 */
 	Dmt_t_certificato_igp_dop findByCuaa(@Param("cuaa") String cuaa);

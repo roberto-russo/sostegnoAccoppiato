@@ -20,81 +20,82 @@ import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovin
 
 @Service
 /**
- * Classe service che utilizza le Query definite nei repository:
- *  @see DsUBA_censimenti_allevamenti_ovini_repository
- *  @see Dmt_d_clsPremio_ValidazioneResponse_repository
- *  @see Dmt_t_anagrafica_allevamenti_repository
- *  @see Dmt_t_output_controlli_repository
- *  @see Dmt_t_premio_capi_repository
+ * Classe service che utilizza le Query definite nei repository: <br>
+ *  DsUBA_censimenti_allevamenti_ovini_repository <br>
+ *  Dmt_d_clsPremio_ValidazioneResponse_repository <br>
+ *  Dmt_t_anagrafica_allevamenti_repository <br>
+ *  Dmt_t_output_controlli_repository <br>
+ *  Dmt_t_premio_capi_repository <br>
  * @author Bcsoft
  */
 public class SaveOnDbService {
 	
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo @see DsUBA_censimenti_allevamenti_ovini_repository.
+     * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
      */
     DsUBA_censimenti_allevamenti_ovini_repository repUBA;
 
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo @see Dmt_d_clsPremio_ValidazioneResponse_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_d_clsPremio_ValidazioneResponse_repository.
      */
     Dmt_d_clsPremio_ValidazioneResponse_repository repValidResp;
 
     @Autowired
     /**
-     * istanza di tipo @see Dmt_t_Tws_bdn_du_capi_ovicaprini_services
+     * istanza di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_services
      */
     Dmt_t_Tws_bdn_du_capi_ovicaprini_services capreService;
 
     @Autowired
     /**
-     * istanza di tipo @see Dmt_t_clsCapoMacellato_services
+     * istanza di tipo Dmt_t_clsCapoMacellato_services
      */
     Dmt_t_clsCapoMacellato_services MacellatoService;
 
     @Autowired
     /**
-     * istanza di tipo @see Dmt_t_tws_bdn_du_capi_bovini_services
+     * istanza di tipo Dmt_t_tws_bdn_du_capi_bovini_services
      */
     Dmt_t_tws_bdn_du_capi_bovini_services vaccheService;
 
     @Autowired
     /**
-     * istanza di tipo @see Dmt_t_Tbdn_du_capi_services
+     * istanza di tipo Dmt_t_Tbdn_du_capi_services
      */
     Dmt_t_Tbdn_du_capi_services capiService;
 
     @Autowired
     /**
-     * istanza di tipo @see Dmt_t_errore_services
+     * istanza di tipo Dmt_t_errore_services
      */
     Dmt_t_errore_services erroreService;
     
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_anagrafica_allevamenti_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti_repository.
      */
     Dmt_t_anagrafica_allevamenti_repository anagraficaRep;
     
     @Autowired
     /**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_output_controlli_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli_repository.
      */
     Dmt_t_output_controlli_repository outputControlliRep;
     
     /**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_premio_capi_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_premio_capi_repository.
      */
     Dmt_t_premio_capi_repository premioCapiService;
     
     
     
     /**
-     * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo @see Dmt_t_anagrafica_allevamenti.
-     * @see Dmt_t_anagrafica_allevamenti_repository
-     * @param beans lista di istanze da salvare a DB.
+     * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo Dmt_t_anagrafica_allevamenti.
+     * {@link Dmt_t_anagrafica_allevamenti_repository#findByIdSessioneAndAllevIdAndAziendaCodice(Long, java.math.BigDecimal, String)}
+     * {@link Dmt_t_anagrafica_allevamenti_repository#save(Dmt_t_anagrafica_allevamenti)}
+     * @param lista di istanze da salvare a DB.
      */
     public void saveOnDb(List<Dmt_t_anagrafica_allevamenti> beans) {
     	try {
@@ -110,9 +111,9 @@ public class SaveOnDbService {
     }
 
     /**
-     * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_DsUBA_censimenti_allevamenti_ovini
-     * in base a sessione.
-     * @see Dmt_t_DsUBA_censimenti_allevamenti_ovini_repository
+     * Metodo che effettua il salvataggio a DB di un'istanza di tipo {@link Dmt_t_DsUBA_censimenti_allevamenti_ovini} in base a sessione.
+     * {@link DsUBA_censimenti_allevamenti_ovini_repository#save(Dmt_t_DsUBA_censimenti_allevamenti_ovini)}
+     * {@link Dmt_t_errore_services#saveError(Dmt_t_errore)}
      */
     public void saveOnDb(Dmt_t_DsUBA_censimenti_allevamenti_ovini bean, Dmt_t_sessione sessione) {
         try {
@@ -130,10 +131,11 @@ public class SaveOnDbService {
     }
 
     /**
-     * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_d_clsPremio_ValidazioneResponse.
-     * @see Dmt_t_clsCapoMacellato_repository
-     * @see Dmt_t_Tws_bdn_du_capi_bovini
-     * @see Dmt_t_Tws_bdn_du_capi_ovicaprini
+     * Metodo che effettua il salvataggio a DB di un'istanza di tipo Dmt_d_clsPremio_ValidazioneResponse.
+     * {@link Dmt_t_clsCapoMacellato_services#saveCapo(List)}
+     * {@link Dmt_t_tws_bdn_du_capi_bovini_services#saveCapo(List)}
+     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_services#saveCapo(List)}
+     * {@link Dmt_d_clsPremio_ValidazioneResponse_repository#save(Dmt_d_clsPremio_ValidazioneResponse)}
      */
     public void saveOnDb(Dmt_d_clsPremio_ValidazioneResponse bean) {
 

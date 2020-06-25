@@ -72,7 +72,7 @@ public class ClcInt310Mis1 extends Controllo {
      * ClcInt310Mis1 - preEsecuzione() intervento 310 Misura 1
      * Ref case utilizzati : Ref99.01 - Ref99.03
      *
-     * @throws ControlloException eccezzione relativa al controllo @see Controllo
+     * @throws ControlloException eccezzione relativa al controllo di tipo {@link ControlloException}
      */
     @Override
     public void preEsecuzione() throws ControlloException {
@@ -107,18 +107,23 @@ public class ClcInt310Mis1 extends Controllo {
      * ClcInt310Mis1 - Esecuzione()
      * Esecuzione dei controlli per l'intervento 310 Misura 1
      *
-     * @throws ControlloException eccezione relativa al controllo @see Controllo
+     * @throws ControlloException eccezione relativa al controllo di tipov {@link ControlloException}
      */
     @Override
     public void esecuzione() throws ControlloException {
         if (null == modelVaccheFiltrate) return;
-        /**
+        /*
          * PUNTI APERTI DA CHIARIRE.
          * Per valutare se un allevamento è adibito alla vendita diretta di latte controllo la tabella
          * Dmt_t_Tlatte_vendita_diretta?
          * Definire un metodo per riempire questa tabella: Vedi Antonio e Giuseppe
          * Bisogna definire quali allevamenti sono in pianura
-         */
+         * 
+         * 
+         * RISPOSTA DI ANTONIO: Dmt_t_Tlatte_vendita_diretta è una di quelle tabelle il cui riempimento viene fatto dal cliente.
+         * Non c'è bisogno di fare un metodo per prevederne il riempimento. (almeno così ho capito da un confronto con Roberto).
+         * Ad ogni modo parlare con Roberto se ci sono delle incertezze in merito.
+         **/
 
         isProduttoreChecked = true;
         List<Integer> listMesiControllati = new ArrayList<>();

@@ -3,10 +3,8 @@ package it.csi.demetra.demetraws.zoo.compositeIds;
 import java.io.Serializable;
 
 public class Dmt_t_errore_id implements Serializable {
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8891708525889181529L;
+
+	private static final long serialVersionUID = -8891708525889181529L;
 
     private Long idSessione;
     private String nomeMetodo;

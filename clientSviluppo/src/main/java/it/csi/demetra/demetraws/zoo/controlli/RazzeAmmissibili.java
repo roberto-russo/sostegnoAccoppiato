@@ -3,7 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli;
 /**
  * Razze ammissibili per ciascuna delle misure previste secondo allegato V del DM 7 giugno 2018 n. 5465
  * @author Bcsoft
- * @version 0.0.1 (15/04/2020)
+ * @version 1.0.0 (15/04/2020)
  */
 public class RazzeAmmissibili {
 

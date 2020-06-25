@@ -12,22 +12,22 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_sessione_repository;
 
 @Service
 /**
- * Classe service che utilizza le Query definite nel repository @see Dmt_t_sessione_repository
- * per la persistenza di oggetti di tipo @see Dmt_t_sessione
+ * Classe service che utilizza le Query definite nel repository Dmt_t_sessione_repository
+ * per la persistenza di oggetti di tipo Dmt_t_sessione
  * @author Bcsoft
  */
 public class Dmt_t_sessione_services {
 
 	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_sessione_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_sessione_repository.
      */
 	Dmt_t_sessione_repository rep;
 
 	/**
-     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_sessione.
-     * @see Dmt_t_sessione_repository
-     * @return lista degli oggetti di tipo @see Dmt_t_sessione
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo Dmt_t_sessione.
+     * {@link Dmt_t_sessione_repository#findSessioneByDataEora(Date)}
+     * @return lista degli oggetti di tipo {@link Dmt_t_sessione}
      */
 	public List<Dmt_t_sessione> getAll() {
 		return rep.findAll();
@@ -44,20 +44,20 @@ public class Dmt_t_sessione_services {
 	}
 	
 	/**
-	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo @see Dmt_t_sessione.
-	 * @see Dmt_t_sessione_repository.
+	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo Dmt_t_sessione.
+	 * {@link Dmt_t_sessione_repository#save(Dmt_t_sessione)}
 	 * @param sessione identificativo univoco associato all'esecuzione
-	 * @return istanza di tipo @see Dmt_t_sessione da salvare a DB
+	 * @return istanza di tipo {@link Dmt_t_sessione} da salvare a DB
 	 */
 	public Dmt_t_sessione saveSession(Dmt_t_sessione sessione) {
 		return rep.save(sessione);
 	}
 	
 	/**
-	 * Metodo che ritorna un'istanza di tipo @see Dmt_t_sessione in base a idSessione
-	 * @see Dmt_t_sessione_repository
+	 * Metodo che ritorna un'istanza di tipo {@link Dmt_t_sessione} in base a idSessione
+	 * {@link Dmt_t_sessione_repository#findById(Long)}
 	 * @param idSessione identificativo univoco associato all'esecuzione
-	 * @return istanza di tipo @see Dmt_t_sessione
+	 * @return istanza di tipo {@link Dmt_t_sessione}
 	 */
 	public Dmt_t_sessione getById(Long idSessione) {
 		return rep.findById(idSessione).orElseThrow( () ->  new NoSuchElementException());

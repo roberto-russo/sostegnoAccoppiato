@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_AgnelleRimonta_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5621454556915205458L;
 
 	private String cuaa;

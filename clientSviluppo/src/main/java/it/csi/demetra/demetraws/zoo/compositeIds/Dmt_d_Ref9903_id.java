@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_d_Ref9903_id implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8487247615949600950L;
 	
 	private String cuaa;

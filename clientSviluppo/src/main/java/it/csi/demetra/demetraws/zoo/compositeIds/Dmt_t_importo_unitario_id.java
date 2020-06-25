@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_importo_unitario_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2112366051331850859L;
 	
 	private String intervento;

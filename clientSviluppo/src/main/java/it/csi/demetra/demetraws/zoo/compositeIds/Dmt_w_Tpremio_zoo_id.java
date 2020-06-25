@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_w_Tpremio_zoo_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8427851855934601189L;
 
 	private Long id_azienda;

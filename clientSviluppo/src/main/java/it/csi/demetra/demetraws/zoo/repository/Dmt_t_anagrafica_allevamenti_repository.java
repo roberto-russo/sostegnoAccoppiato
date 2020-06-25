@@ -31,7 +31,7 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId", nativeQuery = true)
 	/**
 	 * query che ritorna l'istanza di tipo Dmt_t_anagrafica_allevamenti in base all'identificativo dell'allevamento
-	 * @param allevId identificativo dell'allevamento
+	 * @param allevId - identificativo dell'allevamento
 	 * @return Dmt_t_anagrafica_allevamenti
 	 */
 	Dmt_t_anagrafica_allevamenti findByAllevId(@Param("allevId")BigDecimal allevId);
@@ -47,7 +47,7 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	@Query(value = "SELECT * FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId and id_sessione = :idSessione", nativeQuery = true)
 	/**
 	 * query che ritorna l'istanza di tipo Dmt_t_anagrafica_allevamenti in base all'identificativo dell'allevamento
-	 * @param allevId identificativo dell'allevamento
+	 * @param allevId - identificativo dell'allevamento
 	 * @return Dmt_t_anagrafica_allevamenti
 	 */
 	Dmt_t_anagrafica_allevamenti findByAllevIdAndSessione(@Param("allevId")BigDecimal allevId, @Param("idSessione")Long idSessione);
@@ -64,7 +64,7 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	/**
 	 * query che ritorna il codice fiscale del detentore degli aimali presenti in allevamento in base all'identificativo dell'allevamento
 	 * per cui risulta detentore
-	 * @param allevId identificativo dell'allevamento
+	 * @param allevId - identificativo dell'allevamento
 	 * @return cod_fiscale_deten codice fiscale del detentore aka cuaa
 	 */
 	String findDeteByCuaa(@Param("allevId")BigDecimal allevId);

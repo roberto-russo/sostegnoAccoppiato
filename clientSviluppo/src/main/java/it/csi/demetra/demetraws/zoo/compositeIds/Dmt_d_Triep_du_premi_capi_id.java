@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_d_Triep_du_premi_capi_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8390248024394536960L;
 	
 	private Long idDomanda;

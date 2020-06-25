@@ -10,28 +10,28 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository
 
 @Service
 /**
- * Classe service che utilizza le Query definite nel repository @see Dmt_t_clsCapoMacellato_repository
- * per la persistenza di oggetti di tipo @see Dmt_t_clsCapoMacellato
+ * Classe service che utilizza le Query definite nel repository Dmt_t_clsCapoMacellato_repository
+ * per la persistenza di oggetti di tipo Dmt_t_clsCapoMacellato
  * @author Bcsoft
  */
 public class Dmt_t_clsCapoMacellato_services {
 
 	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_clsCapoMacellato_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_clsCapoMacellato_repository.
      */
 	Dmt_t_clsCapoMacellato_repository rep;
 	
 	/**
-     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_clsCapoMacellato in base ad annoCampagna.
-     * @return Dmt_t_clsCapoMacellato lista degli oggetti di tipo @see Dmt_t_clsCapoMacellato
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo {@link Dmt_t_clsCapoMacellato} in base ad annoCampagna.
+     * @return  lista degli oggetti di tipo {@link Dmt_t_clsCapoMacellato}
      */
 	public List<Dmt_t_clsCapoMacellato> getCapo(){
 		return rep.findAll();
 	}
 	
 	/**
-	 * Metodo che effettua il salvataggio di una lista di istanze di tipo @see Dtm_t_clsCapoMacellato
+	 * Metodo che effettua il salvataggio di una lista di istanze di tipo Dtm_t_clsCapoMacellato
 	 * @param capo lista di istanze da salvare a DB
 	 */
 	public void saveCapo(List<Dmt_t_clsCapoMacellato> capo) {
@@ -50,7 +50,7 @@ public class Dmt_t_clsCapoMacellato_services {
 	}
 	
 	/**
-	 * Metodo che ritorna una lista di tipo @see Dmt_t_clsCapoMacellato in base a idSessione, cuaa e codiceIntervento
+	 * Metodo che ritorna una lista di tipo {@link Dmt_t_clsCapoMacellato} in base a idSessione, cuaa e codiceIntervento
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codiceIntervento codice intervento
@@ -61,12 +61,12 @@ public class Dmt_t_clsCapoMacellato_services {
 	}
 	
 	/**
-	 * Metodo che ritorna una lista di tipo @see Dmt_t_clsCapoMacellato in base a idSessione, cuaa e codiceIntervento.
+	 * Metodo che ritorna una lista di tipo {@link Dmt_t_clsCapoMacellato} in base a idSessione, cuaa e codiceIntervento.
 	 * @see Dmt_t_clsCapoMacellato_repository
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
 	 * @param codIntervento codice intervento
-	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 * @return lista di istanze di tipo {@link Dmt_t_clsCapoMacellato}
 	 */
 	public List<Dmt_t_clsCapoMacellato>getMacellatiUbaMinime(Long idSessione, String cuaa, String codIntervento) {
 		return rep.getMacellatiUbaMinime(idSessione, cuaa, codIntervento);

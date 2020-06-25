@@ -12,7 +12,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativ
 @Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
- * di tipo @see Dmt_t_SistemiDiEtichettatuaFacoltativa e le query ad esso associate.
+ * di tipo Dmt_t_SistemiDiEtichettatuaFacoltativa e le query ad esso associate.
  * @author Bcsoft
  */
 public interface Dmt_t_SistemiDiEtichettaturaFacoltativa_repository extends CrudRepository<Dmt_t_SistemiDiEtichettaturaFacoltativa, String>{
@@ -24,7 +24,7 @@ public interface Dmt_t_SistemiDiEtichettaturaFacoltativa_repository extends Crud
 	
 	@Query(value = "select * from Dmt_t_sistemi_etichettatura where cuaa = :cuaa", nativeQuery = true)
 	/**
-	 * Query che ritorna un'istanza di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa in base al cuaa
+	 * Query che ritorna un'istanza di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa in base al cuaa
 	 * @param cuaa codice fiscale del richiedente
 	 * @return istanza di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
 	 */

@@ -1,11 +1,5 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor;
 
-/*
- * Author : Federico Pomponii
- * Date: 18/03/2019
- * */
-
-import com.sun.media.jfxmedia.logging.Logger;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 
 public class ControlloException extends Exception {
@@ -19,9 +13,9 @@ public class ControlloException extends Exception {
 
     /**
      *
-     * @param errore
+     * @param errore istanza di tipo {@link Dmt_t_errore}
      * ControlloException permette di istanziare un oggetto passando negli argomenti del costruttore un
-     * Entity errore. In questo modo nel catch dell'eccezione è possibile salvare un log completo di errore in DB
+     * Entity errore. In questo modo nel catch dell'eccezione è possibile salvare un log completo di errore in DB.
      */
     public ControlloException(Dmt_t_errore errore) {
         this.errore = errore;

@@ -6,7 +6,8 @@ import java.util.Objects;
 
 public class Analisi_produzioni_cuua_id implements Serializable {
 
-    private String CUUA;
+    private static final long serialVersionUID = 7424654727989979857L;
+	private String CUUA;
     private Date dataAnalisi;
     private int annoCampagna;
 

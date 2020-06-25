@@ -5,9 +5,6 @@ import java.util.Objects;
 
 public class Dmt_t_latte_vendita_diretta_id implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 6671288667490072801L;
 
     private Long cuua;

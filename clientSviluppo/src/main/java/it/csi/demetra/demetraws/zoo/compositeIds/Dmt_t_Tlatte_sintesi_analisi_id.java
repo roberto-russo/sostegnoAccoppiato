@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_Tlatte_sintesi_analisi_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5814531776893863009L;
 
 	 private String cuaa_azienda;

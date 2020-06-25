@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_d_esito_controlli_preammissibilita_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4136050190900085764L;
 
 	private Long id;

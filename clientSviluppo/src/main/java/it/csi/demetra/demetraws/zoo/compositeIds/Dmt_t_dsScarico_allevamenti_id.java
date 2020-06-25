@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 
 public class Dmt_t_dsScarico_allevamenti_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 453482555835079292L;
 	
 	 private long sessione;

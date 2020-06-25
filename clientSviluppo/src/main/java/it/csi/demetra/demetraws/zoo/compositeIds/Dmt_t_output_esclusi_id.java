@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_output_esclusi_id implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9217875139729319085L;
 
 

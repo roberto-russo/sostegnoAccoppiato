@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_Tbdn_du_capi_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7460887888423277427L;
 
 	private long allevId;

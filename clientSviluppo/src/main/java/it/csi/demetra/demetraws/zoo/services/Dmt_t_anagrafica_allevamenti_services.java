@@ -10,15 +10,15 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repo
 
 @Service
 /**
- * Classe service che utilizza le Query definite nel repository @see Dmt_t_anagrafica_allevamenti_repository
- * per la persistenza di oggetti di tipo @see Dmt_t_anagrafica_allevamenti
+ * Classe service che utilizza le Query definite nel repository Dmt_t_anagrafica_allevamenti_repository
+ * per la persistenza di oggetti di tipo Dmt_t_anagrafica_allevamenti
  * @author Bcsoft
  */
 public class Dmt_t_anagrafica_allevamenti_services {
 
 	@Autowired
 	  /**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_anagrafica_allevamenti_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti_repository.
      */
 	Dmt_t_anagrafica_allevamenti_repository rep;
 

@@ -60,8 +60,8 @@ public class ref03 {
 	 * effettuare tali calcoli, vengono utilizzati i capi appartenenti all'azienda
 	 * analizzata e dei codici premio per cui tale azienda concorre. Dopo aver
 	 * effettuato tali calcoli, verranno salvati a db nella rispettiva tabella di
-	 * output. @see Dmt_t_output_ref03
-	 * @throws CalcoloException eccezione riferita al calcolo @see Calcolo
+	 * output.
+	 * @throws CalcoloException eccezione riferita al calcolo di tipo {@link CalcoloException}
 	 */
 	public void esecuzione() throws CalcoloException {
 
@@ -174,16 +174,14 @@ public class ref03 {
 
 	/**
 	 * nel metodo precalcolo vengono valorizzate le seguenti variabili in base alla
-	 * mappa di hash e al codice premio preso in esame: - capiAnomali -> capi
-	 * valorizzati nella tabella dmt_t_output_esclusi. - capiAccertati -> capi che
-	 * possono concorrere al premio in questione. - capiRichiesti -> capi presenti
-	 * nella richiesta a premio del richiedente.
+	 * mappa di hash e al codice premio preso in esame: <br>
+	 * capiAnomali - capi valorizzati nella tabella dmt_t_output_esclusi,
+	 * capiAccertati - capi che possono concorrere al premio in questione,
+	 * capiRichiesti - capi presenti nella richiesta a premio del richiedente.
 	 * 
-	 * @param capiPerPremio tabella di hash contentente i codici premio e la lista
-	 *                      degli animali concorrenti a premio
-	 * @param cp            codice premio da analizzare
-	 * @return result -> mappa di hash in cui sono presenti le variabili
-	 *         valorizzate.
+	 * @param capiPerPremio tabella di hash contentente i codici premio e la lista degli animali concorrenti a premio di tipo {@link HashMap}
+	 * @param cp codice premio da analizzare di tipo {@link String}
+	 * @return result - mappa di hash in cui sono presenti le variabili valorizzate di tipo {@link HashMap}.
 	 */
 	private HashMap<String, BigDecimal> precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
 
@@ -224,14 +222,13 @@ public class ref03 {
 	}
 
 	/**
-	 * nel metodo calcoloRiduzione vengono valorizzate la seguente variabile in base
-	 * al numero di capi anomali e all'esito: - percentuale di riduzione a premio.
+	 * nel metodo viene valorizzata la seguente variabile in base
+	 * al numero di capi anomali e all'esito: percentuale di riduzione a premio.
 	 * Tale variabile sara' necessaria al calcolo della quota pagata al richiedente.
 	 * 
-	 * @param capiAnomali -> numero di capi che non hanno passato i controlli.
-	 * @param esito
-	 * @return percRid -> percentuale di riduzione della quota riconosciuta al
-	 *         richiedente
+	 * @param capiAnomali - numero di capi che non hanno passato i controlli di tipo {@link BigDecimal}.
+	 * @param esito - esito del calcolo di tipo {@link BigDecimal}
+	 * @return percRid - percentuale di riduzione della quota riconosciuta al richiedente di tipo {@link BigDecimal}
 	 */
 	private BigDecimal calcoloRiduzione(BigDecimal capiAnomali, BigDecimal esito) {
 		
@@ -275,15 +272,11 @@ public class ref03 {
 	 * al riconosciumento del singolo capo. Le altre informazioni vengono ignorate
 	 * poiche' ritenute non necessarie ai fini del calcolo.
 	 * 
-	 * @param listaCapiBovini     - lista degli animali di tipo bovino appartenenti
-	 *                            all'azienda che si sta analizzando.
-	 * @param listaCapiOvicaprini - lista degli animali di tipo ovicaprino
-	 *                            appartenenti all'azienda che si sta analizzando.
-	 * @param listaCapiMacellati  - lista degli animali di tipo macellato
-	 *                            appartenenti all'azienda che si sta analizzando.
-	 * @param codiciPremio        - codici premio per cui concorre l'azienda che si
-	 *                            sta analizzando.
-	 * @return tempHashmap - hashmap valorizzata (codice_premio, lista_capi)
+	 * @param listaCapiBovini - lista degli animali di tipo bovino appartenenti all'azienda che si sta analizzando.
+	 * @param listaCapiOvicaprini - lista degli animali di tipo ovicaprino appartenenti all'azienda che si sta analizzando.
+	 * @param listaCapiMacellati - lista degli animali di tipo macellato appartenenti all'azienda che si sta analizzando.
+	 * @param codiciPremio - codici premio per cui concorre l'azienda che si sta analizzando.
+	 * @return tempHashmap - istanza di tipo {@link HashMap}
 	 */
 	public HashMap<String, List<Long>> buildMap(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini,
 			List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini, List<Dmt_t_clsCapoMacellato> listaCapiMacellati,
@@ -319,16 +312,17 @@ public class ref03 {
 	/**
 	 * nel metodo updateMap viene effettuato l'aggiornamento dei capi in base al
 	 * codice premio. i premi zootecnici non sono tutti tra loro cumulabili. I soli
-	 * interventi che sono cumulabili tra di loro sono le seguenti coppie di misure:
-	 * - Misura 1 (310) con la misura 2 (311) - Misura 4 (313) con la misura 18
-	 * (314) Pertanto, qualora un capo dovesse risultare ammissibile al pagamento
+	 * interventi che sono cumulabili tra di loro sono le seguenti coppie di misure: <br>
+	 * - Misura 1 (310) {@link ClcInt310Mis1} con la misura 2 (311) {@link ClcInt311Mis2} <br>
+	 * - Misura 4 (313) {@link ClcInt313Mis4} con la misura 18(314) {@link ClcInt314Mis18} . <br>
+	 * Pertanto, qualora un capo dovesse risultare ammissibile al pagamento
 	 * per una pluralità di misure zootecniche tra loro non cumulabili, il sostegno
 	 * è erogato con riferimento alla misura per la quale è previsto l’importo
 	 * unitario più elevato (o alla somma dei importi unitari nel caso di misure
 	 * cumulabili).
 	 * 
-	 * @param capiPerPremio tabella di hash degli animali concorrenti a premio.
-	 * @return tempHash -> tabella di hash con valori aggiornati.
+	 * @param capiPerPremio - tabella di hash degli animali concorrenti a premio.
+	 * @return tempHash - tabella di hash con valori aggiornati.
 	 */
 	public HashMap<String, List<Long>> updateMap(HashMap<String, List<Long>> capiPerPremio) {
 
@@ -448,14 +442,10 @@ public class ref03 {
 	 * presenti nella lista dei codici premio per cui un dato animale concorre. Se
 	 * il codice premio ricercato viene trovato nella lista dei codici premio
 	 * associati al dato animale, allora viene ritornato un valore booleano true,
-	 * altrimenti viene ritornato un valore booleano false
-	 * 
-	 * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per
-	 *                                              cui un dato animale concorre.
-	 * @param codPremio                             - codice premio che si sta
-	 *                                              analizzando.
-	 * @return boolean - (true se codPremio si trova in
-	 *         codiciPremioFiltratiPerAnimaliAPremio, false altrimenti).
+	 * altrimenti viene ritornato un valore booleano false.
+	 * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per cui un dato animale concorre.
+	 * @param codPremio - codice premio che si sta analizzando.
+	 * @return <b>true:</b> se codPremio si trova in codiciPremioFiltratiPerAnimaliAPremio, <b>false:</b> altrimenti).
 	 */
 	public Boolean contains(List<String> codiciPremioFiltratiPerAnimaliAPremio, String codPremio) {
 
@@ -466,6 +456,10 @@ public class ref03 {
 		return false;
 	}
 
+	/**
+	 * Metodo che verifica se il cuaa fornito ha commesso delle irregolarità intenzionali, {@link Dmt_t_irregolarita_intenzionale}.
+	 * @return il numero di animali anomali a causa di una irregolarità intenzionale di tipo {@link BigDecimal}.
+	 */
 	private BigDecimal isIrregolaritaIntenzionale() {
 		BigDecimal numeroAnimaliAnomali = new BigDecimal(0);
 		List<Dmt_t_irregolarita_intenzionale> listaIrregolaritaIntenzionali = this.controlliService

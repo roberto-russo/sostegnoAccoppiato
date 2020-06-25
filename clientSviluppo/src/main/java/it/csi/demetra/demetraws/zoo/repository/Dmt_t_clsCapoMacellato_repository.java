@@ -25,7 +25,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione ", nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base all' idSessione.
-	 * @param idSessione codice di sessione associato all'esecuzione
+	 * @param idSessione - codice di sessione associato all'esecuzione
 	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
 	 */
 	List<Dmt_t_clsCapoMacellato>findByIdSession(@Param("idSessione") Long idSessione);
@@ -33,10 +33,10 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione AND CUAA = :cuaa and CODICE_PREMIO = :codiceIntervento", nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base all'idSesione, il cuaa e il codiceIntervento
-	 * @param idSessione codice di sessione associato all'esecuzione
-	 * @param cuaa codice fiscale del richiedente
-	 * @param codiceIntervento codice intervento per cui il cuaa ha fatto richiesta.
-	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 * @param idSessione - codice di sessione associato all'esecuzione
+	 * @param cuaa - codice fiscale del richiedente
+	 * @param codiceIntervento - codice intervento per cui il cuaa ha fatto richiesta.
+	 * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
 	 */
 	List<Dmt_t_clsCapoMacellato>findByIdSessionAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 	
@@ -47,9 +47,9 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 		   nativeQuery = true)
 	/**
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base all'idSessione, il cuaa  e dataNascita compresa tra  [18,20)
-	 * @param idSessione codice di sessione associato all'esecuzione
-	 * @param cuaa codice fiscale del richiedente
-	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 * @param idSessione - codice di sessione associato all'esecuzione
+	 * @param cuaa - codice fiscale del richiedente
+	 * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
 	 */
 	List<Dmt_t_clsCapoMacellato>findByIdSessionAndCuaa9903(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 	
@@ -59,7 +59,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	 * @param idSessione codice di sessione associato all'esecuzione
 	 * @param capoId identificativo del capo animale
 	 * @param codiceIntervento codice identificativo del premio
-	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
 	 */
 	List<Dmt_t_clsCapoMacellato> FindByCapoId(@Param("idSessione") Long idSessione, @Param("capoId") Long capoId, @Param("codiceIntervento") String codiceIntervento);
 
@@ -72,7 +72,7 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base allìidSessione e il cuaa
 	 * @param idSessione codice di sessione associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
-	 * @return lista di istanze di tipo @see Dmt_t_clsCapoMacellato
+	 * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
 	 */
 	List<Dmt_t_clsCapoMacellato> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
 

@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_w_controlli_preammissibilita_id implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5395829384273424696L;
 
     private String nomeClasseCalcolo;

@@ -10,21 +10,21 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_dsScarico_allevamenti_repos
 
 @Service
 /**
- * Classe service che utilizza le Query definite nel repository @see Dmt_t_dsScarico_allevamenti_repository
- * per la persistenza di oggetti di tipo @see Dmt_t_dsScarico_allevamenti
+ * Classe service che utilizza le Query definite nel repository Dmt_t_dsScarico_allevamenti_repository
+ * per la persistenza di oggetti di tipo Dmt_t_dsScarico_allevamenti
  * @author Bcsoft
  */
 public class Dmt_t_dsScarico_allevamenti_services {
 
 	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo @see Dmt_t_dsScarico_allevamenti_repository.
+     * Repository in cui sono definite le Query di tipo Dmt_t_dsScarico_allevamenti_repository.
      */
 	Dmt_t_dsScarico_allevamenti_repository rep;
 
 	/**
-     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo @see Dmt_t_dsScarico_allevamenti in base ad annoCampagna.
-     * @return lista degli oggetti di tipo @see Dmt_t_dsScarico_allevamenti
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo {@link Dmt_t_dsScarico_allevamenti} in base ad annoCampagna.
+     * @return lista degli oggetti di tipo {@link Dmt_t_dsScarico_allevamenti}
      */
 	public List<Dmt_t_dsScarico_allevamenti> getAll() {
 		return rep.findAll();

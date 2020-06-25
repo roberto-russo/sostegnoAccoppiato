@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_w_calcoli_interventi_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5537378989307980411L;
 
 	private Long idGestore;

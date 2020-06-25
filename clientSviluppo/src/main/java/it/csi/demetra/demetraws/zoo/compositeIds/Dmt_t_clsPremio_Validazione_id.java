@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Dmt_t_clsPremio_Validazione_id implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -534954640914917834L;
 
 	private String codiceIntervento;
