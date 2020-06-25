@@ -84,7 +84,7 @@ public class WebServiceController {
                     erroreService.saveError(e.getErrore());
                 else System.out.println(e.getMessage());
             } catch (CalcoloException e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getCause() + e.getMessage());
             }
         }
 
