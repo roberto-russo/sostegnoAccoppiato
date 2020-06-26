@@ -155,7 +155,7 @@ public class ClcInt317Mis19 extends Controllo {
 					
 				if (importoLiquidabile == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-							+ " nessun capo ha suprato il controllo per il premio 316 misura 19");
+							+ " nessun capo ha suprato il controllo per il premio 317 misura 19");
 				
 			} catch (ControlloException e) {
 		
