@@ -21,8 +21,9 @@ import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 
 @Component("ClcInt320Mis6")
 /**
- * La classe ClcInt320Mis6 indica i controlli da applicare per il calcolo del premio zootecnia
- * per l’intervento 320 – Misura 6 agnelle da rimonta
+ * La classe ClcInt320Mis6 indica i controlli da applicare per il calcolo del
+ * premio zootecnia per l’intervento 320 – Misura 6 agnelle da rimonta
+ * 
  * @author Bcsoft
  *
  */
@@ -46,10 +47,13 @@ public class ClcInt320Mis6 extends Controllo {
 
 	@Override
 	/**
-	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
-	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
-	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 320 misura 6.
-	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
+	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
+	 * prima è l'inizializzazione delle variabili di classe. La seconda è
+	 * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato
+	 * di tali controlli pregiudica l'esecuzione del calcolo stesso. Se
+	 * l'esecuzione ha esito positivo, allora si può procedere con il calcolo
+	 * intervento 320 misura 6. Se l'esecuzione ha esito negativo, allora viene
+	 * generato un messaggio di errore.
 	 */
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		this.numeroCapiRichiesti = 0;
@@ -63,8 +67,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 		try {
 
-//			CALCOLO TRASVERSALE REF9902
-			
+			// CALCOLO TRASVERSALE REF9902
+
 			ref9902.init(getSessione().getIdSessione(), getAzienda().getCodicePremio(),
 					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 
@@ -78,13 +82,13 @@ public class ClcInt320Mis6 extends Controllo {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
 		}
 
+		// CALCOLO TRASVERSALE 9903
 
-		
-//		CALCOLO TRASVERSALE 9903
-		
-		ref9903.init(getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
-				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
-				getAzienda().getCuaa(), getSessione());
+		ref9903.init(
+				getControlliService().getOvicapriniBySessioneCuaaCodIntervento(getSessione().getIdSessione(),
+						getAzienda().getCuaa(), getAzienda().getCodicePremio()),
+				getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(),
+				getSessione());
 		try {
 			this.ubaMin = ref9903.calcolo();
 
@@ -98,8 +102,8 @@ public class ClcInt320Mis6 extends Controllo {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 
-//		LISTA DI CAPI AMMESSI
-		
+		// LISTA DI CAPI AMMESSI
+
 		capiAmmessiUba = ubaMin.getListaCapi();
 
 	}
@@ -121,7 +125,8 @@ public class ClcInt320Mis6 extends Controllo {
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-
+		
+		 try{
 			for (Dmt_t_premio_capi capi : capiAmmessiUba) {
 
 				
@@ -172,7 +177,17 @@ public class ClcInt320Mis6 extends Controllo {
 					new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "", "errore, cuaa proprietario o cuaa detentore non trovato");
 				}
 			}
-		} else {
+			if (numeroCapiAmmissibili == 0) {
+				throw new ControlloException("per il cuaa " + getAzienda().getCuaa() + " nessun capo ha suprato il controllo per il premio 320 misura 6");	
+			}
+				
+		} catch (ControlloException e) {
+			// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+			new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
+		}
+		 }
+		 
+		 else {
 			// verifica controlli in loco
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if (!c.getAnomalie_cgo().contains("B"))
@@ -182,15 +197,16 @@ public class ClcInt320Mis6 extends Controllo {
 
 	@Override
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli.
-	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
-	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio e il numero
-	 * dei capi richiesti a premio.
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
+	 * ammessi a premio in @see Dmt_t_output_controlli. Per i capi risultanti
+	 * idonei al premio in questione, sarà salvata l'informazione dell'anno
+	 * campagna per cui concorrono, il numero di capi ammessi a premio, il cuaa
+	 * che ha presentato la domanda e il codice premio e il numero dei capi
+	 * richiesti a premio.
 	 */
 	public void postEsecuzione() throws ControlloException {
 
-		
-//		SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
+		// SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
 		this.oc = new Dmt_t_output_controlli();
 		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
