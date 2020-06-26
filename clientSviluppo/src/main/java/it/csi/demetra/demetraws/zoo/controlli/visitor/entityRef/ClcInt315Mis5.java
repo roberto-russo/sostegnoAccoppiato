@@ -21,7 +21,6 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
-import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 
 @Component("ClcInt315Mis5")
 /**
@@ -35,8 +34,6 @@ public class ClcInt315Mis5 extends Controllo {
 
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private List<Dmt_t_clsCapoMacellato> modelMacellato;
-	private List<Dmt_t_clsCapoMacellato> modelMacellatoFiltrato;
-
 	private int importoLiquidabile = 0;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
 	private Dmt_t_output_controlli oc;
@@ -46,8 +43,6 @@ public class ClcInt315Mis5 extends Controllo {
 
 	@Autowired
 	private CtlUbaMinime ref9903;
-	@Autowired
-	private Dmt_t_clsCapoMacellato_services capiMacellatiService;
 	private int numeroCapiRichiesti;
 	private int contatoreBocciati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
@@ -72,7 +67,6 @@ public class ClcInt315Mis5 extends Controllo {
 		this.oe = null;
 		this.motivazione = null;
 		this.ubaMin = new ResultCtlUbaMinime();
-		this.modelMacellatoFiltrato = null;
 	
 	// controlli di preammissibilità
 		
@@ -92,8 +86,6 @@ public class ClcInt315Mis5 extends Controllo {
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
-		
-		this.modelMacellatoFiltrato = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 	}
 
 	@Override
@@ -117,7 +109,7 @@ public class ClcInt315Mis5 extends Controllo {
 			
 			try {
 				
-				for (Dmt_t_clsCapoMacellato m : this.modelMacellatoFiltrato) {
+				for (Dmt_t_clsCapoMacellato m : this.modelMacellato) {
 				
 					
 					
@@ -156,7 +148,7 @@ public class ClcInt315Mis5 extends Controllo {
 					
 				if (importoLiquidabile == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-							+ " nessun capo ha suprato il controllo per il premio 316 misura 19");
+							+ " nessun capo ha suprato il controllo per il premio 315 misura 5");
 				
 			} catch (ControlloException e) {
 		
