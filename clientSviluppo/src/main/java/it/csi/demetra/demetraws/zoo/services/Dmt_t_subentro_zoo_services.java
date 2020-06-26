@@ -43,7 +43,6 @@ public class Dmt_t_subentro_zoo_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo {@link Dmt_t_subentro_zoo}
-	 * {@link Dmt_t_subentro_zoo_repository#save(Dmt_t_subentro_zoo)}
 	 * @param subentro istanza da salvare a DB
 	 */
 	public void saveSubentro(Dmt_t_subentro_zoo subentro) {
