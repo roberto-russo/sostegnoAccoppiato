@@ -45,7 +45,6 @@ public class Dmt_t_sessione_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo Dmt_t_sessione.
-	 * {@link Dmt_t_sessione_repository#save(Dmt_t_sessione)}
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 * @return istanza di tipo {@link Dmt_t_sessione} da salvare a DB
 	 */
@@ -55,7 +54,6 @@ public class Dmt_t_sessione_services {
 	
 	/**
 	 * Metodo che ritorna un'istanza di tipo {@link Dmt_t_sessione} in base a idSessione
-	 * {@link Dmt_t_sessione_repository#findById(Long)}
 	 * @param idSessione identificativo univoco associato all'esecuzione
 	 * @return istanza di tipo {@link Dmt_t_sessione}
 	 */

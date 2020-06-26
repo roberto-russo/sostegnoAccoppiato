@@ -33,7 +33,6 @@ public class Dmt_t_Tbdn_du_capi_services {
 	
 	/**
 	 * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo {@link Dmt_t_Tbdn_du_capi}
-	 * {@link Dmt_t_Tbdn_du_capi_repository#saveAll(Iterable))}
 	 * @param capo subentro istanza da salvare a DB
 	 */
 	public void saveCapo(List<Dmt_t_Tbdn_du_capi> capo) {

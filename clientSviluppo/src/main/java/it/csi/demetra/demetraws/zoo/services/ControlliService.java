@@ -195,7 +195,6 @@ public class ControlliService {
 
     /**
      * Metodo che effettua la persistenza di un oggetto di tipo Dmt_t_output_controlli.
-     * {@link Dmt_t_output_controlli_repository#save(Dmt_t_output_controlli)}
      * @param output istanza di tipo {@link Dmt_t_output_controlli} da salvare a DB
      */
     public void saveOutput(Dmt_t_output_controlli output) {
@@ -467,7 +466,6 @@ public class ControlliService {
 
     /**
      * Metodo che effettua il salvataggio a DB di un'istanza di Dmt_t_output_ref03.
-     * {@link Dmt_t_output_ref03_repository#save(Dmt_t_output_ref03)}
      * @param output istanza di tipo {@link Dmt_t_output_ref03}
      */
     public void saveOutputRef03(Dmt_t_output_ref03 output) {
