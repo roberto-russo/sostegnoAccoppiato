@@ -96,7 +96,7 @@ public class ref03 {
 		try {
 			capiPerPremio = updateMap(capiPerPremio);
 		} catch(Exception e) {
-			throw new CalcoloException(e.getMessage());
+			throw new CalcoloException("errore durante il recupero dell'importo unitario");
 		}
 
 		for (String cp : codiciPremio) {
@@ -109,7 +109,7 @@ public class ref03 {
 			try {
 				esito = capiAnomali.divide(capiAccertati, MathContext.DECIMAL128);
 			} catch (ArithmeticException e) {
-//				throw new CalcoloException("errore durante il calcolo dell'esito");
+
 			}
 
 			percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
@@ -119,6 +119,7 @@ public class ref03 {
 						.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp)
 						.getImportoUnitario());
 			}catch(Exception e) {
+				
 				throw new CalcoloException("errore durante il recupero dell'importo unitario");
 			}
 			
@@ -145,7 +146,7 @@ public class ref03 {
 					percDecurtazione = this.controlliService
 							.getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo);
 					importoPagatoNettoDecurtazione = percDecurtazione != null ? importoPagatoLordoDecurtazione.subtract(
-							(importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100)))
+							(importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100)), MathContext.DECIMAL128)
 							: BigDecimal.ZERO;
 				} catch (NullPointerException e) {
 					throw new CalcoloException("errore durante il calcolo dell'importo pagato al netto della decurtazione");
