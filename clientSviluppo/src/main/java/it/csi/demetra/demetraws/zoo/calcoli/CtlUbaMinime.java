@@ -106,7 +106,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	
 	public void init(List<?> listaCapi, String codIntervento,Long annoCampagna, String cuaa, Dmt_t_sessione sessione) {
 		if( listaCapi!=null && sessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
+		
 			if( !listaCapi.isEmpty() ) {
+				
+				clearLists();
 				
 				this.listaCapi = listaCapi;		
 				setCodIntrervento(codIntervento);
@@ -595,5 +598,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			salvataggioEseguitoCorrettamente = false;
 			LOGGER.error("Errore durante il salvataggio capi controllati 9903 : ",e);
 		}
+	}
+	
+	private void clearLists() {
+		if(this.listaCapiVaccheEscluse != null || !this.listaCapiVaccheEscluse.isEmpty())
+			this.listaCapiVaccheEscluse.clear();
 	}
 }
