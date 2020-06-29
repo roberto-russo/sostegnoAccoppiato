@@ -95,8 +95,8 @@ public class ref03 {
 
 		try {
 			capiPerPremio = updateMap(capiPerPremio);
-		} catch(Exception e) {
-			throw new CalcoloException("errore durante il recupero dell'importo unitario");
+		} catch(NullPointerException e) {
+			throw new CalcoloException("errore durante il recupero degli importi unitari");
 		}
 
 		for (String cp : codiciPremio) {
@@ -334,7 +334,7 @@ public class ref03 {
 	 * @return tempHash - tabella di hash con valori aggiornati.
 	 * @throws Exception gestione eccezione di tipo {@link Exception} 
 	 */
-	public HashMap<String, List<Long>> updateMap(HashMap<String, List<Long>> capiPerPremio) throws Exception {
+	public HashMap<String, List<Long>> updateMap(HashMap<String, List<Long>> capiPerPremio) {
 
 		List<String> codiciPremioFiltratiPerAnimaliAPremio = new ArrayList<String>();
 		HashMap<String, List<Long>> tempHash = new HashMap<String, List<Long>>();
@@ -361,13 +361,13 @@ public class ref03 {
 
 					List<Dmt_t_importo_unitario> importiUnitariPerAnimale = new ArrayList<Dmt_t_importo_unitario>();
 					
-					try {
+//					try {
 						importiUnitariPerAnimale = this.controlliService.getListImportiUnitariByAnnoCampagnaAndIntervento(
 								this.azienda.getAnnoCampagna(), codiciPremioFiltratiPerAnimaliAPremio);
 						
-					} catch(NullPointerException f) {
-						throw new Exception("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-					}
+//					} catch(NullPointerException f) {
+//						throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
+//					}
 
 					String importoDaNonConsiderare = "";
 					Dmt_t_importo_unitario importo1 = null;
@@ -378,15 +378,15 @@ public class ref03 {
 
 						coppia310 = true;
 						
-						try {
+//						try {
 							importo1 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "310");
 							importo2 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "311");
 						
-						} catch(NullPointerException f) {
-							throw new Exception("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-						}
+//						} catch(NullPointerException f) {
+//							throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
+//						}
 
 						importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
 								? importo1.getIntervento()
@@ -398,14 +398,14 @@ public class ref03 {
 
 						coppia313 = true;
 						
-						try {
+//						try {
 							importo1 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "313");
 							importo2 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "314");
-						} catch(NullPointerException f) {
-							throw new Exception("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-					}
+//						} catch(NullPointerException f) {
+//							throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
+//					}
 						importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
 								? importo1.getIntervento()
 								: importo2.getIntervento();
