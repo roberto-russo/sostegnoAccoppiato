@@ -361,14 +361,9 @@ public class ref03 {
 
 					List<Dmt_t_importo_unitario> importiUnitariPerAnimale = new ArrayList<Dmt_t_importo_unitario>();
 					
-//					try {
 						importiUnitariPerAnimale = this.controlliService.getListImportiUnitariByAnnoCampagnaAndIntervento(
 								this.azienda.getAnnoCampagna(), codiciPremioFiltratiPerAnimaliAPremio);
 						
-//					} catch(NullPointerException f) {
-//						throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-//					}
-
 					String importoDaNonConsiderare = "";
 					Dmt_t_importo_unitario importo1 = null;
 					Dmt_t_importo_unitario importo2 = null;
@@ -378,16 +373,11 @@ public class ref03 {
 
 						coppia310 = true;
 						
-//						try {
 							importo1 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "310");
 							importo2 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "311");
 						
-//						} catch(NullPointerException f) {
-//							throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-//						}
-
 						importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
 								? importo1.getIntervento()
 								: importo2.getIntervento();
@@ -398,15 +388,12 @@ public class ref03 {
 
 						coppia313 = true;
 						
-//						try {
 							importo1 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "313");
 							importo2 = this.controlliService
 									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "314");
-//						} catch(NullPointerException f) {
-//							throw new CalcoloException("errore durante il recupero degli importi unitari, nessun importo unitario trovato");
-//					}
-						importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
+
+							importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
 								? importo1.getIntervento()
 								: importo2.getIntervento();
 
