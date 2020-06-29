@@ -515,9 +515,9 @@ public class ControlliService {
     	return rpuVPraticaRep.findByCuaaAndCodicePremioAndAnnoCampagna(cuaa, codicePremio,  annoCampagna);
     }
     
-    public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniDiRitardo) {
+    public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniRitardo) {
     	
-    	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniDiRitardo);
+    	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniRitardo);
     }
 
     public List<Dmt_t_irregolarita_intenzionale> getIrregolaritaByCuaaAndAnnoCampagna(String cuaa, Integer annoCampagna) {
