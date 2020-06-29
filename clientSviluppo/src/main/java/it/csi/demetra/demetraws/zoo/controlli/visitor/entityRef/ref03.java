@@ -62,6 +62,7 @@ public class ref03 {
 	 * effettuato tali calcoli, verranno salvati a db nella rispettiva tabella di
 	 * output.
 	 * @throws CalcoloException eccezione riferita al calcolo di tipo {@link CalcoloException}
+	 * @throws NullPointerException eccezione riferita al passaggio di un valore null {@link NullPointerException}
 	 */
 	public void esecuzione() throws CalcoloException {
 
@@ -332,7 +333,7 @@ public class ref03 {
 	 * 
 	 * @param capiPerPremio - tabella di hash degli animali concorrenti a premio.
 	 * @return tempHash - tabella di hash con valori aggiornati.
-	 * @throws Exception gestione eccezione di tipo {@link Exception} 
+	 * 
 	 */
 	public HashMap<String, List<Long>> updateMap(HashMap<String, List<Long>> capiPerPremio) {
 
