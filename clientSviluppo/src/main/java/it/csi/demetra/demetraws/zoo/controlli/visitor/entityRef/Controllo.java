@@ -23,7 +23,7 @@ public abstract class Controllo {
 
     /**
      * esecuzione dei controlli
-     * @throws ControlloException eccezzione riferita al controllo di tipo {@link ControlloException}
+     * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
      */
     abstract public void esecuzione() throws ControlloException;
 
