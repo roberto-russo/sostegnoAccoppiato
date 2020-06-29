@@ -65,7 +65,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	List<String> findByCuaa(@Param("cuaa") String cuaa);
 	
 	
-	@Query(value = "SELECT giorni_di_ritardo FROM rpu_v_pratica_zoote WHERE cuaa = :cuaa AND codice_premio = :codicePremio AND anno_campagna = :annoCampagna",
+	@Query(value = "SELECT giorni_ritardo FROM rpu_v_pratica_zoote WHERE cuaa = :cuaa AND codice_premio = :codicePremio AND anno_campagna = :annoCampagna",
 			nativeQuery = true)
 	Integer findByCuaaAndCodicePremioAndAnnoCampagna(@Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio, @Param("annoCampagna") Integer annoCampagna);
 	
