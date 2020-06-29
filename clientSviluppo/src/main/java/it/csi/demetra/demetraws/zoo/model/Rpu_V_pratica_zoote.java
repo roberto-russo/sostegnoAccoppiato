@@ -87,28 +87,28 @@ public class Rpu_V_pratica_zoote implements Serializable {
      */
     private String codicePremio;
     
-    @Column(name = "GIORNI_DI_RITARDO")
+    @Column(name = "GIORNI_RITARDO")
     /**
      * Giorni di ritardo della presentazione della domanda
      */
-    BigDecimal giorniDiRitardo;
+    BigDecimal giorniRitardo;
 
     
     
     /**
      * Metodo getter che ritorna il numero di giorni di ritardo della presentazione della domanda
-     * @return giorniDiRitardo numero di giorni di ritardo della presentazione della domanda
+     * @return giorniRitardo numero di giorni di ritardo della presentazione della domanda
      */
-    public BigDecimal getGiorniDiRitardo() {
-		return giorniDiRitardo;
+    public BigDecimal getGiorniRitardo() {
+		return giorniRitardo;
 	}
 
     /**
      * Metodo setter che imposta il numero di giorni di ritardo della presentazione della domanda
-     * @param giorniDiRitardo giorni di ritardo della presentazione della domanda
+     * @param giorniRitardo giorni di ritardo della presentazione della domanda
      */
-	public void setGiorniDiRitardo(BigDecimal giorniDiRitardo) {
-		this.giorniDiRitardo = giorniDiRitardo;
+	public void setGiorniRitardo(BigDecimal giorniRitardo) {
+		this.giorniRitardo = giorniRitardo;
 	}
 
 	public void setIdentificativo(long identificativo) {
