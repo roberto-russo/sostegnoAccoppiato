@@ -86,11 +86,18 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	
 	/**
+	 * <p>
 	 * CALCOLO 9901
-	 * 
-	 * Il calcolo esegue: <b>preEsecuzione()</b> in cui si inizializzano tutti i dati che occorrono al calcolo,
-	 * <b>esecuzione()</b> in cui si esegue il calcolo effettivo, e <b>postEsecuzione()</b> in cui si controlla l'esito del calcolo e lo si salva su DB.
-	 * Il metodo ritorna un oggetto contenente : la lista dei capi ammessi, la lista vuota se nessun capo è stato ammesso e null se ci sono stati errori
+	 * </p>
+	 * <br>Il calcolo esegue:<br> 
+	 * <b>preEsecuzione():</b><br> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;in cui si inizializzano tutti i dati che occorrono al calcolo<br>
+	 * <b>esecuzione():</b><br> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;in cui si esegue il calcolo effettivo<br> 
+	 * <b>postEsecuzione():</b><br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;in cui si controlla l'esito del calcolo e lo si salva su DB.<br><br>
+	 * Il metodo ritorna un oggetto contenente:<br>
+	 * la lista dei capi ammessi, la lista vuota se nessun capo è stato ammesso e null se ci sono stati errori
 	 */
 //	 * 1- la lista dei capi controllati con flagCapoAmmesso = 'S'/'N' e la motivazione
 //	 * 2- un campo booleano esito che indica se il calcoloTempisticaDiRegistrazione() è andato a buon fine
@@ -120,24 +127,24 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		
 	}
 	
-	/**
-	 * TEMPISTICA REGISTRAZIONE CAPI
-	 * 
-	 * tempisticaRegistrazione = tI + tR
-	 * 
-	 * Il calcolo dei due parametri è dato da: <br>
-	 * 
-	 *	tI = [Data di identificazione del vitello] - [Data di nascita del vitello]  <br>
-	 *	tR = [Data di registrazione in BDN della nascita del capo] - [Data di identificazione del vitello] <br>
-	 * 
-	 * Se l'esecuzione non presenta problemi: return true <br>
-	 * Se ci sono stati errori durante l'esecuzione: return false
-	 * 
-	 * @param listaCapi - lista dei capi di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
-	 * 
-	 * @return true/false
-	 * 
-	 */
+//	/**
+//	 * TEMPISTICA REGISTRAZIONE CAPI
+//	 * 
+//	 * tempisticaRegistrazione = tI + tR
+//	 * 
+//	 * Il calcolo dei due parametri è dato da: <br>
+//	 * 
+//	 *	tI = [Data di identificazione del vitello] - [Data di nascita del vitello]  <br>
+//	 *	tR = [Data di registrazione in BDN della nascita del capo] - [Data di identificazione del vitello] <br>
+//	 * 
+//	 * Se l'esecuzione non presenta problemi: return true <br>
+//	 * Se ci sono stati errori durante l'esecuzione: return false
+//	 * 
+//	 * @param listaCapi - lista dei capi di tipo {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini}
+//	 * 
+//	 * @return true/false
+//	 * 
+//	 */
 	
 	private boolean calcoloTempisticaDiRegistrazione(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi) {
 		
@@ -427,10 +434,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	
 	/**
-	 * Metodo preEsecuzione()
-	 * 
 	 * Nella preesecuzione vengono inizializzati i dati necessari al calcolo.
-	 * 
 	 * */
 	@Override
 	public void preEsecuzione() throws CalcoloException {
@@ -443,9 +447,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * Nell' esecuzione si effettua il calcolo vero e proprio.
 	 * Per ogni lista di vitelli delle vacche, va effettuato il calcoloTempisticaDiRegistrazione().
 	 * Se il metodo viene eseguito correttamente, si controlla l'esito e se positivo, la vacca è ammessa a premio,
-	 * altrimenti la vacca non è ammessa a premio.
-	 * Alla fine dell'esecuzione le liste di vacche ammesse ed escluse saranno popolate.
-	 * 
+	 * altrimenti la vacca non è ammessa a premio. Alla fine dell'esecuzione le liste di vacche ammesse ed escluse saranno popolate.
 	 * */
 	@Override
 	public void esecuzione() throws CalcoloException {
@@ -491,7 +493,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	}
 	/**
 	 * Nella postesecuzione si provvede al salvataggio dei dati su DB.
-	 * Inoltre si setta la lista di vacche ammesse che sarà restituita dal metodo calcolo().
+	 * Inoltre si setta la lista di vacche ammesse che sarà restituita dal metodo {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi#calcolo()}
 	 * Se nessuna vacca sarà ammessa, allora l'output sarà null.
 	 * Se ci saranno errori durante la compilazione allora l'output sarà null
 	 * */

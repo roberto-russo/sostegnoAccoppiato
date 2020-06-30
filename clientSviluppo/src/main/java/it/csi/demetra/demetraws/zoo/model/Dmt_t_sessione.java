@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "DMT_T_SESSIONE")
 /**
  * Model per la storicizzazione della sessione. Tutti  gli oggetti salvati
  * a db sono storicizzati attraverso questa classe.
  * @version 0.1 (02-04-2020)
  * @author Bcsoft
  */
+@Entity(name = "DMT_T_SESSIONE")
 public class Dmt_t_sessione implements Serializable {
 
     /**

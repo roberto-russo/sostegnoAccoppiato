@@ -9,18 +9,18 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Dmt_t_Tws_bdn_du_capi_ovicaprini_repository
  * per la persistenza di oggetti di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 
+	/**
+	 * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.
+	 */
     @Autowired
-    /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.
-     */
     Dmt_t_Tws_bdn_du_capi_ovicaprini_repository rep;
 
     /**

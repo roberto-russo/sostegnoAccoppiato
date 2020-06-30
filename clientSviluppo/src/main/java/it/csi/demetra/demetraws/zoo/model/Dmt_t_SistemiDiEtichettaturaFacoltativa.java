@@ -10,9 +10,7 @@ import javax.persistence.Table;
 @Table(name = "Dmt_t_sistemi_etichettatura")
 public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1421420988744825874L;
 
 	

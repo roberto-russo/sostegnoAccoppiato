@@ -22,8 +22,9 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 /**
- * Author: 
- * Title: Intervento 311 - Misura 2
+ * controlli da applicare per il calcolo del premio zootecnia per l’intervento 311 – Misura 2:<br>
+ * vacche da latte associate ad allevamenti situati in zone montane
+ * @author bcsoft
  */
 @Component("ClcInt311Mis2")
 public class ClcInt311Mis2 extends Controllo{
@@ -55,6 +56,12 @@ public class ClcInt311Mis2 extends Controllo{
     Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
     
     
+    /**
+     * il metodo preEsecuzione utilizza il controllo:
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+     * @throws CalcoloException eccezione relativa al calcolo di tipo {@link CalcoloException}
+     */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		
@@ -190,6 +197,10 @@ public class ClcInt311Mis2 extends Controllo{
 		}
 	}
 
+	/**
+     * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 311 Misura 2
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+     */ 
 	@Override
 	public void esecuzione() throws ControlloException {
 		/*
@@ -234,6 +245,10 @@ public class ClcInt311Mis2 extends Controllo{
 		}
 	}
 
+	/**
+     * il metodo postEsecuzione effettua il salvataggio a db dei risultati dell'intervento
+     * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
+     */
 	@Override
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO

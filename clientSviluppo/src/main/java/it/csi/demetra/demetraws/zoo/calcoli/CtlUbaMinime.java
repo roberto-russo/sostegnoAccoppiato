@@ -133,20 +133,25 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	}
 
 	/**
+	 * <h1>
 	 * CONTROLLI AMMISSIBILITÀ TRASVERSALI
+	 * </h1>
+	 * <br>Il Calcolo esegue:<br>
 	 * 
-	 * Il Calcolo esegue:
+	 * <b>preEsecuzione():</b> in cui si associa il corretto tipo di lista passata dall'utente<br>
+	 * <b>esecuzione():</b> in cui si esegue il calcolo effettivo<br>
+	 * <b>postEsecuzione():</b> in cui si controlla l'esito del calcolo e lo si salva su DB<br><br>
 	 * 
-	 * -preEsecuzione() in cui si associa il corretto tipo di lista passata dall'utente
-	 * -esecuzione() in cui si esegue il calcolo effettivo
-	 * -postEsecuzione() in cui si controlla l'esito del calcolo e lo si salva su DB
+	 * Il metodo ritorna un oggetto contenente due booleani:<br>
+	 * <b>response:</b><br> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;true uba raggiunte<br> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;false uba non raggiunte<br>
+	 * <b>errors:</b><br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;true se ci sono stati errori<br>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;false altrimenti<br><br>
 	 * 
-	 * Il metodo ritorna un oggetto contenente due booleani:
-	 * - response true uba raggiunte - false uba non raggiunte
-	 * - errors true se ci sono stati errori - false altrimenti
-	 * 
-	 * @return istanza di tipo @see ResultCtlUbaMinime
-	 * @throws CalcoloException eccezione riferita al calcolo @see Calcolo
+	 * @return istanza di tipo {@link ResultCtlUbaMinime}
+	 * @throws CalcoloException eccezione riferita al calcolo {@link CalcoloException}
 	 */
 	@Override
 	public ResultCtlUbaMinime calcolo() throws CalcoloException {

@@ -9,20 +9,20 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Dmt_t_contr_loco_repository
  * per la persistenza di oggetti di tipo Dmt_t_contr_loco
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_contr_loco_services implements Serializable{
 
 	private static final long serialVersionUID = 3537895581798649771L;
 
-	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo Dmt_t_contr_loco_repository.
-     */
+	 * Repository in cui sono definite le Query di tipo Dmt_t_contr_loco_repository.
+	 */
+	@Autowired
 	Dmt_t_contr_loco_repository rep;
 	
 	/**

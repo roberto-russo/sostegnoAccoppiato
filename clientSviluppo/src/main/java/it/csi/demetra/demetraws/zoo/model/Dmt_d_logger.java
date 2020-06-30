@@ -13,9 +13,7 @@ import java.util.Date;
 @IdClass(Dmt_d_logger_id.class)
 public class Dmt_d_logger implements Serializable {
 
-    /**
-     *
-     */
+
     private static final long serialVersionUID = 1515828060901867701L;
 
     @MapsId

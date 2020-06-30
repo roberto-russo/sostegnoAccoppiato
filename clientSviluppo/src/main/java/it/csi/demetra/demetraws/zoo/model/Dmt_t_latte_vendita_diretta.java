@@ -8,16 +8,14 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "Dmt_t_latte_vendita_diretta")
 /**
  * Tabella di raccolata dati relativi alle quantità di latte vendute dai
  * produttori in regime di vendita diretta
- *
- * @vesion 0.1 (03/04/2020)
+ * @version 0.1 (03/04/2020)
  * @author Bcsoft
- *
  */
+@Entity
+@Table(name = "Dmt_t_latte_vendita_diretta")
 @IdClass(Dmt_t_latte_vendita_diretta_id.class)
 public class Dmt_t_latte_vendita_diretta implements Serializable {
 

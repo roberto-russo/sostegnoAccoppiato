@@ -26,14 +26,13 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 
-@Component("ClcInt318Mis19")
 /**
- * Il caso d’uso indica i controlli da applicare per il calcolo del premio zootecnia per l’intervento 318 – Misura 19:
+ * Il caso d’uso indica i controlli da applicare per il calcolo del premio zootecnia per l’intervento 318 – Misura 19: <br>
  * capi bovini macellati di età compresa tra i 12 e 24 mesi aderenti a sistemi di etichettatura facoltativa riconosciuti
  * e allevati dal richiedente per un periodo non inferiore a sei mesi prima della macellazione.
  * @author Bcsoft
- *
  */
+@Component("ClcInt318Mis19")
 public class ClcInt318Mis19 extends Controllo {
 
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
@@ -56,13 +55,15 @@ public class ClcInt318Mis19 extends Controllo {
 	private Dmt_t_output_esclusi outputEsclusi;
 
 
-	@Override
 	/**
 	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
 	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
 	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 318 misura 19.
 	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
+	 * il metodo preEsecuzione utilizza il controllo:<br>
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
 	 */
+	@Override
 	public void preEsecuzione() throws ControlloException {
 		this.listaCapiMacellati = null;
 		this.estrazioneACampione = null;
@@ -238,13 +239,13 @@ public class ClcInt318Mis19 extends Controllo {
 			}
 	}
 
-	/**
-	 * nel metodo differenzaMesi viene calcolata la differenza in mesi tra due date
-	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
-	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
-	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
-	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
-	 */
+//	/**
+//	 * nel metodo differenzaMesi viene calcolata la differenza in mesi tra due date
+//	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
+//	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
+//	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
+//	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
+//	 */
 	private long differenzaMesi(Date dataInizio, Date dataFine) {
 		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -252,15 +253,15 @@ public class ClcInt318Mis19 extends Controllo {
 		return monthsBetween;
 	}
 	
-	/**
-	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
-	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
-	 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi, 
-	 * i capi ammissibili sono pagati esclusivamente al detentore.
-	 * @param duplicatiMacellati lista delle richieste effettuate sullo stesso capo
-	 * @param cuaa codice fiscale del richiedente analizzato
-	 * @return boolean true se il capo può essere pagato al cuaa analizzato, false altrimenti
-	 */
+//	/**
+//	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
+//	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
+//	 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi, 
+//	 * i capi ammissibili sono pagati esclusivamente al detentore.
+//	 * @param duplicatiMacellati lista delle richieste effettuate sullo stesso capo
+//	 * @param cuaa codice fiscale del richiedente analizzato
+//	 * @return boolean true se il capo può essere pagato al cuaa analizzato, false altrimenti
+//	 */
 	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
 
 		Dmt_t_anagrafica_allevamenti allev1;

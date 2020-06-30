@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_perc_gg_ritardo_id;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_perc_gg_ritardo;
 
-@Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
  * di tipo Dmt_t_perc_gg_ritardo e le query ad esso associate.
  * @author Bcsoft
  */
+@Repository
 public interface Dmt_t_perc_gg_ritardo_repository extends CrudRepository<Dmt_t_perc_gg_ritardo, Dmt_t_perc_gg_ritardo_id>{
 
 	/**

@@ -18,7 +18,6 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_premio_capi_repository;
 import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovini_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nei repository: <br>
  *  DsUBA_censimenti_allevamenti_ovini_repository <br>
@@ -28,60 +27,61 @@ import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovin
  *  Dmt_t_premio_capi_repository <br>
  * @author Bcsoft
  */
+@Service
 public class SaveOnDbService {
 	
+	/**
+	 * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
+	 */
     @Autowired
-    /**
-     * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
-     */
     DsUBA_censimenti_allevamenti_ovini_repository repUBA;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_d_clsPremio_ValidazioneResponse_repository.
      */
+    @Autowired
     Dmt_d_clsPremio_ValidazioneResponse_repository repValidResp;
 
-    @Autowired
     /**
      * istanza di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_services
      */
+    @Autowired
     Dmt_t_Tws_bdn_du_capi_ovicaprini_services capreService;
 
-    @Autowired
     /**
      * istanza di tipo Dmt_t_clsCapoMacellato_services
      */
+    @Autowired
     Dmt_t_clsCapoMacellato_services MacellatoService;
 
-    @Autowired
     /**
      * istanza di tipo Dmt_t_tws_bdn_du_capi_bovini_services
      */
+    @Autowired
     Dmt_t_tws_bdn_du_capi_bovini_services vaccheService;
 
-    @Autowired
     /**
      * istanza di tipo Dmt_t_Tbdn_du_capi_services
      */
+    @Autowired
     Dmt_t_Tbdn_du_capi_services capiService;
 
-    @Autowired
     /**
      * istanza di tipo Dmt_t_errore_services
      */
+    @Autowired
     Dmt_t_errore_services erroreService;
     
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti_repository.
      */
+    @Autowired
     Dmt_t_anagrafica_allevamenti_repository anagraficaRep;
     
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli_repository.
      */
+    @Autowired
     Dmt_t_output_controlli_repository outputControlliRep;
     
     /**

@@ -58,7 +58,7 @@ public class WebServiceController {
      * lo scarico per tutti i soggetti, vengono eseguiti i controlli. Ogni controllo restituisce il risultato atteso oppure lancia
      * un'eccezione contenente un log dettagliato dell'errore ottenuto.
      * Alla fine della procedura sarà possibile ripercorrere lo storico delle operazione in DB.
-     * @param annoCampagna - anno della campagna
+     * @param annoCampagna anno della campagna
      */
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
     public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna) {

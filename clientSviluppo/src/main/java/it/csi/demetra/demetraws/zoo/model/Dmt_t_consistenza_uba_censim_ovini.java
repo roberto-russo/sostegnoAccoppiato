@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_consistenza_uba_censim_ovini_id;
 
 
-@Entity
-@Table(name = "DMT_T_CONSIST_UBA_CENSIM_OVINI")
 /**
  * Classe model con parametri di ingresso per il metodo Consistenza_UBA_Censim_Ovini
  * @version 0.1 (02/04/2020)
  * @author bcsoft
  */
+@Entity
+@Table(name = "DMT_T_CONSIST_UBA_CENSIM_OVINI")
 @IdClass(Dmt_t_consistenza_uba_censim_ovini_id.class)
 public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
 

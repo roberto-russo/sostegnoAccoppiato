@@ -21,8 +21,9 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 /**
- * Author: 
- * Title: Intervento 312 - Misura 3
+ * controlli da applicare per il calcolo del premio zootecnia per l’intervento 312 – Misura 3:<br>
+ * Bufale
+ * @author bcsoft
  */
 @Component("ClcInt312Mis3")
 public class ClcInt312Mis3 extends Controllo{
@@ -60,7 +61,12 @@ public class ClcInt312Mis3 extends Controllo{
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVaccheDetentoriAllevNonAttivi;
 
-	
+	/**
+	 * il metodo preEsecuzione utilizza i controlli:
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+     * @throws CalcoloException eccezione relativa al calcolo di tipo {@link CalcoloException}
+	 */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		
@@ -166,6 +172,10 @@ public class ClcInt312Mis3 extends Controllo{
 		
 	}
 
+	/** 
+	 * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 312 Misura 3
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 */
 	@Override
 	public void esecuzione() throws ControlloException {
 		if (modelVaccheAmmesseUba != null && !modelVaccheAmmesseUba.isEmpty()) {
@@ -196,6 +206,10 @@ public class ClcInt312Mis3 extends Controllo{
 		}
 	}
 
+	/**
+	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati dell'intervento
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO

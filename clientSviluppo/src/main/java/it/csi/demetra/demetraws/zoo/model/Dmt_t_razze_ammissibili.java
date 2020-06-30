@@ -6,14 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name= "dmt_t_razze_ammissibili")
 /**
  * Classe delle razze ammissibili in base al decreto N 5465 7 giugno 2018
  * @version 0.0.1 (20/04/2020)
  * @author Bcsoft
  *
  */
+@Entity
+@Table(name= "dmt_t_razze_ammissibili")
 public class Dmt_t_razze_ammissibili {
 
 	@Column(name = "associazione")

@@ -15,12 +15,13 @@ public interface Dmt_t_irregolarita_intenzionale_repository extends CrudReposito
 
 	List<Dmt_t_irregolarita_intenzionale>findAll();
 
-	@Query(value = "SELECT * FROM dmt_t_irreg_inten where cuaa = :cuaa and anno_campagna = :annoCampagna",
-			nativeQuery = true)
 	/**
 	 * Query che ritorna una lista di istanze di tipo Dmt_t_irregolarita_intenzionale in base al cuaa ed annoCampagna 
 	 * @param cuaa codice fiscale del richiedente 
+	 * @param annoCampagna anno della campagna
 	 * @return lista di istanze di tipo Dmt_t_irregolarita_intenzionale
 	 */
+	@Query(value = "SELECT * FROM dmt_t_irreg_inten where cuaa = :cuaa and anno_campagna = :annoCampagna",
+			nativeQuery = true)
 	List<Dmt_t_irregolarita_intenzionale>findIrregByCuaaAndAnnoCampagna(@Param("cuaa")String cuaa, @Param("annoCampagna")Integer annoCampagna);
 }

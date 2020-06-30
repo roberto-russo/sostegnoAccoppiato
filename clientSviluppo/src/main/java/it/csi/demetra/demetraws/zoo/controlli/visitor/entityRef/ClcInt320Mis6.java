@@ -19,14 +19,13 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 
-@Component("ClcInt320Mis6")
 /**
  * La classe ClcInt320Mis6 indica i controlli da applicare per il calcolo del
- * premio zootecnia per l’intervento 320 – Misura 6 agnelle da rimonta
- * 
+ * premio zootecnia per l’intervento 320 – Misura 6:<br>
+ * agnelle da rimonta
  * @author Bcsoft
- *
  */
+@Component("ClcInt320Mis6")
 public class ClcInt320Mis6 extends Controllo {
 
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
@@ -45,7 +44,6 @@ public class ClcInt320Mis6 extends Controllo {
 	@Autowired
 	private CtlAgnelleDaRimonta ref9902;
 
-	@Override
 	/**
 	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
 	 * prima è l'inizializzazione delle variabili di classe. La seconda è
@@ -54,7 +52,11 @@ public class ClcInt320Mis6 extends Controllo {
 	 * l'esecuzione ha esito positivo, allora si può procedere con il calcolo
 	 * intervento 320 misura 6. Se l'esecuzione ha esito negativo, allora viene
 	 * generato un messaggio di errore.
+	 * il metodo preEsecuzione esegue i controlli: <br>
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlAgnelleDaRimonta} e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		this.numeroCapiRichiesti = 0;
 		this.estrazioneACampione = null;
@@ -108,12 +110,13 @@ public class ClcInt320Mis6 extends Controllo {
 
 	}
 
-	@Override
 	/**
 	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 320 misura 6.
 	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di capi ammissibili
-	 * e il capo sarà visibile in @see Dmt_t_output_controlli.
+	 * e il capo sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void esecuzione() throws ControlloException {
 
 		
@@ -195,15 +198,16 @@ public class ClcInt320Mis6 extends Controllo {
 		}
 	}
 
-	@Override
 	/**
 	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
-	 * ammessi a premio in @see Dmt_t_output_controlli. Per i capi risultanti
+	 * ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Per i capi risultanti
 	 * idonei al premio in questione, sarà salvata l'informazione dell'anno
 	 * campagna per cui concorrono, il numero di capi ammessi a premio, il cuaa
 	 * che ha presentato la domanda e il codice premio e il numero dei capi
 	 * richiesti a premio.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void postEsecuzione() throws ControlloException {
 
 		// SALVATAGGIO IN TABELLA OUTPUT CONTROLLI

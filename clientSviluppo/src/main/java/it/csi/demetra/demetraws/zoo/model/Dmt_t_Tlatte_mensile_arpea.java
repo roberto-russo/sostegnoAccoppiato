@@ -15,8 +15,6 @@ import org.hibernate.annotations.ColumnDefault;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Tlatte_mensile_arpea_id;
 
-@Entity
-@Table(name = "DMT_T_TLATTE_MENSILE_ARPEA")
 /**
  * Tabella che raccoglie i dati quantitativi, MENSILI, relativi alle produzioni
  * e alle quote latte inviati da ARPEA
@@ -25,6 +23,8 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Tlatte_mensile_arpea_id;
  * @author Bcsoft
  *
  */
+@Entity
+@Table(name = "DMT_T_TLATTE_MENSILE_ARPEA")
 @IdClass(Dmt_t_Tlatte_mensile_arpea_id.class)
 public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 

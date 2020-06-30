@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_errore_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Dmt_t_errore_repository
  * per la persistenza di oggetti di tipo Dmt_t_errore
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_errore_services {
 
-	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
-     */
+	 * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
+	 */
+	@Autowired
 	Dmt_t_errore_repository error_rep;
 	
 	/**

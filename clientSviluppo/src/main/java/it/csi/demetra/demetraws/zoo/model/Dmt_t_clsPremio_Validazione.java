@@ -14,20 +14,17 @@ import javax.validation.constraints.NotNull;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_clsPremio_Validazione_id;
 
-@Entity
-@Table(name = "DMT_T_CLS_PREMIO_VALID")
 /**
  * Classe model di ingresso dati per il metodo getElencoCapiPremioNew
  *
  * @version 0.1 (02/04/2020)
  * @author bcsoft
  */
+@Entity
+@Table(name = "DMT_T_CLS_PREMIO_VALID")
 @IdClass(Dmt_t_clsPremio_Validazione_id.class)
 public class Dmt_t_clsPremio_Validazione implements Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 2031702160950376333L;
 
 	@MapsId

@@ -20,8 +20,9 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Author: Federico Pomponii
- * Title: Intervento 310 - Misura 1
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 310 – Misura 1:<br>
+ * vacche da latte
+ * @author Federico Pomponii
  */
 @Component("ClcInt310Mis1")
 public class ClcInt310Mis1 extends Controllo {
@@ -69,10 +70,9 @@ public class ClcInt310Mis1 extends Controllo {
     }
 
     /**
-     * ClcInt310Mis1 - preEsecuzione() intervento 310 Misura 1
-     * Ref case utilizzati : Ref99.01 - Ref99.03
-     *
-     * @throws ControlloException eccezzione relativa al controllo di tipo {@link ControlloException}
+     * il metodo preEsecuzione utilizza i seguenti controlli:<br>
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e  {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
      */
     @Override
     public void preEsecuzione() throws ControlloException {
@@ -104,10 +104,8 @@ public class ClcInt310Mis1 extends Controllo {
 
 
     /**
-     * ClcInt310Mis1 - Esecuzione()
-     * Esecuzione dei controlli per l'intervento 310 Misura 1
-     *
-     * @throws ControlloException eccezione relativa al controllo di tipov {@link ControlloException}
+     * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 310 Misura 1
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
      */
     @Override
     public void esecuzione() throws ControlloException {
@@ -253,6 +251,10 @@ public class ClcInt310Mis1 extends Controllo {
         } else importoLiquidabile = 0;
     }
 
+    /**
+     * il metodo postEsecuzione effettua il salvataggio a db dei risultati dell'intervento
+     * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
+     */
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO

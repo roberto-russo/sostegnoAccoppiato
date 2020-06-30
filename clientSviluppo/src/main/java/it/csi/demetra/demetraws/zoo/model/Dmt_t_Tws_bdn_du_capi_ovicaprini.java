@@ -15,8 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "DMT_T_TWS_BDN_DU_CAPI_OVICA")
 /**
  * Classe degli ovicaprini
  * 
@@ -24,6 +22,8 @@ import javax.validation.constraints.NotNull;
  * @author Bcsoft
  *
  */
+@Entity
+@Table(name = "DMT_T_TWS_BDN_DU_CAPI_OVICA")
 public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
 
 	/**

@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_razze_ammissibili;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_razze_ammissibili_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Dmt_t_razze_ammissibili_repository
  * per la persistenza di oggetti di tipo Dmt_t_razze_ammissibili
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_razze_ammissibili_services {
 
-	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo Dmt_t_premio_capi_repository.
-     */
+	 * Repository in cui sono definite le Query di tipo Dmt_t_premio_capi_repository.
+	 */
+	@Autowired
 	Dmt_t_razze_ammissibili_repository rep;
 	
 	/**

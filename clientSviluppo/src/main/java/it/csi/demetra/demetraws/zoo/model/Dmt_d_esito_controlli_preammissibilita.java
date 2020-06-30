@@ -14,7 +14,6 @@ import java.util.Date;
  * @author bcsoft
  * @version 1.0 (02/04/2020)
  */
-
 @Entity
 @Table(name = "DMT_D_ESITO_CONTR_PREAMM")
 @IdClass(Dmt_d_esito_controlli_preammissibilita_id.class)

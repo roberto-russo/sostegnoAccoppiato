@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_errore_id;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 
-@Repository
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
  * di tipo Dmt_t_errore e le query ad esso associate.
  * @author Bcsoft
  */
+@Repository
 public interface Dmt_t_errore_repository extends JpaRepository<Dmt_t_errore, Dmt_t_errore_id> {
 
 	/**

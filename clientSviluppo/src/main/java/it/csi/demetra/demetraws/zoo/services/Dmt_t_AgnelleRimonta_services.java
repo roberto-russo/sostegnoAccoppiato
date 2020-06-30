@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_AgnelleRimonta;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_AgnelleRimonta_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Dmt_t_AgnelleRimonta_repository
  * per la persistenza di oggetti di tipo Dmt_t_AgnelleRimonta
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_AgnelleRimonta_services {
 	
+	/**
+	 * Repository in cui sono definite le Query di tipo Dmt_t_AgnelleRimonta_repository.
+	 */
 	@Autowired
-	  /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_AgnelleRimonta_repository.
-     */
 	Dmt_t_AgnelleRimonta_repository agnelleRimontaRepository;
 	
 	/**

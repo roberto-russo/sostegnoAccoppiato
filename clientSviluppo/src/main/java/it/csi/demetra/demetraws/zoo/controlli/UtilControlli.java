@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Classe utilizzato per raggruppare metodi comuni a più contrlli
+ * Classe utilizzata per raggruppare metodi comuni a più controlli
  */
 public class UtilControlli {
 
@@ -42,7 +42,7 @@ public class UtilControlli {
      * volte
      *
      * @param b           istanza relativa al capo bovino di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
-     * @param listVitelli lista di istanze relative ai vitelli di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}i
+     * @param listVitelli lista di istanze relative ai vitelli di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini}
      * @return istanza di tipo Date relativa alla data del vitello più giovane.
      */
     public static Date getVitelloGiovane(Dmt_t_Tws_bdn_du_capi_bovini b, List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli) {
@@ -59,7 +59,7 @@ public class UtilControlli {
 
     /**
      * Controllo che il cuaa sia il detentore dell'allevamento al momento del parto
-     * e Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
+     * e qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
      * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
      * detentore presso il quale è nato il primo capo.
      *

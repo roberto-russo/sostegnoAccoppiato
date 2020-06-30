@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository Rpu_V_pratica_zoote_repository
  * per la persistenza di oggetti di tipo Rpu_V_pratica_zoote
  * @author Bcsoft
  */
+@Service
 public class AziendaService {
 
+	/**
+	 * Repository in cui sono definite le Query di tipo Rpu_V_pratica_zoote_repository.
+	 */
     @Autowired
-    /**
-     * Repository in cui sono definite le Query di tipo Rpu_V_pratica_zoote_repository.
-     */
     Rpu_V_pratica_zoote_repository rep;
 
     /**

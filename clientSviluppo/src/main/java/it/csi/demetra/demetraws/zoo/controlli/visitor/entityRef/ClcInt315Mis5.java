@@ -22,14 +22,13 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
-@Component("ClcInt315Mis5")
 /**
- * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 315 – Misura 5:
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 315 – Misura 5:<br>
  * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal richiedente
  * per un periodo non inferiore a sei mesi prima della macellazione.
- * @author Bcsoft
- *
+ * @author bcsoft
  */
+@Component("ClcInt315Mis5")
 public class ClcInt315Mis5 extends Controllo {
 
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
@@ -49,13 +48,16 @@ public class ClcInt315Mis5 extends Controllo {
 	private String motivazione;
 
 
-	@Override
 	/**
-	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
+	 * Nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
 	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
 	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 315 misura 5.
 	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
+	 * Il metodo preEsecuzione utilizza il controllo:<br>
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void preEsecuzione() throws ControlloException {
 		this.importoLiquidabile = 0;
 		this.contatoreBocciati = 0;
@@ -88,14 +90,15 @@ public class ClcInt315Mis5 extends Controllo {
 		}
 	}
 
-	@Override
 	/**
 	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 315 misura 5.
 	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di importo liquidabile
-	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
+	 * e il capo sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i capi risultassero non idonei al premio in questione,
 	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
-	 * La lista di capi non ammessi a premio sarà visibile in @see Dmt_t_output_esclusi.
+	 * La lista di capi non ammessi a premio sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void esecuzione() throws ControlloException{
 		
 		
@@ -165,15 +168,16 @@ public class ClcInt315Mis5 extends Controllo {
 
 	}
 
-	@Override
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
-	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}
+	 * e i dati relativi ai capi non ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
 	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
 	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
 	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
 	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void postEsecuzione() throws ControlloException {
 
 		
@@ -206,13 +210,13 @@ public class ClcInt315Mis5 extends Controllo {
 			}
 	}
 
-	/**
-	 * nel metodo differenzaMesi calcolata la differenza in mesi tra due date
-	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
-	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
-	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
-	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
-	 */
+//	/**
+//	 * nel metodo differenzaMesi calcolata la differenza in mesi tra due date
+//	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
+//	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
+//	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
+//	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
+//	 */
 	private long differenzaMesi(Date dataInizio, Date dataFine) {
 		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

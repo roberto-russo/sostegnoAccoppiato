@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Tlatte_sintesi_analisi_id;
 
-@Entity
-@Table(name = "DMT_T_TLATTE_SIN_AN")
 /**
  * Tabella che raccoglie i dati qualitativi di Agrinet aggregati per Matricola
  * su cui vengono eseguite le elaborazioni relative alle medie dei 3 parametri
@@ -24,6 +22,8 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Tlatte_sintesi_analisi_id
  * @author Bcsoft
  *
  */
+@Entity
+@Table(name = "DMT_T_TLATTE_SIN_AN")
 @IdClass(Dmt_t_Tlatte_sintesi_analisi_id.class)
 public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 

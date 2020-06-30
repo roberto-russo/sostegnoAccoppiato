@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-@Entity(name = "DMT_D_CLS_PREMIO_VAL_RESP")
 /**
  * Classe model di response alle chiamate dei metodi getElencoCapiPremioNew e
  * getElencoCapiPremio2New
@@ -20,13 +19,14 @@ import javax.persistence.SequenceGenerator;
  * @version 1.0 (02/04/2020)
  * @author bcsoft
  */
+@Entity(name = "DMT_D_CLS_PREMIO_VAL_RESP")
 public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
    
+//	/**
+//	 * Elenco dettagliato dei capi bovini eventualmente determinati dal filtro
+//	 * in BDN.
+//	 */
     private static final long serialVersionUID = 5904304924784953743L;
-    /**
-     * Elenco dettagliato dei capi bovini eventualmente determinati dal filtro
-     * in BDN.
-     */
    
     @Id
     @GeneratedValue(generator = "seq_dmt_d_cls_pr_valid_resp")
@@ -37,41 +37,43 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tbdn_du_capi> clsCapo;
    
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato dei capi ovicaprini eventualmente determinati dal
      * filtro in BDN.
      */
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> ClsCapoOvicaprino;
     
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato delle vacche determinati dal filtro in BDN.
      */
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_bovini> ClsCapoVacca;
   
-    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     /**
      * Elenco dettagliato dei capi bovini macellati determinati dal filtro BDN
      */
+    @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_clsCapoMacellato> ClsCapoMacellato;
 
 	@ManyToOne
 	@JoinColumn(name = "idSessione", nullable = false)
 	private Dmt_t_sessione idSessione;
 
+	/**
+	 * Codice dell’errore verificatosi in BDN qualora l’operazione non fosse
+	 * andata a buon fine.
+	 */
     @Column(name = "codice_errore")
-    /**
-     * Codice dell’errore verificatosi in BDN qualora l’operazione non fosse
-     * andata a buon fine.
-     */
     private String ErrCod;
+
     /**
      * Descrizione dell’errore verificatosi in BDN qualora l’operazione non
      * fosse andata a buon fine.
      */
     @Column(name = "descrizione_errore")
     private String ErrDescr;
+    
     /**
      * Numero dei capi eleggibili a premio sulla base del filtro applicato alla
      * BDN.

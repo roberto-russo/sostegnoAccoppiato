@@ -19,8 +19,9 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 
 /**
- * Author: Federico Pomponii
- * Title: Intervento 313 - Misura 4
+ * controlli da applicare per il calcolo del premio zootecnia per l’intervento 313 – Misura 4:<br>
+ * vacche nutrici di razze da carne o a duplice attitudine iscritte nei Libri genealogici o nel Registro anagrafico delle razze bovine
+ * @author Federico Pomponii
  */
 @Component("ClcInt313Mis4")
 public class ClcInt313Mis4 extends Controllo {
@@ -48,6 +49,11 @@ public class ClcInt313Mis4 extends Controllo {
         ubaMin = null;
     }
 
+    /**
+	 * il metodo preEsecuzione utilizza i controlli:
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+     */
     @Override
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
@@ -76,6 +82,10 @@ public class ClcInt313Mis4 extends Controllo {
         }
     }
 
+    /**
+     * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 313 Misura 4
+     * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+     */
     @Override
     public void esecuzione() throws ControlloException {
         if (null == modelVaccheFiltrate) return;
@@ -91,6 +101,10 @@ public class ClcInt313Mis4 extends Controllo {
     }
 
 
+    /**
+	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati dell'intervento
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 */
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO

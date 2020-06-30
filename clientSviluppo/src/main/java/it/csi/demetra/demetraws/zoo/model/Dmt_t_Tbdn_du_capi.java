@@ -18,12 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
 
-@Entity
-/*
- * Tabella dei Capi per Premio ed allevamento scaricati da BDN con Web Service
- * relativi alle Domande Uniche.
- */
-@Table(name = "DMT_T_TBDN_DU_CAPI")
 /**
  * Model dei Capi per Premio ed allevamento scaricati da BDN con Web Service
  * relativi alle Domande Uniche.
@@ -32,6 +26,8 @@ import org.hibernate.annotations.ColumnDefault;
  * @author Bcsoft
  *
  */
+@Entity
+@Table(name = "DMT_T_TBDN_DU_CAPI")
 public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 	/**

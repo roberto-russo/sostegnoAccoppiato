@@ -21,14 +21,13 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 
-@Component("ClcInt322Mis20")
 /**
- * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 322 – Misura 20:
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 322 – Misura 20:<br>
  * vacche nutrici non iscritte nei Libri genealogici o nel registro anagrafico
  * e appartenenti ad allevamenti non iscritti nella BDN come allevamenti da latte.
  * @author Bcsoft
- *
  */
+@Component("ClcInt322Mis20")
 public class ClcInt322Mis20 extends Controllo {
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
@@ -53,13 +52,16 @@ public class ClcInt322Mis20 extends Controllo {
 
 
 	
-	@Override
 	/**
 	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
 	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
 	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 322 misura 20.
 	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
+	 * il metodo preEsecuzione esegue il controlli:<br>
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e  {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void preEsecuzione() throws ControlloException {
 		
 		// INIZIALIZZAZIONE DELLE VARIABILI
@@ -123,14 +125,15 @@ try {
 		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 	}
 
-	@Override
 	/**
 	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 322 misura 20.
 	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di capi ammissibili
-	 * e il capo sarà visibile in @see Dmt_t_output_controlli. Qualora i capi risultassero non idonei al premio in questione,
+	 * e il capo sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i capi risultassero non idonei al premio in questione,
 	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
-	 * La lista di capi non ammessi a premio sarà visibile in @see Dmt_t_output_esclusi.
+	 * La lista di capi non ammessi a premio sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void esecuzione() throws ControlloException {
 		LOGGER.info("inizio esecuzione()");
 
@@ -179,15 +182,16 @@ try {
 					this.numeroCapiAmmissibili++;
 	}
 
-	@Override
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
-	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}
+	 * e i dati relativi ai capi non ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
 	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
 	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
 	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
 	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
+	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
 	 */
+	@Override
 	public void postEsecuzione() throws ControlloException {
 
 		LOGGER.info("inizio postEsecuzione()");

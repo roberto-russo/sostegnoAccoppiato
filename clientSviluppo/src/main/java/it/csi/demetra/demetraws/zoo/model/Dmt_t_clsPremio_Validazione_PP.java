@@ -14,14 +14,14 @@ import javax.validation.constraints.NotNull;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_clsPremio_Validazione_PP_id;
 
-@Entity
-@Table(name = "DMT_T_CLS_PREMIO_VALID_PP")
 /**
  * Classe model con parametri di ingresso per il metodo getElencoCapiPremio2New
  *
  * @version 0.1 (02/04/2020)
  * @author bcsoft
  */
+@Entity
+@Table(name = "DMT_T_CLS_PREMIO_VALID_PP")
 @IdClass(Dmt_t_clsPremio_Validazione_PP_id.class)
 public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 

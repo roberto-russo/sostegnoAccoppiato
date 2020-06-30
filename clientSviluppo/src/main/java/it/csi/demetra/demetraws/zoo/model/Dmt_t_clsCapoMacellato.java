@@ -15,14 +15,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "DMT_T_CLS_CAPO_MACELLATO")
 /**
  * Classe model di resoconto dei capi bovini macellati
  *
  * @version 0.1 (02/04/2020)
  * @author bcsoft
  */
+@Entity
+@Table(name = "DMT_T_CLS_CAPO_MACELLATO")
 public class Dmt_t_clsCapoMacellato implements Serializable {
 
 	private static final long serialVersionUID = -787054678069256335L;

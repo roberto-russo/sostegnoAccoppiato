@@ -19,9 +19,7 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_coefficienti_uba_id;
 @IdClass(Dmt_t_coefficienti_uba_id.class)
 public class Dmt_t_coefficienti_uba implements Serializable {
 
-	/**
-	 *
-	 */
+
 	private static final long serialVersionUID = 4821666006881108733L;
 
 	@MapsId

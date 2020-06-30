@@ -39,7 +39,6 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repo
 import it.csi.demetra.demetraws.zoo.repository.Dmt_w_controllo_bean_repository;
 import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nei seguenti repository: <br>
  *  Dmt_t_tws_bdn_du_capi_bovin_respository <br>
@@ -59,96 +58,97 @@ import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
  *  Dmt_t_perc_gg_ritardo_repository <br>
  * @author Bcsoft
  */
+@Service
 public class ControlliService {
 
+	/**
+	 * Repository in cui sono definite le Query di tipo Dmt_t_tws_bdn_du_capi_bovini.
+	 */
     @Autowired
-    /**
-     * Repository in cui sono definite le Query di tipo Dmt_t_tws_bdn_du_capi_bovini.
-     */
     Dmt_t_tws_bdn_du_capi_bovini_repository boviniRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti.
      */
+    @Autowired
     Dmt_t_anagrafica_allevamenti_repository anaRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_w_controllo_bean.
      */
+    @Autowired
     Dmt_w_controllo_bean_repository controlloBeanRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli.
      */
+    @Autowired
     Dmt_t_output_controlli_repository outputRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_output_esclusi.
      */
+    @Autowired
     Dmt_t_output_esclusi_repository esclusiRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_contr_loco.
      */
+    @Autowired
     Dmt_t_contr_loco_repository contrLocoRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_clsCapoMacellato.
      */
+    @Autowired
     Dmt_t_clsCapoMacellato_repository macellatiRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa.
      */
+    @Autowired
     Dmt_t_SistemiDiEtichettaturaFacoltativa_repository etichettaturaRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_certificato_igp_dop.
      */
+    @Autowired
     Dmt_t_certificato_igp_dop_repository igpDopRepository;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti.
      */
+    @Autowired
     Dmt_t_anagrafica_allevamenti_repository anagraficaAllevamentiRep;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Rpu_V_pratica_zoote.
      */
+    @Autowired
     Rpu_V_pratica_zoote_repository rpuVPraticaRep;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini.
      */
+    @Autowired
     Dmt_t_Tws_bdn_du_capi_ovicaprini_repository ovicapriniRep;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_importo_unitario.
      */
+    @Autowired
     Dmt_t_importo_unitario_repository importoUnitRep;
 
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_output_ref03.
      */
+    @Autowired
     Dmt_t_output_ref03_repository ref03Rep;
     
-    @Autowired
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_perc_gg_ritardo.
      */
+    @Autowired
     Dmt_t_perc_gg_ritardo_repository ggRitardoRep;
     
     @Autowired

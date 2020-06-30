@@ -41,7 +41,7 @@ public class ControlliFrameworkImpl implements ControlliFramework {
     }
 
     /**
-     * Dopo lo scarico massivo dei dati dalla BDN questo metodo eseguo il controllo corrispondente per
+     * Dopo lo scarico massivo dei dati dalla BDN questo metodo esegue il controllo corrispondente per
      * azienda, codice premio e sessione
      *
      * @param azienda istanza dell'azienda presentatrice della domanda unica, è reperita dalla tabella  {@link it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote}
@@ -59,7 +59,7 @@ public class ControlliFrameworkImpl implements ControlliFramework {
     }
 
     /**
-     * Questo metodo prende esegue lo scarico dei dati dalla BDN per ogni singolo soggetto.
+     * Questo metodo esegue lo scarico dei dati dalla BDN per ogni singolo soggetto.
      * Viene eseguito dal Controller per ogni singola azienda.
      *
      * @param azienda  istanza relativa all'azienda presentatrice della domanda unica, è reperita dalla tabella  {@link Rpu_V_pratica_zoote}

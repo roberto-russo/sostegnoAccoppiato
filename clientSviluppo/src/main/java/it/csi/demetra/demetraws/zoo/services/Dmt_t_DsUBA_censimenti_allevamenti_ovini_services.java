@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovini;
 import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovini_repository;
 
-@Service
 /**
  * Classe service che utilizza le Query definite nel repository DsUBA_censimenti_allevamenti_ovini_repository
  * per la persistenza di oggetti di tipo DsUBA_censimenti_allevamenti_ovini
  * @author Bcsoft
  */
+@Service
 public class Dmt_t_DsUBA_censimenti_allevamenti_ovini_services {
 	
-	@Autowired
 	/**
-     * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
-     */
+	 * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
+	 */
+	@Autowired
 	DsUBA_censimenti_allevamenti_ovini_repository censimOviniRepository;
 	
 	/**

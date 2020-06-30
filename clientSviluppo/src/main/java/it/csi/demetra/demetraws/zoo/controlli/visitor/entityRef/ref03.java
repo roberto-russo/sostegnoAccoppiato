@@ -24,14 +24,12 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.ControlliService;
 
-@Component("ref03")
 /**
  * Classe per la verifica di eventuali riduzioni da applicare per il pagamento
  * del premio zootecnia.
- * 
  * @author Bcsoft
- *
  */
+@Component("ref03")
 public class ref03 {
 
 	private Rpu_V_pratica_zoote azienda;
@@ -45,7 +43,6 @@ public class ref03 {
 
 	/**
 	 * inizializzatore delle variabili di classe.
-	 * 
 	 * @param sessione sessione generata per l'esecuzione corrente.
 	 * @param azienda  azienda per la quale si effettua il calcolo.
 	 */
@@ -182,17 +179,17 @@ public class ref03 {
 		LOGGER.info("fine esecuzione()");
 	}
 
-	/**
-	 * nel metodo precalcolo vengono valorizzate le seguenti variabili in base alla
-	 * mappa di hash e al codice premio preso in esame: <br>
-	 * capiAnomali - capi valorizzati nella tabella dmt_t_output_esclusi,
-	 * capiAccertati - capi che possono concorrere al premio in questione,
-	 * capiRichiesti - capi presenti nella richiesta a premio del richiedente.
-	 * 
-	 * @param capiPerPremio tabella di hash contentente i codici premio e la lista degli animali concorrenti a premio di tipo {@link HashMap}
-	 * @param cp codice premio da analizzare di tipo {@link String}
-	 * @return result - mappa di hash in cui sono presenti le variabili valorizzate di tipo {@link HashMap}.
-	 */
+//	/**
+//	 * nel metodo precalcolo vengono valorizzate le seguenti variabili in base alla
+//	 * mappa di hash e al codice premio preso in esame: <br>
+//	 * capiAnomali - capi valorizzati nella tabella dmt_t_output_esclusi,
+//	 * capiAccertati - capi che possono concorrere al premio in questione,
+//	 * capiRichiesti - capi presenti nella richiesta a premio del richiedente.
+//	 * 
+//	 * @param capiPerPremio tabella di hash contentente i codici premio e la lista degli animali concorrenti a premio di tipo {@link HashMap}
+//	 * @param cp codice premio da analizzare di tipo {@link String}
+//	 * @return result - mappa di hash in cui sono presenti le variabili valorizzate di tipo {@link HashMap}.
+//	 */
 	private HashMap<String, BigDecimal> precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
 
 		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
@@ -231,15 +228,15 @@ public class ref03 {
 		return result;
 	}
 
-	/**
-	 * nel metodo viene valorizzata la seguente variabile in base
-	 * al numero di capi anomali e all'esito: percentuale di riduzione a premio.
-	 * Tale variabile sara' necessaria al calcolo della quota pagata al richiedente.
-	 * 
-	 * @param capiAnomali - numero di capi che non hanno passato i controlli di tipo {@link BigDecimal}.
-	 * @param esito - esito del calcolo di tipo {@link BigDecimal}
-	 * @return percRid - percentuale di riduzione della quota riconosciuta al richiedente di tipo {@link BigDecimal}
-	 */
+//	/**
+//	 * nel metodo viene valorizzata la seguente variabile in base
+//	 * al numero di capi anomali e all'esito: percentuale di riduzione a premio.
+//	 * Tale variabile sara' necessaria al calcolo della quota pagata al richiedente.
+//	 * 
+//	 * @param capiAnomali - numero di capi che non hanno passato i controlli di tipo {@link BigDecimal}.
+//	 * @param esito - esito del calcolo di tipo {@link BigDecimal}
+//	 * @return percRid - percentuale di riduzione della quota riconosciuta al richiedente di tipo {@link BigDecimal}
+//	 */
 	private BigDecimal calcoloRiduzione(BigDecimal capiAnomali, BigDecimal esito) {
 		
 		if (isIrregolaritaIntenzionale().compareTo(BigDecimal.ZERO) > 0) {
@@ -460,7 +457,7 @@ public class ref03 {
 	 * altrimenti viene ritornato un valore booleano false.
 	 * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per cui un dato animale concorre.
 	 * @param codPremio - codice premio che si sta analizzando.
-	 * @return <b>true:</b> se codPremio si trova in codiciPremioFiltratiPerAnimaliAPremio, <b>false:</b> altrimenti).
+	 * @return <b>true:</b> se codPremio si trova in codiciPremioFiltratiPerAnimaliAPremio, <b>false:</b> altrimenti.
 	 */
 	public Boolean contains(List<String> codiciPremioFiltratiPerAnimaliAPremio, String codPremio) {
 
@@ -471,10 +468,10 @@ public class ref03 {
 		return false;
 	}
 
-	/**
-	 * Metodo che verifica se il cuaa fornito ha commesso delle irregolarità intenzionali, {@link Dmt_t_irregolarita_intenzionale}.
-	 * @return il numero di animali anomali a causa di una irregolarità intenzionale di tipo {@link BigDecimal}.
-	 */
+//	/**
+//	 * Metodo che verifica se il cuaa fornito ha commesso delle irregolarità intenzionali, {@link Dmt_t_irregolarita_intenzionale}.
+//	 * @return il numero di animali anomali a causa di una irregolarità intenzionale di tipo {@link BigDecimal}.
+//	 */
 	private BigDecimal isIrregolaritaIntenzionale() {
 		BigDecimal numeroAnimaliAnomali = new BigDecimal(0);
 		List<Dmt_t_irregolarita_intenzionale> listaIrregolaritaIntenzionali = this.controlliService
