@@ -8,6 +8,8 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -178,6 +180,13 @@ public class UtilControlli {
     		
     	return false;
     }
+    
+	public static long differenzaMesi(Date dataInizio, Date dataFine) {
+		LocalDate data1 = LocalDate.parse(dataInizio.toString());  
+		LocalDate data2 =  LocalDate.parse(dataFine.toString());
+		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
+		return monthsBetween;
+	}
     
   private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi, Dmt_t_Tws_bdn_du_capi_ovicaprini animaleDaControllare) {
     	
