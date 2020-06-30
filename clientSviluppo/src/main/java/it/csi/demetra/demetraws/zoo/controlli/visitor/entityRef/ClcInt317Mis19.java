@@ -1,11 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +10,7 @@ import org.springframework.stereotype.Component;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
@@ -129,7 +126,7 @@ public class ClcInt317Mis19 extends Controllo {
 					 * 	Sia stato allevato per un periodo continuativo di 6 mesi
 					 * 
 					 */
-					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (this.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
+					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
 								/*
 								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
 								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
@@ -224,12 +221,12 @@ public class ClcInt317Mis19 extends Controllo {
 //	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
 //	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
 //	 */
-	private long differenzaMesi(Date dataInizio, Date dataFine) {
-		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
-		return monthsBetween;
-	}
+//	private long differenzaMesi(Date dataInizio, Date dataFine) {
+//		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
+//		return monthsBetween;
+//	}
 	
 //	/**
 //	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
