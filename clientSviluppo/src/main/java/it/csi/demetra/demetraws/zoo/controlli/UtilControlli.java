@@ -1,18 +1,17 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Classe utilizzata per raggruppare metodi comuni a più controlli
@@ -182,10 +181,19 @@ public class UtilControlli {
     }
     
 	public static long differenzaMesi(Date dataInizio, Date dataFine) {
-		LocalDate data1 = LocalDate.parse(dataInizio.toString());  
-		LocalDate data2 =  LocalDate.parse(dataFine.toString());
-		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
-		return monthsBetween;
+		
+		 Calendar m_calendar=Calendar.getInstance();
+		 
+		 m_calendar.setTime(dataInizio);
+		 int nMonth1=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
+		 m_calendar.setTime(dataFine);
+		 int nMonth2=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
+		 System.out.println("DATA 1: " + dataInizio);
+		 System.out.println("DATA 2: " + dataFine);
+		 System.out.println("MESE 1: " + nMonth1);
+		 System.out.println("MESE 2: " + nMonth2);
+		 System.out.println("DIFFERENZA MESI: " + java.lang.Math.abs(nMonth2- nMonth1));
+		 return java.lang.Math.abs(nMonth2-nMonth1);
 	}
     
   private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi, Dmt_t_Tws_bdn_du_capi_ovicaprini animaleDaControllare) {
