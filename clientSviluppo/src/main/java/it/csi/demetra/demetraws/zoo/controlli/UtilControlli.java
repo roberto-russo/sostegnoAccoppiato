@@ -188,11 +188,6 @@ public class UtilControlli {
 		 int nMonth1=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
 		 m_calendar.setTime(dataFine);
 		 int nMonth2=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
-		 System.out.println("DATA 1: " + dataInizio);
-		 System.out.println("DATA 2: " + dataFine);
-		 System.out.println("MESE 1: " + nMonth1);
-		 System.out.println("MESE 2: " + nMonth2);
-		 System.out.println("DIFFERENZA MESI: " + java.lang.Math.abs(nMonth2- nMonth1));
 		 return java.lang.Math.abs(nMonth2-nMonth1);
 	}
     
