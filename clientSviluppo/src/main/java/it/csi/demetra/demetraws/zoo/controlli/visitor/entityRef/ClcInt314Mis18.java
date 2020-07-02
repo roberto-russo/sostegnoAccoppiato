@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class ClcInt314Mis18 extends Controllo {
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
-	private Integer importoLiquidabile;
+	private BigDecimal importoLiquidabile;
 	private Integer importoRichiesto;
 	private List<Dmt_t_output_esclusi> listEsclusi;
 	private ResultCtlUbaMinime ubaMin;
@@ -45,7 +46,7 @@ public class ClcInt314Mis18 extends Controllo {
 	private void init() {
 		listEsclusi = new ArrayList<>();
 		importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
-		importoLiquidabile = 0;
+		importoLiquidabile = new BigDecimal(0);
 		modelVaccheFiltrate = null;
 		ubaMin = null;
 	}
@@ -93,7 +94,7 @@ public class ClcInt314Mis18 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
-		importoLiquidabile = 0;
+		importoLiquidabile = BigDecimal.ZERO;
 
 		for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
 			List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
@@ -106,7 +107,7 @@ public class ClcInt314Mis18 extends Controllo {
 			}
 
 			if (null != b.getFlagIbr() && b.getFlagIbr().equals("S"))
-				importoLiquidabile++;
+				importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 			else
 				this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
 		}

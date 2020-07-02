@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
-	private int numeroCapiAmmissibili;
+	private BigDecimal numeroCapiAmmissibili;
 	private int numeroCapiRichiesti;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
 	@Autowired
@@ -66,7 +67,7 @@ public class ClcInt322Mis20 extends Controllo {
 		
 		// INIZIALIZZAZIONE DELLE VARIABILI
 		
-		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.numeroCapiBocciati = 0;
 		this.numeroCapiRichiesti = 0;
 		this.modelVacche = null;
@@ -157,7 +158,7 @@ try {
 					 * detentore presso il quale è nato il primo capo.
 					 */
 					if (UtilControlli.isDetentoreParto(b, listVitelli)) {
-						this.numeroCapiAmmissibili++;
+						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 					} else {
 						// CONTROLLO FALLITO
 						this.numeroCapiBocciati++;
@@ -166,7 +167,7 @@ try {
 								+ " non e' il detentore dell'allevamento presso cui e'nato il primo capo";
 					}
 				}
-				if (numeroCapiAmmissibili == 0) {
+				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa() + " nessun capo ha suprato il controllo per il premio 322 misura 20");	
 				}
 					
@@ -179,7 +180,7 @@ try {
 			// GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if (!c.getAnomalie_cgo().contains("B"))
-					this.numeroCapiAmmissibili++;
+					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 	}
 
 	/**
@@ -196,7 +197,7 @@ try {
 
 		LOGGER.info("inizio postEsecuzione()");
 		
-		if (this.numeroCapiAmmissibili != 0) {
+		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
 			

@@ -4,6 +4,7 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_output_controlli_id;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "DMT_T_OUTPUT_CONTROLLI")
@@ -54,7 +55,7 @@ public class Dmt_t_output_controlli implements Serializable {
 	/**
 	 * capi ammessi a premio
 	 */
-	private Integer capiAmmissibili;
+	private BigDecimal capiAmmissibili;
 
 	/**
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione.
@@ -140,7 +141,7 @@ public class Dmt_t_output_controlli implements Serializable {
 	 * Metodo getter che ritorna il numero di capi ammessi a premio.
 	 * @return capiAmmissibili numero di capi ammessi a premio.
 	 */
-	public Integer getCapiAmmissibili() {
+	public BigDecimal getCapiAmmissibili() {
 		return capiAmmissibili;
 	}
 
@@ -148,7 +149,7 @@ public class Dmt_t_output_controlli implements Serializable {
 	 * Metodo setter che imposta il numero di capi ammessi a premio.
 	 * @param capiAmmissibili numero di capi richiesti a premio.
 	 */
-	public void setCapiAmmissibili(Integer capiAmmissibili) {
+	public void setCapiAmmissibili(BigDecimal capiAmmissibili) {
 		this.capiAmmissibili = capiAmmissibili;
 	}
 

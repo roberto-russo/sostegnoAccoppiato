@@ -1,11 +1,10 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,7 +44,7 @@ public class ClcInt311Mis2 extends Controllo{
     
     boolean ubaMinimeRaggiunte;
     
-    private int importoLiquidabile = 0;
+    private BigDecimal importoLiquidabile = new BigDecimal(0);
     
     private static final int DETENZIONE_MINIMA = 6;
     
@@ -223,7 +222,7 @@ public class ClcInt311Mis2 extends Controllo{
 
 		        	if(UtilControlli.isDetentoreParto(b, listVitelli)){
 		        		
-		        		importoLiquidabile++;
+		        		importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		        		
 		        	} else {
 		        		
@@ -302,8 +301,8 @@ public class ClcInt311Mis2 extends Controllo{
 		if(this.modelVaccheEscluse != null)
 			this.modelVaccheEscluse.clear();
 		
-		if(this.importoLiquidabile > 0)
-			this.importoLiquidabile = 0;
+		if(this.importoLiquidabile.compareTo(BigDecimal.ZERO) > 0)
+			this.importoLiquidabile = BigDecimal.ZERO;
 	}
 
 }

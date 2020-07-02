@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ClcInt320Mis6 extends Controllo {
 	private ResultCtlUbaMinime ubaMin;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
 	private Dmt_t_anagrafica_allevamenti modelAllevamenti;
-	private int numeroCapiAmmissibili;
+	private BigDecimal numeroCapiAmmissibili;
 	private int numeroCapiRichiesti;
 	private Dmt_t_output_controlli oc;
 	private Rpu_V_pratica_zoote richiestaDetentore;
@@ -60,7 +61,7 @@ public class ClcInt320Mis6 extends Controllo {
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		this.numeroCapiRichiesti = 0;
 		this.estrazioneACampione = null;
-		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.oc = null;
 		this.richiestaDetentore = null;
 		this.ubaMin = new ResultCtlUbaMinime();
@@ -145,7 +146,7 @@ public class ClcInt320Mis6 extends Controllo {
 //				SE CUAA DETENTORE E CUAA PROPRIETARIO COINCIDONO IL CONTATORE INCREMENTA
 				if (proprietario.equals(detentore)) {
 					if (proprietario.equals(getAzienda().getCuaa())) {
-						numeroCapiAmmissibili++;
+						numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 					}
 
 //					SE CUAA DETENTORE E CUAA PROPRIETARIO NON COINCIDONO
@@ -153,7 +154,7 @@ public class ClcInt320Mis6 extends Controllo {
 					
 //					VIENE CONTROLLATO SE IL RICHIEDENTE È IL DENTENTORE
 					if (detentore.equals(getAzienda().getCuaa())) {
-						numeroCapiAmmissibili++;
+						numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
 //					SE IL RICHIEDENTE NON È DETENTORE
 					} else {
@@ -166,7 +167,7 @@ public class ClcInt320Mis6 extends Controllo {
 
 //						SE NON TROVA VALORI NELLA TABELLA 
 						if (richiestaDetentore == null) {
-							numeroCapiAmmissibili++;
+							numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
 //							SE TROVA TROVA VALORI
 						} else {
@@ -180,7 +181,7 @@ public class ClcInt320Mis6 extends Controllo {
 					new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "", "errore, cuaa proprietario o cuaa detentore non trovato");
 				}
 			}
-			if (numeroCapiAmmissibili == 0) {
+			if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
 				throw new ControlloException("per il cuaa " + getAzienda().getCuaa() + " nessun capo ha suprato il controllo per il premio 320 misura 6");	
 			}
 				
@@ -194,7 +195,7 @@ public class ClcInt320Mis6 extends Controllo {
 			// verifica controlli in loco
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if (!c.getAnomalie_cgo().contains("B"))
-					this.numeroCapiAmmissibili++;
+					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		}
 	}
 

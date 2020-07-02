@@ -202,7 +202,7 @@ public class ref03 {
 
 		if (outputControlli != null) {
 			capiRichiesti = new BigDecimal(outputControlli.getCapiRichiesti());
-			capiAccertati = new BigDecimal(outputControlli.getCapiAmmissibili());
+			capiAccertati = outputControlli.getCapiAmmissibili();
 			capiAnomali = capiRichiesti.subtract(capiAccertati);
 		}
 

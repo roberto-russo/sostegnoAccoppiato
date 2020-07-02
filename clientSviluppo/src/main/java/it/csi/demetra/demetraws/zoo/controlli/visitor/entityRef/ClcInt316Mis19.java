@@ -33,7 +33,7 @@ public class ClcInt316Mis19 extends Controllo {
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private List<Dmt_t_clsCapoMacellato> modelMacellato;
 	private List<Dmt_t_clsCapoMacellato> modelMacellatoFiltrato;
-	private int importoLiquidabile = 0;
+	private BigDecimal importoLiquidabile;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
 	private Dmt_t_output_controlli oc;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
@@ -61,7 +61,7 @@ public class ClcInt316Mis19 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
-		this.importoLiquidabile = 0;
+		this.importoLiquidabile = new BigDecimal(0);
 		this.contatoreBocciati = 0;
 		this.modelMacellato = null;
 		this.oc = null;
@@ -134,7 +134,7 @@ public class ClcInt316Mis19 extends Controllo {
 								 * i capi ammissibili sono pagati esclusivamente al detentore
 								 */
 								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-									this.importoLiquidabile++;
+									this.importoLiquidabile= importoLiquidabile.add(BigDecimal.ONE);
 					} else {
 						/*
 						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
@@ -154,7 +154,7 @@ public class ClcInt316Mis19 extends Controllo {
 					}
 				}
 					
-				if (importoLiquidabile == 0)
+				if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 316 misura 19");
 				
@@ -168,7 +168,7 @@ public class ClcInt316Mis19 extends Controllo {
 		 // verifica controlli in loco 
 			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
 				  if(!c.getAnomalie_cgo().contains("B"))
-					  this.importoLiquidabile++;
+					  this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		}
 
 	}
@@ -186,7 +186,7 @@ public class ClcInt316Mis19 extends Controllo {
 	public void postEsecuzione() throws ControlloException {
 
 		
-			if (this.importoLiquidabile != 0) {
+			if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
 				this.oc = new Dmt_t_output_controlli();
 				// salvataggio capi ammissibili
 				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());

@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ClcInt313Mis4 extends Controllo {
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
-    private Integer importoLiquidabile;
+    private BigDecimal importoLiquidabile;
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
 	private ResultCtlUbaMinime ubaMin;
@@ -44,7 +45,7 @@ public class ClcInt313Mis4 extends Controllo {
     private void init() {
         listEsclusi = new ArrayList<>();
         importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
-        importoLiquidabile = 0;
+        importoLiquidabile = new BigDecimal(0);
         modelVaccheFiltrate = null;
         ubaMin = null;
     }
@@ -90,13 +91,13 @@ public class ClcInt313Mis4 extends Controllo {
     public void esecuzione() throws ControlloException {
         if (null == modelVaccheFiltrate) return;
 
-        importoLiquidabile = 0;
+        importoLiquidabile = BigDecimal.ZERO;
         for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
             List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
             if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                 this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                 continue;
-            } else importoLiquidabile++;
+            } else importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
         }
     }
 

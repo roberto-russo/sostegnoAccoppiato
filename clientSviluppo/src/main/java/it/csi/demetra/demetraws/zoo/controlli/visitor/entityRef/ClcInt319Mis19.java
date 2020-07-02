@@ -41,7 +41,7 @@ public class ClcInt319Mis19 extends Controllo {
 	@Autowired
 	private Dmt_t_clsCapoMacellato_services capiMacellatiService;
 	List<Dmt_t_contr_loco> estrazioneACampione;
-	private int numeroCapiAmmissibili;
+	private BigDecimal numeroCapiAmmissibili;
 	private int numeroCapiRichiesti; 
 	Dmt_t_output_controlli oc;
 	private int numeroCapiBocciati;
@@ -65,9 +65,8 @@ public class ClcInt319Mis19 extends Controllo {
 		this.listaCapiMacellati = null;
 		this.duplicatiMacellati = null;
 		this.estrazioneACampione = null;
-		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.oc = null;
-		this.numeroCapiAmmissibili = 0;
 		this.numeroCapiRichiesti = 0;
 		this.certIgpDop = null;
 		this.motivazione = null;
@@ -151,7 +150,7 @@ public class ClcInt319Mis19 extends Controllo {
 							 */
 							if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
 
-								this.numeroCapiAmmissibili++;
+								this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 							} else {
 								/*
 								 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
@@ -179,7 +178,7 @@ public class ClcInt319Mis19 extends Controllo {
 					}
 
 				}
-				if (numeroCapiAmmissibili == 0)
+				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 319 misura 19");
 
@@ -193,7 +192,7 @@ public class ClcInt319Mis19 extends Controllo {
 			// GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
-					this.numeroCapiAmmissibili++;
+					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		}
 
 	}
@@ -211,7 +210,7 @@ public class ClcInt319Mis19 extends Controllo {
 	public void postEsecuzione() throws ControlloException {
 		LOGGER.info("inizio postEsecuzione()");
 
-		if (this.numeroCapiAmmissibili != 0) {
+		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 			LOGGER.info("il numero di capi ammissibili al premio 319 misura 19 per l'azienda " + getAzienda().getCuaa()
 					+ "e': " + this.numeroCapiAmmissibili);
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE

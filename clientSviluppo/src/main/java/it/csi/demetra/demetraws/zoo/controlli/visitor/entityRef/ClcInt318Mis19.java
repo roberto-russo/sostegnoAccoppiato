@@ -42,7 +42,7 @@ public class ClcInt318Mis19 extends Controllo {
 	@Autowired
 	private Dmt_t_clsCapoMacellato_services capiMacellatiService;
 	List<Dmt_t_contr_loco> estrazioneACampione;
-	private int numeroCapiAmmissibili;
+	private BigDecimal numeroCapiAmmissibili;
 	private int numeroCapiRichiesti;
 	Dmt_t_output_controlli oc;
 	private Dmt_t_SistemiDiEtichettaturaFacoltativa etic;
@@ -64,7 +64,7 @@ public class ClcInt318Mis19 extends Controllo {
 	public void preEsecuzione() throws ControlloException {
 		this.listaCapiMacellati = null;
 		this.estrazioneACampione = null;
-		this.numeroCapiAmmissibili = 0;
+		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.numeroCapiBocciati = 0;
 		this.numeroCapiRichiesti=0;
 		this.motivazione = null;
@@ -144,7 +144,7 @@ public class ClcInt318Mis19 extends Controllo {
 								 * i capi ammissibili sono pagati esclusivamente al detentore
 								 */
 								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-									this.numeroCapiAmmissibili++;
+									this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 					} else {
 						/*
 						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
@@ -172,7 +172,7 @@ public class ClcInt318Mis19 extends Controllo {
 					}
 				}
 					
-				if (numeroCapiAmmissibili == 0)
+				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 318 misura 19");
 				
@@ -186,7 +186,7 @@ public class ClcInt318Mis19 extends Controllo {
 			  // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
 			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
 				  if((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1) )
-					  this.numeroCapiAmmissibili++;	
+					  this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);	
 		}
 	}
 
@@ -203,7 +203,7 @@ public class ClcInt318Mis19 extends Controllo {
 		LOGGER.info("inizio postEsecuzione()");
 
 		
-			if (this.numeroCapiAmmissibili != 0) {
+			if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 				LOGGER.info("il numero di capi ammissibili al premio 318 misura 19 per l'azienda "
 						+ getAzienda().getCuaa() + "e': " + this.numeroCapiAmmissibili);
 				// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE

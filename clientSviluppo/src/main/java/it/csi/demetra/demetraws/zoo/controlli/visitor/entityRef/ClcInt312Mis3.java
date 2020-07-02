@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class ClcInt312Mis3 extends Controllo{
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVaccheDetentoriAllevAttivi;
 
-	private int importoLiquidabile = 0;
+	private BigDecimal importoLiquidabile = new BigDecimal(0);
 	
 	private int sizeModelVacche = 0;
 	
@@ -189,7 +190,7 @@ public class ClcInt312Mis3 extends Controllo{
 						LocalDate oggi = LocalDateConverter.convertToLocalDateViaInstant(new Date());
 						long mesiDiVita = ChronoUnit.MONTHS.between(dataNascita, oggi);
 						if ( mesiDiVita > ETA_RICHIESTA_IN_MESI) {
-			        		importoLiquidabile ++;
+			        		importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 						} else {
 							addEscluso(bufala, "I mesi di vita del capo sono inferiori o uguali a 30.");
 						}
@@ -256,8 +257,8 @@ public class ClcInt312Mis3 extends Controllo{
 	
 	private void resetLists() {
 		
-		if(this.importoLiquidabile > 0)
-			this.importoLiquidabile = 0;
+		if(this.importoLiquidabile.compareTo(BigDecimal.ZERO) > 0)
+			this.importoLiquidabile = BigDecimal.ZERO;
 		
 		if(this.listEsclusi != null)
 			this.listEsclusi.clear();

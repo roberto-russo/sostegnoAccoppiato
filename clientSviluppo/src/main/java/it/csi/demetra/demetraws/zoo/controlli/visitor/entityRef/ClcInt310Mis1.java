@@ -53,7 +53,7 @@ public class ClcInt310Mis1 extends Controllo {
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
-    private Integer importoLiquidabile;
+    private BigDecimal importoLiquidabile;
     private Integer importoRichiesto;
     private List<Dmt_t_output_esclusi> listEsclusi;
     private String motivazioneEsclusione = "";
@@ -65,7 +65,7 @@ public class ClcInt310Mis1 extends Controllo {
     private void init() {
         listEsclusi = new ArrayList<>();
         importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
-        importoLiquidabile = 0;
+        importoLiquidabile = new BigDecimal(0);
         modelVaccheFiltrate = null;
     }
 
@@ -246,9 +246,9 @@ public class ClcInt310Mis1 extends Controllo {
                 if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                     this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                     continue;
-                } else importoLiquidabile++;
+                } else importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
             }
-        } else importoLiquidabile = 0;
+        } else importoLiquidabile = BigDecimal.ZERO;
     }
 
     /**
