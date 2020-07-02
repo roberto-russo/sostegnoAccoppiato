@@ -14,6 +14,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 
 /**
  * Classe utilizzata per raggruppare metodi comuni a più controlli
@@ -184,8 +185,8 @@ public class UtilControlli {
     
 	public static long differenzaMesi(Date dataInizio, Date dataFine) {
 		
-		LocalDate data1 =  dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		 LocalDate data2 =  dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate data1 =   LocalDateConverter.convertToLocalDateViaInstant(dataInizio);
+		 LocalDate data2 =  LocalDateConverter.convertToLocalDateViaInstant(dataFine);
 		return  data1.compareTo(data2) < 0 ? ChronoUnit.MONTHS.between(data1, data2) : ChronoUnit.MONTHS.between(data2, data1);
 	}
     
