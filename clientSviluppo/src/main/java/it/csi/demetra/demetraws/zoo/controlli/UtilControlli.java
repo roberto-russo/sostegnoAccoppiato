@@ -1,8 +1,10 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -182,13 +184,9 @@ public class UtilControlli {
     
 	public static long differenzaMesi(Date dataInizio, Date dataFine) {
 		
-		 Calendar m_calendar=Calendar.getInstance();
-		 
-		 m_calendar.setTime(dataInizio);
-		 int nMonth1=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
-		 m_calendar.setTime(dataFine);
-		 int nMonth2=12*m_calendar.get(Calendar.YEAR)+m_calendar.get(Calendar.MONTH);
-		 return java.lang.Math.abs(nMonth2-nMonth1);
+		LocalDate data1 =  dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		 LocalDate data2 =  dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		return  data1.compareTo(data2) < 0 ? ChronoUnit.MONTHS.between(data1, data2) : ChronoUnit.MONTHS.between(data2, data1);
 	}
     
   private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi, Dmt_t_Tws_bdn_du_capi_ovicaprini animaleDaControllare) {
