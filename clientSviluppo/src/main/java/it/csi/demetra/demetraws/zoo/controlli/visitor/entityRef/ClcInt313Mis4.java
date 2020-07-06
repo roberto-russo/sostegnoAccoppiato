@@ -79,7 +79,12 @@ public class ClcInt313Mis4 extends Controllo {
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
             }
-    		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+    		
+            try{            	
+            this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+            }catch(NullPointerException e){
+            	throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),"nessun capo ha superato i controlli di preammissibilita"));
+            }
         }
     }
 
