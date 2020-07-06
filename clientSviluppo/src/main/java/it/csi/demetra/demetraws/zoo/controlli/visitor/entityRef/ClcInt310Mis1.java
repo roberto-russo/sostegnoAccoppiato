@@ -98,12 +98,9 @@ public class ClcInt310Mis1 extends Controllo {
             } catch (CalcoloException e) {
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
             }
-    		try{
+    		
     			this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
     			
-    		} catch(NullPointerException e) {
-    			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),"nessun capo ha superato i controlli di preammissibilita"));
-    		}
         }
     }
 
@@ -243,7 +240,8 @@ public class ClcInt310Mis1 extends Controllo {
         }
 
         if (isProduttoreChecked) {
-            for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
+           try{
+        	for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
                 /**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */
@@ -253,6 +251,9 @@ public class ClcInt310Mis1 extends Controllo {
                     continue;
                 } else importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
             }
+        	}catch(NullPointerException e){
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+        	}
         } else importoLiquidabile = BigDecimal.ZERO;
     }
 

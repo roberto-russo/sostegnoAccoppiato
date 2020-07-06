@@ -20,9 +20,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
 
 /**
- * controlli da applicare per il calcolo del premio zootecnia per l’intervento 314 – Misura 18:<br> 
- * vacche nutrici di razze da carne o a duplice attitudine iscritte nei Libri genealogici 
- * o nel Registro anagrafico delle razze bovine
+ * controlli da applicare per il calcolo del premio zootecnia per l’intervento
+ * 314 – Misura 18:<br>
+ * vacche nutrici di razze da carne o a duplice attitudine iscritte nei Libri
+ * genealogici o nel Registro anagrafico delle razze bovine
+ * 
  * @author Federico Pomponii
  */
 @Component("ClcInt314Mis18")
@@ -53,8 +55,12 @@ public class ClcInt314Mis18 extends Controllo {
 
 	/**
 	 * il metodo preEsecuzione utilizza i controlli:
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi}
+	 * e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+	 * 
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
@@ -83,13 +89,10 @@ public class ClcInt314Mis18 extends Controllo {
 			} catch (CalcoloException e) {
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 			}
-			
-			try{
-				this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
-						getAzienda().getCuaa(), getAzienda().getCodicePremio());				
-			} catch(NullPointerException e){
-				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),"nessun capo ha superato i controlli di preammissibilita"));
-			}
+
+			this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
+					getAzienda().getCuaa(), getAzienda().getCodicePremio());
+
 		}
 	}
 
@@ -101,6 +104,7 @@ public class ClcInt314Mis18 extends Controllo {
 	public void esecuzione() throws ControlloException {
 		importoLiquidabile = BigDecimal.ZERO;
 
+		try{
 		for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
 			List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
 					.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
@@ -116,11 +120,18 @@ public class ClcInt314Mis18 extends Controllo {
 			else
 				this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
 		}
+		}catch(NullPointerException e){
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+		}
 	}
 
 	/**
-	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati dell'intervento
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati
+	 * dell'intervento
+	 * 
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {

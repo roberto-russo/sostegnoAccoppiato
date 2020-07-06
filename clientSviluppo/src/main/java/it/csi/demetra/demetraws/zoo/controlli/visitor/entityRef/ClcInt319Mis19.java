@@ -93,11 +93,8 @@ public class ClcInt319Mis19 extends Controllo {
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
-		try{
 			this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());			
-		}catch(NullPointerException e){
-			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),"nessun capo ha superato i controlli di preammissibilita"));
-		}
+		
 	}
 
 	/**
@@ -188,6 +185,8 @@ public class ClcInt319Mis19 extends Controllo {
 			} catch (ControlloException e) {
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
+			} catch (NullPointerException e) {
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
 
 		} else {

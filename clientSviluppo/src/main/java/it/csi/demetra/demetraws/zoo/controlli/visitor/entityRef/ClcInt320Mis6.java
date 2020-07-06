@@ -188,6 +188,8 @@ public class ClcInt320Mis6 extends Controllo {
 		} catch (ControlloException e) {
 			// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 			new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
+		} catch (NullPointerException e ){
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 		}
 		 }
 		 

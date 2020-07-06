@@ -122,11 +122,8 @@ try {
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
-		try{
 			this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());			
-		}catch(NullPointerException e){
-			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),"nessun capo ha superato i controlli di preammissibilita"));
-		}
+		
 	}
 
 	/**
@@ -177,6 +174,9 @@ try {
 			} catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), e.getMessage());
+			} catch (NullPointerException e){
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+
 			}
 
 		} else
