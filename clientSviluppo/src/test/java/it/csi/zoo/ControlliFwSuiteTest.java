@@ -1,5 +1,21 @@
 package it.csi.zoo;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+
+import javax.xml.bind.JAXBException;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
 import it.csi.demetra.demetraws.zoo.BdnWsManagerImpl;
 import it.csi.demetra.demetraws.zoo.ZooApplication;
@@ -14,19 +30,6 @@ import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.ControlliService;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_sessione_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_subentro_zoo_services;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.xml.bind.JAXBException;
-import java.text.ParseException;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Author : Federico Pomponii
@@ -54,7 +57,11 @@ public class ControlliFwSuiteTest {
         sessione = sessioneService.saveSession(new Dmt_t_sessione());
         this.entityFactory = new EntityFactory();
     }
-
+    
+    /*
+     * Metodo di scarico dati dalla BDN
+     */
+    
     private Boolean scarico(String codicePremio, String cuaa, int anno, Dmt_t_sessione sessione, Dmt_t_subentro_zoo subentro) {
         try {
             bdnImpl.getElencoCapiPremio(codicePremio, cuaa, anno, sessione);
@@ -73,20 +80,17 @@ public class ControlliFwSuiteTest {
     }
 
     /**
-     * Test su bovini
-     * CUUA: BRBVCN63M29D205G
+     * Test su bovini richiesti
      * Anno: 2018
      * Codice premio: 310
-     * Capi richiesi: 209
-     * Capi ammissibili: 209
      */
+    
     @Test
-    public void TestClcInt310Mis1() {
-        String cuaa = "BRBVCN63M29D205G";
+    public void TestCapiRichiestiClcInt310Mis1() {
+        String cuaa = "BBBCRL75R13L219U";
         String cPremio = "310";
         int anno = 2018;
-        int expRichiesti = 209;
-        int expAmmissibili = 209;
+        int expRichiesti = 23;
         Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
         azienda.setAnnoCampagna(anno);
         azienda.setCodicePremio(cPremio);
@@ -118,27 +122,167 @@ public class ControlliFwSuiteTest {
                     .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
             System.out.println(out);
             assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
-            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili()), expAmmissibili == out.getCapiAmmissibili());
         } else {
             fail("Scarico dati non riuscito per CUAA -> " + cuaa);
         }
     }
-
+    
     /**
-     * Test su bovini
-     * CUUA: BRBRRT55B21H355J
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 310
+     */
+    
+    @Test
+    public void TestCapiAmmissibiliClcInt310Mis1() {
+        String cuaa = "BBBCRL75R13L219U";
+        String cPremio = "310";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal (23);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt310Mis1");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 311
+     */
+    
+    @Test
+    public void TestCapiRichiestiClcInt311Mis2() {
+        String cuaa = "BRCCRL50T64E973U";
+        String cPremio = "311";
+        int anno = 2018;
+        int expRichiesti = 0;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt311Mis2");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 311
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt311Mis2() {
+        String cuaa = "BRCCRL50T64E973U";
+        String cPremio = "311";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal (0);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt311Mis2");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
      * Anno: 2018
      * Codice premio: 313
-     * Capi richiesi: 3
-     * Capi ammissibili: 3
      */
+    
     @Test
-    public void TestClcInt313Mis4() {
-        String cuaa = "BRCCNZ74H41G674S";
+    public void TestRichiestiClcInt313Mis4() {
+        String cuaa = "9877230012";
         String cPremio = "313";
         int anno = 2018;
-        int expRichiesti = 20;
-        int expAmmissibili = 20;
+        int expRichiesti = 26;
         Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
         azienda.setAnnoCampagna(anno);
         azienda.setCodicePremio(cPremio);
@@ -170,28 +314,214 @@ public class ControlliFwSuiteTest {
                     .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
             System.out.println(out);
             assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
-            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili()), expAmmissibili == out.getCapiAmmissibili());
         } else {
             fail("Scarico dati non riuscito per CUAA -> " + cuaa);
         }
     }
-
-
+    
     /**
-     * Test su bovini
-     * CUUA: BNDLNZ85S06L304Y
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 313
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt313Mis4() {
+        String cuaa = "9877230012";
+        String cPremio = "313";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal (26);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt313Mis4");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 314
+     */
+    
+    @Test
+    public void TestRichiestiClcInt314Mis18() {
+        String cuaa = "BNDLNZ85S06L304Y";
+        String cPremio = "314";
+        int anno = 2018;
+        int expRichiesti = 0;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt314Mis18");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili 
+     * Anno: 2018
+     * Codice premio: 314
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt314Mis18() {
+        String cuaa = "BNDLNZ85S06L304Y";
+        String cPremio = "314";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(1);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt314Mis18");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
      * Anno: 2018
      * Codice premio: 315
-     * Capi richiesi: 10
-     * Capi ammissibili: 9
      */
+    
     @Test
-    public void TestClcInt315Mis5() {
-        String cuaa = "BNDLNZ85S06L304Y";
+    public void TestRichiestiClcInt315Mis5() {
+        String cuaa = "SCNLRT90S14C589D";
         String cPremio = "315";
         int anno = 2018;
-        int expRichiesti = 10;
-        int expAmmissibili = 9;
+        int expRichiesti = 0;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt315Mis5");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 315
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt315Mis5() {
+        String cuaa = "BRBRNN48E70L048G";
+        String cPremio = "315";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(0);
         Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
         azienda.setAnnoCampagna(anno);
         azienda.setCodicePremio(cPremio);
@@ -221,12 +551,393 @@ public class ControlliFwSuiteTest {
             Dmt_t_output_controlli out = controlliService
                     .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
             System.out.println(out);
-            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
-            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili()), expAmmissibili == out.getCapiAmmissibili());
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
         } else {
             fail("Scarico dati non riuscito per CUAA -> " + cuaa);
         }
     }
-
-
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 316
+     */
+    
+    @Test
+    public void TestRichiestiClcInt316Mis19() {
+        String cuaa = "BRBVCN63M29D205G";
+        String cPremio = "316";
+        int anno = 2018;
+        int expRichiesti = 2;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt316Mis19");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+ 
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 316
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt316Mis19() {
+        String cuaa = "BRBVCN63M29D205G";
+        String cPremio = "316";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(2);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt316Mis19");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 318
+     */
+    
+    @Test
+    public void TestRichiestiClcInt318Mis19() {
+        String cuaa = "BRBVCN63M29D205G";
+        String cPremio = "318";
+        int anno = 2018;
+        int expRichiesti = 2;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt318Mis19");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+ 
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 318
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt318Mis19() {
+        String cuaa = "BRBVCN63M29D205G";
+        String cPremio = "318";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(2);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt318Mis19");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 320
+     */
+    
+    @Test
+    public void TestRichiestiClcInt320Mis6() {
+        String cuaa = "BRCCRL50T64E973U";
+        String cPremio = "320";
+        int anno = 2018;
+        int expRichiesti = 4;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt320Mis6");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+ 
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 320
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt320Mis6() {
+        String cuaa = "BRCCRL50T64E973U";
+        String cPremio = "320";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(2);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt320Mis6");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini richiesti
+     * Anno: 2018
+     * Codice premio: 322
+     */
+    
+    @Test
+    public void TestRichiestiClcInt322Mis20() {
+        String cuaa = "BRBRRT70D65H037C";
+        String cPremio = "322";
+        int anno = 2018;
+        int expRichiesti = 4;
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt322Mis20");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+//                fail(e.getMessage());
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi richiesti(%s) non uguale a " + expRichiesti, cuaa,cPremio,anno,out.getCapiRichiesti().toString()), expRichiesti == out.getCapiRichiesti());
+ 
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
+    
+    /**
+     * Test su bovini ammissibili
+     * Anno: 2018
+     * Codice premio: 322
+     */
+    
+    @Test
+    public void TestAmmissibiliClcInt322Mis20() {
+        String cuaa = "BRBRRT70D65H037C";
+        String cPremio = "322";
+        int anno = 2018;
+        BigDecimal expAmmissibili = new BigDecimal(4);
+        Rpu_V_pratica_zoote azienda = new Rpu_V_pratica_zoote();
+        azienda.setAnnoCampagna(anno);
+        azienda.setCodicePremio(cPremio);
+        azienda.setCuaa(cuaa);
+        if (scarico(cPremio, cuaa, anno, sessione, subentroService.getSubentro(anno, cuaa))) {
+            Controllo controllo = (Controllo) applicationContext.getBean("ClcInt322Mis20");
+            controllo.setSessione(sessione);
+            controllo.setControlliService(controlliService);
+            controllo.setAzienda(azienda);
+            try {
+                controllo.preEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+//                fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
+            } catch (CalcoloException e) {
+            }
+            try {
+                controllo.esecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            try {
+                controllo.postEsecuzione();
+            } catch (ControlloException e) {
+                e.printStackTrace();
+            }
+            Dmt_t_output_controlli out = controlliService
+                    .getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(sessione, cuaa, Long.valueOf(anno), cPremio);
+            System.out.println(out);
+            assertTrue(String.format("CUAA: %s\nCodice Premio: %s\nAnno: %s\nCapi ammissibili(%s) non uguale a " + expAmmissibili, cuaa,cPremio,anno,out.getCapiAmmissibili().toString()), expAmmissibili.compareTo(out.getCapiAmmissibili()) == 0);
+        } else {
+            fail("Scarico dati non riuscito per CUAA -> " + cuaa);
+        }
+    }
 }
