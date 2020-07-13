@@ -5,7 +5,6 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,12 +67,6 @@ public class ref03 {
 		this.importoUnit = new BigDecimal(0);
 		this.isIrregolaritaIntenzionale = false;
 		Dmt_t_output_ref03 outputCalcolo = null;
-		List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini = this.controlliService
-				.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-		List<Dmt_t_clsCapoMacellato> listaCapiMacellati = this.controlliService
-				.getCapiMacellatiDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-		List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = this.controlliService
-				.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
 		List<String> codiciPremio = this.controlliService.getCodicePremioPerCuaa(this.azienda.getCuaa());
 		BigDecimal capiAnomali = new BigDecimal(0);
 		BigDecimal capiAccertati = new BigDecimal(0);
@@ -83,26 +76,32 @@ public class ref03 {
 		BigDecimal capiPagabili = new BigDecimal(0);
 		BigDecimal importoPagatoLordoDecurtazione = new BigDecimal(0);
 		HashMap<String, List<Long>> capiPerPremio = new HashMap<String, List<Long>>();
+		HashMap<String, List<Long>> capiPerPremioFiltrati = new HashMap<String, List<Long>>();
 		HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
 		Integer giorniRitardo = this.controlliService.getGiorniRitardoPresentazioneDomanda(this.azienda.getCuaa(),
 				this.azienda.getCodicePremio(), this.azienda.getAnnoCampagna());
 		BigDecimal percDecurtazione = null;
 		BigDecimal importoPagatoNettoDecurtazione = null;
 
-		capiPerPremio = buildMap(listaCapiBovini, listaCapiOvicaprini, listaCapiMacellati, codiciPremio);
+		capiPerPremio = buildMap(codiciPremio);
 
 		try {
-			capiPerPremio = updateMap(capiPerPremio);
+			capiPerPremioFiltrati = updateMap(capiPerPremio);
 		} catch(NullPointerException e) {
 			throw new CalcoloException("errore durante il recupero degli importi unitari");
 		}
 
 		for (String cp : codiciPremio) {
 
-			result = this.precalcolo(capiPerPremio, cp);
+			result = this.precalcolo(capiPerPremioFiltrati, cp);
 			capiAccertati = result.get("accertati");
 			capiAnomali = result.get("anomali");
 			capiRichiesti = result.get("richiesti");
+			
+			LOGGER.info("CUAA: " + this.azienda.getCuaa() + " || CODICE PREMIO: " + this.azienda.getCodicePremio() + " || ID_SESSIONE: " + this.sessione.getIdSessione());
+			LOGGER.info("CAPI RICHIESTI: " + capiRichiesti );
+			LOGGER.info("CAPI ACCERTATI: " + capiAccertati);
+			LOGGER.info("CAPI ANOMALI: " + capiAnomali);
 
 			try {
 				esito = capiAnomali.divide(capiAccertati, MathContext.DECIMAL128);
@@ -121,11 +120,11 @@ public class ref03 {
 				throw new CalcoloException("errore durante il recupero dell'importo unitario");
 			}
 			
-			if (cp.equals("320")) {
+			if (cp.equals("320") && capiPagabili.compareTo(BigDecimal.ZERO) > 0) {
 				try {
 					importoPagatoLordoDecurtazione = this.controlliService
-							.getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(this.azienda.getCuaa(),
-									this.sessione.getIdSessione(), this.azienda.getAnnoCampagna(), cp).multiply(this.importoUnit);
+					.getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(this.azienda.getCuaa(),
+						this.sessione.getIdSessione(), this.azienda.getAnnoCampagna(), cp).multiply(this.importoUnit);
 				} catch (NullPointerException e) {
 					throw new CalcoloException("errore durante il calcolo dell'importo pagato al lordo della decurtazione");
 				}
@@ -175,6 +174,20 @@ public class ref03 {
 
 			this.controlliService.saveOutputRef03(outputCalcolo);
 		}
+		
+		//RESET DELLE VARIABILI
+		
+		capiAccertati 		 		   = BigDecimal.ZERO;
+		capiAnomali   		 		   = BigDecimal.ZERO;
+		capiRichiesti 		 		   = BigDecimal.ZERO;
+		this.importoUnit               = BigDecimal.ZERO;
+		esito                          = BigDecimal.ZERO;
+		importoPagatoLordoDecurtazione = BigDecimal.ZERO;
+		importoPagatoNettoDecurtazione = BigDecimal.ZERO;
+		percentualeRiduzione           = BigDecimal.ZERO;
+		percDecurtazione               = BigDecimal.ZERO;
+		result.clear();
+		
 
 		LOGGER.info("fine esecuzione()");
 	}
@@ -192,39 +205,50 @@ public class ref03 {
 //	 */
 	private HashMap<String, BigDecimal> precalcolo(HashMap<String, List<Long>> capiPerPremio, String cp) {
 
-		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
 		BigDecimal capiAnomali = new BigDecimal(0);
 		BigDecimal capiAccertati = new BigDecimal(0);
 		BigDecimal capiRichiesti = new BigDecimal(0);
 		HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
-		outputControlli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(
-				this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), cp);
-
-		if (outputControlli != null) {
-			capiRichiesti = new BigDecimal(outputControlli.getCapiRichiesti());
-			capiAccertati = outputControlli.getCapiAmmissibili();
-			capiAnomali = capiRichiesti.subtract(capiAccertati);
-		}
-
+		List<Long> capiAnomaliPerCodicePremio = new ArrayList<Long>();
+		List<Long> listaCapiEsito = new ArrayList<Long>();
+		
+		
+//		capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
+//		capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(), cp);
+//		
 //		for (Long c : capiPerPremio.get(cp)) {
 //			try {
-//				List<Long> capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(),
-//						cp);
-//
-//				for (Long anomali : capiAnomaliPerCodicePremio) {
-//					if (anomali != null && anomali.equals(c)) {
-//							capiAccertati=capiAccertati.subtract(BigDecimal.ONE);
-//							capiAnomali=capiAnomali.add(BigDecimal.ONE);
-//						}
-//					}
-//				capiAnomaliPerCodicePremio.clear();
+//					for(Long capoAnomalo : capiAnomaliPerCodicePremio)
+//						if(c.compareTo(capoAnomalo) == 0)
+//							capiAnomali = capiAnomali.add(BigDecimal.ONE);
+//						
+//				
 //			} catch (NullPointerException e) {
 //			}
-//		}		
+//		}
+//		
+//		capiAccertati = capiRichiesti.subtract(capiAnomali);
+		
+			resetVariables(capiRichiesti, capiAccertati, capiAnomali, capiAnomaliPerCodicePremio, listaCapiEsito);
+			
+			listaCapiEsito = this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), cp);
+			
+			capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
+					
+			if(listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
+				
+				for(Long e : capiPerPremio.get(cp)) 
+					for(Long capiAPremio : listaCapiEsito) 
+						if(capiAPremio.compareTo(e) == 0) 
+							capiAccertati = capiAccertati.add(BigDecimal.ONE);
+						
+				capiAnomali = capiRichiesti.subtract(capiAccertati);
+			}
+		
 		result.put("accertati", capiAccertati);
 		result.put("anomali", capiAnomali);
 		result.put("richiesti", capiRichiesti);
-
+		
 		return result;
 	}
 
@@ -285,34 +309,41 @@ public class ref03 {
 	 * @param codiciPremio - codici premio per cui concorre l'azienda che si sta analizzando.
 	 * @return tempHashmap - istanza di tipo {@link HashMap}
 	 */
-	public HashMap<String, List<Long>> buildMap(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini,
-			List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini, List<Dmt_t_clsCapoMacellato> listaCapiMacellati,
-			List<String> codiciPremio) {
-
+	public HashMap<String, List<Long>> buildMap(List<String> codiciPremio) {
+		
 		HashMap<String, List<Long>> tempHashmap = new HashMap<String, List<Long>>();
-
+		List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+		List<Dmt_t_clsCapoMacellato> listaCapiMacellati = this.controlliService.getCapiMacellatiDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+		List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+		Dmt_t_output_controlli outConctrolli = new Dmt_t_output_controlli();
+		
 		for (String c : codiciPremio)
 			tempHashmap.put(c, new ArrayList<Long>());
 
 		for (String c : codiciPremio) {
-			for (Dmt_t_Tws_bdn_du_capi_bovini b : listaCapiBovini) {
-				if (b.getCodicePremio().equals(c)) {
-					tempHashmap.get(c).add(b.getCapoId());
-				}
-			}
+			
+			outConctrolli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), c);
+			
+			if(listaCapiBovini != null && !listaCapiBovini.isEmpty())
+				for (Dmt_t_Tws_bdn_du_capi_bovini b : listaCapiBovini) 
+					if (b.getCodicePremio().equals(c) && outConctrolli != null) 
+						tempHashmap.get(c).add(b.getCapoId());
+			
+			if(listaCapiOvicaprini != null && !listaCapiOvicaprini.isEmpty())
+				for (Dmt_t_Tws_bdn_du_capi_ovicaprini o : listaCapiOvicaprini) 
+					if (o.getCodicePremio().equals(c) && outConctrolli != null) 
+						tempHashmap.get(c).add(o.getCapoId());
 
-			for (Dmt_t_Tws_bdn_du_capi_ovicaprini o : listaCapiOvicaprini) {
-				if (o.getCodicePremio().equals(c)) {
-					tempHashmap.get(c).add(o.getCapoId());
-				}
-			}
-
-			for (Dmt_t_clsCapoMacellato m : listaCapiMacellati) {
-				if (m.getCodicePremio().equals(c)) {
+			if(listaCapiMacellati != null && !listaCapiMacellati.isEmpty())
+			for (Dmt_t_clsCapoMacellato m : listaCapiMacellati) 
+				if (m.getCodicePremio().equals(c) && outConctrolli != null) 
 					tempHashmap.get(c).add(m.getCapoId());
-				}
-			}
 		}
+		
+		listaCapiBovini.clear();
+		listaCapiMacellati.clear();
+		listaCapiOvicaprini.clear();
+		
 		return tempHashmap;
 	}
 
@@ -334,117 +365,47 @@ public class ref03 {
 	 */
 	public HashMap<String, List<Long>> updateMap(HashMap<String, List<Long>> capiPerPremio) {
 
-		List<String> codiciPremioFiltratiPerAnimaliAPremio = new ArrayList<String>();
+		List<String> codiciPremioFiltratiPerAnimali = new ArrayList<String>();
 		HashMap<String, List<Long>> tempHash = new HashMap<String, List<Long>>();
 		Dmt_t_importo_unitario maxImportoUnitario = new Dmt_t_importo_unitario();
 
 		for (String k : capiPerPremio.keySet())
 			tempHash.put(k, new ArrayList<Long>());
 
-		for (Entry<String, List<Long>> tuple : capiPerPremio.entrySet())
-			for (Long e : tuple.getValue()) {
+		for (String k : capiPerPremio.keySet())
+			for (Long e : capiPerPremio.get(k)) {
 
-				Boolean coppia310 = false;
-				Boolean coppia313 = false;
-
-				codiciPremioFiltratiPerAnimaliAPremio = this.controlliService.getCodiciPremioPerCapo(e,
+				codiciPremioFiltratiPerAnimali = this.controlliService.getCodiciPremioPerCapo(e,
 						this.sessione.getIdSessione());
 
-				if (codiciPremioFiltratiPerAnimaliAPremio.size() == 1) {
-					tempHash.get(tuple.getKey()).add(e);
-					continue;
+				if (codiciPremioFiltratiPerAnimali.size() == 1) {
+					tempHash.get(k).add(e);
 				}
 
-				if (codiciPremioFiltratiPerAnimaliAPremio.size() >= 2) {
+				else
+					if (codiciPremioFiltratiPerAnimali.size() >= 2) {
 
-					List<Dmt_t_importo_unitario> importiUnitariPerAnimale = new ArrayList<Dmt_t_importo_unitario>();
+					List<Dmt_t_importo_unitario> importiUnitariPerAnimale =  this.controlliService.getListImportiUnitariByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), codiciPremioFiltratiPerAnimali);
 					
-						importiUnitariPerAnimale = this.controlliService.getListImportiUnitariByAnnoCampagnaAndIntervento(
-								this.azienda.getAnnoCampagna(), codiciPremioFiltratiPerAnimaliAPremio);
-						
-					String importoDaNonConsiderare = "";
-					Dmt_t_importo_unitario importo1 = null;
-					Dmt_t_importo_unitario importo2 = null;
-
-					if (contains(codiciPremioFiltratiPerAnimaliAPremio, "310")
-							&& contains(codiciPremioFiltratiPerAnimaliAPremio, "311")) {
-
-						coppia310 = true;
-						
-							importo1 = this.controlliService
-									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "310");
-							importo2 = this.controlliService
-									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "311");
-						
-						importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
-								? importo1.getIntervento()
-								: importo2.getIntervento();
-						
-
-					} else if (contains(codiciPremioFiltratiPerAnimaliAPremio, "313")
-							&& contains(codiciPremioFiltratiPerAnimaliAPremio, "314")) {
-
-						coppia313 = true;
-						
-							importo1 = this.controlliService
-									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "313");
-							importo2 = this.controlliService
-									.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "314");
-
-							importoDaNonConsiderare = importo1.getImportoUnitario() < importo2.getImportoUnitario()
-								? importo1.getIntervento()
-								: importo2.getIntervento();
-
-					}
-
 					double max = Double.MIN_VALUE;
 
-					for (int i = 0; i < importiUnitariPerAnimale.size(); i++) {
-						if ((!importiUnitariPerAnimale.get(i).getIntervento().equals(importoDaNonConsiderare))
-								&& (importiUnitariPerAnimale.get(i).getImportoUnitario() > max)) {
+					for (int i = 0; i < importiUnitariPerAnimale.size(); i++) 
+						if (importiUnitariPerAnimale.get(i).getImportoUnitario() >= max) {
 							max = importiUnitariPerAnimale.get(i).getImportoUnitario();
 							maxImportoUnitario = importiUnitariPerAnimale.get(i);
 						}
-					}
-					List<Dmt_t_importo_unitario> listaImportiMassimi = new ArrayList<>();
-
-					if (coppia310) {
-
-						listaImportiMassimi.add(this.controlliService
-								.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "310"));
-						listaImportiMassimi.add(this.controlliService
-								.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "311"));
-					} else if (coppia313) {
-						listaImportiMassimi.add(this.controlliService
-								.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "313"));
-						listaImportiMassimi.add(this.controlliService
-								.getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), "314"));
-					} else {
-						listaImportiMassimi.add(maxImportoUnitario);
-					}
-
-					for (HashMap.Entry<String, List<Long>> entry : capiPerPremio.entrySet()) {
-						for (Long l : entry.getValue()) {
-							if (e == l) {
-								if (listaImportiMassimi.size() == 1) {
-									if (!entry.getKey().equals(listaImportiMassimi.get(0).getIntervento())) {
-										tempHash.get(entry.getKey()).add(l);
-									}
-								} else if (listaImportiMassimi.size() > 1) {
-									if (!entry.getKey().equals(listaImportiMassimi.get(0).getIntervento())
-											&& !entry.getKey().equals(listaImportiMassimi.get(1).getIntervento())) {
-										tempHash.get(entry.getKey()).add(l);
-									}
-								}
-							}
-
-						}
-					}
-
-					listaImportiMassimi.clear();
-					importiUnitariPerAnimale.clear();
+					
+					List<Dmt_t_importo_unitario> listaImportiMassimi = impostaImportiMassimi(maxImportoUnitario, codiciPremioFiltratiPerAnimali, importiUnitariPerAnimale);
+						
+					
+					for(Dmt_t_importo_unitario imp : listaImportiMassimi)
+						if(imp.getIntervento().equals(k))
+							tempHash.get(k).add(e);
+					
+						listaImportiMassimi.clear();
+						importiUnitariPerAnimale.clear();
 				}
-				codiciPremioFiltratiPerAnimaliAPremio.clear();
+				codiciPremioFiltratiPerAnimali.clear();
 			}
 		return tempHash;
 	}
@@ -491,5 +452,71 @@ public class ref03 {
 		listaIrregolaritaIntenzionali.clear();
 		return numeroAnimaliAnomali;
 	}
+	
+	private Dmt_t_importo_unitario getImporto(List<Dmt_t_importo_unitario> importiUnitariPerAnimale, String codicePremio) {
+		
+		Dmt_t_importo_unitario importoDaTornare = null;
+		
+		for(Dmt_t_importo_unitario imp : importiUnitariPerAnimale)
+			if(imp.getIntervento().equals(codicePremio))
+				importoDaTornare = imp;
+		
+		return importoDaTornare;
+	}
+	
+	private  List<Dmt_t_importo_unitario>impostaImportiMassimi(Dmt_t_importo_unitario importoUnitarioMax, List<String> codiciPremioFiltratiPerAnimali, List<Dmt_t_importo_unitario> importiUnitariPerAnimale) {
+		List<Dmt_t_importo_unitario> importiDaRitornare = new ArrayList<Dmt_t_importo_unitario>();
+		
+		switch (importoUnitarioMax.getIntervento()) {
+		case "310":
+			if(this.contains(codiciPremioFiltratiPerAnimali, "311"))
+				importiDaRitornare.add(getImporto(importiUnitariPerAnimale, "311"));
+			importiDaRitornare.add(importoUnitarioMax);
+			
+			break;
+		case "311":
+			if(this.contains(codiciPremioFiltratiPerAnimali, "310"))
+				importiDaRitornare.add(getImporto(importiUnitariPerAnimale, "310"));
+			importiDaRitornare.add(importoUnitarioMax);
+			
+			break;
+		case "313":
+			if(this.contains(codiciPremioFiltratiPerAnimali, "314"))
+				importiDaRitornare.add(getImporto(importiUnitariPerAnimale, "314"));
+			importiDaRitornare.add(importoUnitarioMax);
+			
+			break;
+		case "314":
+			if(this.contains(codiciPremioFiltratiPerAnimali, "313"))
+				importiDaRitornare.add(getImporto(importiUnitariPerAnimale, "313"));
+			importiDaRitornare.add(importoUnitarioMax);
+			
+			break;
 
+		default:
+			importiDaRitornare.add(importoUnitarioMax);
+			break;
+		}
+		
+		return importiDaRitornare;
+	}
+	
+	private void resetVariables(BigDecimal capiRichiesti, BigDecimal capiAccertati, BigDecimal capiAnomali, List<Long>capiAnomaliPerCodicePremio, List<Long> listaCapiEsito) {
+		
+		if(capiRichiesti.compareTo(BigDecimal.ZERO) != 0)
+			capiRichiesti = BigDecimal.ZERO;
+		
+		if(capiAccertati.compareTo(BigDecimal.ZERO) != 0)
+			capiAccertati = BigDecimal.ZERO;
+		
+		if(capiAnomali.compareTo(BigDecimal.ZERO) != 0)
+			capiAnomali = BigDecimal.ZERO;
+		
+		if(!capiAnomaliPerCodicePremio.isEmpty())
+			capiAnomaliPerCodicePremio.clear();
+		
+		if(!listaCapiEsito.isEmpty())
+			listaCapiEsito.clear();
+		
+	}
 }
