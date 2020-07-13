@@ -535,4 +535,8 @@ public class ControlliService {
     public List<Long> getListaCapiEsito(Dmt_t_sessione idSessione, String cuaa, String codPremio) {
     	return premioCapiRep.getListaCapiEsitoByIdSessioneAndFlagAmmissibileAndCuaaAndCodPremio(idSessione.getIdSessione(), cuaa, codPremio);
     }
+    
+    public BigDecimal getCapiPagabiliPerCuaaAndCodicePremio(Integer annoCampagna, String cuaa, Dmt_t_sessione sessione, String codicePremio) {
+    	return ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(annoCampagna, cuaa, sessione.getIdSessione(), codicePremio);
+    }
 }
