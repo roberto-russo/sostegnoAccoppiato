@@ -35,6 +35,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_esclusi_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_ref03_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_perc_gg_ritardo_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_premio_capi_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_tws_bdn_du_capi_bovini_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_w_controllo_bean_repository;
 import it.csi.demetra.demetraws.zoo.repository.Rpu_V_pratica_zoote_repository;
@@ -156,6 +157,9 @@ public class ControlliService {
     
     @Autowired
     Dmt_t_AgnelleRimonta_repository agnelleRep;
+    
+    @Autowired
+    Dmt_t_premio_capi_repository premioCapiRep;
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini} in base alla sessione, cuaa e codiceIntervento
@@ -526,5 +530,9 @@ public class ControlliService {
     
     public BigDecimal getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(String cuaa, Long idSessione, Integer annoCampagna, String codInt) {
     	return agnelleRep.getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(cuaa, idSessione, annoCampagna, codInt);
+    }
+    
+    public List<Long> getListaCapiEsito(Dmt_t_sessione idSessione, String cuaa, String codPremio) {
+    	return premioCapiRep.getListaCapiEsitoByIdSessioneAndFlagAmmissibileAndCuaaAndCodPremio(idSessione.getIdSessione(), cuaa, codPremio);
     }
 }
