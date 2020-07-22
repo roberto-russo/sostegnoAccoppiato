@@ -221,10 +221,4 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 		)
 	List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
 
-	
-	@Query(
-			value = "SELECT DISTINCT codice_premio FROM dmt_t_tws_bdn_du_capi_bov WHERE id_capo = :idCapo and id_sessione = :idSessione ",
-			nativeQuery = true
-		)
-	List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 }
