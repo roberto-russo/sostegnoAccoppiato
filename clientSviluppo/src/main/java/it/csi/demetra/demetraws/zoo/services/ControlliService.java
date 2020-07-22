@@ -440,7 +440,7 @@ public class ControlliService {
      * @return lista di codici premio associati ad un capo animale.
      */
     public List<String> getCodiciPremioPerCapo(Long idCapo, Long idSessione) {
-        return boviniRepository.findCodiciPremioByIdCapoAndIdSessione(idCapo, idSessione);
+        return premioCapiRep.findCodiciPremioByIdCapoAndIdSessione(idCapo, idSessione);
     }
 
 
