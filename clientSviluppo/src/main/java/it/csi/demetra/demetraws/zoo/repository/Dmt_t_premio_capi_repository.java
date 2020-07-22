@@ -20,4 +20,10 @@ public interface Dmt_t_premio_capi_repository extends CrudRepository<Dmt_t_premi
 			nativeQuery = true)
 	public List<Long>getListaCapiEsitoByIdSessioneAndFlagAmmissibileAndCuaaAndCodPremio(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codPremio") String codPremio);
 	
+	
+	@Query(
+			value = "SELECT codice_premio FROM dmt_t_premio_capi WHERE id_capo = :idCapo and id_sessione = :idSessione ",
+			nativeQuery = true
+		)
+	List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 }
