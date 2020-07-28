@@ -49,14 +49,27 @@ public class Dmt_t_output_controlli implements Serializable {
 	/**
 	 * Numero di capi richiesti a premio dal richiedente.
 	 */
-	private Integer capiRichiesti;
+	private BigDecimal capiRichiesti;
 
 	@Column(name = "capi_ammissibili")
 	/**
 	 * capi ammessi a premio
 	 */
 	private BigDecimal capiAmmissibili;
-
+	
+	@Column(name = "capi_anomali_pagabili")
+	/**
+	 * capi che hanno fallito i controlli ma che risultano ammessi al pagamento del premio
+	 */
+	private BigDecimal capiAnomaliPagabili;
+	
+	@Column(name = "capi_anomali_non_pagabili")
+	/**
+	 * capi che hanno fallito i controlli e che non risultano ammessi al pagamento del premio
+	 */
+	private BigDecimal capiAnomaliNonPagabili;
+	
+	
 	/**
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione.
 	 * @return idSessione identificativo univoco associato all'esecuzione.
@@ -125,7 +138,7 @@ public class Dmt_t_output_controlli implements Serializable {
 	 * Metodo getter che ritorna il numero di capi richiesti dal richiedente.
 	 * @return capiRichiesti numero di capi richiesti dal richiedente.
 	 */
-	public Integer getCapiRichiesti() {
+	public BigDecimal getCapiRichiesti() {
 		return capiRichiesti;
 	}
 
@@ -133,7 +146,7 @@ public class Dmt_t_output_controlli implements Serializable {
 	 * Metodo setter che imposta il numero di capi richiesti dal richiedente.
 	 * @param capiRichiesti numero di capi richiesti dal richiedente.
 	 */
-	public void setCapiRichiesti(Integer capiRichiesti) {
+	public void setCapiRichiesti(BigDecimal capiRichiesti) {
 		this.capiRichiesti = capiRichiesti;
 	}
 
@@ -152,5 +165,23 @@ public class Dmt_t_output_controlli implements Serializable {
 	public void setCapiAmmissibili(BigDecimal capiAmmissibili) {
 		this.capiAmmissibili = capiAmmissibili;
 	}
+
+	public BigDecimal getCapiAnomaliPagabili() {
+		return capiAnomaliPagabili;
+	}
+
+	public void setCapiAnomaliPagabili(BigDecimal capiAnomaliPagabili) {
+		this.capiAnomaliPagabili = capiAnomaliPagabili;
+	}
+
+	public BigDecimal getCapiAnomaliNonPagabili() {
+		return capiAnomaliNonPagabili;
+	}
+
+	public void setCapiAnomaliNonPagabili(BigDecimal capiAnomaliNonPagabili) {
+		this.capiAnomaliNonPagabili = capiAnomaliNonPagabili;
+	}
+	
+	
 
 }

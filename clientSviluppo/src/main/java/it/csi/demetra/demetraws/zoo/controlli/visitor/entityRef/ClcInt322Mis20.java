@@ -35,7 +35,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private BigDecimal numeroCapiAmmissibili;
-	private int numeroCapiRichiesti;
+	private BigDecimal numeroCapiRichiesti;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
 	@Autowired
 	private CtlVerificaRegistrazioneCapi ref9901;
@@ -69,7 +69,7 @@ public class ClcInt322Mis20 extends Controllo {
 		
 		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.numeroCapiBocciati = 0;
-		this.numeroCapiRichiesti = 0;
+		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.modelVacche = null;
 		this.listVitelli = null;
 		this.oc = null;
@@ -140,8 +140,8 @@ try {
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
-		numeroCapiRichiesti = getControlliService()
-				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+		numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
+				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
 		
 		
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {

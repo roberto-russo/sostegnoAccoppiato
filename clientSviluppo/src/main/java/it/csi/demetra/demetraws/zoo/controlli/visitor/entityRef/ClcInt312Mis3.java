@@ -35,7 +35,7 @@ public class ClcInt312Mis3 extends Controllo{
 
 	private BigDecimal importoLiquidabile = new BigDecimal(0);
 	
-	private int sizeModelVacche = 0;
+	private BigDecimal sizeModelVacche = BigDecimal.ZERO;
 	
 	private static final int ETA_RICHIESTA_IN_MESI = 30;
 	
@@ -90,7 +90,7 @@ public class ClcInt312Mis3 extends Controllo{
             
 		}
 		
-		sizeModelVacche = modelVacche.size();
+		sizeModelVacche = BigDecimal.valueOf(modelVacche.size());
 		
 		if (listVaccheDetentoriAllevAttivi == null) {
 			

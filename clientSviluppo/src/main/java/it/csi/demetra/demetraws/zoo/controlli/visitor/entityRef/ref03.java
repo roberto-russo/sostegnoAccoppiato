@@ -152,23 +152,23 @@ public class ref03 {
 
 			outputCalcolo = new Dmt_t_output_ref03();
 			outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
-			outputCalcolo.setCapiAccertati(capiAccertati.intValue());
-			outputCalcolo.setCapiAnomali(capiAnomali.intValue());
-			outputCalcolo.setCapiPagabili(capiPagabili.doubleValue());
-			outputCalcolo.setCapiRichiesti(capiRichiesti.intValue());
+			outputCalcolo.setCapiAccertati(capiAccertati);
+			outputCalcolo.setCapiAnomaliNonPagabili(capiAnomali);
+			outputCalcolo.setCapiPagabili(capiPagabili);
+			outputCalcolo.setCapiRichiesti(capiRichiesti);
 			outputCalcolo.setCuaa(this.azienda.getCuaa());
-			outputCalcolo.setEsito(esito.doubleValue());
+			outputCalcolo.setEsito(esito);
 			outputCalcolo.setImportoPagatoLordoDecurtazione(importoPagatoLordoDecurtazione);
 			outputCalcolo.setImportoPagatoNettoDecurtazione(importoPagatoNettoDecurtazione);
 			outputCalcolo.setIntervento(cp);
-			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione.doubleValue());
+			outputCalcolo.setPercentualeRiduzione(percentualeRiduzione);
 			outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
 			outputCalcolo.setIdSessione(this.sessione);
 
 			if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale) {
-				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati).intValue());
+				outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati));
 				outputCalcolo.setImportoARecupero(
-						new BigDecimal(outputCalcolo.getDifferenzaCapiRichiestiAccertati()).multiply(this.importoUnit));
+						outputCalcolo.getDifferenzaCapiRichiestiAccertati().multiply(this.importoUnit));
 				this.isIrregolaritaIntenzionale = false;
 			}
 

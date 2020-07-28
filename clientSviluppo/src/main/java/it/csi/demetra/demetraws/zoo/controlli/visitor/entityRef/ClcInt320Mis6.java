@@ -34,7 +34,7 @@ public class ClcInt320Mis6 extends Controllo {
 	private List<Dmt_t_contr_loco> estrazioneACampione;
 	private Dmt_t_anagrafica_allevamenti modelAllevamenti;
 	private BigDecimal numeroCapiAmmissibili;
-	private int numeroCapiRichiesti;
+	private BigDecimal numeroCapiRichiesti;
 	private Dmt_t_output_controlli oc;
 	private Rpu_V_pratica_zoote richiestaDetentore;
 	private List<Dmt_t_premio_capi> capiAmmessiUba;
@@ -59,7 +59,7 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
-		this.numeroCapiRichiesti = 0;
+		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.oc = null;
@@ -122,8 +122,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 		
 //		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
-		this.numeroCapiRichiesti = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
-				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+		this.numeroCapiRichiesti = BigDecimal.valueOf(getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
+				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
 		
 //		QUERY SULLA TABELLA DELL'ESTRAZIONE A CAMPIONE "DMT_T_CONTR_LOCO"
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
