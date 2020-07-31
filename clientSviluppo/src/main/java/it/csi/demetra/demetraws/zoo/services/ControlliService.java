@@ -434,7 +434,7 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista codici premio in base a idCapo ed idSessione.
-     * {@link Dmt_t_tws_bdn_du_capi_bovini_repository#findCodiciPremioByIdCapoAndIdSessione(Long, Long)}
+     * {@link Dmt_t_premio_capi_repository#findCodiciPremioByIdCapoAndIdSessione(Long, Long)}
      * @param idCapo identificativo univoco associato al capo animale
      * @param idSessione identificativo univoco associato all'esecuzione
      * @return lista di codici premio associati ad un capo animale.

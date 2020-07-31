@@ -97,11 +97,6 @@ public class ref03 {
 			capiAccertati = result.get("accertati");
 			capiAnomali = result.get("anomali");
 			capiRichiesti = result.get("richiesti");
-			
-			LOGGER.info("CUAA: " + this.azienda.getCuaa() + " || CODICE PREMIO: " + this.azienda.getCodicePremio() + " || ID_SESSIONE: " + this.sessione.getIdSessione());
-			LOGGER.info("CAPI RICHIESTI: " + capiRichiesti );
-			LOGGER.info("CAPI ACCERTATI: " + capiAccertati);
-			LOGGER.info("CAPI ANOMALI: " + capiAnomali);
 
 			try {
 				esito = capiAnomali.divide(capiAccertati, MathContext.DECIMAL128);
@@ -153,7 +148,7 @@ public class ref03 {
 			outputCalcolo = new Dmt_t_output_ref03();
 			outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
 			outputCalcolo.setCapiAccertati(capiAccertati);
-			outputCalcolo.setCapiAnomaliNonPagabili(capiAnomali);
+			outputCalcolo.setCapiAnomali(capiAnomali);
 			outputCalcolo.setCapiPagabili(capiPagabili);
 			outputCalcolo.setCapiRichiesti(capiRichiesti);
 			outputCalcolo.setCuaa(this.azienda.getCuaa());

@@ -79,17 +79,11 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 */
 	private BigDecimal capiAccertati;
 	
-	@Column(name = "capi_anomali_pagabili")
-	/**
-	 * Capi controllati e risultati anomali ma comunque ammissibili a premio.
-	 */
-	private BigDecimal capiAnomaliPagabili;
-	
-	@Column(name = "capi_anomali_non_pagabili")
+	@Column(name = "capi_anomali")
 	/**
 	 * capi anomali che non hanno superato i controlli e che non possono essere ammessi a premio
 	 */
-	private BigDecimal capiAnomaliNonPagabili;
+	private BigDecimal capiAnomali;
 	
 	@Column(name = "capi_richiesti")
 	/**
@@ -305,24 +299,16 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna il numero di capi anomali.
 	 * @return capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
 	 */
-	public BigDecimal getCapiAnomaliPagabili() {
-		return capiAnomaliPagabili;
+	public BigDecimal getCapiAnomali() {
+		return capiAnomali;
 	}
 
 	/**
 	 * Metodo setter che imposta il numero di capi anomali.
 	 * @param capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
 	 */
-	public void setCapiAnomaliPagabili(BigDecimal capiAnomaliPagabili) {
-		this.capiAnomaliPagabili = capiAnomaliPagabili;
-	}
-	
-	public BigDecimal getCapiAnomaliNonPagabili() {
-		return capiAnomaliNonPagabili;
-	}
-
-	public void setCapiAnomaliNonPagabili(BigDecimal capiAnomaliNonPagabili) {
-		this.capiAnomaliNonPagabili = capiAnomaliNonPagabili;
+	public void setCapiAnomali(BigDecimal capiAnomali) {
+		this.capiAnomali= capiAnomali;
 	}
 
 	/**
