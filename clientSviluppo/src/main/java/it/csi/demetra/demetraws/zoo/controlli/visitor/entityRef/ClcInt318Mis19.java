@@ -43,7 +43,7 @@ public class ClcInt318Mis19 extends Controllo {
 	private Dmt_t_clsCapoMacellato_services capiMacellatiService;
 	List<Dmt_t_contr_loco> estrazioneACampione;
 	private BigDecimal numeroCapiAmmissibili;
-	private int numeroCapiRichiesti;
+	private BigDecimal numeroCapiRichiesti;
 	Dmt_t_output_controlli oc;
 	private Dmt_t_SistemiDiEtichettaturaFacoltativa etic;
 	private int numeroCapiBocciati;
@@ -66,7 +66,7 @@ public class ClcInt318Mis19 extends Controllo {
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.numeroCapiBocciati = 0;
-		this.numeroCapiRichiesti=0;
+		this.numeroCapiRichiesti= BigDecimal.ZERO;
 		this.motivazione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
@@ -110,8 +110,8 @@ public class ClcInt318Mis19 extends Controllo {
 			return;
 		
 		
-			numeroCapiRichiesti = getControlliService()
-				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+			numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
+				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
 		
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 		

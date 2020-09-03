@@ -41,13 +41,13 @@ public class ClcInt314Mis18 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private BigDecimal importoLiquidabile;
-	private Integer importoRichiesto;
+	private BigDecimal importoRichiesto;
 	private List<Dmt_t_output_esclusi> listEsclusi;
 	private ResultCtlUbaMinime ubaMin;
 
 	private void init() {
 		listEsclusi = new ArrayList<>();
-		importoRichiesto = null != modelVacche ? modelVacche.size() : 0;
+		importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
 		importoLiquidabile = new BigDecimal(0);
 		modelVaccheFiltrate = null;
 		ubaMin = null;

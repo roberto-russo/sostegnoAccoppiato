@@ -39,7 +39,7 @@ public class ClcInt315Mis5 extends Controllo {
 
 	@Autowired
 	private CtlUbaMinime ref9903;
-	private int numeroCapiRichiesti;
+	private BigDecimal numeroCapiRichiesti;
 	private int contatoreBocciati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private String motivazione;
@@ -60,7 +60,7 @@ public class ClcInt315Mis5 extends Controllo {
 		this.contatoreBocciati = 0;
 		this.modelMacellato = null;
 		this.oc = null;
-		this.numeroCapiRichiesti=0;
+		this.numeroCapiRichiesti= BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
@@ -99,8 +99,8 @@ public class ClcInt315Mis5 extends Controllo {
 	public void esecuzione() throws ControlloException{
 		
 		
-			numeroCapiRichiesti = getControlliService()
-				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size();
+			numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
+				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
 		
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 		

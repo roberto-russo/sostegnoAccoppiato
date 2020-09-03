@@ -62,40 +62,40 @@ public class Dmt_t_output_ref03 implements Serializable{
 	/**
 	 * numero di capi ammessi al pagamento
 	 */
-	private Double capiPagabili;
+	private BigDecimal capiPagabili;
 	
 	@Column(name = "percentuale_riduzione")
 	/**
 	 * percentuale di riduzione del pagamento del premio
 	 */
-	private Double percentualeRiduzione;
+	private BigDecimal percentualeRiduzione;
 	
 	@Column(name = "esito")
-	private Double esito;
+	private BigDecimal esito;
 	
 	@Column(name = "capi_accertati")
 	/**
 	 * Numero di capi accertati per il codice intervento
 	 */
-	private Integer capiAccertati;
+	private BigDecimal capiAccertati;
 	
 	@Column(name = "capi_anomali")
 	/**
-	 * Capi controllati e risultati anomali, quindi non pagabili.
+	 * capi anomali che non hanno superato i controlli e che non possono essere ammessi a premio
 	 */
-	private Integer capiAnomali;
+	private BigDecimal capiAnomali;
 	
 	@Column(name = "capi_richiesti")
 	/**
 	 * Capi richiesti a premio dal richiedente
 	 */
-	private Integer capiRichiesti;
+	private BigDecimal capiRichiesti;
 	
 	@Column(name = "diff_richiesti_accertati", nullable = true)
 	/**
 	 * Differenza tra i capi richiesti e i capi ammessi a premio.
 	 */
-	private Integer differenzaCapiRichiestiAccertati;
+	private BigDecimal differenzaCapiRichiestiAccertati;
 	
 	@Column(name = "imp_pagato_netto_decurt")
 	/**
@@ -243,7 +243,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna il numero di capi ammessi al pagamento
 	 * @return capiPagaBili numero di capi ammessi al premio
 	 */
-	public Double getCapiPagabili() {
+	public BigDecimal getCapiPagabili() {
 		return capiPagabili;
 	}
 
@@ -251,7 +251,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta il numero di capi ammessi al pagamento.
 	 * @param capiPagabili numero di capi ammessi al pagamento.
 	 */
-	public void setCapiPagabili(Double capiPagabili) {
+	public void setCapiPagabili(BigDecimal capiPagabili) {
 		this.capiPagabili = capiPagabili;
 	}
 
@@ -259,7 +259,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna la percentuale di riduzione del pagamento del premio
 	 * @return percentualeRiduzione percentuale di riduzione del pagamento del premio
 	 */
-	public Double getPercentualeRiduzione() {
+	public BigDecimal getPercentualeRiduzione() {
 		return percentualeRiduzione;
 	}
 
@@ -267,15 +267,15 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta la percentuale di riduzione del pagamento del premio
 	 * @param percentualeRiduzione  percentuale di riduzione del pagamento del premio
 	 */
-	public void setPercentualeRiduzione(Double percentualeRiduzione) {
+	public void setPercentualeRiduzione(BigDecimal percentualeRiduzione) {
 		this.percentualeRiduzione = percentualeRiduzione;
 	}
 
-	public Double getEsito() {
+	public BigDecimal getEsito() {
 		return esito;
 	}
 
-	public void setEsito(Double esito) {
+	public void setEsito(BigDecimal esito) {
 		this.esito = esito;
 	}
 
@@ -283,7 +283,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna il numero di capi accertati per il codice intervento
 	 * @return capiAccertati numero di capi accertati per il codice intervento.
 	 */
-	public Integer getCapiAccertati() {
+	public BigDecimal getCapiAccertati() {
 		return capiAccertati;
 	}
 
@@ -291,7 +291,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta il numero di capi accertati per il codice premio
 	 * @param capiAccertati numero di capi accertati per il codice premio
 	 */
-	public void setCapiAccertati(Integer capiAccertati) {
+	public void setCapiAccertati(BigDecimal capiAccertati) {
 		this.capiAccertati = capiAccertati;
 	}
 
@@ -299,7 +299,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna il numero di capi anomali.
 	 * @return capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
 	 */
-	public Integer getCapiAnomali() {
+	public BigDecimal getCapiAnomali() {
 		return capiAnomali;
 	}
 
@@ -307,15 +307,15 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta il numero di capi anomali.
 	 * @param capiAnomali numero di capi anomali, non ammessi per il pagamento a premio
 	 */
-	public void setCapiAnomali(Integer capiAnomali) {
-		this.capiAnomali = capiAnomali;
+	public void setCapiAnomali(BigDecimal capiAnomali) {
+		this.capiAnomali= capiAnomali;
 	}
 
 	/**
 	 * Metodo getter che imposta il numero di capi richiesti dal richiedente.
 	 * @return capiRichiesti numero di capi richiesti dal richiedente
 	 */
-	public Integer getCapiRichiesti() {
+	public BigDecimal getCapiRichiesti() {
 		return capiRichiesti;
 	}
 
@@ -323,7 +323,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta il numero di capi richiesti dal richiedente.
 	 * @param capiRichiesti numero di capi richiesti dal richiedente.
 	 */
-	public void setCapiRichiesti(Integer capiRichiesti) {
+	public void setCapiRichiesti(BigDecimal capiRichiesti) {
 		this.capiRichiesti = capiRichiesti;
 	}
 
@@ -331,7 +331,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che ritorna la differenza tra il numero di capi richiesti ed il numero di capi ammissibili
 	 * @return differenzaCapiRichiestiAccertati differenza tra il numero di capi richiesti ed il numero di capi ammissibili.
 	 */
-	public Integer getDifferenzaCapiRichiestiAccertati() {
+	public BigDecimal getDifferenzaCapiRichiestiAccertati() {
 		return differenzaCapiRichiestiAccertati;
 	}
 
@@ -339,7 +339,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo setter che imposta la differenza tra il numero di capi richiesti ed il numero di capi ammissibili
 	 * @param differenzaCapiRichiestiAccertati differenza tra il numero di capi richiesti ed il numero di capi ammissibili
 	 */
-	public void setDifferenzaCapiRichiestiAccertati(Integer differenzaCapiRichiestiAccertati) {
+	public void setDifferenzaCapiRichiestiAccertati(BigDecimal differenzaCapiRichiestiAccertati) {
 		this.differenzaCapiRichiestiAccertati = differenzaCapiRichiestiAccertati;
 	}
 }

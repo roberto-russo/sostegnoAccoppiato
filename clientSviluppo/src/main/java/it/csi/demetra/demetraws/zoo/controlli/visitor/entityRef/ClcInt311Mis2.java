@@ -255,7 +255,7 @@ public class ClcInt311Mis2 extends Controllo{
         outputControlli.setIdSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
-        outputControlli.setCapiRichiesti(modelVacche.size());
+        outputControlli.setCapiRichiesti(new BigDecimal(modelVacche.size()));
         outputControlli.setCuaa(getAzienda().getCuaa());
         outputControlli.setIntervento(getAzienda().getCodicePremio());
 
