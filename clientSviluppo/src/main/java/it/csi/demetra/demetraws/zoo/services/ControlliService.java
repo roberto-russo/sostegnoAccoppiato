@@ -1,12 +1,14 @@
 package it.csi.demetra.demetraws.zoo.services;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.csi.demetra.demetraws.zoo.model.Dmt_T_analisi_produzioni_cuua;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_SistemiDiEtichettaturaFacoltativa;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
@@ -14,6 +16,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_demarcazione_PSR;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_irregolarita_intenzionale;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
@@ -22,6 +25,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_w_controllo_bean;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.repository.Analisi_produzioni_cuua_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_AgnelleRimonta_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_SistemiDiEtichettaturaFacoltativa_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_repository;
@@ -29,6 +33,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repo
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_certificato_igp_dop_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_demarcazione_PSR_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_importo_unitario_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_irregolarita_intenzionale_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
@@ -160,6 +165,12 @@ public class ControlliService {
     
     @Autowired
     Dmt_t_premio_capi_repository premioCapiRep;
+    
+    @Autowired
+    Dmt_t_demarcazione_PSR_repository PSRrep;
+    
+    @Autowired
+    Analisi_produzioni_cuua_repository AnalisiProduzioniRep;
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini} in base alla sessione, cuaa e codiceIntervento
@@ -250,7 +261,7 @@ public class ControlliService {
      */
     public Dmt_t_SistemiDiEtichettaturaFacoltativa getSistemaEtichettarua(String cuaa) {
 
-        return this.etichettaturaRepository.findByCuaa(cuaa);
+        return this.etichettaturaRepository.findByCuaa(cuaa) == null ? new Dmt_t_SistemiDiEtichettaturaFacoltativa() : this.etichettaturaRepository.findByCuaa(cuaa);
     }
 
     /**
@@ -260,7 +271,7 @@ public class ControlliService {
      * @return istanza di tipo {@link Dmt_t_certificato_igp_dop}
      */
     public Dmt_t_certificato_igp_dop getCertificatoIgpDop(String cuaa) {
-        return this.igpDopRepository.findByCuaa(cuaa);
+        return this.igpDopRepository.findByCuaa(cuaa) == null ? new Dmt_t_certificato_igp_dop() : this.igpDopRepository.findByCuaa(cuaa);
     }
 
     /**
@@ -538,5 +549,34 @@ public class ControlliService {
     
     public Dmt_t_output_ref03 getCapiPagabiliPerCuaaAndCodicePremio(Integer annoCampagna, String cuaa, Dmt_t_sessione sessione, String codicePremio) {
     	return ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(annoCampagna, cuaa, sessione.getIdSessione(), codicePremio);
+    }
+    
+    public List<Date> getDataNascitaVitelloByIdCapoAndIdSessione(Long idCapo, Long idSessione) {
+  		return boviniRepository.findDataNascitaVitelloByIdCapoAndIdSessione(idCapo, idSessione);
+  	}
+    
+    public Date getDataNascitaVitelloByVitelloCapoIdAndIdSessione(Long idCapo, Long idSessione) {
+		return boviniRepository.findDataNascitaVitelloByVitelloCapoIdAndIdSessione(idCapo, idSessione);
+	}
+    
+    public Date getVitelloDataInserBdnNascitaByVitelloCapoIdAndIdSessione(Long idCapo, Long idSessione) {
+		return boviniRepository.findDataInsBdnNascitaByVitelloCapoIdAndIdSessione(idCapo, idSessione);
+	}
+    
+    public String getFlagDelegatoNascitaVitelloByVitelloCapoIdAndIdSessione(Long idCapo, Long idSessione) {
+    	return boviniRepository.findFlagDelegatoNascitaVitelloByVitelloCapoIdAndIdSessione(idCapo, idSessione);
+    }
+    
+    public String getFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(Long idCapo, Long idSessione) {
+    	return boviniRepository.findFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(idCapo, idSessione);
+    }
+    
+    public Dmt_t_demarcazione_PSR getByAnnoAndMarchioAuricolare(Integer anno, String marchioAuricolare) {
+		return PSRrep.findByAnnoAndMarchioAuricolare(anno, marchioAuricolare) == null ? new Dmt_t_demarcazione_PSR() : PSRrep.findByAnnoAndMarchioAuricolare(anno, marchioAuricolare);
+	}
+    
+    public List<Dmt_T_analisi_produzioni_cuua> getProduzioniByCuaaAndYear(String cuaa, int year) {
+    	
+    	return this.AnalisiProduzioniRep.getByCUUAAndYear(cuaa, year);
     }
 }
