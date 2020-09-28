@@ -125,4 +125,8 @@ public class Dmt_t_tws_bdn_du_capi_bovini_services {
 	public List<Dmt_t_Tws_bdn_du_capi_bovini>getBoviniUbaMinime(Long idSessione, String cuaa, String codIntervento) {
 		return rep.getBoviniUbaMinime(idSessione, cuaa, codIntervento);
 	}
+	
+	public String getFlagZonaMontanaByAllevId(Long allevId) {
+		return rep.findFlagZonaMontanaByAllevId(allevId) == null ? "N" : rep.findFlagZonaMontanaByAllevId(allevId);
+	}
 }
