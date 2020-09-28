@@ -1,5 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
+import java.util.List;
+
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
@@ -60,4 +62,6 @@ public abstract class Controllo {
     public String getInput() {
         return getAzienda().getCuaa() + "|" + getAzienda().getCodicePremio();
     }
+    
+    abstract public <T> List<T> controlloCapiDichiarati(List<T> capiBDN);
 }
