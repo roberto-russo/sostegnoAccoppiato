@@ -2,6 +2,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -50,6 +51,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private Dmt_t_output_esclusi outputEsclusi;
 	private String motivazione;
 	private ResultCtlUbaMinime ubaMin;
+	private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiDichiarati;
 
 
 	
@@ -86,12 +88,10 @@ public class ClcInt322Mis20 extends Controllo {
 
 
 try {
+			this.listaCapiDichiarati = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
+					getAzienda().getCodicePremio()));
 			
-			ref9901.init(
-					getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
-							getAzienda().getCodicePremio()),
-					getSessione().getIdSessione(), getAzienda().getCodicePremio(),
-					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+			ref9901.init(this.listaCapiDichiarati, getSessione().getIdSessione(), getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 
 			
 			this.modelVacche = ref9901.calcolo();
@@ -140,8 +140,7 @@ try {
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
-		numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
-				.getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
+		numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiDichiarati.size());
 		
 		
 		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
@@ -231,5 +230,22 @@ try {
 			}
 
 		}
+	}
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		List<T> listaCapiDichiarati = new ArrayList<T>();
+		
+		UtilControlli.clearList(listaCapiDichiarati);
+		
+		for( T capo : capiBDN)
+			if( UtilControlli.controlloDataInterpartoBovino( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getSessione().getIdSessione() ) &&
+				UtilControlli.controlloRegistrazioneVitello( (Dmt_t_Tws_bdn_du_capi_bovini) capo , 
+						getControlliService(), this.getSessione().getIdSessione(), this.getAzienda().getCodicePremio() ) //&&
+				/*UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_Tws_bdn_du_capi_bovini) capo) */)
+					listaCapiDichiarati.add(capo);
+		
+		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 	}
 }
