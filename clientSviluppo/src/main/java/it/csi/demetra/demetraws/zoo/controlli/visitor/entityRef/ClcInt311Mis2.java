@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,8 @@ public class ClcInt311Mis2 extends Controllo{
 		/*
 		 * Prendo dal DB tutte le vacche richieste per sessione cua e codice Intervento
 		 * */
-        modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+        //modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         /*
 		 * Prendo dal DB tutte le vacche che hanno superato il controllo del premio per l'Intervento 310 Misura 1
 		 * */
@@ -303,6 +305,27 @@ public class ClcInt311Mis2 extends Controllo{
 		
 		if(this.importoLiquidabile.compareTo(BigDecimal.ZERO) > 0)
 			this.importoLiquidabile = BigDecimal.ZERO;
+	}
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		List<T> listaCapiDichiarati = new ArrayList<T>();
+		
+		UtilControlli.clearList(listaCapiDichiarati);
+		
+		for( T capo : capiBDN)
+			if( UtilControlli.controlloDataInterpartoBovino( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getSessione().getIdSessione() )                        &&
+				UtilControlli.controlloRegistrazioneVitello( (Dmt_t_Tws_bdn_du_capi_bovini) capo , 
+						getControlliService(), this.getSessione().getIdSessione(), this.getAzienda().getCodicePremio() )                        &&
+				UtilControlli.controlloStallaMontana( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.capiBoviniService)        &&
+				//UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_Tws_bdn_du_capi_bovini) capo )      &&
+				UtilControlli.controlloDemarcazione( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getAzienda().getAnnoCampagna() )                                &&
+				UtilControlli.controlloParametriIgienicoSanitari( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getAzienda(), this.getControlliService())                    &&
+				UtilControlli.controlloDetenzioneMinimaPerTempisticheRegistrazione( (Dmt_t_Tws_bdn_du_capi_bovini) capo ) )
+					listaCapiDichiarati.add(capo);
+		
+		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 	}
 
 }
