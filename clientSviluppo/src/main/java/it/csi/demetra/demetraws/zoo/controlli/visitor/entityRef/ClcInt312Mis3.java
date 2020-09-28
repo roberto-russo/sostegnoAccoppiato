@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
@@ -77,7 +79,8 @@ public class ClcInt312Mis3 extends Controllo{
 		/*
 		 * Prendo dal DB tutte le vacche richieste per sessione cua e codice Intervento
 		 * */
-        modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+        //modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         /*
 		 * Prendo dal DB tutte le vacche appartenenti ad un detentore di allevamenti attivi
 		 * */
@@ -281,6 +284,24 @@ public class ClcInt312Mis3 extends Controllo{
 		if(this.modelVaccheTmp != null)
 			this.modelVaccheTmp.clear();
 		
+	}
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		List<T> listaCapiDichiarati = new ArrayList<T>();
+		
+		UtilControlli.clearList(listaCapiDichiarati);
+		
+		for( T capo : capiBDN)
+			if( UtilControlli.controlloDataInterpartoBovino( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getSessione().getIdSessione() )                  &&
+				UtilControlli.controlloRegistrazioneVitello( (Dmt_t_Tws_bdn_du_capi_bovini) capo , 
+						getControlliService(), this.getSessione().getIdSessione(), this.getAzienda().getCodicePremio() )                  &&
+				//UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_Tws_bdn_du_capi_bovini) capo) &&
+				UtilControlli.controlloDemarcazione( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getAzienda().getAnnoCampagna() ) )
+					listaCapiDichiarati.add(capo);
+		
+		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 	}
 	
 }
