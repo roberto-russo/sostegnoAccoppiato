@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class ClcInt320Mis6 extends Controllo {
 	private Dmt_t_output_controlli oc;
 	private Rpu_V_pratica_zoote richiestaDetentore;
 	private List<Dmt_t_premio_capi> capiAmmessiUba;
+	private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> modelOvicaprini;
 
 	@Autowired
 	private CtlUbaMinime ref9903;
@@ -72,6 +74,8 @@ public class ClcInt320Mis6 extends Controllo {
 
 			// CALCOLO TRASVERSALE REF9902
 
+			this.modelOvicaprini = this.controlloCapiDichiarati(getControlliService().getOvicapriniBySessioneCuaaCodIntervento(getSessione().getIdSessione(),
+					getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 			ref9902.init(getSessione().getIdSessione(), getAzienda().getCodicePremio(),
 					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 
@@ -87,10 +91,7 @@ public class ClcInt320Mis6 extends Controllo {
 
 		// CALCOLO TRASVERSALE 9903
 
-		ref9903.init(
-				getControlliService().getOvicapriniBySessioneCuaaCodIntervento(getSessione().getIdSessione(),
-						getAzienda().getCuaa(), getAzienda().getCodicePremio()),
-				getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(),
+		ref9903.init(this.modelOvicaprini, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(),
 				getSessione());
 		try {
 			this.ubaMin = ref9903.calcolo();
@@ -122,8 +123,7 @@ public class ClcInt320Mis6 extends Controllo {
 
 		
 //		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
-		this.numeroCapiRichiesti = BigDecimal.valueOf(getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
-				getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
+		this.numeroCapiRichiesti = BigDecimal.valueOf(this.modelOvicaprini.size());
 		
 //		QUERY SULLA TABELLA DELL'ESTRAZIONE A CAMPIONE "DMT_T_CONTR_LOCO"
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
@@ -222,6 +222,14 @@ public class ClcInt320Mis6 extends Controllo {
 		this.oc.setIntervento(getAzienda().getCodicePremio());
 		this.oc.setIdSessione(getSessione());
 		getControlliService().saveOutput(this.oc);
+	}
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		
+		
+		return Collections.emptyList();
 	}
 
 }

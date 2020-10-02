@@ -69,7 +69,8 @@ public class ClcInt315Mis5 extends Controllo {
 	
 	// controlli di preammissibilità
 		
-		this.modelMacellato = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		//this.modelMacellato = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		this.modelMacellato = this.controlloCapiDichiarati(getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 		
 		ref9903.init(modelMacellato, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
@@ -249,5 +250,20 @@ public class ClcInt315Mis5 extends Controllo {
 		} 
 			
 		return false;
+	}
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		List<T> listaCapiDichiarati = new ArrayList<T>();
+		
+		UtilControlli.clearList(listaCapiDichiarati);
+		
+//		for( T capo : capiBDN)
+//			if( UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_clsCapoMacellato) capo) )
+//					listaCapiDichiarati.add(capo);
+		
+		//return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
+		return capiBDN;
 	}
 }

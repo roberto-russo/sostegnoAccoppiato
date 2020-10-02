@@ -2,6 +2,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -76,7 +77,7 @@ public class ClcInt318Mis19 extends Controllo {
 		LOGGER.info("inizio preEsecuzione()");
 			// CONTROLLO DI PREAMMISSIBILITA' TRASVERSALE
 		
-		this.listaCapiMacellati = getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		this.listaCapiMacellati = this.controlloCapiDichiarati(getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 		
 		ref9903.init(listaCapiMacellati, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
 
@@ -110,8 +111,7 @@ public class ClcInt318Mis19 extends Controllo {
 			return;
 		
 		
-			numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
-				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
+			numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiMacellati.size());
 		
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 		
@@ -289,5 +289,21 @@ public class ClcInt318Mis19 extends Controllo {
 		} 
 			
 		return false;
+	}
+	
+	
+	@Override
+	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+		
+		List<T> listaCapiDichiarati = new ArrayList<T>();
+		
+		UtilControlli.clearList(listaCapiDichiarati);
+		
+		for( T capo : capiBDN)
+			if( //UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_clsCapoMacellato) capo ) &&
+				UtilControlli.controlloIscrizioneconsorzioEtichettatura( (Dmt_t_clsCapoMacellato) capo, getControlliService() ) )
+					listaCapiDichiarati.add(capo);
+		
+		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 	}
 }
