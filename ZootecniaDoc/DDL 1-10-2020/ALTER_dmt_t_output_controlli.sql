@@ -1,0 +1,2 @@
+ALTER TABLE dmt_t_output_controlli
+ADD CAPI_SANZIONATI NUMBER(10,2)
