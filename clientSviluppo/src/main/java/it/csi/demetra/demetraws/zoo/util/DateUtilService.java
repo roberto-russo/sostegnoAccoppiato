@@ -57,6 +57,9 @@ public final class DateUtilService {
 
 	public static List<Date> getGiorniFestivi(String anno) {
 		
+		if(!giorniFestivi.isEmpty()){
+			giorniFestivi.clear();
+		}
 		ANNO = anno;
 		
 		giorniFestivi.add(DateUtilService.getCapodanno());
