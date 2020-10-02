@@ -1,12 +1,14 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
@@ -14,6 +16,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
+import it.csi.demetra.demetraws.zoo.util.DateUtilService;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 
 /**
@@ -207,4 +210,101 @@ private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi, Dmt_t_Tw
     		
     	return false;
     }
+
+public static long differenzaGiorni(Date dataInizio, Date dataFine) {
+
+	LocalDate data1 = LocalDateConverter.convertToLocalDateViaInstant(dataInizio);
+	LocalDate data2 = LocalDateConverter.convertToLocalDateViaInstant(dataFine);
+	return data1.compareTo(data2) < 0 ? ChronoUnit.DAYS.between(data1, data2)
+			: ChronoUnit.DAYS.between(data2, data1);
+}
+public static Integer calcolaGiorniFestivi(Date dataPrecedente, Date dataSuccessiva, int anno) {
+	int numeroGiorniFestiviCompresi = 0;
+
+	List<Date> giorniFestivi = DateUtilService.getGiorniFestivi(String.valueOf(anno));
+	for (Date giorno : giorniFestivi) {
+		if (giorno.after(dataPrecedente) && giorno.before(dataSuccessiva)) {
+			numeroGiorniFestiviCompresi++;
+		}
+	}
+	return numeroGiorniFestiviCompresi;
+
+}
+
+public static Long differenzaGiorniConFestivi(Date dataPrecedente, Date dataSuccessiva, int anno) {
+	
+	long numeroGiorniFestiviCompresi = 0;
+	List<Date> giorniFestivi = DateUtilService.getGiorniFestivi(String.valueOf(anno));
+	long numeroGiorni = differenzaGiorni(dataPrecedente, dataSuccessiva);
+	for (Date giorno : giorniFestivi) {
+		if (giorno.after(dataPrecedente) && giorno.before(dataSuccessiva)) {
+			numeroGiorniFestiviCompresi += 1;
+		}
+	
+	}
+	return numeroGiorniFestiviCompresi + numeroGiorni;
+
+}
+
+public static Integer contaFestivi(Date dataPrecedente, Date dataSuccessiva){
+	
+	int domeniche = 0;
+	int numeroGiorniFestiviCompresi = 0;
+	List<Date> giorniFestivi = new ArrayList<Date>();
+	if(!giorniFestivi.isEmpty())
+		   giorniFestivi.clear();
+	LocalDate data1 = LocalDateConverter.convertToLocalDateViaInstant(dataPrecedente);
+	LocalDate data2 = LocalDateConverter.convertToLocalDateViaInstant(dataSuccessiva);
+	int anno1 = data1.getYear();
+	int anno2 = data2.getYear();
+			
+		// se le date sono lo stesso giorno 
+		if (data1.isEqual(data2)) {
+			domeniche = 0;
+		}
+		
+		if (data1.isBefore(data2)){
+
+			do {
+				
+				data1= data1.plusDays(1);
+				if (data1.getDayOfWeek() == DayOfWeek.SUNDAY) {
+					domeniche++;
+				}
+			} while (!data1.isEqual(data2)); 
+		}else{
+			if (data1.isAfter(data2)){
+
+				do {
+					
+					data2= data2.plusDays(1);
+					if (data2.getDayOfWeek() == DayOfWeek.SUNDAY) {
+						domeniche++;
+					}
+				} while (data2.isEqual(data1)); 
+			}
+		}
+		// se le due date non si trovano nello stesso anno
+	
+		if(anno1 != anno2){
+		
+			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno1)));
+			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno2)));
+
+		}else{
+			
+			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno1)));
+		
+		}
+	
+
+	for (Date giorno : giorniFestivi) {
+		if (giorno.after(dataPrecedente) && giorno.before(dataSuccessiva)) {
+			numeroGiorniFestiviCompresi++;
+		}
+		
+	}
+		return numeroGiorniFestiviCompresi + domeniche;
+	
+}
 }
