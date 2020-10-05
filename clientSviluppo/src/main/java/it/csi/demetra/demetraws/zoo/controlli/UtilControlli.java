@@ -450,26 +450,34 @@ public class UtilControlli {
 
 		// AL CALCOLO DEI GIORNI CHE INTERCORRONO TRA LE DUE DATE, INSERIRE I GIORNI
 		// FESTIVI CHE INTERCORRONO
-		if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) < 7)
-				&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) <= 7)) {
-			// OK TEMPISTICA RISPETTATA ED ULTERIORE VERIFICA DEL PERIODO DI PERMANENZA
-
-			if (differenzaMesi(bovino.getDtFineDetenzione(), bovino.getDtInizioDetenzione()) > 6)
-				return true;
-			else
-				// CAPO ESCLUSO DAL PAGAMENTO
-				return false;
-		} else {
-			// VERIFICA DEL RISPETTO DEL PERIODO DI PERMANENZA
-
+		if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) > 7)
+				&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) > 7 + (contaFestivi(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso())))) {
+			
+			//VERIFICA DEL RISPETTO DEL PERIODO DI PERMANENZA
 			if (differenzaMesi(bovino.getDtFineDetenzione(), bovino.getVaccaDtInserBdnIngresso()) > 6)
-				// CAPO PAGATO E SANZIONATO
+			
+				//CAPO PAGATO E SANZIONATO
 				return true;
 			else
-				// CAPO ESCLUSO DAL PAGAMENTO
+				
+				//CAPO ESCLUSO DAL PAGAMENTO
 				return false;
-
+			
+		} else 
+			if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) < 7)
+					&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) <= 7 )) {
+			
+			if (differenzaMesi(bovino.getDtFineDetenzione(), bovino.getDtInizioDetenzione()) > 6)
+				//CAPO PAGATO
+				return true;
+			else
+				
+				//CAPO ESCLUSO DAL PAGAMENTO	
+				return false;
 		}
+		
+		//SE NON RIENTRO IN NESSUNO DEI CASI SOPRA ELENCANTI, RITORNO FALSE
+		return false;
 	}
 
 	public static Boolean controlloAmmissibilitaPremio314(Dmt_t_Tws_bdn_du_capi_bovini bovino) {
