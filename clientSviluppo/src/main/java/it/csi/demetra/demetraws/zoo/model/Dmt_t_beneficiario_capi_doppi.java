@@ -5,10 +5,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_beneficiario_capi_doppi_id;
 
 @Entity
 @Table(name = "DMT_T_BENEFICIARIO_CAPI_DOPPI")
+@IdClass(Dmt_t_beneficiario_capi_doppi_id.class)
 public class Dmt_t_beneficiario_capi_doppi implements Serializable {
 
 	/**
