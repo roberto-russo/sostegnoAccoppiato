@@ -49,6 +49,7 @@ public class ClcInt319Mis19 extends Controllo {
 	private BigDecimal numeroCapiRichiesti;
 	Dmt_t_output_controlli oc;
 	private int numeroCapiBocciati;
+	private int contatoreSanzionati;
 	Dmt_t_certificato_igp_dop certIgpDop;
 	private String motivazione;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
@@ -82,11 +83,12 @@ public class ClcInt319Mis19 extends Controllo {
 		this.outputEsclusi = null;
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.listaCapiMacellatiFiltrati = null;
+		this.contatoreSanzionati = 0;
 
 		LOGGER.info("inizio preEsecuzione()");
 
-		this.listaCapiMacellati = this.controlloCapiDichiarati(getControlliService()
-				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
+		this.listaCapiMacellati = getControlliService().getAllMacellatiSessioneCuua(getSessione(),
+				getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
 		ref9903.init(listaCapiMacellati, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
 				getAzienda().getCuaa(), getSessione());
@@ -142,76 +144,103 @@ public class ClcInt319Mis19 extends Controllo {
 							getSessione().getIdSessione(), getAzienda().getCodicePremio());
 					this.certIgpDop = getControlliService().getCertificatoIgpDop(getAzienda().getCuaa());
 
+					// calcolo giorni festivi tra 2 date
+
+					int contatoreFestivita = 0;
+					contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
+
 					/*
-					 * Sia stato allevato per un periodo continuativo di 6 mesi;
+					 * COMUNICAZIONE DELLA MOVIMENTAZIONE
 					 */
-					if ((m.getDtIngresso() == null || m.getDtUscita() == null)
-							|| (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
+					if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
+							+ contatoreFestivita
+							&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
+									m.getDtComAutoritaIngresso()) <= 7 + contatoreFestivita)) {
 
 						/*
-						 * Sia certificato a denominazione di origine protetta o indicazione geografica
-						 * protetta
+						 * TEMPISTICA BDN =< 7 giorni
 						 */
-						if ((this.certIgpDop != null) && (this.certIgpDop.getFlagDop().equals("S")
-								|| this.certIgpDop.getFlagIgp().equals("S"))) {
+
+						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+
+					} else {
+
+						/*
+						 * Sia stato allevato per un periodo continuativo di 6
+						 * mesi;
+						 */
+						if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
+								.differenzaMesi(m.getDtUscita(), m.getDtInserimentoBdnIngresso()) >= 6)) {
 
 							/*
-							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
-							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. il
-							 * capo è stato richiesto in pagamento da più di un soggetto, il capo non può
-							 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti. Il
-							 * premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi
-							 * macellati ed in caso di richiesta di aiuti da parte di entrambi, i capi
-							 * ammissibili sono pagati esclusivamente al detentore
+							 * Sia certificato a denominazione di origine
+							 * protetta o indicazione geografica protetta
 							 */
+							if ((this.certIgpDop != null) && (this.certIgpDop.getFlagDop().equals("S")
+									|| this.certIgpDop.getFlagIgp().equals("S"))) {
 
-							// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+								// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
-							if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-									this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
-									this.getControlliService())) {
-
-								this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-
-							} else {
-
-								//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
-								
-								if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+								if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+										this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
+										this.getControlliService())) {
 
 									this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+
+								} else {
+								
+								/*
+								 * Qualora lo stesso capo sia richiesto in
+								 * pagamento da due soggetti, il capo non può
+								 * essere pagato, salvo rinuncia da parte di uno
+								 * dei richiedenti. il capo è stato richiesto in
+								 * pagamento da più di un soggetto, il capo non
+								 * può esserepagato a meno di una rinuncia da
+								 * parte di uno dei richiedenti. Il premio alla
+								 * macellazione viene riconosciuto ai
+								 * proprietari/detentori dei capi macellati ed
+								 * in caso di richiesta di aiuti da parte di
+								 * entrambi, i capi ammissibili sono pagati
+								 * esclusivamente al detentore
+								 */
+								if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+
+									this.contatoreSanzionati++;
 								} else {
 									/*
-									 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
-									 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+									 * il capo è stato richiesto in pagamento da
+									 * più di un soggetto, il capo non può
+									 * esserepagato a meno di una rinuncia da
+									 * parte di uno dei richiedenti.
 									 * 
 									 */
 									this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
 									this.numeroCapiBocciati++;
 									this.listaCapiBocciati.add(m);
 								}
+								}
+							} else {
+								/*
+								 * non e' certificato a denominaizone di origine
+								 * protetta o indicazione geografica protetta
+								 */
+								this.motivazione = "non e' stato certificato a denominazione di origine protetta o indicazione geografica protetta";
+								this.numeroCapiBocciati++;
+								this.listaCapiBocciati.add(m);
 							}
-
 						} else {
-							/*
-							 * non e' certificato a denominaizone di origine protetta o indicazione
-							 * geografica protetta
-							 */
-							this.motivazione = "non e' stato certificato a denominazione di origine protetta o indicazione geografica protetta";
+							this.motivazione = "il capo non e' stato allevato per un periodo continuativo di almeno 6 mesi";
 							this.numeroCapiBocciati++;
 							this.listaCapiBocciati.add(m);
 						}
-					} else {
-						this.motivazione = "iil capo non e' stato allevato per un periodo continuativo di almeno 6 mesi";
-						this.numeroCapiBocciati++;
-						this.listaCapiBocciati.add(m);
+
 					}
+//					---------------------------------------------
+					if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
+						throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+								+ " nessun capo ha suprato il controllo per il premio 319 misura 19");
 
 				}
-				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
-					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-							+ " nessun capo ha suprato il controllo per il premio 319 misura 19");
-
 			} catch (ControlloException e) {
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
@@ -233,18 +262,19 @@ public class ClcInt319Mis19 extends Controllo {
 	/**
 	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
 	 * ammessi a premio in
-	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i dati
-	 * relativi ai capi non ammessi a premio in
-	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}. Dei capi non
-	 * ammessi a premio sarà salvata l'informazione di identificazione del capo, il
-	 * premio per cui è stata effettuata la richiesta di amissione e la motivazione
-	 * per cui risulta non idoneo al premio. Per i capi risultanti idonei al premio
-	 * in questione, sarà salvata l'informazione dell'anno campagna per cui
-	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la
-	 * domanda e il codice premio.
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i
+	 * dati relativi ai capi non ammessi a premio in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}. Dei capi
+	 * non ammessi a premio sarà salvata l'informazione di identificazione del
+	 * capo, il premio per cui è stata effettuata la richiesta di amissione e la
+	 * motivazione per cui risulta non idoneo al premio. Per i capi risultanti
+	 * idonei al premio in questione, sarà salvata l'informazione dell'anno
+	 * campagna per cui concorrono, il numero di capi ammessi a premio, il cuaa
+	 * che ha presentato la domanda e il codice premio.
 	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
@@ -253,7 +283,8 @@ public class ClcInt319Mis19 extends Controllo {
 		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 			LOGGER.info("il numero di capi ammissibili al premio 319 misura 19 per l'azienda " + getAzienda().getCuaa()
 					+ "e': " + this.numeroCapiAmmissibili);
-			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
+			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB
+			// QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
 
 			this.oc = new Dmt_t_output_controlli();
@@ -261,6 +292,7 @@ public class ClcInt319Mis19 extends Controllo {
 			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
 			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+			this.oc.setCapiSanzionati(this.contatoreSanzionati);
 			this.oc.setCuaa(getAzienda().getCuaa());
 			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 319
 			this.oc.setIntervento(getAzienda().getCodicePremio());
@@ -283,29 +315,42 @@ public class ClcInt319Mis19 extends Controllo {
 		}
 	}
 
-//	/**
-//	 * nel metodo differenzaMesi viene calcolata la differenza in mesi tra due date
-//	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
-//	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
-//	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
-//	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
-//	 */
-//	private long differenzaMesi(Date dataInizio, Date dataFine) {
-//		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
-//		return monthsBetween;
-//	}
+	// /**
+	// * nel metodo differenzaMesi viene calcolata la differenza in mesi tra due
+	// date
+	// * @param dataInizio per dataInizio si intende la prima data da inserire
+	// per poter effettuare il calcolo.
+	// * @param dataFine per dataFine si intende la seconda data da inserire per
+	// poter effettuare il calcolo.
+	// * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda
+	// data.
+	// * @return monthsBetween il numero di mesi che intercorrono tra le due
+	// date inserite.
+	// */
+	// private long differenzaMesi(Date dataInizio, Date dataFine) {
+	// LocalDate data1 =
+	// dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	// LocalDate data2 =
+	// dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	// long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
+	// return monthsBetween;
+	// }
 
-//	/**
-//	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
-//	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
-//	 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi, 
-//	 * i capi ammissibili sono pagati esclusivamente al detentore.
-//	 * @param duplicatiMacellati lista delle richieste effettuate sullo stesso capo
-//	 * @param cuaa codice fiscale del richiedente analizzato
-//	 * @return boolean true se il capo può essere pagato al cuaa analizzato, false altrimenti
-//	 */
+	// /**
+	// * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa
+	// che effettuano una richiesta sullo stesso capo.
+	// * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il
+	// capo non può essere pagato, salvo rinuncia da parte di uno dei
+	// richiedenti.
+	// * Il premio alla macellazione viene riconosciuto ai proprietari/detentori
+	// dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
+	// * i capi ammissibili sono pagati esclusivamente al detentore.
+	// * @param duplicatiMacellati lista delle richieste effettuate sullo stesso
+	// capo
+	// * @param cuaa codice fiscale del richiedente analizzato
+	// * @return boolean true se il capo può essere pagato al cuaa analizzato,
+	// false altrimenti
+	// */
 	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
 
 		Dmt_t_anagrafica_allevamenti allev1;
@@ -315,20 +360,25 @@ public class ClcInt319Mis19 extends Controllo {
 
 		if (duplicatiMacellati.size() == 2) {
 
-			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
+			// se la vacca compare due volte nello stesso allevamento,
+			// controllare chi è il
 			// proprietario e chi è il detentore
 			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
 
 				allev1 = getControlliService()
 						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(duplicatiMacellati.get(0).getAllevId()));
 
-//				if (((!allev1.getCod_fiscale_deten().equals(null))
-//						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
-//								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
-//						|| ((!allev1.getCod_fiscale_deten().equals(null))
-//								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
-//										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
-//					if(allev1.getCod_fiscale_deten().equals(cuaa))
+				// if (((!allev1.getCod_fiscale_deten().equals(null))
+				// &&
+				// (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
+				// &&
+				// allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
+				// || ((!allev1.getCod_fiscale_deten().equals(null))
+				// &&
+				// (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
+				// &&
+				// allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
+				// if(allev1.getCod_fiscale_deten().equals(cuaa))
 				return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
 
 			}
@@ -336,7 +386,6 @@ public class ClcInt319Mis19 extends Controllo {
 
 		return false;
 	}
-
 	@Override
 	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
 

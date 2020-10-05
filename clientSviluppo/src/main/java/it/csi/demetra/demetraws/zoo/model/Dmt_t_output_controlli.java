@@ -56,6 +56,20 @@ public class Dmt_t_output_controlli implements Serializable {
 	 * capi ammessi a premio
 	 */
 	private BigDecimal capiAmmissibili;
+	
+	@Column(name = "capi_sanzionati")
+	/**
+	 * numero capi sanzionati
+	 */
+	private Integer capiSanzionati;
+
+	public Integer getCapiSanzionati() {
+		return capiSanzionati;
+	}
+
+	public void setCapiSanzionati(Integer capiSanzionati) {
+		this.capiSanzionati = capiSanzionati;
+	}
 		
 	/**
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione.

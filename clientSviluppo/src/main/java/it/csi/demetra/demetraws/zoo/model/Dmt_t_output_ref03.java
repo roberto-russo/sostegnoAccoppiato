@@ -90,6 +90,9 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Capi richiesti a premio dal richiedente
 	 */
 	private BigDecimal capiRichiesti;
+
+	@Column(name = "capi_sanzionati")
+	private BigDecimal capiSanzionati;
 	
 	@Column(name = "diff_richiesti_accertati", nullable = true)
 	/**
@@ -111,6 +114,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	
 	@Column(name = "importo_a_recupero")
 	private BigDecimal importoARecupero;
+	
 	
 	
 	public BigDecimal getImportoARecupero() {
@@ -342,4 +346,14 @@ public class Dmt_t_output_ref03 implements Serializable{
 	public void setDifferenzaCapiRichiestiAccertati(BigDecimal differenzaCapiRichiestiAccertati) {
 		this.differenzaCapiRichiestiAccertati = differenzaCapiRichiestiAccertati;
 	}
+
+	public BigDecimal getCapiSanzionati() {
+		return capiSanzionati;
+	}
+
+	public void setCapiSanzionati(BigDecimal capiSanzionati) {
+		this.capiSanzionati = capiSanzionati;
+	}
+	
+	
 }

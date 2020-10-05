@@ -2,6 +2,9 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 
 /**
- * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 315 – Misura 5:<br>
- * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal richiedente
- * per un periodo non inferiore a sei mesi prima della macellazione.
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
+ * 315 – Misura 5:<br>
+ * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal
+ * richiedente per un periodo non inferiore a sei mesi prima della macellazione.
+ * 
  * @author bcsoft
  */
 @Component("ClcInt315Mis5")
@@ -41,26 +46,33 @@ public class ClcInt315Mis5 extends Controllo {
 	private CtlUbaMinime ref9903;
 	private BigDecimal numeroCapiRichiesti;
 	private int contatoreBocciati;
+	private int contatoreSanzionati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private String motivazione;
 
-
 	/**
-	 * Nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
-	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
-	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 315 misura 5.
-	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
-	 * Il metodo preEsecuzione utilizza il controllo:<br>
+	 * Nel metodo preEsecuzione vengono effettuate due operazioni principali. La
+	 * prima è l'inizializzazione delle variabili di classe. La seconda è
+	 * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato
+	 * di tali controlli pregiudica l'esecuzione del calcolo stesso. Se
+	 * l'esecuzione ha esito positivo, allora si può procedere con il calcolo
+	 * intervento 315 misura 5. Se l'esecuzione ha esito negativo, allora viene
+	 * generato un messaggio di errore. Il metodo preEsecuzione utilizza il
+	 * controllo:<br>
 	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * 
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
 		this.importoLiquidabile = new BigDecimal(0);
 		this.contatoreBocciati = 0;
+		this.contatoreSanzionati = 0;
 		this.modelMacellato = null;
 		this.oc = null;
-		this.numeroCapiRichiesti= BigDecimal.ZERO;
+		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
@@ -89,162 +101,211 @@ public class ClcInt315Mis5 extends Controllo {
 	}
 
 	/**
-	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 315 misura 5.
-	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di importo liquidabile
-	 * e il capo sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i capi risultassero non idonei al premio in questione,
-	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
-	 * La lista di capi non ammessi a premio sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo
+	 * intervento 315 misura 5. Se i controlli per il suddetto calcolo risultano
+	 * essere positivi, allora viene incrementato il contatore di importo
+	 * liquidabile e il capo sarà visibile in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}.
+	 * Qualora i capi risultassero non idonei al premio in questione, verrà
+	 * incrementato il numero di capi non ammessi a premio e tale capo sarà
+	 * inserito nella lista di capi non ammessi a premio. La lista di capi non
+	 * ammessi a premio sarà visibile in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
+	 * 
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
-	public void esecuzione() throws ControlloException{
-		
-		
-			numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
-				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()).size());
-		
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
-		
-		
-		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-			
+	public void esecuzione() throws ControlloException {
+
+		numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
+				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio())
+				.size());
+
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
+				getAzienda().getAnnoCampagna());
+
+		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
+
 			try {
-				
+
 				for (Dmt_t_clsCapoMacellato m : this.modelMacellato) {
-				
-					
-					
-					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
+
+					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
+							getSessione().getIdSessione(), getAzienda().getCodicePremio());
 					
 					/*
-					 * 	Sia stato allevato per un periodo continuativo di 6 mesi
-					 * 
+					 * Qualora lo stesso capo sia richiesto in pagamento da due
+					 * soggetti, il capo non può essere pagato, salvo rinuncia
+					 * da parte di uno dei richiedenti. Il premio alla
+					 * macellazione viene riconosciuto ai proprietari/detentori
+					 * dei capi macellati ed in caso di richiesta di aiuti da
+					 * parte di entrambi, i capi ammissibili sono pagati
+					 * esclusivamente al detentore
 					 */
-					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
-								/*
-								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
-								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
-								 * i capi ammissibili sono pagati esclusivamente al detentore
-								 */
+					if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+
+						// calcolo giorni festivi tra 2 date
 						
-						// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+						int contatoreFestivita = 0;
+						contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
 
-						if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
-								this.getControlliService())) {
+						/*
+						 * COMUNICAZIONE DELLA MOVIMENTAZIONE
+						 */
+						if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
+								+ contatoreFestivita
+								&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
+										m.getDtComAutoritaIngresso()) <= 7
+										+ contatoreFestivita
+										)) {
 
-							importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							/*
+							 * TEMPISTICA BDN =< 7 giorni
+							 */
+							this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 
 						} else {
-							
-							//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
-						
-								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-									this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							/*
+							 * Sia stato allevato per un periodo continuativo di
+							 * 6 mesi
+							 * 
+							 */
+							if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
+									.differenzaMesi(m.getDtUscita(), m.getDtInserimentoBdnIngresso()) >= 6)) {
+
+								/*
+								 * OK: Periodo di detenzione soddisfatto,
+								 * nonostante presenza del ritardo nella
+								 * registrazione della movimentazione del capo
+								 * 
+								 * CAPO PAGATO E SANZIONATO
+								 */
+								this.contatoreSanzionati++;
+							} else {
+								/*
+								 * il capo non è stato allevato per un periodo
+								 * minimo di 6 mesi continuativi
+								 */
+
+								this.motivazione = "il capo non e' stato allevato per un periodo minimo di 6 mesi continuativi ";
+								this.contatoreBocciati++;
+								this.listaCapiBocciati.add(m);
+
+							}
+						}
 					} else {
+
 						/*
-						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+						 * il capo è stato richiesto in pagamento da più di un
+						 * soggetto, il capo non può esserepagato a meno di una
+						 * rinuncia da parte di uno dei richiedenti.
 						 */
 						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
 						this.contatoreBocciati++;
 						this.listaCapiBocciati.add(m);
 					}
-					}
-					} else {
-						/*
-						 * il capo non è stato allevato per un periodo minimo di 6 mesi continuativi 
-						 */
-						
-						this.motivazione = "il capo non e' stato allevato per un periodo minimo di 6 mesi continuativi ";
-						this.contatoreBocciati++;
-						this.listaCapiBocciati.add(m);
-					}
+
 				}
-					
-				if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0)
+				if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0) {
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 315 misura 5");
-				
+				}
 			} catch (ControlloException e) {
-		
+
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ref02_007", getInput(), e.getMessage());
 			}
-			
+
 		} else {
-		 // verifica controlli in loco 
-			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
-				  if(!c.getAnomalie_cgo().contains("B"))
-					  this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+			// verifica controlli in loco
+			for (Dmt_t_contr_loco c : this.estrazioneACampione)
+				if (!c.getAnomalie_cgo().contains("B"))
+					this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		}
 
 	}
 
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}
-	 * e i dati relativi ai capi non ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
-	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
-	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
-	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
-	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
+	 * ammessi a premio in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i
+	 * dati relativi ai capi non ammessi a premio in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}. Dei capi
+	 * non ammessi a premio sarà salvata l'informazione di identificazione del
+	 * capo, il premio per cui è stata effettuata la richiesta di amissione e la
+	 * motivazione per cui risulta non idoneo al premio. Per i capi risultanti
+	 * idonei al premio in questione, sarà salvata l'informazione dell'anno
+	 * campagna per cui concorrono, il numero di capi ammessi a premio, il cuaa
+	 * che ha presentato la domanda e il codice premio.
+	 * 
+	 * @throws ControlloException
+	 *             eccezione relativa al controllo di tipo
+	 *             {@link ControlloException}
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
 
-		
-			if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
-				this.oc = new Dmt_t_output_controlli();
-				// salvataggio capi ammissibili
-				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
-				this.oc.setCapiAmmissibili(this.importoLiquidabile);
-				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
-				this.oc.setCuaa(getAzienda().getCuaa());
-				this.oc.setIntervento(getAzienda().getCodicePremio());
-				this.oc.setIdSessione(getSessione());
-				getControlliService().saveOutput(this.oc);
+		if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
+			this.oc = new Dmt_t_output_controlli();
+			// salvataggio capi ammissibili
+			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+			this.oc.setCapiAmmissibili(this.importoLiquidabile);
+			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+			this.oc.setCapiSanzionati(this.contatoreSanzionati);
+			this.oc.setCuaa(getAzienda().getCuaa());
+			this.oc.setIntervento(getAzienda().getCodicePremio());
+			this.oc.setIdSessione(getSessione());
+			getControlliService().saveOutput(this.oc);
+		}
+
+		if (this.contatoreBocciati != 0) {
+			// salvataggio capi esclusi
+			this.oe = new Dmt_t_output_esclusi();
+
+			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
+
+				this.oe.setCalcolo("ClcInt315Mis5");
+				this.oe.setCapoId(x.getCapoId());
+				this.oe.setIdSessione(getSessione());
+				this.oe.setMotivazioneEsclusione(this.motivazione);
+				this.getControlliService().saveOutputEscl(this.oe);
 			}
 
-
-			if (this.contatoreBocciati != 0) {
-				//salvataggio capi esclusi
-				this.oe = new Dmt_t_output_esclusi();
-				
-				for(Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-				
-					this.oe.setCalcolo("ClcInt315Mis5");
-					this.oe.setCapoId(x.getCapoId());
-					this.oe.setIdSessione(getSessione());
-					this.oe.setMotivazioneEsclusione(this.motivazione);
-					this.getControlliService().saveOutputEscl(this.oe);
-				}
-
-			}
+		}
 	}
 
-//	/**
-//	 * nel metodo differenzaMesi calcolata la differenza in mesi tra due date
-//	 * @param dataInizio per dataInizio si intende la prima data da inserire per poter effettuare il calcolo.
-//	 * @param dataFine per dataFine si intende la seconda data da inserire per poter effettuare il calcolo.
-//	 * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda data.
-//	 * @return monthsBetween il numero di mesi che intercorrono tra le due date inserite. 
-//	 */
-//	private long differenzaMesi(Date dataInizio, Date dataFine) {
-//		LocalDate data1 = dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		LocalDate data2 = dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
-//		return monthsBetween;
-//	}
+	// /**
+	// * nel metodo differenzaMesi calcolata la differenza in mesi tra due date
+	// * @param dataInizio per dataInizio si intende la prima data da inserire
+	// per poter effettuare il calcolo.
+	// * @param dataFine per dataFine si intende la seconda data da inserire per
+	// poter effettuare il calcolo.
+	// * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda
+	// data.
+	// * @return monthsBetween il numero di mesi che intercorrono tra le due
+	// date inserite.
+	// */
+	// private long differenzaMesi(Date dataInizio, Date dataFine) {
+	// LocalDate data1 =
+	// dataInizio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	// LocalDate data2 =
+	// dataFine.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	// long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
+	// return monthsBetween;
+	// }
 	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
 
 		Dmt_t_anagrafica_allevamenti allev1;
 
 		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
 			return true;
-		
+
 		else if (duplicatiMacellati.size() == 2) {
 
-			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
+			// se la vacca compare due volte nello stesso allevamento,
+			// controllare chi è il
 			// proprietario e chi è il detentore
 			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
 
@@ -257,15 +318,15 @@ public class ClcInt315Mis5 extends Controllo {
 						|| ((!allev1.getCod_fiscale_deten().equals(null))
 								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
 										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
-					if(allev1.getCod_fiscale_deten().equals(cuaa))
+					if (allev1.getCod_fiscale_deten().equals(cuaa))
 						return true;
-				
-			} 
-		} 
-			
+
+			}
+		}
+
 		return false;
 	}
-	
+
 	@Override
 	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
 		
@@ -280,4 +341,6 @@ public class ClcInt315Mis5 extends Controllo {
 		//return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 		return capiBDN;
 	}
+
+	
 }

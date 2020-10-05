@@ -51,9 +51,11 @@ public class ClcInt318Mis19 extends Controllo {
 	Dmt_t_output_controlli oc;
 	private Dmt_t_SistemiDiEtichettaturaFacoltativa etic;
 	private int numeroCapiBocciati;
+	private int contatoreSanzionati;
 	private String motivazione;
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private Dmt_t_output_esclusi outputEsclusi;
+
 
 	/**
 	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
@@ -71,7 +73,8 @@ public class ClcInt318Mis19 extends Controllo {
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
 		this.numeroCapiBocciati = 0;
-		this.numeroCapiRichiesti = BigDecimal.ZERO;
+		this.contatoreSanzionati = 0;
+		this.numeroCapiRichiesti= BigDecimal.ZERO;
 		this.motivazione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.outputEsclusi = null;
@@ -121,149 +124,169 @@ public class ClcInt318Mis19 extends Controllo {
 			return;
 
 		numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiMacellati.size());
-
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
-				getAzienda().getAnnoCampagna());
-
-		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-
+		
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
+		
+		
+		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
+			
 			try {
-
+				
 				for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
-
+				
+					
+					
 					this.etic = getControlliService().getSistemaEtichettarua(getAzienda().getCuaa());
-					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
-							getSessione().getIdSessione(), getAzienda().getCodicePremio());
+					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
+					
+
+					// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+
+					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
+							this.getControlliService())) {
+
+						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+
+					} else {
+					
+					
+					// calcolo giorni festivi tra 2 date
+					
+					int contatoreFestivita = 0;
+					contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
 
 					/*
-					 * Sia stato allevato per un periodo continuativo di 6 mesi
+					 * COMUNICAZIONE DELLA MOVIMENTAZIONE
+					 */
+					if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
+							+ contatoreFestivita
+							&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
+									m.getDtComAutoritaIngresso()) <= 7
+									+ contatoreFestivita
+									)) {
+
+						
+						/*
+						 * TEMPISTICA BDN =< 7 giorni
+						 */
+
+							this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+
+				
+					}else{
+					
+					
+					/*
+					 * 	Sia stato allevato per un periodo continuativo di 6 mesi
 					 * 
 					 */
-					if ((m.getDtIngresso() == null || m.getDtUscita() == null)
-							|| (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 6)) {
-
-						/*
-						 * Sia stato allevato in conformità a sistemi di etichettatura facoltativa
-						 */
-						if (this.etic != null && this.etic.getFlagEtichettatura().equals("S")) {
+						if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
+								.differenzaMesi(m.getDtUscita(), m.getDtInserimentoBdnIngresso()) >= 6)) {
+					
 							/*
-							 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
-							 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. Il
-							 * premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi
-							 * macellati ed in caso di richiesta di aiuti da parte di entrambi, i capi
-							 * ammissibili sono pagati esclusivamente al detentore
+							 * Sia stato allevato in conformità a sistemi di etichettatura facoltativa
 							 */
-
-							// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
-
-							if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-									this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
-									this.getControlliService())) {
-
-								this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-
-							} else {
-								
-								//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
-
-								if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-									this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-								} else {
-									/*
-									 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
-									 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
-									 */
-									this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
-									this.numeroCapiBocciati++;
-									this.listaCapiBocciati.add(m);
-								}
-							}
-						} else {
-							/*
-							 * le conformità a sistemi di etichettatura facoltativa non rispettati
-							 */
-							this.motivazione = "le conformita' a sistemi di etichettatura facoltativa non rispettati";
-							this.numeroCapiBocciati++;
-							this.listaCapiBocciati.add(m);
-						}
+							if(this.etic != null && this.etic.getFlagEtichettatura().equals("S")) {
+								/*
+								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
+								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
+								 * i capi ammissibili sono pagati esclusivamente al detentore
+								 */
+								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+									this.contatoreSanzionati++;
 					} else {
 						/*
-						 * il capo non è stato allevato per un periodo minimo di 6 mesi continuativi
+						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 						 */
-
+						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
+						this.numeroCapiBocciati++;
+						this.listaCapiBocciati.add(m);
+					}
+					}else {
+						/*
+						 * le conformità a sistemi di etichettatura facoltativa non rispettati
+						 */
+						this.motivazione = "le conformita' a sistemi di etichettatura facoltativa non rispettati";
+						this.numeroCapiBocciati++;
+						this.listaCapiBocciati.add(m);
+					}
+					} else {
+						/*
+						 * il capo non è stato allevato per un periodo minimo di 6 mesi continuativi 
+						 */
+						
 						this.motivazione = "il capo non e' stato allevato per un periodo minimo di 6 mesi continuativi ";
 						this.numeroCapiBocciati++;
 						this.listaCapiBocciati.add(m);
 					}
 				}
-
+					
 				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 318 misura 19");
-
-			} catch (ControlloException e) {
-				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+				}
+			}
+				} catch (ControlloException e) {
+				//GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
-				throw new ControlloException(
-						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
-
+			
 		} else {
-			// GESTIONE CONTROLLI BY DMT_CONTR_LOCO
-			for (Dmt_t_contr_loco c : this.estrazioneACampione)
-				if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
-					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+			  // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
+			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
+				  if((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1) )
+					  this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);	
 		}
 	}
 
 	@Override
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
-	 * ammessi a premio in @see Dmt_t_output_controlli e i dati relativi ai capi non
-	 * ammessi a premio in @see Dmt_t_output_esclusi. Dei capi non ammessi a premio
-	 * sarà salvata l'informazione di identificazione del capo, il premio per cui è
-	 * stata effettuata la richiesta di amissione e la motivazione per cui risulta
-	 * non idoneo al premio. Per i capi risultanti idonei al premio in questione,
-	 * sarà salvata l'informazione dell'anno campagna per cui concorrono, il numero
-	 * di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice
-	 * premio.
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in @see Dmt_t_output_controlli
+	 * e i dati relativi ai capi non ammessi a premio in @see Dmt_t_output_esclusi.
+	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
+	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
+	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
+	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
 	 */
 	public void postEsecuzione() throws ControlloException {
 		LOGGER.info("inizio postEsecuzione()");
 
-		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
-			LOGGER.info("il numero di capi ammissibili al premio 318 misura 19 per l'azienda " + getAzienda().getCuaa()
-					+ "e': " + this.numeroCapiAmmissibili);
-			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
-			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
-
-			this.oc = new Dmt_t_output_controlli();
-
-			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
-			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
-			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
-			this.oc.setCuaa(getAzienda().getCuaa());
-			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 318
-			this.oc.setIntervento(getAzienda().getCodicePremio());
-			this.oc.setIdSessione(getSessione());
-			getControlliService().saveOutput(this.oc);
-		}
-
-		if (this.numeroCapiBocciati != 0) {
-			// SALVATAGGIO A DB DEI CAPI BOCCIATI
-			this.outputEsclusi = new Dmt_t_output_esclusi();
-
-			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-
-				this.outputEsclusi.setCalcolo("ClcInt318Mis19");
-				this.outputEsclusi.setCapoId(x.getCapoId());
-				this.outputEsclusi.setIdSessione(getSessione());
-				this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
-				this.getControlliService().saveOutputEscl(this.outputEsclusi);
+		
+			if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
+				LOGGER.info("il numero di capi ammissibili al premio 318 misura 19 per l'azienda "
+						+ getAzienda().getCuaa() + "e': " + this.numeroCapiAmmissibili);
+				// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
+				// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
+				
+				this.oc = new Dmt_t_output_controlli();
+				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+				this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
+				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+				this.oc.setCapiSanzionati(this.contatoreSanzionati);
+				this.oc.setCuaa(getAzienda().getCuaa());
+				// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 318
+				this.oc.setIntervento(getAzienda().getCodicePremio());
+				this.oc.setIdSessione(getSessione());
+				getControlliService().saveOutput(this.oc);
 			}
-		}
+
+			if (this.numeroCapiBocciati != 0) {
+				// SALVATAGGIO A DB DEI CAPI BOCCIATI
+				this.outputEsclusi = new Dmt_t_output_esclusi();
+				
+				for(Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
+				
+					this.outputEsclusi.setCalcolo("ClcInt318Mis19");
+					this.outputEsclusi.setCapoId(x.getCapoId());
+					this.outputEsclusi.setIdSessione(getSessione());
+					this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
+					this.getControlliService().saveOutputEscl(this.outputEsclusi);
+				}
+			}
 	}
 
 //	/**
@@ -279,7 +302,7 @@ public class ClcInt318Mis19 extends Controllo {
 //		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
 //		return monthsBetween;
 //	}
-
+	
 //	/**
 //	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
 //	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
@@ -295,7 +318,7 @@ public class ClcInt318Mis19 extends Controllo {
 
 		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
 			return true;
-
+		
 		if (duplicatiMacellati.size() == 2) {
 
 			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
@@ -312,14 +335,13 @@ public class ClcInt318Mis19 extends Controllo {
 //								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
 //										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
 //					if(allev1.getCod_fiscale_deten().equals(cuaa))
-				return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
-
-			}
-		}
-
+						return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
+				
+			} 
+		} 
+			
 		return false;
 	}
-
 	@Override
 	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
 
