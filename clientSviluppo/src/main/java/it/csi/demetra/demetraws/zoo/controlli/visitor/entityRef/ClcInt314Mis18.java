@@ -56,21 +56,21 @@ public class ClcInt314Mis18 extends Controllo {
 
 	/**
 	 * il metodo preEsecuzione utilizza i controlli:
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi}
-	 * e {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e
+	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
 	 * 
-	 * @throws ControlloException
-	 *             eccezione relativa al controllo di tipo
-	 *             {@link ControlloException}
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
 		// RECUPERO DATI DALLA BDN
-		//modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
-		//		getAzienda().getCodicePremio());
-		
-		modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(),
-					  getAzienda().getCodicePremio()));
+		// modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(),
+		// getAzienda().getCuaa(),
+		// getAzienda().getCodicePremio());
+
+		modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
+				getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 		init();
 		if (modelVacche != null && modelVacche.size() > 0) {
 			try {
@@ -101,31 +101,50 @@ public class ClcInt314Mis18 extends Controllo {
 	}
 
 	/**
-	 * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 314 Misura 18
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 314
+	 * Misura 18
+	 * 
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
 		importoLiquidabile = BigDecimal.ZERO;
 
-		try{
-		for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
-			List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
-					.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-			if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
-				this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
-						"Il richiedente non è detentore del capo al momento del parto",
-						getAzienda().getCodicePremio()));
-				continue;
-			}
+		try {
+			for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
 
-			if (null != b.getFlagIbr() && b.getFlagIbr().equals("S"))
-				importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-			else
-				this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
-		}
-		}catch(NullPointerException e){
-            throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+
+				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
+						this.getControlliService())) {
+
+					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+
+				} else {
+
+					//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
+					
+					List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
+							.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
+					if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
+						this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
+								"Il richiedente non è detentore del capo al momento del parto",
+								getAzienda().getCodicePremio()));
+						continue;
+					}
+				}
+
+				if (null != b.getFlagIbr() && b.getFlagIbr().equals("S"))
+					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+				else
+					this.listEsclusi
+							.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
+			}
+		} catch (NullPointerException e) {
+			throw new ControlloException(
+					new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 		}
 	}
 
@@ -133,9 +152,8 @@ public class ClcInt314Mis18 extends Controllo {
 	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati
 	 * dell'intervento
 	 * 
-	 * @throws ControlloException
-	 *             eccezione relativa al controllo di tipo
-	 *             {@link ControlloException}
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
@@ -153,23 +171,27 @@ public class ClcInt314Mis18 extends Controllo {
 		for (Dmt_t_output_esclusi o : listEsclusi)
 			getControlliService().saveOutputEscl(o);
 	}
-	
+
 	@Override
 	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
-		
+
 		List<T> listaCapiDichiarati = new ArrayList<T>();
-		
+
 		UtilControlli.clearList(listaCapiDichiarati);
-		
-		for( T capo : capiBDN)
-			if( UtilControlli.controlloDataInterpartoBovino( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getSessione().getIdSessione() ) 				    &&
-				UtilControlli.controlloRegistrazioneVitello( (Dmt_t_Tws_bdn_du_capi_bovini) capo , 
-						getControlliService(), this.getSessione().getIdSessione(), this.getAzienda().getCodicePremio() )  				&&
-				UtilControlli.controlloAmmissibilitaPremio314( (Dmt_t_Tws_bdn_du_capi_bovini) capo )                &&
-				//UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_Tws_bdn_du_capi_bovini) capo) &&
-				UtilControlli.controlloDemarcazione( (Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(), this.getAzienda().getAnnoCampagna()) )
-					listaCapiDichiarati.add(capo);
-		
+
+		for (T capo : capiBDN)
+			if (UtilControlli.controlloDataInterpartoBovino((Dmt_t_Tws_bdn_du_capi_bovini) capo,
+					this.getControlliService(), this.getSessione().getIdSessione())
+					&& UtilControlli.controlloRegistrazioneVitello((Dmt_t_Tws_bdn_du_capi_bovini) capo,
+							getControlliService(), this.getSessione().getIdSessione(),
+							this.getAzienda().getCodicePremio())
+					&& UtilControlli.controlloAmmissibilitaPremio314((Dmt_t_Tws_bdn_du_capi_bovini) capo) &&
+					// UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili(
+					// (Dmt_t_Tws_bdn_du_capi_bovini) capo) &&
+					UtilControlli.controlloDemarcazione((Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(),
+							this.getAzienda().getAnnoCampagna()))
+				listaCapiDichiarati.add(capo);
+
 		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
 	}
 }

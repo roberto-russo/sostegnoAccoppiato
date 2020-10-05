@@ -12,7 +12,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_beneficiario_capi_doppi;
 public interface Dmt_t_beneficiario_repository extends CrudRepository<Dmt_t_beneficiario_capi_doppi, Dmt_t_beneficiario_capi_doppi_id> {
 
 	
-	@Query(value = "SELECT cuaa FROM dmt_t_beneficiario_capi_doppi where anno_campagna = :annoCampagna and codice_premio = :codicePremio and id_capo = :idCapo ",
+	@Query(value = "SELECT cuaa FROM dmt_t_beneficiario_capi_doppi where anno_campagna = :annoCampagna and codice_intervento = :codicePremio and id_capo = :idCapo ",
 			nativeQuery = true)
 	public String findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(@Param("annoCampagna") Integer annoCampagna, @Param("codicePremio") String codicePremio, @Param("idCapo") Long idCapo);
 }

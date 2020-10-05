@@ -186,6 +186,17 @@ public class ClcInt312Mis3 extends Controllo{
 			
 
 			for ( Dmt_t_Tws_bdn_du_capi_bovini bufala : modelVaccheAmmesseUba ) {
+				
+				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+
+				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
+						this.getControlliService())) {
+
+					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+
+				} else {
+				
 				if( bufala.getDtNascitaVitello() != null ) {
 					LocalDate dataNascitaVitello = LocalDateConverter.convertToLocalDateViaInstant(bufala.getDtNascitaVitello());
 					if (dataNascitaVitello.getYear() == getAzienda().getAnnoCampagna()) {
@@ -200,8 +211,9 @@ public class ClcInt312Mis3 extends Controllo{
 					} else {
 						addEscluso(bufala, "Il capo non ha partorito nell'anno.");
 					}
-				} else {
-					addEscluso(bufala, "Il capo non ha partorito nell'anno.");
+					} else {
+						addEscluso(bufala, "Il capo non ha partorito nell'anno.");
+					}
 				}
 			}
 			

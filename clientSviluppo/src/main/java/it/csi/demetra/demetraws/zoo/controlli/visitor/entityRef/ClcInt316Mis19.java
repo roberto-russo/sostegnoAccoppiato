@@ -21,9 +21,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 
 /**
- * i controlli da applicare per il calcolo del premio zootecnia per l’intervento 316 – Misura 19:<br>
- * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal richiedente 
- * per un periodo non inferiore ai dodici mesi.
+ * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
+ * 316 – Misura 19:<br>
+ * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal
+ * richiedente per un periodo non inferiore ai dodici mesi.
+ * 
  * @author Bcsoft
  *
  */
@@ -49,15 +51,18 @@ public class ClcInt316Mis19 extends Controllo {
 	private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
 	private String motivazione;
 
-
 	/**
-	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La prima è l'inizializzazione delle variabili di classe.
-	 * La seconda è l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di tali controlli pregiudica l'esecuzione
-	 * del calcolo stesso. Se l'esecuzione ha esito positivo, allora si può procedere con il calcolo intervento 316 misura 19.
-	 * Se l'esecuzione ha esito negativo, allora viene generato un messaggio di errore.
- 	 * Il metodo preEsecuzione utilizza il controllo:<br>
+	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
+	 * prima è l'inizializzazione delle variabili di classe. La seconda è
+	 * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di
+	 * tali controlli pregiudica l'esecuzione del calcolo stesso. Se l'esecuzione ha
+	 * esito positivo, allora si può procedere con il calcolo intervento 316 misura
+	 * 19. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
+	 * errore. Il metodo preEsecuzione utilizza il controllo:<br>
 	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * 
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
@@ -65,156 +70,186 @@ public class ClcInt316Mis19 extends Controllo {
 		this.contatoreBocciati = 0;
 		this.modelMacellato = null;
 		this.oc = null;
-		this.numeroCapiRichiesti= BigDecimal.ZERO;
+		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.listaCapiBocciati = new ArrayList<>();
 		this.oe = null;
 		this.motivazione = null;
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.modelMacellatoFiltrato = null;
-	
-	// controlli di preammissibilità
-		
-		this.modelMacellato = this.controlloCapiDichiarati(getControlliService().getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
-		
-		ref9903.init(modelMacellato, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa(), getSessione());
+
+		// controlli di preammissibilità
+
+		this.modelMacellato = this.controlloCapiDichiarati(getControlliService()
+				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
+
+		ref9903.init(modelMacellato, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
+				getAzienda().getCuaa(), getSessione());
 
 		try {
 			ubaMin = ref9903.calcolo();
-			
-			if( ubaMin.isErrors())
+
+			if (ubaMin.isErrors())
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else
-				if(!ubaMin.isResult())
-					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt316Mis19", getInput(), "controllo uba minime non rispettato"));
-			
+			else if (!ubaMin.isResult())
+				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt316Mis19", getInput(),
+						"controllo uba minime non rispettato"));
+
 		} catch (CalcoloException e) {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
-			this.modelMacellatoFiltrato = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-		
+		this.modelMacellatoFiltrato = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
+				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+
 	}
 
 	/**
-	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento 316 misura 19.
-	 * Se i controlli per il suddetto calcolo risultano essere positivi, allora viene incrementato il contatore di importo liquidabile
-	 * e il capo sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i capi risultassero non idonei al premio in questione,
-	 * verrà incrementato il numero di capi non ammessi a premio e tale capo sarà inserito nella lista di capi non ammessi a premio. 
-	 * La lista di capi non ammessi a premio sarà visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento
+	 * 316 misura 19. Se i controlli per il suddetto calcolo risultano essere
+	 * positivi, allora viene incrementato il contatore di importo liquidabile e il
+	 * capo sarà visibile in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i
+	 * capi risultassero non idonei al premio in questione, verrà incrementato il
+	 * numero di capi non ammessi a premio e tale capo sarà inserito nella lista di
+	 * capi non ammessi a premio. La lista di capi non ammessi a premio sarà
+	 * visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
+	 * 
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
-	public void esecuzione() throws ControlloException{
-		
-		
-			numeroCapiRichiesti = BigDecimal.valueOf(this.modelMacellato.size());
-		
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
-		
-		
-		if(this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-			
+	public void esecuzione() throws ControlloException {
+
+		numeroCapiRichiesti = BigDecimal.valueOf(this.modelMacellato.size());
+
+		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
+				getAzienda().getAnnoCampagna());
+
+		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
+
 			try {
-				
+
 				for (Dmt_t_clsCapoMacellato m : this.modelMacellatoFiltrato) {
-				
-					
-					
-					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
-					
+
+					this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
+							getSessione().getIdSessione(), getAzienda().getCodicePremio());
+
 					/*
-					 * 	Sia stato allevato per un periodo continuativo di 12 mesi
+					 * Sia stato allevato per un periodo continuativo di 12 mesi
 					 * 
 					 */
-					if((m.getDtIngresso() == null || m.getDtUscita() == null) || (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 12)) {
+					if ((m.getDtIngresso() == null || m.getDtUscita() == null)
+							|| (UtilControlli.differenzaMesi(m.getDtIngresso(), m.getDtUscita()) >= 12)) {
+						/*
+						 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
+						 * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. Il
+						 * premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi
+						 * macellati ed in caso di richiesta di aiuti da parte di entrambi, i capi
+						 * ammissibili sono pagati esclusivamente al detentore
+						 */
+						// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+
+						if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
+								this.getControlliService())) {
+
+							importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+
+						} else {
+
+							// ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN
+							// MANIERA CLASSICA
+
+							if (flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
+								this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							} else {
 								/*
-								 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti.
-								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
-								 * i capi ammissibili sono pagati esclusivamente al detentore
+								 * il capo è stato richiesto in pagamento da più di un soggetto, il capo non può
+								 * esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
 								 */
-								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
-									this.importoLiquidabile= importoLiquidabile.add(BigDecimal.ONE);
+								this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
+								this.contatoreBocciati++;
+								this.listaCapiBocciati.add(m);
+							}
+						}
 					} else {
 						/*
-						 *  il capo è stato richiesto in pagamento da più di un soggetto, il capo non può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+						 * il capo non è stato allevato per un periodo minimo di 12 mesi continuativi
 						 */
-						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
-						this.contatoreBocciati++;
-						this.listaCapiBocciati.add(m);
-					}
-					} else {
-						/*
-						 * il capo non è stato allevato per un periodo minimo di 12 mesi continuativi 
-						 */
-						
+
 						this.motivazione = "il capo non e' stato allevato per un periodo minimo di 12 mesi continuativi ";
 						this.contatoreBocciati++;
 						this.listaCapiBocciati.add(m);
 					}
 				}
-					
+
 				if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0)
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 316 misura 19");
-				
+
 			} catch (ControlloException e) {
-		
+
 				System.out.println(e.getMessage());
 				new Dmt_t_errore(getSessione(), "ref02_008", getInput(), e.getMessage());
-			}catch(NullPointerException e) {
-                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+			} catch (NullPointerException e) {
+				throw new ControlloException(
+						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 
 			}
-			
+
 		} else {
-		 // verifica controlli in loco 
-			  for(Dmt_t_contr_loco c : this.estrazioneACampione)
-				  if(!c.getAnomalie_cgo().contains("B"))
-					  this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+			// verifica controlli in loco
+			for (Dmt_t_contr_loco c : this.estrazioneACampione)
+				if (!c.getAnomalie_cgo().contains("B"))
+					this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		}
 
 	}
 
 	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi ammessi a premio in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}
-	 * e i dati relativi ai capi non ammessi a premio in {@link Dmt_t_output_esclusi}.
-	 * Dei capi non ammessi a premio sarà salvata l'informazione di identificazione del capo, il premio per cui 
-	 * è stata effettuata la richiesta di amissione e la motivazione per cui  risulta non idoneo al premio.
-	 * Per i capi risultanti idonei al premio in questione, sarà salvata l'informazione dell'anno campagna per cui
-	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
-	 * @throws ControlloException eccezione relativa al controllo di tipo {@link ControlloException}
+	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
+	 * ammessi a premio in
+	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i dati
+	 * relativi ai capi non ammessi a premio in {@link Dmt_t_output_esclusi}. Dei
+	 * capi non ammessi a premio sarà salvata l'informazione di identificazione del
+	 * capo, il premio per cui è stata effettuata la richiesta di amissione e la
+	 * motivazione per cui risulta non idoneo al premio. Per i capi risultanti
+	 * idonei al premio in questione, sarà salvata l'informazione dell'anno campagna
+	 * per cui concorrono, il numero di capi ammessi a premio, il cuaa che ha
+	 * presentato la domanda e il codice premio.
+	 * 
+	 * @throws ControlloException eccezione relativa al controllo di tipo
+	 *                            {@link ControlloException}
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
 
-		
-			if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
-				this.oc = new Dmt_t_output_controlli();
-				// salvataggio capi ammissibili
-				this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
-				this.oc.setCapiAmmissibili(this.importoLiquidabile);
-				this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
-				this.oc.setCuaa(getAzienda().getCuaa());
-				this.oc.setIntervento(getAzienda().getCodicePremio());
-				this.oc.setIdSessione(getSessione());
-				getControlliService().saveOutput(this.oc);
+		if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
+			this.oc = new Dmt_t_output_controlli();
+			// salvataggio capi ammissibili
+			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+			this.oc.setCapiAmmissibili(this.importoLiquidabile);
+			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+			this.oc.setCuaa(getAzienda().getCuaa());
+			this.oc.setIntervento(getAzienda().getCodicePremio());
+			this.oc.setIdSessione(getSessione());
+			getControlliService().saveOutput(this.oc);
+		}
+
+		if (this.contatoreBocciati != 0) {
+			// salvataggio capi esclusi
+			this.oe = new Dmt_t_output_esclusi();
+
+			for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
+
+				this.oe.setCalcolo("ClcInt316Mis19");
+				this.oe.setCapoId(x.getCapoId());
+				this.oe.setIdSessione(getSessione());
+				this.oe.setMotivazioneEsclusione(this.motivazione);
+				this.getControlliService().saveOutputEscl(this.oe);
 			}
 
-
-			if (this.contatoreBocciati != 0) {
-				//salvataggio capi esclusi
-				this.oe = new Dmt_t_output_esclusi();
-				
-				for(Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-				
-					this.oe.setCalcolo("ClcInt316Mis19");
-					this.oe.setCapoId(x.getCapoId());
-					this.oe.setIdSessione(getSessione());
-					this.oe.setMotivazioneEsclusione(this.motivazione);
-					this.getControlliService().saveOutputEscl(this.oe);
-				}
-
-			}
+		}
 	}
 
 //	/**
@@ -230,7 +265,7 @@ public class ClcInt316Mis19 extends Controllo {
 //		long monthsBetween = ChronoUnit.MONTHS.between(data1, data2);
 //		return monthsBetween;
 //	}
-	
+
 //	/**
 //	 * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa che effettuano una richiesta sullo stesso capo.
 //	 * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. 
@@ -246,7 +281,7 @@ public class ClcInt316Mis19 extends Controllo {
 
 		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
 			return true;
-		
+
 		else if (duplicatiMacellati.size() == 2) {
 
 			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
@@ -262,22 +297,22 @@ public class ClcInt316Mis19 extends Controllo {
 						|| ((!allev1.getCod_fiscale_deten().equals(null))
 								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
 										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
-					if(allev1.getCod_fiscale_deten().equals(cuaa))
+					if (allev1.getCod_fiscale_deten().equals(cuaa))
 						return true;
-				
-			} 
-		} 
-			
+
+			}
+		}
+
 		return false;
 	}
-	
+
 	@Override
 	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
-		
+
 		List<T> listaCapiDichiarati = new ArrayList<T>();
-		
+
 		UtilControlli.clearList(listaCapiDichiarati);
-		
+
 //		for( T capo : capiBDN)
 //			if( UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili( (Dmt_t_clsCapoMacellato) capo) )
 //					listaCapiDichiarati.add(capo);

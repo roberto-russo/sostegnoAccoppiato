@@ -221,7 +221,7 @@ public class UtilControlli {
 	}
 
 	public static long differenzaMesi(Date dataInizio, Date dataFine) {
-		
+
 		LocalDate data1 = LocalDateConverter.convertToLocalDateViaInstant(dataInizio);
 		LocalDate data2 = LocalDateConverter.convertToLocalDateViaInstant(dataFine);
 		return data1.compareTo(data2) < 0 ? ChronoUnit.MONTHS.between(data1, data2)
@@ -451,32 +451,32 @@ public class UtilControlli {
 		// AL CALCOLO DEI GIORNI CHE INTERCORRONO TRA LE DUE DATE, INSERIRE I GIORNI
 		// FESTIVI CHE INTERCORRONO
 		if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) > 7)
-				&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) > 7 + (contaFestivi(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso())))) {
-			
-			//VERIFICA DEL RISPETTO DEL PERIODO DI PERMANENZA
+				&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) > 7
+						+ (contaFestivi(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso())))) {
+
+			// VERIFICA DEL RISPETTO DEL PERIODO DI PERMANENZA
 			if (differenzaMesi(bovino.getDtFineDetenzione(), bovino.getVaccaDtInserBdnIngresso()) > 6)
-			
-				//CAPO PAGATO E SANZIONATO
+
+				// CAPO PAGATO E SANZIONATO
 				return true;
 			else
-				
-				//CAPO ESCLUSO DAL PAGAMENTO
+
+				// CAPO ESCLUSO DAL PAGAMENTO
 				return false;
-			
-		} else 
-			if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) < 7)
-					&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) <= 7 )) {
-			
+
+		} else if ((differenzaGiorni(bovino.getVaccaDtComAutIngresso(), bovino.getVaccaDtIngresso()) < 7)
+				&& (differenzaGiorni(bovino.getVaccaDtInserBdnIngresso(), bovino.getVaccaDtComAutIngresso()) <= 7)) {
+
 			if (differenzaMesi(bovino.getDtFineDetenzione(), bovino.getDtInizioDetenzione()) > 6)
-				//CAPO PAGATO
+				// CAPO PAGATO
 				return true;
 			else
-				
-				//CAPO ESCLUSO DAL PAGAMENTO	
+
+				// CAPO ESCLUSO DAL PAGAMENTO
 				return false;
 		}
-		
-		//SE NON RIENTRO IN NESSUNO DEI CASI SOPRA ELENCANTI, RITORNO FALSE
+
+		// SE NON RIENTRO IN NESSUNO DEI CASI SOPRA ELENCANTI, RITORNO FALSE
 		return false;
 	}
 
@@ -493,7 +493,6 @@ public class UtilControlli {
 
 		return false;
 	}
-
 
 	public static Boolean controlloIscrizioneconsorzioEtichettatura(Dmt_t_clsCapoMacellato macellato,
 			ControlliService controlliService) {
@@ -516,74 +515,90 @@ public class UtilControlli {
 
 		return false;
 	}
-		    
-  private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi, Dmt_t_Tws_bdn_du_capi_ovicaprini animaleDaControllare) {
-    	
-    	for(Dmt_t_premio_capi animaleAmmesso : animaliAmmessi)
-    		if(animaleAmmesso.getIdCapo().equals(animaleDaControllare.getCapoId()))
-    				return true;
-    		
-    	return false;
-    }
-    
-public static Integer contaFestivi(Date dataPrecedente, Date dataSuccessiva){
-	
-	int domeniche = 0;
-	int numeroGiorniFestiviCompresi = 0;
-	List<Date> giorniFestivi = new ArrayList<Date>();
-	if(!giorniFestivi.isEmpty())
-		   giorniFestivi.clear();
-	LocalDate data1 = LocalDateConverter.convertToLocalDateViaInstant(dataPrecedente);
-	LocalDate data2 = LocalDateConverter.convertToLocalDateViaInstant(dataSuccessiva);
-	int anno1 = data1.getYear();
-	int anno2 = data2.getYear();
-			
-		// se le date sono lo stesso giorno 
+
+	private static Boolean contains(List<Dmt_t_premio_capi> animaliAmmessi,
+			Dmt_t_Tws_bdn_du_capi_ovicaprini animaleDaControllare) {
+
+		for (Dmt_t_premio_capi animaleAmmesso : animaliAmmessi)
+			if (animaleAmmesso.getIdCapo().equals(animaleDaControllare.getCapoId()))
+				return true;
+
+		return false;
+	}
+
+	public static Integer contaFestivi(Date dataPrecedente, Date dataSuccessiva) {
+
+		int domeniche = 0;
+		int numeroGiorniFestiviCompresi = 0;
+		List<Date> giorniFestivi = new ArrayList<Date>();
+		if (!giorniFestivi.isEmpty())
+			giorniFestivi.clear();
+		LocalDate data1 = LocalDateConverter.convertToLocalDateViaInstant(dataPrecedente);
+		LocalDate data2 = LocalDateConverter.convertToLocalDateViaInstant(dataSuccessiva);
+		int anno1 = data1.getYear();
+		int anno2 = data2.getYear();
+
+		// se le date sono lo stesso giorno
 		if (data1.isEqual(data2)) {
 			domeniche = 0;
 		}
-		
-		if (data1.isBefore(data2)){
+
+		if (data1.isBefore(data2)) {
 
 			do {
-				
-				data1= data1.plusDays(1);
+
+				data1 = data1.plusDays(1);
 				if (data1.getDayOfWeek() == DayOfWeek.SUNDAY) {
 					domeniche++;
 				}
-			} while (!data1.isEqual(data2)); 
-		}else{
-			if (data1.isAfter(data2)){
+			} while (!data1.isEqual(data2));
+		} else {
+			if (data1.isAfter(data2)) {
 
 				do {
-					
-					data2= data2.plusDays(1);
+
+					data2 = data2.plusDays(1);
 					if (data2.getDayOfWeek() == DayOfWeek.SUNDAY) {
 						domeniche++;
 					}
-				} while (data2.isEqual(data1)); 
+				} while (data2.isEqual(data1));
 			}
 		}
 		// se le due date non si trovano nello stesso anno
-	
-		if(anno1 != anno2){
-		
+
+		if (anno1 != anno2) {
+
 			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno1)));
 			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno2)));
 
-		}else{
-			
-			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno1)));
-		
-		}
-	
+		} else {
 
-	for (Date giorno : giorniFestivi) {
-		if (giorno.after(dataPrecedente) && giorno.before(dataSuccessiva)) {
-			numeroGiorniFestiviCompresi++;
+			giorniFestivi.addAll(DateUtilService.getGiorniFestivi(String.valueOf(anno1)));
+
 		}
-		
-	}
+
+		for (Date giorno : giorniFestivi) {
+			if (giorno.after(dataPrecedente) && giorno.before(dataSuccessiva)) {
+				numeroGiorniFestiviCompresi++;
+			}
+
+		}
 		return numeroGiorniFestiviCompresi + domeniche;
-}
+	}
+
+	public static Boolean isBeneficiarioCapiDoppi(Integer annoCampagna, String codicePremio, String cuaaProprietario, Long idCapo, ControlliService controlliService) {
+		
+		String cuaaBeneficiario = controlliService.getCuaaBeneficiarioCapiDoppi(annoCampagna, codicePremio, idCapo);
+		
+		if(!cuaaBeneficiario.equals("") && cuaaBeneficiario.toUpperCase().equals(cuaaProprietario.toUpperCase()))
+			
+			//SONO IO IL BENEFICIARIO DEL CAPO ANIMALE
+			return true;
+		
+		else
+			
+			//SONO SONO IO IL BENEFICIARIO DEL CAPO ANIMALE
+			return false;
+	}
+	
 }

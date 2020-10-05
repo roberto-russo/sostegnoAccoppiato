@@ -585,6 +585,6 @@ public class ControlliService {
     }
     
     public String getCuaaBeneficiarioCapiDoppi(Integer annoCampagna, String codicePremio, Long idCapo) {
-    	return BeneficiarioCapiDoppiRep.findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(annoCampagna, codicePremio, idCapo);
+    	return BeneficiarioCapiDoppiRep.findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(annoCampagna, codicePremio, idCapo) == null ? "" : BeneficiarioCapiDoppiRep.findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(annoCampagna, codicePremio, idCapo);
     }
 }

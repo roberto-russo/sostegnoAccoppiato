@@ -126,6 +126,19 @@ public class ClcInt315Mis5 extends Controllo {
 								 * Il premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
 								 * i capi ammissibili sono pagati esclusivamente al detentore
 								 */
+						
+						// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+
+						if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
+								this.getControlliService())) {
+
+							importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+
+						} else {
+							
+							//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
+						
 								if(flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa())) {
 									this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 					} else {
@@ -135,6 +148,7 @@ public class ClcInt315Mis5 extends Controllo {
 						this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti";
 						this.contatoreBocciati++;
 						this.listaCapiBocciati.add(m);
+					}
 					}
 					} else {
 						/*

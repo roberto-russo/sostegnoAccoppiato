@@ -244,14 +244,25 @@ public class ClcInt310Mis1 extends Controllo {
         if (isProduttoreChecked) {
            try{
         	for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
-                /**
+        		/**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */
+        		
+        		//SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+        		if(UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(), this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),this.getControlliService())) {
+        			
+        			importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+        			
+        		} else {
+        			
+        		//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
+        			
                 List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
                 if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                     this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                     continue;
                 } else importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+        	}
             }
         	}catch(NullPointerException e){
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
