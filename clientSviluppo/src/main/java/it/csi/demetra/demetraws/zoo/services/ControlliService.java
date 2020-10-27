@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_T_analisi_produzioni_cuua;
@@ -586,5 +587,9 @@ public class ControlliService {
     
     public String getCuaaBeneficiarioCapiDoppi(Integer annoCampagna, String codicePremio, Long idCapo) {
     	return BeneficiarioCapiDoppiRep.findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(annoCampagna, codicePremio, idCapo) == null ? "" : BeneficiarioCapiDoppiRep.findCuaaByAnnoCampagnaAndCodcePremioAndIdCapo(annoCampagna, codicePremio, idCapo);
+    }
+    
+    public Long getCapiSanzionati(String cuaa, String intervento, Long idSessione){
+    	return outputRepository.findCapiSanzionati(cuaa, intervento, idSessione) !=null ? outputRepository.findCapiSanzionati(cuaa, intervento, idSessione) : 0;
     }
 }

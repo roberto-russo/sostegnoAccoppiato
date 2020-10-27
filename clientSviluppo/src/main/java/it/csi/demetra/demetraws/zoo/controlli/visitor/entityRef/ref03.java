@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
@@ -71,6 +72,7 @@ public class ref03 {
 		BigDecimal capiAnomali = new BigDecimal(0);
 		BigDecimal capiAccertati = new BigDecimal(0);
 		BigDecimal capiRichiesti = new BigDecimal(0);
+		BigDecimal capiSanzionati = new BigDecimal(0);
 		BigDecimal esito = new BigDecimal(0);
 		BigDecimal percentualeRiduzione = new BigDecimal(0);
 		BigDecimal capiPagabili = new BigDecimal(0);
@@ -97,9 +99,10 @@ public class ref03 {
 			capiAccertati = result.get("accertati");
 			capiAnomali = result.get("anomali");
 			capiRichiesti = result.get("richiesti");
+			capiSanzionati = result.get("sanzionati");
 
 			try {
-				esito = capiAnomali.divide(capiAccertati, MathContext.DECIMAL128);
+				esito = (capiAnomali.add(capiSanzionati)).divide(capiAccertati, MathContext.DECIMAL128);
 			} catch (ArithmeticException e) {
 
 			}
@@ -151,6 +154,7 @@ public class ref03 {
 			outputCalcolo.setCapiAnomali(capiAnomali);
 			outputCalcolo.setCapiPagabili(capiPagabili);
 			outputCalcolo.setCapiRichiesti(capiRichiesti);
+			outputCalcolo.setCapiSanzionati(capiSanzionati);
 			outputCalcolo.setCuaa(this.azienda.getCuaa());
 			outputCalcolo.setEsito(esito);
 			outputCalcolo.setImportoPagatoLordoDecurtazione(importoPagatoLordoDecurtazione);
@@ -175,6 +179,7 @@ public class ref03 {
 		capiAccertati 		 		   = BigDecimal.ZERO;
 		capiAnomali   		 		   = BigDecimal.ZERO;
 		capiRichiesti 		 		   = BigDecimal.ZERO;
+		capiSanzionati				   = BigDecimal.ZERO;
 		this.importoUnit               = BigDecimal.ZERO;
 		esito                          = BigDecimal.ZERO;
 		importoPagatoLordoDecurtazione = BigDecimal.ZERO;
@@ -203,6 +208,7 @@ public class ref03 {
 		BigDecimal capiAnomali = new BigDecimal(0);
 		BigDecimal capiAccertati = new BigDecimal(0);
 		BigDecimal capiRichiesti = new BigDecimal(0);
+		BigDecimal capiSanzionati = new BigDecimal(0);
 		HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
 		List<Long> capiAnomaliPerCodicePremio = new ArrayList<Long>();
 		List<Long> listaCapiEsito = new ArrayList<Long>();
@@ -233,16 +239,19 @@ public class ref03 {
 			if(listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
 				
 				for(Long e : capiPerPremio.get(cp)) 
-					for(Long capiAPremio : listaCapiEsito) 
+					for(Long capiAPremio : listaCapiEsito) {
 						if(capiAPremio.compareTo(e) == 0) 
 							capiAccertati = capiAccertati.add(BigDecimal.ONE);
-						
+					}
+				
+				capiSanzionati = BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), this.azienda.getCodicePremio(), this.sessione.getIdSessione()));
 				capiAnomali = capiRichiesti.subtract(capiAccertati);
 			}
 		
 		result.put("accertati", capiAccertati);
 		result.put("anomali", capiAnomali);
 		result.put("richiesti", capiRichiesti);
+		result.put("sanzionati", capiSanzionati);
 		
 		return result;
 	}
@@ -488,7 +497,7 @@ public class ref03 {
 			
 			break;
 
-		default:
+		default:	
 			importiDaRitornare.add(importoUnitarioMax);
 			break;
 		}
