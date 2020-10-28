@@ -3,6 +3,7 @@ package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
-import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
@@ -93,7 +93,7 @@ public class ref03 {
 			throw new CalcoloException("errore durante il recupero degli importi unitari");
 		}
 
-		for (String cp : codiciPremio) {
+		for (String cp : capiPerPremio.keySet()) {
 
 			result = this.precalcolo(capiPerPremioFiltrati, cp);
 			capiAccertati = result.get("accertati");
@@ -230,21 +230,15 @@ public class ref03 {
 //		
 //		capiAccertati = capiRichiesti.subtract(capiAnomali);
 		
-			resetVariables(capiRichiesti, capiAccertati, capiAnomali, capiAnomaliPerCodicePremio, listaCapiEsito);
-			
-			listaCapiEsito = this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), cp);
-			
-			capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
-					
+			resetVariables(capiRichiesti, capiAccertati, capiAnomali,capiSanzionati, capiAnomaliPerCodicePremio, listaCapiEsito);
+			listaCapiEsito = this.getListaCapiEsito(cp);
+			capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());		
 			if(listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
-				
 				for(Long e : capiPerPremio.get(cp)) 
-					for(Long capiAPremio : listaCapiEsito) {
-						if(capiAPremio.compareTo(e) == 0) 
-							capiAccertati = capiAccertati.add(BigDecimal.ONE);
-					}
-				
-				capiSanzionati = BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), this.azienda.getCodicePremio(), this.sessione.getIdSessione()));
+					if(listaCapiEsito.contains(e))
+						capiAccertati = capiAccertati.add(BigDecimal.ONE);
+					
+				capiSanzionati = this.getSanzionati(cp);
 				capiAnomali = capiRichiesti.subtract(capiAccertati);
 			}
 		
@@ -321,27 +315,41 @@ public class ref03 {
 		List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
 		Dmt_t_output_controlli outConctrolli = new Dmt_t_output_controlli();
 		
-		for (String c : codiciPremio)
-			tempHashmap.put(c, new ArrayList<Long>());
-
+//		COSTRUZIONE HASHMAP
+		for (String c : codiciPremio) {
+			if(c.equals("316") || c.equals("317") || c.equals("318") || c.equals("319"))
+				tempHashmap.put("M19", new ArrayList<Long>());
+			else
+				tempHashmap.put(c, new ArrayList<Long>());
+		}
+		
 		for (String c : codiciPremio) {
 			
 			outConctrolli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), c);
 			
 			if(listaCapiBovini != null && !listaCapiBovini.isEmpty())
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : listaCapiBovini) 
-					if (b.getCodicePremio().equals(c) && outConctrolli != null) 
-						tempHashmap.get(c).add(b.getCapoId());
+					if (b.getCodicePremio().equals(c) && outConctrolli != null)
+						if(c.equals("316") || c.equals("317") || c.equals("318") || c.equals("319"))
+							tempHashmap.get("M19").add(b.getCapoId());
+						else
+							tempHashmap.get(c).add(b.getCapoId());
 			
 			if(listaCapiOvicaprini != null && !listaCapiOvicaprini.isEmpty())
 				for (Dmt_t_Tws_bdn_du_capi_ovicaprini o : listaCapiOvicaprini) 
-					if (o.getCodicePremio().equals(c) && outConctrolli != null) 
-						tempHashmap.get(c).add(o.getCapoId());
+					if (o.getCodicePremio().equals(c) && outConctrolli != null)
+						if(c.equals("316") || c.equals("317") || c.equals("318") || c.equals("319"))
+							tempHashmap.get("M19").add(o.getCapoId());
+						else
+							tempHashmap.get(c).add(o.getCapoId());
 
 			if(listaCapiMacellati != null && !listaCapiMacellati.isEmpty())
 			for (Dmt_t_clsCapoMacellato m : listaCapiMacellati) 
 				if (m.getCodicePremio().equals(c) && outConctrolli != null) 
-					tempHashmap.get(c).add(m.getCapoId());
+					if(c.equals("316") || c.equals("317") || c.equals("318") || c.equals("319"))
+						tempHashmap.get("M19").add(m.getCapoId());
+					else
+						tempHashmap.get(c).add(m.getCapoId());
 		}
 		
 		listaCapiBovini.clear();
@@ -381,7 +389,10 @@ public class ref03 {
 
 				codiciPremioFiltratiPerAnimali = this.controlliService.getCodiciPremioPerCapo(e,
 						this.sessione.getIdSessione());
-
+				
+				
+				this.unificazionePremiMis19(codiciPremioFiltratiPerAnimali);
+				
 				if (codiciPremioFiltratiPerAnimali.size() == 1) {
 					tempHash.get(k).add(e);
 				}
@@ -505,7 +516,7 @@ public class ref03 {
 		return importiDaRitornare;
 	}
 	
-	private void resetVariables(BigDecimal capiRichiesti, BigDecimal capiAccertati, BigDecimal capiAnomali, List<Long>capiAnomaliPerCodicePremio, List<Long> listaCapiEsito) {
+	private void resetVariables(BigDecimal capiRichiesti, BigDecimal capiAccertati, BigDecimal capiAnomali,BigDecimal capiSanzionati, List<Long>capiAnomaliPerCodicePremio, List<Long> listaCapiEsito) {
 		
 		if(capiRichiesti.compareTo(BigDecimal.ZERO) != 0)
 			capiRichiesti = BigDecimal.ZERO;
@@ -515,6 +526,8 @@ public class ref03 {
 		
 		if(capiAnomali.compareTo(BigDecimal.ZERO) != 0)
 			capiAnomali = BigDecimal.ZERO;
+		if(capiSanzionati.compareTo(BigDecimal.ZERO) != 0)
+			capiSanzionati = BigDecimal.ZERO;
 		
 		if(!capiAnomaliPerCodicePremio.isEmpty())
 			capiAnomaliPerCodicePremio.clear();
@@ -522,5 +535,57 @@ public class ref03 {
 		if(!listaCapiEsito.isEmpty())
 			listaCapiEsito.clear();
 		
+	}
+	
+	private boolean contienePremiDa316A319(List<String> premi) {
+		return premi.contains("316") || premi.contains("317") || premi.contains("318") ||premi.contains("319");
+	}
+	
+	private void removePremiDa316A319(List<String> premi) {
+		if(premi.indexOf("316") != -1)
+			premi.remove(premi.indexOf("316"));
+		if(premi.indexOf("317") != -1)
+			premi.remove(premi.indexOf("317"));
+		if(premi.indexOf("318") != -1)
+			premi.remove(premi.indexOf("318"));
+		if(premi.indexOf("319") != -1)
+			premi.remove(premi.indexOf("319"));
+	}
+	
+	private void unificazionePremiMis19(List<String> premi) {
+		if(this.contienePremiDa316A319(premi)) {
+			this.removePremiDa316A319(premi);
+			premi.add("M19");		
+		}
+	}
+	
+	private List<Long> getListaCapiEsito(String cp) {
+		List<Long> capi = new ArrayList<Long>();
+		
+		if(cp.equals("M19")) {
+			capi.addAll(this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), "316"));
+			capi.addAll(this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), "317"));
+			capi.addAll(this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), "318"));
+			capi.addAll(this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), "319"));
+		}
+		else
+			capi = this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), cp);
+		
+		return !capi.isEmpty() ? capi : Collections.emptyList();
+	}
+	
+	private BigDecimal getSanzionati(String cp) {
+		BigDecimal sanzionati = BigDecimal.ZERO;
+		
+		if(cp.equals("M19")) {
+			sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "316", this.sessione.getIdSessione())));
+			sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "317", this.sessione.getIdSessione())));
+			sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "318", this.sessione.getIdSessione())));
+			sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "319", this.sessione.getIdSessione())));
+		}
+		else
+			sanzionati = BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), cp, this.sessione.getIdSessione()));
+		
+		return sanzionati;
 	}
 }
