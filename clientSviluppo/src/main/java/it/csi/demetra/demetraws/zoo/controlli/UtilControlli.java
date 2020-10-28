@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -601,4 +602,44 @@ public class UtilControlli {
 			return false;
 	}
 	
+	public static HashMap<String, BigDecimal> calcoloEsito(BigDecimal capiAccertati,BigDecimal capiAnomali,BigDecimal capiSanzionati, BigDecimal capiRichiesti){
+	
+		HashMap<String, BigDecimal> result = new HashMap<>();
+		BigDecimal capiPagabili = BigDecimal.ZERO;
+		BigDecimal esito = BigDecimal.ZERO;
+	if(capiAnomali != BigDecimal.ZERO || capiSanzionati != BigDecimal.ZERO){
+		if (capiAnomali != BigDecimal.ZERO) {
+			if (capiSanzionati != BigDecimal.ZERO) {
+			
+				
+				//CALCOLO PER CAPI SANZIONATI E CAPI BOCCIATI
+				esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati));
+				capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
+				
+			}else{
+				
+				//CALCOLO CAPI BOCCIATI
+				esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali));
+				capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
+			}
+			
+			
+		}else{
+			
+			//CALCOLO CAPI SANZIONATI
+			esito = capiSanzionati.divide(capiAccertati);
+			capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
+		}
+			
+		}else{
+			
+			// NORMALE CALCOLO CON TUTTI I CAPI ACCERTATI
+			capiPagabili= capiAccertati;
+		}
+	result.put("capiPagabili", capiPagabili);
+	result.put("esito", esito);
+	return result;
+		
+	}
+
 }
