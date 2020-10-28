@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
+import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
@@ -100,9 +101,13 @@ public class ref03 {
 			capiAnomali = result.get("anomali");
 			capiRichiesti = result.get("richiesti");
 			capiSanzionati = result.get("sanzionati");
+			
+			result.clear();
+			
 
 			try {
-				esito = (capiAnomali.add(capiSanzionati)).divide(capiAccertati, MathContext.DECIMAL128);
+				result = UtilControlli.calcoloEsito(capiAccertati, capiAnomali, capiSanzionati, capiRichiesti);
+				esito = result.get("esito");
 			} catch (ArithmeticException e) {
 
 			}
@@ -129,7 +134,7 @@ public class ref03 {
 
 			} else {
 				try {
-					capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(percentualeRiduzione)));
+					capiPagabili = result.get("capiPagabili");
 					importoPagatoLordoDecurtazione = capiPagabili.multiply(this.importoUnit);
 
 				} catch (NullPointerException e) {
