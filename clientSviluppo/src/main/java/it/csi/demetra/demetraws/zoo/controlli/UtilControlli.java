@@ -13,6 +13,7 @@ import java.util.List;
 import it.csi.demetra.demetraws.zoo.model.Dmt_T_analisi_produzioni_cuua;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_certificato_igp_dop;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_demarcazione_PSR;
@@ -649,5 +650,36 @@ public class UtilControlli {
 		}
 		return -1;
 	}
+	
+	public static Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa, ControlliService controlliService) {
 
+		Dmt_t_anagrafica_allevamenti allev1;
+
+		if (duplicatiMacellati.size() == 1 && duplicatiMacellati.get(0).getCuaa().equals(cuaa))
+			return true;
+		
+		if (duplicatiMacellati.size() == 2) {
+
+			// se la vacca compare due volte nello stesso allevamento, controllare chi è il
+			// proprietario e chi è il detentore
+			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
+
+				allev1 = controlliService
+						.getAnagraficaByIdAllevamento(BigDecimal.valueOf(duplicatiMacellati.get(0).getAllevId()));
+
+				if (((!allev1.getCod_fiscale_deten().equals(null))
+						&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(0).getCuaa())
+								&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(1).getCuaa())))
+						|| ((!allev1.getCod_fiscale_deten().equals(null))
+								&& (allev1.getCod_fiscale_deten().equals(duplicatiMacellati.get(1).getCuaa())
+										&& allev1.getCodFiscaleProp().equals(duplicatiMacellati.get(0).getCuaa()))))
+					if(allev1.getCod_fiscale_deten().equals(cuaa))
+						return allev1.getCod_fiscale_deten() != null && allev1.getCod_fiscale_deten().equals(cuaa);
+				
+			} 
+		} 
+			
+		return false;
+	}
+	
 }

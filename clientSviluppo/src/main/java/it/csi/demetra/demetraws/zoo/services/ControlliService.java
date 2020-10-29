@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_T_analisi_produzioni_cuua;
@@ -37,6 +36,7 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_clsCapoMacellato_repository
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_contr_loco_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_demarcazione_PSR_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_importo_unitario_repository;
+import it.csi.demetra.demetraws.zoo.repository.Dmt_t_info_allevamento_beneficiario_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_irregolarita_intenzionale_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_esclusi_repository;
@@ -176,6 +176,9 @@ public class ControlliService {
     
     @Autowired
 	Dmt_t_beneficiario_repository BeneficiarioCapiDoppiRep;
+    
+    @Autowired
+    Dmt_t_info_allevamento_beneficiario_repository infoAllevBeneficiario;
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_bovini} in base alla sessione, cuaa e codiceIntervento
