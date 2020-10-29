@@ -257,7 +257,7 @@ public class ClcInt310Mis1 extends Controllo {
         		if(UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(), this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),this.getControlliService())) {
         			
         			if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7  + contatoreFestivita ){
             				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
             			}else{
             				this.capiSanzionati++;
@@ -276,7 +276,7 @@ public class ClcInt310Mis1 extends Controllo {
                     continue;
                 } else {
                 	if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita ){
             				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
             			}else{
             				this.capiSanzionati++;

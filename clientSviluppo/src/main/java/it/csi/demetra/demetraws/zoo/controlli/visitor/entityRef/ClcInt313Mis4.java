@@ -122,16 +122,12 @@ public class ClcInt313Mis4 extends Controllo {
         		
 				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
-				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
-						this.getControlliService())) {
-
 					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 						
 						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 + contatoreFestivita){
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		        			}else{
 		        				this.capiSanzionati++;
@@ -154,7 +150,7 @@ public class ClcInt313Mis4 extends Controllo {
 					} else {
 
 						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-	            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+	            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita){
 	            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 	            			}else{
 	            				this.capiSanzionati++;
@@ -165,7 +161,7 @@ public class ClcInt313Mis4 extends Controllo {
 					}
 				}
 			}
-		}
+		
 		}catch (NullPointerException e) {
 			throw new ControlloException(
 					new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));

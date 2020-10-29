@@ -199,13 +199,9 @@ public class ClcInt312Mis3 extends Controllo{
 				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
 						this.getControlliService())) {
-
-					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
-							this.getControlliService())) {
 						
 						if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		        			}else{
 		        				this.capiSanzionati++;
@@ -226,7 +222,7 @@ public class ClcInt312Mis3 extends Controllo{
 
 
 							if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
 		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		            			}else{
 		            				this.capiSanzionati++;
@@ -247,7 +243,6 @@ public class ClcInt312Mis3 extends Controllo{
 				}
 			}
 			
-		}
 			} else {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessuna vacca presente impossibile eseguire il calcolo del premio"));
 		}

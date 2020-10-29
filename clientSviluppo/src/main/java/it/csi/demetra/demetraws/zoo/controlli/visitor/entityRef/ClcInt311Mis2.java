@@ -261,7 +261,7 @@ public class ClcInt311Mis2 extends Controllo {
 							this.getControlliService())) {
 						
 						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		        			}else{
 		        				this.capiSanzionati++;
@@ -277,7 +277,7 @@ public class ClcInt311Mis2 extends Controllo {
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
 
 							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
 		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		            			}else{
 		            				this.capiSanzionati++;

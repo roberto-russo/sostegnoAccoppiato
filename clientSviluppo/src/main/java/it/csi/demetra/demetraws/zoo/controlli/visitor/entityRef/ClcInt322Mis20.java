@@ -174,17 +174,12 @@ public class ClcInt322Mis20 extends Controllo {
 					 */
 
 					// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
-
-					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
-							this.getControlliService())) {
-
 						if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 								this.getControlliService())) {
 							
 							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-			        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+			        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
 			        				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 			        			}else{
 			        				this.capiSanzionati++;
@@ -200,7 +195,7 @@ public class ClcInt322Mis20 extends Controllo {
 
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
 							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 + contatoreFestivita){
 		            				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		            			}else{
 		            				this.capiSanzionati++;
@@ -222,7 +217,6 @@ public class ClcInt322Mis20 extends Controllo {
 							+ " nessun capo ha suprato il controllo per il premio 322 misura 20");
 				}
 
-			} 
 				}catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), e.getMessage());
