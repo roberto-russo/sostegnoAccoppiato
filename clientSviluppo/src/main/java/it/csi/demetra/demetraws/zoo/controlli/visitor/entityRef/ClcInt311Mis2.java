@@ -49,6 +49,8 @@ public class ClcInt311Mis2 extends Controllo {
 	boolean ubaMinimeRaggiunte;
 
 	private BigDecimal importoLiquidabile = new BigDecimal(0);
+	
+	private Integer capiSanzionati;
 
 	private static final int DETENZIONE_MINIMA = 6;
 
@@ -70,6 +72,7 @@ public class ClcInt311Mis2 extends Controllo {
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 
+		this.capiSanzionati = 0;
 		/*
 		 * pulizia delle liste prima dell'esecuzione.
 		 */
@@ -244,6 +247,10 @@ public class ClcInt311Mis2 extends Controllo {
 				 */
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheAmmesseUba) {
 
+					int contatoreFestivita = 0;
+	        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
+	        		
+
 					List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
 							.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
 
@@ -253,7 +260,15 @@ public class ClcInt311Mis2 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 						
-						importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+		        			}else{
+		        				this.capiSanzionati++;
+		        				}
+		        		}else{
+		        			this.capiSanzionati++;
+		        		}
 
 					} else {
 
@@ -261,7 +276,15 @@ public class ClcInt311Mis2 extends Controllo {
 						
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
 
-							importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+		            			}else{
+		            				this.capiSanzionati++;
+		            				}
+		            		}else{
+		            			this.capiSanzionati++;
+		            		}
 
 						} else {
 
@@ -301,6 +324,7 @@ public class ClcInt311Mis2 extends Controllo {
 		outputControlli.setIdSessione(getSessione());
 		outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		outputControlli.setCapiAmmissibili(importoLiquidabile);
+		outputControlli.setCapiSanzionati(capiSanzionati);
 		outputControlli.setCapiRichiesti(new BigDecimal(modelVacche.size()));
 		outputControlli.setCuaa(getAzienda().getCuaa());
 		outputControlli.setIntervento(getAzienda().getCodicePremio());

@@ -607,7 +607,30 @@ public class UtilControlli {
 		HashMap<String, BigDecimal> result = new HashMap<>();
 		BigDecimal capiPagabili = BigDecimal.ZERO;
 		BigDecimal esito = BigDecimal.ZERO;
-	if(capiAnomali != BigDecimal.ZERO || capiSanzionati != BigDecimal.ZERO){
+		Integer casi = generaCasi(capiAnomali, capiSanzionati);
+		
+		switch (casi) {
+		case 0:
+			//CALCOLO ESITO CON PRESENZA DI CAPI SANZIONATI E CAPI BOCCIATI
+			esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati));
+			capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
+			break;
+		case 1:
+			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI BOCCIATI
+			esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali));
+			capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
+			break;
+		case 2:
+			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI SANZIONATI
+			esito = capiSanzionati.divide(capiAccertati);
+			capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
+			break;
+		default:
+			// CALCOLO ESITO CON SOLI CAPI AMMISSIBILI
+			capiPagabili= capiAccertati;
+			break;
+		}
+/*	if(capiAnomali != BigDecimal.ZERO || capiSanzionati != BigDecimal.ZERO){
 		if (capiAnomali != BigDecimal.ZERO) {
 			if (capiSanzionati != BigDecimal.ZERO) {
 			
@@ -635,11 +658,24 @@ public class UtilControlli {
 			
 			// NORMALE CALCOLO CON TUTTI I CAPI ACCERTATI
 			capiPagabili= capiAccertati;
-		}
+		}*/
 	result.put("capiPagabili", capiPagabili);
 	result.put("esito", esito);
 	return result;
 		
+	}
+	
+	private static Integer generaCasi(BigDecimal capiAnomali, BigDecimal capiSanzionati){
+		if(capiAnomali != BigDecimal.ZERO && capiSanzionati != BigDecimal.ZERO)
+			return 0;
+		else{
+			
+			if(capiAnomali != BigDecimal.ZERO && capiSanzionati == BigDecimal.ZERO)
+				return 1;
+			if(capiAnomali == BigDecimal.ZERO && capiSanzionati != BigDecimal.ZERO)
+				return 2;
+		}
+		return -1;
 	}
 
 }

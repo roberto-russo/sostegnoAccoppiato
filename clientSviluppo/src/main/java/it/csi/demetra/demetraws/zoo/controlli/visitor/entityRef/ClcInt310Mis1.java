@@ -56,6 +56,7 @@ public class ClcInt310Mis1 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
     private BigDecimal importoLiquidabile;
     private BigDecimal importoRichiesto;
+    private Integer capiSanzionati;
     private List<Dmt_t_output_esclusi> listEsclusi;
     private String motivazioneEsclusione = "";
     private Boolean isProduttoreChecked;
@@ -79,6 +80,7 @@ public class ClcInt310Mis1 extends Controllo {
     public void preEsecuzione() throws ControlloException {
         // RECUPERO DATI DALLA BDN
         //modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+    	this.capiSanzionati = 0;
     	modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         init();
         if (modelVacche != null && modelVacche.size() > 0) {
@@ -244,6 +246,9 @@ public class ClcInt310Mis1 extends Controllo {
         if (isProduttoreChecked) {
            try{
         	for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
+        		int contatoreFestivita = 0;
+        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
+        		
         		/**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */
@@ -251,7 +256,15 @@ public class ClcInt310Mis1 extends Controllo {
         		//SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
         		if(UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(), this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),this.getControlliService())) {
         			
-        			importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+        			if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+            			}else{
+            				this.capiSanzionati++;
+            				}
+            		}else{
+            			this.capiSanzionati++;
+            		}
         			
         		} else {
         			
@@ -261,9 +274,20 @@ public class ClcInt310Mis1 extends Controllo {
                 if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
                     this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                     continue;
-                } else importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+                } else {
+                	if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+            			}else{
+            				this.capiSanzionati++;
+            				}
+            		}else{
+            			this.capiSanzionati++;
+            		}
+                }
         	}
             }
+        
         	}catch(NullPointerException e){
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
         	}
@@ -283,6 +307,7 @@ public class ClcInt310Mis1 extends Controllo {
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
         outputControlli.setCapiAmmissibili(importoLiquidabile);
         outputControlli.setCapiRichiesti(importoRichiesto);
+        outputControlli.setCapiSanzionati(capiSanzionati);
         outputControlli.setCuaa(getAzienda().getCuaa());
         outputControlli.setIntervento(getAzienda().getCodicePremio());
         getControlliService().saveOutput(outputControlli);

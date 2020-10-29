@@ -37,6 +37,8 @@ public class ClcInt312Mis3 extends Controllo{
 
 	private BigDecimal importoLiquidabile = new BigDecimal(0);
 	
+	private Integer capiSanzionati;
+	
 	private BigDecimal sizeModelVacche = BigDecimal.ZERO;
 	
 	private static final int ETA_RICHIESTA_IN_MESI = 30;
@@ -73,6 +75,7 @@ public class ClcInt312Mis3 extends Controllo{
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		
+		this.capiSanzionati = 0;
 		//reset delle variabili di classe prima di iniziare l'esecuzione
 		this.resetLists();
 		
@@ -187,13 +190,29 @@ public class ClcInt312Mis3 extends Controllo{
 
 			for ( Dmt_t_Tws_bdn_du_capi_bovini bufala : modelVaccheAmmesseUba ) {
 				
+				int contatoreFestivita = 0;
+        		contatoreFestivita= UtilControlli.contaFestivi(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso());
+				
+				
 				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
 				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
 						this.getControlliService())) {
 
-					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
+							this.getControlliService())) {
+						
+						if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
+		        			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+		        			}else{
+		        				this.capiSanzionati++;
+		        				}
+		        		}else{
+		        			this.capiSanzionati++;
+		        		}
 
 				} else {
 				
@@ -204,7 +223,18 @@ public class ClcInt312Mis3 extends Controllo{
 						LocalDate oggi = LocalDateConverter.convertToLocalDateViaInstant(new Date());
 						long mesiDiVita = ChronoUnit.MONTHS.between(dataNascita, oggi);
 						if ( mesiDiVita > ETA_RICHIESTA_IN_MESI) {
-			        		importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+
+
+							if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
+		            			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+		            			}else{
+		            				this.capiSanzionati++;
+		            				}
+		            		}else{
+		            			this.capiSanzionati++;
+		            		}
+							
 						} else {
 							addEscluso(bufala, "I mesi di vita del capo sono inferiori o uguali a 30.");
 						}
@@ -217,7 +247,8 @@ public class ClcInt312Mis3 extends Controllo{
 				}
 			}
 			
-		} else {
+		}
+			} else {
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessuna vacca presente impossibile eseguire il calcolo del premio"));
 		}
 	}

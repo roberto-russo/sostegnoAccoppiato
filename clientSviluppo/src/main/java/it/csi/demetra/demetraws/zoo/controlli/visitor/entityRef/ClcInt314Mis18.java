@@ -43,6 +43,7 @@ public class ClcInt314Mis18 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private BigDecimal importoLiquidabile;
 	private BigDecimal importoRichiesto;
+	private Integer capiSanzionati;
 	private List<Dmt_t_output_esclusi> listEsclusi;
 	private ResultCtlUbaMinime ubaMin;
 
@@ -64,6 +65,8 @@ public class ClcInt314Mis18 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		
+		this.capiSanzionati = 0;
 		// RECUPERO DATI DALLA BDN
 		// modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(),
 		// getAzienda().getCuaa(),
@@ -114,13 +117,28 @@ public class ClcInt314Mis18 extends Controllo {
 		try {
 			for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
 
+				int contatoreFestivita = 0;
+        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
+        		
 				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
 				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 						this.getControlliService())) {
 
-					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
+							this.getControlliService())) {
+						
+						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+		        			}else{
+		        				this.capiSanzionati++;
+		        				}
+		        		}else{
+		        			this.capiSanzionati++;
+		        		}
 
 				} else {
 
@@ -142,7 +160,8 @@ public class ClcInt314Mis18 extends Controllo {
 					this.listEsclusi
 							.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
 			}
-		} catch (NullPointerException e) {
+		}
+		}catch (NullPointerException e) {
 			throw new ControlloException(
 					new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 		}
@@ -163,6 +182,7 @@ public class ClcInt314Mis18 extends Controllo {
 		outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		outputControlli.setCapiAmmissibili(importoLiquidabile);
 		outputControlli.setCapiRichiesti(importoRichiesto);
+		outputControlli.setCapiSanzionati(capiSanzionati);
 		outputControlli.setCuaa(getAzienda().getCuaa());
 		outputControlli.setIntervento(getAzienda().getCodicePremio());
 

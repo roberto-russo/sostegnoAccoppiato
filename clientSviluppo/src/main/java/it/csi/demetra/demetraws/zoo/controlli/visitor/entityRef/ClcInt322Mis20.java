@@ -39,6 +39,7 @@ public class ClcInt322Mis20 extends Controllo {
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private BigDecimal numeroCapiAmmissibili;
 	private BigDecimal numeroCapiRichiesti;
+	private Integer capiSanzionati;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
 	@Autowired
 	private CtlVerificaRegistrazioneCapi ref9901;
@@ -86,6 +87,7 @@ public class ClcInt322Mis20 extends Controllo {
 		this.motivazione = null;
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.modelVaccheFiltrate = null;
+		this.capiSanzionati = 0;
 
 		LOGGER.info("inizio preEsecuzione()");
 
@@ -158,6 +160,9 @@ public class ClcInt322Mis20 extends Controllo {
 
 			try {
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVaccheFiltrate) {
+					
+					int contatoreFestivita = 0;
+	        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
 
 					this.listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
@@ -174,7 +179,19 @@ public class ClcInt322Mis20 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 
-						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+						if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
+								this.getControlliService())) {
+							
+							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+			        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+			        				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+			        			}else{
+			        				this.capiSanzionati++;
+			        				}
+			        		}else{
+			        			this.capiSanzionati++;
+			        		}
 
 					} else {
 
@@ -182,7 +199,15 @@ public class ClcInt322Mis20 extends Controllo {
 						// MANIERA CLASSICA
 
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
-							this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
+		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) + contatoreFestivita <= 7){
+		            				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+		            			}else{
+		            				this.capiSanzionati++;
+		            				}
+		            		}else{
+		            			this.capiSanzionati++;
+		            		}
 						} else {
 							// CONTROLLO FALLITO
 							this.numeroCapiBocciati++;
@@ -197,7 +222,8 @@ public class ClcInt322Mis20 extends Controllo {
 							+ " nessun capo ha suprato il controllo per il premio 322 misura 20");
 				}
 
-			} catch (ControlloException e) {
+			} 
+				}catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
 				new Dmt_t_errore(getSessione(), "ClcInt322Mis20", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
@@ -243,6 +269,7 @@ public class ClcInt322Mis20 extends Controllo {
 			this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 			this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
 			this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+			this.oc.setCapiSanzionati(capiSanzionati);
 			this.oc.setCuaa(getAzienda().getCuaa());
 			// PERCHE' QUI ENTRANO SOLO LE AZIENDE CON CODICE PREMIO = 322
 			this.oc.setIntervento(getAzienda().getCodicePremio());

@@ -38,6 +38,7 @@ public class ClcInt320Mis6 extends Controllo {
 	private Dmt_t_anagrafica_allevamenti modelAllevamenti;
 	private BigDecimal numeroCapiAmmissibili;
 	private BigDecimal numeroCapiRichiesti;
+	private Integer capiSanzionati;
 	private Dmt_t_output_controlli oc;
 	private Rpu_V_pratica_zoote richiestaDetentore;
 	private List<Dmt_t_premio_capi> capiAmmessiUba;
@@ -73,7 +74,8 @@ public class ClcInt320Mis6 extends Controllo {
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.modelAllevamenti = null;
 		this.capiAmmessiUba = null;
-
+		this.capiSanzionati = 0;
+		
 		try {
 
 			// CALCOLO TRASVERSALE REF9902
@@ -246,6 +248,7 @@ public class ClcInt320Mis6 extends Controllo {
 		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
 		this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+		this.oc.setCapiSanzionati(capiSanzionati);
 		this.oc.setCuaa(getAzienda().getCuaa());
 		this.oc.setIntervento(getAzienda().getCodicePremio());
 		this.oc.setIdSessione(getSessione());
