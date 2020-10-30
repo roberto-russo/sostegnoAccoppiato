@@ -563,7 +563,7 @@ public class UtilControlli {
 					if (data2.getDayOfWeek() == DayOfWeek.SUNDAY) {
 						domeniche++;
 					}
-				} while (data2.isEqual(data1));
+				} while (!(data2.isEqual(data1)));
 			}
 		}
 		// se le due date non si trovano nello stesso anno
