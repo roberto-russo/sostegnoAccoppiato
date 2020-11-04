@@ -116,21 +116,13 @@ public class ClcInt314Mis18 extends Controllo {
 
 		try {
 			for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
-
-				int contatoreFestivita = 0;
-        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
-        		
 				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
-						
-						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita){
+						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        			}else{
-		        				this.capiSanzionati++;
-		        				}
 		        		}else{
 		        			this.capiSanzionati++;
 		        		}
@@ -149,8 +141,10 @@ public class ClcInt314Mis18 extends Controllo {
 					}
 				}
 
-				if (null != b.getFlagIbr() && b.getFlagIbr().equals("S"))
+				if (null != b.getFlagIbr() && b.getFlagIbr().equals("S")) {
+					UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 					importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+				}
 				else
 					this.listEsclusi
 							.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));

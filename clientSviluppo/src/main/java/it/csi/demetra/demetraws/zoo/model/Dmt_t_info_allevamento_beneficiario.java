@@ -33,6 +33,30 @@ public class Dmt_t_info_allevamento_beneficiario implements Serializable {
 	
 	@Id
 	private Integer annoCampagna;
+	
+	private String cuaa;
+	
+	
+	public Dmt_t_info_allevamento_beneficiario() {
+	}
+
+	public Dmt_t_info_allevamento_beneficiario(Dmt_t_sessione idSessione, Long idCapo, Long allevId,
+			Integer annoCampagna, String cuaa) {
+		super();
+		this.idSessione = idSessione;
+		this.idCapo = idCapo;
+		this.allevId = allevId;
+		this.annoCampagna = annoCampagna;
+		this.cuaa = cuaa;
+	}
+
+	public String getCuaa() {
+		return cuaa;
+	}
+
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
 
 	public Dmt_t_sessione getIdSessione() {
 		return idSessione;

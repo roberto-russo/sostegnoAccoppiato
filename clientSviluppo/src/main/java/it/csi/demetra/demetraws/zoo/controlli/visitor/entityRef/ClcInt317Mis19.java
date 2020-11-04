@@ -138,6 +138,7 @@ public class ClcInt317Mis19 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
 							this.getControlliService())) {
 
+						UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 						importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 
 					} else {
@@ -150,23 +151,15 @@ public class ClcInt317Mis19 extends Controllo {
 					if(UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
 					
 					// calcolo giorni festivi tra 2 date
-					
-					int contatoreFestivita = 0;
-					contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
-
 					/*
 					 * COMUNICAZIONE DELLA MOVIMENTAZIONE
 					 */
-					if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
-							+ contatoreFestivita
-							&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
-									m.getDtComAutoritaIngresso()) <= 7
-									+ contatoreFestivita
-									)) {
+					if (UtilControlli.controlloTempisticheDiRegistrazione(m)) {
 
 						/*
 						 * TEMPISTICA BDN =< 7 giorni
 						 */
+						UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 
 					}else{
@@ -185,6 +178,7 @@ public class ClcInt317Mis19 extends Controllo {
 							 * 
 							 * CAPO PAGATO E SANZIONATO
 							 */
+							UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 							this.contatoreSanzionati++;
 					} else {
 						/*

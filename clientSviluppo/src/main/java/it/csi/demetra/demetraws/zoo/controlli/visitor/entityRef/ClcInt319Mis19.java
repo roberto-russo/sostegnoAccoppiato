@@ -144,26 +144,16 @@ public class ClcInt319Mis19 extends Controllo {
 					this.certIgpDop = getControlliService().getCertificatoIgpDop(getAzienda().getCuaa());
 
 					// calcolo giorni festivi tra 2 date
-
-					int contatoreFestivita = 0;
-					contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
-
 					/*
 					 * COMUNICAZIONE DELLA MOVIMENTAZIONE
 					 */
-					if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
-							+ contatoreFestivita
-							&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
-									m.getDtComAutoritaIngresso()) <= 7 + contatoreFestivita)) {
-
+					if (UtilControlli.controlloTempisticheDiRegistrazione(m)) {
 						/*
 						 * TEMPISTICA BDN =< 7 giorni
 						 */
-
+						
 						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-
 					} else {
-
 						/*
 						 * Sia stato allevato per un periodo continuativo di 6
 						 * mesi;
@@ -184,6 +174,7 @@ public class ClcInt319Mis19 extends Controllo {
 										this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
 										this.getControlliService())) {
 
+									UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 									this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
 								} else {
@@ -204,6 +195,7 @@ public class ClcInt319Mis19 extends Controllo {
 								 */
 								if (UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
 
+									UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 									this.contatoreSanzionati++;
 								} else {
 									/*

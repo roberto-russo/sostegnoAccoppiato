@@ -189,23 +189,15 @@ public class ClcInt312Mis3 extends Controllo{
 			
 
 			for ( Dmt_t_Tws_bdn_du_capi_bovini bufala : modelVaccheAmmesseUba ) {
-				
-				int contatoreFestivita = 0;
-        		contatoreFestivita= UtilControlli.contaFestivi(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso());
-				
-				
 				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
 				if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 						this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), bufala.getCapoId(),
 						this.getControlliService())) {
-						
-						if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
+					
+						UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+						if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        			}else{
-		        				this.capiSanzionati++;
-		        				}
 		        		}else{
 		        			this.capiSanzionati++;
 		        		}
@@ -220,13 +212,10 @@ public class ClcInt312Mis3 extends Controllo{
 						long mesiDiVita = ChronoUnit.MONTHS.between(dataNascita, oggi);
 						if ( mesiDiVita > ETA_RICHIESTA_IN_MESI) {
 
-
-							if(UtilControlli.differenzaGiorni(bufala.getVaccaDtComAutIngresso(), bufala.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(bufala.getVaccaDtInserBdnIngresso(), bufala.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
+							UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+							if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
 		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		            			}else{
-		            				this.capiSanzionati++;
-		            				}
+		            		
 		            		}else{
 		            			this.capiSanzionati++;
 		            		}

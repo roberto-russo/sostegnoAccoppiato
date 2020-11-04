@@ -246,26 +246,18 @@ public class ClcInt310Mis1 extends Controllo {
         if (isProduttoreChecked) {
            try{
         	for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
-        		int contatoreFestivita = 0;
-        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
-        		
         		/**
                  * PRIMA CONTROLLO CHE IL CUAA SIA IL DETENTORE DELL'ALLEVAMENTO AL MOMENTO DEL PARTO.
                  */
         		
         		//SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
         		if(UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(), this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),this.getControlliService())) {
-        			
-        			if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7  + contatoreFestivita ){
+        			UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+        			if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
             				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-            			}else{
-            				this.capiSanzionati++;
-            				}
             		}else{
             			this.capiSanzionati++;
             		}
-        			
         		} else {
         			
         		//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
@@ -275,12 +267,9 @@ public class ClcInt310Mis1 extends Controllo {
                     this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "Il richiedente non è detentore del capo al momento del parto", getAzienda().getCodicePremio()));
                     continue;
                 } else {
-                	if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita ){
+                	UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                	if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
             				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-            			}else{
-            				this.capiSanzionati++;
-            				}
             		}else{
             			this.capiSanzionati++;
             		}

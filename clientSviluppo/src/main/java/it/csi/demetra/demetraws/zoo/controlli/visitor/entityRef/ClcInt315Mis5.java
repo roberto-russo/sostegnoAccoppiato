@@ -142,24 +142,16 @@ public class ClcInt315Mis5 extends Controllo {
 					 */
 					if (UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
 
-						// calcolo giorni festivi tra 2 date
-						
-						int contatoreFestivita = 0;
-						contatoreFestivita = UtilControlli.contaFestivi(m.getDtIngresso(), m.getDtComAutoritaIngresso());
-
+						// calcolo giorni festivi tra 2 date						
 						/*
 						 * COMUNICAZIONE DELLA MOVIMENTAZIONE
 						 */
-						if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso())) <= 7
-								+ contatoreFestivita
-								&& (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(),
-										m.getDtComAutoritaIngresso()) <= 7
-										+ contatoreFestivita
-										)) {
+						if (UtilControlli.controlloTempisticheDiRegistrazione(m)) {
 
 							/*
 							 * TEMPISTICA BDN =< 7 giorni
 							 */
+							UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 							this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 
 						} else {
@@ -178,6 +170,7 @@ public class ClcInt315Mis5 extends Controllo {
 								 * 
 								 * CAPO PAGATO E SANZIONATO
 								 */
+								UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 								this.contatoreSanzionati++;
 							} else {
 								/*
