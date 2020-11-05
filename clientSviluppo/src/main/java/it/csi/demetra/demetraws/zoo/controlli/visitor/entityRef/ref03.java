@@ -134,7 +134,7 @@ public class ref03 {
 
 			} else {
 				try {
-					capiPagabili = result.get("capiPagabili");
+					capiPagabili = result.get("capiPagabili") != null ? result.get("capiPagabili") : BigDecimal.ZERO;
 					importoPagatoLordoDecurtazione = capiPagabili.multiply(this.importoUnit);
 
 				} catch (NullPointerException e) {
