@@ -1,5 +1,15 @@
 package it.csi.demetra.demetraws.zoo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.websocket.server.PathParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
 import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
@@ -8,17 +18,11 @@ import it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef.ref03;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.AziendaService;
+import it.csi.demetra.demetraws.zoo.services.CuaaScaricoManuale_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_sessione_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_subentro_zoo_services;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
-import java.util.List;
+import it.csi.demetra.demetraws.zoo.transformer.TransformerData;
 
 @RestController
 public class WebServiceController {
@@ -39,6 +43,9 @@ public class WebServiceController {
 
     @Autowired
     private Dmt_t_sessione_services sessioneService;
+    
+    @Autowired
+    private CuaaScaricoManuale_services cuaaScaricoServices;
 
     @Autowired
     private ControlliFramework controlliFramework;
@@ -66,7 +73,14 @@ public class WebServiceController {
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
     public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna, @PathParam("tipoEsecuzione") String tipoEsecuzione) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
-        List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
+        List<Rpu_V_pratica_zoote> list = null;
+        TransformerData transformer = new TransformerData();
+        
+        if(this.cuaaScaricoServices.getAll(annoCampagna).isEmpty())
+        	list = aziendaService.getAll(annoCampagna);
+        else
+        	list = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
+        
         eseguiScarico(list, sessione, annoCampagna, tipoEsecuzione);
 
         switch (tipoEsecuzione) {
@@ -84,6 +98,7 @@ public class WebServiceController {
                 break;
         }
         System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
+        
     }
 
     private void eseguiControlli(List<Rpu_V_pratica_zoote> listaCuaa, Integer annoCampagna, Dmt_t_sessione sessione) {
