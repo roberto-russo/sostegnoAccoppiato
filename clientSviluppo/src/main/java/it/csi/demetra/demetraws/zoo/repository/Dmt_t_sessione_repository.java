@@ -30,4 +30,5 @@ public interface Dmt_t_sessione_repository  extends JpaRepository<Dmt_t_sessione
 	 */
 	@Query(value = "select id_sessione from sessione where data_e_ora = :dataEora ", nativeQuery = true)
 	Dmt_t_sessione findSessioneByDataEora(@Param("dataEora") Date dataEora);
+
 }

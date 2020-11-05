@@ -1,12 +1,5 @@
 package it.csi.demetra.demetraws.zoo;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
 import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
@@ -18,6 +11,14 @@ import it.csi.demetra.demetraws.zoo.services.AziendaService;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_sessione_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_subentro_zoo_services;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.websocket.server.PathParam;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class WebServiceController {
@@ -53,30 +54,40 @@ public class WebServiceController {
 //    }
 
     /**
-     * l'endpoint calcoloArt52/_ANNO_ permette di calcolare i premi corrispondenti per l'anno campagna parametrizzato passato nella url. 
+     * l'endpoint calcoloArt52/_ANNO_ permette di calcolare i premi corrispondenti per l'anno campagna parametrizzato passato nella url.
      * Il controller esegue per ogni soggetto lo scarico dei dati dalla BDN. Solamente una volta completato, con esito positivo,
      * lo scarico per tutti i soggetti, vengono eseguiti i controlli. Ogni controllo restituisce il risultato atteso oppure lancia
      * un'eccezione contenente un log dettagliato dell'errore ottenuto.
      * Alla fine della procedura sarà possibile ripercorrere lo storico delle operazione in DB.
+     *
      * @param annoCampagna anno della campagna
      */
+
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
-    public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna) {
+    public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna, @PathParam("tipoEsecuzione") String tipoEsecuzione) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
         List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
+        eseguiScarico(list, sessione, annoCampagna, tipoEsecuzione);
 
-        // ESEGUO IL PRIMO FOR PER SCARICARE TUTTI I DATI
-        for (Rpu_V_pratica_zoote azienda : list) {
+        switch (tipoEsecuzione) {
+            case "1":
+                eseguiControlli(list, annoCampagna, sessione);
+                eseguiCalcoli(list, sessione);
+                break;
 
-            if (!controlliFramework.
-                    scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna))
-                System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
-            else System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
+            case "2":
+                eseguiControlli(list, annoCampagna, sessione);
+                break;
+
+            case "3":
+                eseguiCalcoli(list, sessione);
+                break;
         }
-
         System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
+    }
 
-        for (Rpu_V_pratica_zoote azienda : list) {
+    private void eseguiControlli(List<Rpu_V_pratica_zoote> listaCuaa, Integer annoCampagna, Dmt_t_sessione sessione) {
+        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
             try {
                 controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
             } catch (ControlloException e) {
@@ -87,13 +98,38 @@ public class WebServiceController {
                 System.out.println(e.getCause() + e.getMessage());
             }
         }
+    }
 
-        for (Rpu_V_pratica_zoote azienda : list) {
+    private void eseguiCalcoli(List<Rpu_V_pratica_zoote> listaCuaa, Dmt_t_sessione sessione) {
+        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
             calcoloRef03.inizializzazione(sessione, azienda);
             try {
-            calcoloRef03.esecuzione();
-            } catch(CalcoloException e) {
-            	System.out.println(e.getMessage());
+                calcoloRef03.esecuzione();
+            } catch (CalcoloException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void eseguiScarico(List<Rpu_V_pratica_zoote> listaCuaa, Dmt_t_sessione sessione, Integer annoCampagna, String tipoEsecuzione) {
+        List<Rpu_V_pratica_zoote> cuaaMancanti = new ArrayList<>();
+        if (tipoEsecuzione.equals("3"))
+            cuaaMancanti = listaCuaa;
+        else {
+            for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+                if (!controlliFramework.
+                        scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
+                    System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
+                    cuaaMancanti.add(azienda);
+                } else
+                    System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
+            }
+        }
+
+        if (cuaaMancanti.size() > 0) {
+            Dmt_t_sessione sessioneOld = sessioneService.getById(sessione.getIdSessione() - 1);
+            for (Rpu_V_pratica_zoote a : cuaaMancanti) {
+                controlliFramework.duplicaSessioneByCuaa(a, sessioneOld, sessione);
             }
         }
     }
