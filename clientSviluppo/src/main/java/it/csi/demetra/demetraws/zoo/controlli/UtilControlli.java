@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -613,18 +614,30 @@ public class UtilControlli {
 		switch (casi) {
 		case 0:
 			//CALCOLO ESITO CON PRESENZA DI CAPI SANZIONATI E CAPI BOCCIATI
-			esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati));
-			capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
+			esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati), MathContext.DECIMAL128);
+			
+			if(esito.compareTo(BigDecimal.ONE) >= 0)
+				capiPagabili = BigDecimal.ZERO;
+			else
+				capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
 			break;
 		case 1:
 			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI BOCCIATI
-			esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali));
-			capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
+			esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali), MathContext.DECIMAL128);
+			
+			if(esito.compareTo(BigDecimal.ONE) >= 0)
+				capiPagabili = BigDecimal.ZERO;
+			else
+				capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
 			break;
 		case 2:
 			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI SANZIONATI
-			esito = capiSanzionati.divide(capiAccertati);
-			capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
+			esito = capiSanzionati.divide(capiAccertati, MathContext.DECIMAL128);
+			
+			if(esito.compareTo(BigDecimal.ONE) >= 0)
+				capiPagabili = BigDecimal.ZERO;
+			else
+				capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
 			break;
 		default:
 			// CALCOLO ESITO CON SOLI CAPI AMMISSIBILI
@@ -683,15 +696,17 @@ public class UtilControlli {
 	}
 	
 public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b) {
-		
+	
 	int contatoreFestivita = 0;
 	contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
 	if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7) &&
-    	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita)) {
-    		return true;
-    	}else{
-    		return false;
-    	}
+	   	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 )) {
+	   		return true;
+	   	}else if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) > 7) ||
+	   	    	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) > 7 + contatoreFestivita)) {
+	   		return false;
+	   	}
+	return false;
 }
 	
 public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato m) {
@@ -699,12 +714,15 @@ public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato
 	int contatoreFestivita = 0;
 	contatoreFestivita= UtilControlli.contaFestivi(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso());
 	if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= 7) &&
-    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso())<= 7  + contatoreFestivita)) {
-    		return true;
-    	}else{
-    		return false;
-    	}
+	   	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) <= 7 )) {
+	   		return true;
+	   	}else if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) > 7) ||
+	   	    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) > 7 + contatoreFestivita)) {
+	   		return false;
+	   	}
+	return false;
 }
+
 
 public static void controlloRegistrazioneStallaDuplicato(Dmt_t_Tws_bdn_du_capi_bovini b, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
 	
