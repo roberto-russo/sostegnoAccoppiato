@@ -160,10 +160,6 @@ public class ClcInt322Mis20 extends Controllo {
 
 			try {
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : this.modelVaccheFiltrate) {
-					
-					int contatoreFestivita = 0;
-	        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
-
 					this.listVitelli = getControlliService().getVitelliNatiDaBovini(getSessione().getIdSessione(),
 							b.getCapoId(), getAzienda().getCodicePremio());
 					/*
@@ -178,12 +174,9 @@ public class ClcInt322Mis20 extends Controllo {
 								this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 								this.getControlliService())) {
 							
-							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-			        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
+							UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
 			        				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-			        			}else{
-			        				this.capiSanzionati++;
-			        				}
 			        		}else{
 			        			this.capiSanzionati++;
 			        		}
@@ -194,12 +187,9 @@ public class ClcInt322Mis20 extends Controllo {
 						// MANIERA CLASSICA
 
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
-							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 + contatoreFestivita){
+							UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
 		            				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-		            			}else{
-		            				this.capiSanzionati++;
-		            				}
 		            		}else{
 		            			this.capiSanzionati++;
 		            		}

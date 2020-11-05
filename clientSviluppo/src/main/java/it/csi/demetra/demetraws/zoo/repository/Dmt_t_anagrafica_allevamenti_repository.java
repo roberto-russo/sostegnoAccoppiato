@@ -71,4 +71,8 @@ public interface Dmt_t_anagrafica_allevamenti_repository extends CrudRepository<
 	@Query(value = "SELECT cod_fiscale_deten FROM Dmt_t_anagrafica_allev WHERE allev_id = :allevId ", nativeQuery = true)
 	String findDeteByCuaa(@Param("allevId")BigDecimal allevId);
 	
+
+	@Query(value = "SELECT distinct allev_id FROM dmt_t_anagrafica_allev WHERE cod_fiscale_prop = :cuaa and id_sessione = :idSessione", nativeQuery = true)
+	public List<Long> getListaAllevamentiPerCuaa(@Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
+
 }

@@ -246,11 +246,6 @@ public class ClcInt311Mis2 extends Controllo {
 				 * 
 				 */
 				for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheAmmesseUba) {
-
-					int contatoreFestivita = 0;
-	        		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
-	        		
-
 					List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
 							.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
 
@@ -259,43 +254,30 @@ public class ClcInt311Mis2 extends Controllo {
 					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
+						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
 						
-						if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		        			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
 		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        			}else{
-		        				this.capiSanzionati++;
-		        				}
 		        		}else{
 		        			this.capiSanzionati++;
 		        		}
-
 					} else {
 
 						//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
 						
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
-
-							if(UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7){
-		            			if(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7 + contatoreFestivita ){
+							
+							UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
 		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		            			}else{
-		            				this.capiSanzionati++;
-		            				}
-		            		}else{
+		            		}else {
 		            			this.capiSanzionati++;
 		            		}
-
 						} else {
-
-							listEsclusi.add(
-									UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
-
+							listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
 						}
 					}
-
 				}
-
 			} else {
 
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02002", getInput(),

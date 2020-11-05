@@ -1,0 +1,1 @@
+ALTER TABLE dmt_t_info_allev_beneficiario ADD cuaa VARCHAR2(16 CHAR);

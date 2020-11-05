@@ -682,4 +682,44 @@ public class UtilControlli {
 		return false;
 	}
 	
+public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b) {
+		
+	int contatoreFestivita = 0;
+	contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
+	if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7) &&
+    	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso())<= 7  + contatoreFestivita)) {
+    		return true;
+    	}else{
+    		return false;
+    	}
+}
+	
+public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato m) {
+		
+	int contatoreFestivita = 0;
+	contatoreFestivita= UtilControlli.contaFestivi(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso());
+	if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= 7) &&
+    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso())<= 7  + contatoreFestivita)) {
+    		return true;
+    	}else{
+    		return false;
+    	}
+}
+
+public static void controlloRegistrazioneStallaDuplicato(Dmt_t_Tws_bdn_du_capi_bovini b, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
+	
+	//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
+	List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
+	if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(b.getAllev_id()))
+		controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, b.getCapoId(), b.getAllev_id(),annoCampagna , cuaa);
+}
+
+public static void controlloRegistrazioneStallaDuplicato(Dmt_t_clsCapoMacellato m, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
+	
+	//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
+	List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
+	if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(m.getAllevId()))
+		controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, m.getCapoId(), m.getAllevId(),annoCampagna , cuaa);
+}
+	
 }

@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.services;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_demarcazione_PSR;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_importo_unitario;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_info_allevamento_beneficiario;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_irregolarita_intenzionale;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
@@ -594,5 +596,15 @@ public class ControlliService {
     
     public Long getCapiSanzionati(String cuaa, String intervento, Long idSessione){
     	return outputRepository.findCapiSanzionati(cuaa, intervento, idSessione) !=null ? outputRepository.findCapiSanzionati(cuaa, intervento, idSessione) : 0;
+    }
+    
+    public List<Long> getListaAllevamentiPerCuaa(String cuaa, Long idSessione) {
+    	
+    	List<Long> anagraficaAllev = anagraficaAllevamentiRep.getListaAllevamentiPerCuaa(cuaa, idSessione);
+    	return anagraficaAllev != null ? anagraficaAllev : Collections.emptyList();
+    }
+    
+    public void saveAllevamentoBeneficiarioControlloStallaDoppia(Dmt_t_sessione sessione, Long idCapo, Long idAllevamento, Integer annoCampagna, String cuaa) {
+    	this.infoAllevBeneficiario.save(new Dmt_t_info_allevamento_beneficiario(sessione, idCapo, idAllevamento, annoCampagna, cuaa));
     }
 }
