@@ -44,11 +44,11 @@ public class ControlliFrameworkImpl implements ControlliFramework {
      * Dopo lo scarico massivo dei dati dalla BDN questo metodo esegue il controllo corrispondente per
      * azienda, codice premio e sessione
      *
-     * @param azienda istanza dell'azienda presentatrice della domanda unica, è reperita dalla tabella  {@link it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote}
+     * @param azienda  istanza dell'azienda presentatrice della domanda unica, è reperita dalla tabella  {@link it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote}
      * @param subentro istanza riferita al subetro in azienda di un soggetto, è reperita dalla tabella {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo}
      * @param sessione istanza riferita all'identificazione della sessione, è reperita dalla tabella {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione}
      * @throws ControlloException eccezione riferita al controllo {@link it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef.Controllo}
-     * @throws CalcoloException eccezione riferita al calcolo {@link it.csi.demetra.demetraws.zoo.calcoli.CalcoloException}
+     * @throws CalcoloException   eccezione riferita al calcolo {@link it.csi.demetra.demetraws.zoo.calcoli.CalcoloException}
      */
     @Override
     public void handleControlloCUUA(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione) throws ControlloException, CalcoloException {
@@ -65,9 +65,9 @@ public class ControlliFrameworkImpl implements ControlliFramework {
      * @param azienda  istanza relativa all'azienda presentatrice della domanda unica, è reperita dalla tabella  {@link Rpu_V_pratica_zoote}
      * @param subentro istanza relativa al subentro in azienda di un soggetto, è reperita dalla tabella {@link Dmt_t_subentro_zoo}
      * @param sessione istanza relativa all'identificazione della sessione, è reperita dalla tabella {@link Dmt_t_sessione}
-     * @return valore Booleano: 
-     *  - <b>true</b> se lo scarico è avvenuto
-     *  - <b>false</b> altrimenti 
+     * @return valore Booleano:
+     * - <b>true</b> se lo scarico è avvenuto
+     * - <b>false</b> altrimenti
      */
     @Override
     public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione, Integer annoCampagna) {
@@ -85,5 +85,10 @@ public class ControlliFrameworkImpl implements ControlliFramework {
             System.out.println("ERRORE: " + e.getCause());
         }
         return false;
+    }
+
+    @Override
+    public void duplicaSessioneByCuaa(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessioneOld, Dmt_t_sessione sessioneNew) {
+        bdnImpl.duplicaSessioneByCuaa(azienda, sessioneOld, sessioneNew);
     }
 }

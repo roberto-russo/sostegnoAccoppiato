@@ -3,6 +3,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import it.csi.demetra.demetraws.srmanags.wsbridge2.CapoVacca;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WbAnagraficaAllevamentoVO;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WbUbaCensimentoOvino2012VO;
+import it.csi.demetra.demetraws.zoo.model.CuaaScaricoManuale;
 import it.csi.demetra.demetraws.zoo.model.Dmt_d_clsPremio_ValidazioneResponse;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovini;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tbdn_du_capi;
@@ -29,6 +31,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
  * @author Bcsoft
  *
  */
+import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 public class TransformerData {
 	
 	/**
@@ -355,5 +358,34 @@ public class TransformerData {
 		}
 
 			return anagraficaAllevamenti;
+	}
+	
+	public List<Rpu_V_pratica_zoote> transformCuaa(List<CuaaScaricoManuale> cuaa) {
+		List<Rpu_V_pratica_zoote> scarico = new ArrayList<Rpu_V_pratica_zoote>();
+		Rpu_V_pratica_zoote temp = null;
+		
+		for (CuaaScaricoManuale c : cuaa) {
+				
+			temp = new Rpu_V_pratica_zoote();
+			temp.setAnnoCampagna(c.getAnnoCampagna());
+			temp.setCodiceMisura(c.getCodiceMisura());
+			temp.setCodicePremio(c.getCodicePremio());
+			temp.setCuaa(c.getCuaa());
+			temp.setDenominazione(c.getDenominazione());
+			temp.setDescrizione(c.getDescrizione());
+			temp.setExtIdAzienda(c.getExtIdAzienda());
+			temp.setGiorniRitardo(c.getGiorniRitardo());
+			temp.setIdentificativo(c.getIdentificativo());
+			temp.setIdentificativo(c.getIdentificativo());
+			temp.setIdFaseAvanzamento(c.getIdFaseAvanzamento());
+			temp.setIdPratica(c.getIdPratica());
+			temp.setIdStatoPratica(c.getIdStatoPratica());
+			temp.setTipoFase(c.getTipoFase());
+			
+			scarico.add(temp);
+			temp = null;
+			
+		}
+		return scarico != null ? scarico : Collections.emptyList();
 	}
 }

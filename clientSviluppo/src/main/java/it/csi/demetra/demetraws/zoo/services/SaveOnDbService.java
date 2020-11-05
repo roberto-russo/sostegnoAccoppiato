@@ -1,38 +1,29 @@
 package it.csi.demetra.demetraws.zoo.services;
 
-import java.util.List;
-
-import javax.validation.ConstraintViolationException;
-
+import it.csi.demetra.demetraws.zoo.model.*;
+import it.csi.demetra.demetraws.zoo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.csi.demetra.demetraws.zoo.model.Dmt_d_clsPremio_ValidazioneResponse;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_DsUBA_censimenti_allevamenti_ovini;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
-import it.csi.demetra.demetraws.zoo.repository.Dmt_d_clsPremio_ValidazioneResponse_repository;
-import it.csi.demetra.demetraws.zoo.repository.Dmt_t_anagrafica_allevamenti_repository;
-import it.csi.demetra.demetraws.zoo.repository.Dmt_t_output_controlli_repository;
-import it.csi.demetra.demetraws.zoo.repository.Dmt_t_premio_capi_repository;
-import it.csi.demetra.demetraws.zoo.repository.DsUBA_censimenti_allevamenti_ovini_repository;
+import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 /**
  * Classe service che utilizza le Query definite nei repository: <br>
- *  DsUBA_censimenti_allevamenti_ovini_repository <br>
- *  Dmt_d_clsPremio_ValidazioneResponse_repository <br>
- *  Dmt_t_anagrafica_allevamenti_repository <br>
- *  Dmt_t_output_controlli_repository <br>
- *  Dmt_t_premio_capi_repository <br>
+ * DsUBA_censimenti_allevamenti_ovini_repository <br>
+ * Dmt_d_clsPremio_ValidazioneResponse_repository <br>
+ * Dmt_t_anagrafica_allevamenti_repository <br>
+ * Dmt_t_output_controlli_repository <br>
+ * Dmt_t_premio_capi_repository <br>
+ *
  * @author Bcsoft
  */
 @Service
 public class SaveOnDbService {
-	
-	/**
-	 * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
-	 */
+
+    /**
+     * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
+     */
     @Autowired
     DsUBA_censimenti_allevamenti_ovini_repository repUBA;
 
@@ -71,49 +62,50 @@ public class SaveOnDbService {
      */
     @Autowired
     Dmt_t_errore_services erroreService;
-    
+
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_anagrafica_allevamenti_repository.
      */
     @Autowired
     Dmt_t_anagrafica_allevamenti_repository anagraficaRep;
-    
+
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_output_controlli_repository.
      */
     @Autowired
     Dmt_t_output_controlli_repository outputControlliRep;
-    
+
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_premio_capi_repository.
      */
     Dmt_t_premio_capi_repository premioCapiService;
-    
-    
-    
+
+
     /**
      * Metodo che effettua il salvataggio a DB di una lista di istanze di tipo Dmt_t_anagrafica_allevamenti.
      * {@link Dmt_t_anagrafica_allevamenti_repository#findByIdSessioneAndAllevIdAndAziendaCodice(Long, java.math.BigDecimal, String)}
+     *
      * @param beans lista di istanze da salvare a DB.
      */
     public void saveOnDb(List<Dmt_t_anagrafica_allevamenti> beans) {
-    	try {
-    		for(Dmt_t_anagrafica_allevamenti bean : beans) {
-    			if(anagraficaRep.findByIdSessioneAndAllevIdAndAziendaCodice(bean.getIdSessione().getIdSessione(), bean.getAllevId(), bean.getAziendacodice()).equals(new Integer(0))) {
-    			anagraficaRep.save(bean);
-    			}
-    		}
-    		
-    	} catch(ConstraintViolationException e) {
-    		System.out.println(e.getMessage());
-    	}
+        try {
+            for (Dmt_t_anagrafica_allevamenti bean : beans) {
+                if (anagraficaRep.findByIdSessioneAndAllevIdAndAziendaCodice(bean.getIdSessione().getIdSessione(), bean.getAllevId(), bean.getAziendacodice()).equals(new Integer(0))) {
+                    anagraficaRep.save(bean);
+                }
+            }
+
+        } catch (ConstraintViolationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
      * Metodo che effettua il salvataggio a DB di un'istanza di tipo {@link Dmt_t_DsUBA_censimenti_allevamenti_ovini} in base a sessione.
-     * @param bean bean
+     *
+     * @param bean     bean
      * @param sessione sessione
-     * {@link Dmt_t_errore_services#saveError(Dmt_t_errore)}
+     *                 {@link Dmt_t_errore_services#saveError(Dmt_t_errore)}
      */
     public void saveOnDb(Dmt_t_DsUBA_censimenti_allevamenti_ovini bean, Dmt_t_sessione sessione) {
         try {
@@ -132,13 +124,13 @@ public class SaveOnDbService {
 
     /**
      * Metodo che effettua il salvataggio a DB di un'istanza di tipo Dmt_d_clsPremio_ValidazioneResponse.
+     *
      * @param bean bean
-     * {@link Dmt_t_clsCapoMacellato_services#saveCapo(List)}
-     * {@link Dmt_t_tws_bdn_du_capi_bovini_services#saveCapo(List)}
-     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_services#saveCapo(List)}
+     *             {@link Dmt_t_clsCapoMacellato_services#saveCapo(List)}
+     *             {@link Dmt_t_tws_bdn_du_capi_bovini_services#saveCapo(List)}
+     *             {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_services#saveCapo(List)}
      */
     public void saveOnDb(Dmt_d_clsPremio_ValidazioneResponse bean) {
-
         try {
             if (bean.getClsCapoOvicaprino() != null)
                 capreService.saveCapo(bean.getClsCapoOvicaprino());
@@ -151,10 +143,30 @@ public class SaveOnDbService {
 
             if (bean.getClsCapo() != null)
                 capiService.saveCapo(bean.getClsCapo());
-            
+
             repValidResp.save(bean);
         } catch (IllegalStateException e) {
             System.out.println("DUPLICAZIONE CAMPO");
-        } 
+        }
+    }
+
+    public void duplicaSessioneByCuaa(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessioneOld, Dmt_t_sessione sessioneNew) {
+        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> beanCapre = capreService.getCapiOviByIdSessioneCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+        List<Dmt_t_Tws_bdn_du_capi_bovini> beanVacche = vaccheService.getByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+        List<Dmt_t_clsCapoMacellato> beanMacellato = MacellatoService.getCapiMacellatiByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+
+        for (Dmt_t_Tws_bdn_du_capi_ovicaprini d : beanCapre) {
+            d.setIdSessione(sessioneNew);
+        }
+        for (Dmt_t_Tws_bdn_du_capi_bovini d : beanVacche) {
+            d.setIdSessione(sessioneNew);
+        }
+        for (Dmt_t_clsCapoMacellato d : beanMacellato) {
+            d.setIdSessione(sessioneNew);
+        }
+
+        capreService.saveCapo(beanCapre);
+        vaccheService.saveCapo(beanVacche);
+        MacellatoService.saveCapo(beanMacellato);
     }
 }
