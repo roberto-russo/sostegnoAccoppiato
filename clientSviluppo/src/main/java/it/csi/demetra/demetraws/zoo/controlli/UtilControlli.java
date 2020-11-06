@@ -321,8 +321,12 @@ public class UtilControlli {
 					.getVitelloDataInserBdnNascitaByVitelloCapoIdAndIdSessione(vitello.getVitelloCapoId(), idSessione);
 			flagDelegatoNascitaVitello = controlliService
 					.getFlagDelegatoNascitaVitelloByVitelloCapoIdAndIdSessione(vitello.getVitelloCapoId(), idSessione);
+			if(flagDelegatoNascitaVitello == null)
+				flagDelegatoNascitaVitello = "N";
 			flagProrogaMarcatura = controlliService
 					.getFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(vitello.getVitelloCapoId(), idSessione);
+			if(flagProrogaMarcatura == null)
+				flagProrogaMarcatura = "N";
 
 			// CASO 1- NON C'E DELEGA SULLA NASCITA E NON C'E PROROGA SULLA MARCATURA
 			if (flagDelegatoNascitaVitello.toUpperCase().equals("N")
