@@ -196,12 +196,9 @@ public class ClcInt312Mis3 extends Controllo{
 						this.getControlliService())) {
 					
 						UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
-		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        		}else{
+						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+						if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) 
 		        			this.capiSanzionati++;
-		        		}
-
 				} else {
 				
 				if( bufala.getDtNascitaVitello() != null ) {
@@ -213,13 +210,9 @@ public class ClcInt312Mis3 extends Controllo{
 						if ( mesiDiVita > ETA_RICHIESTA_IN_MESI) {
 
 							UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-							if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
-		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		            		
-		            		}else{
+							this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							if(UtilControlli.controlloTempisticheDiRegistrazione(bufala)) 
 		            			this.capiSanzionati++;
-		            		}
-							
 						} else {
 							addEscluso(bufala, "I mesi di vita del capo sono inferiori o uguali a 30.");
 						}

@@ -607,4 +607,17 @@ public class ControlliService {
     public void saveAllevamentoBeneficiarioControlloStallaDoppia(Dmt_t_sessione sessione, Long idCapo, Long idAllevamento, Integer annoCampagna, String cuaa) {
     	this.infoAllevBeneficiario.save(new Dmt_t_info_allevamento_beneficiario(sessione, idCapo, idAllevamento, annoCampagna, cuaa));
     }
+    
+    public Dmt_t_clsCapoMacellato getMacellatoById(Long idCapo, String codicePremio, String cuaa, Long idSessione) {
+    	return macellatiRepository.getCapoMacellatoById(idCapo, codicePremio, cuaa, idSessione);
+    }
+    
+    public Dmt_t_Tws_bdn_du_capi_bovini getBovinoById(Long idCapo, String codicePremio, String cuaa, Long idSessione) {
+    	return boviniRepository.getCapoBovinoById(idCapo, codicePremio, cuaa, idSessione);
+    }
+
+//    public Dmt_t_Tws_bdn_du_capi_ovicaprini getOviCaprinoById (Long idCapo, String codicePremio, String cuaa, Long idSessione) {
+//    	return covicapriniRep.getOviCaprinoById(idCapo, codicePremio, cuaa, idSessione);
+//    }
+
 }

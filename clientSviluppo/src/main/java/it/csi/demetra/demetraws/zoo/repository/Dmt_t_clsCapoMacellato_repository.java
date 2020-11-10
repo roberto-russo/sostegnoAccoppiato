@@ -83,4 +83,11 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 
 	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE CUAA= :cuaa AND CODICE_PREMIO = :codiceIntervento AND CAPO_ID= :capoId AND ID_SESSIONE = :idSessione", nativeQuery= true)
 	Dmt_t_clsCapoMacellato FindCapoMacellato(@Param("cuaa") String cuaa, @Param("codiceIntervento")String codiceIntervento, @Param("capoId")Long capoId, @Param("idSessione")Long IdSessione);
+	
+	@Query(
+			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE capo_id = :idCapo and codice_premio = :codicePremio and cuaa = :cuaa and id_Sessione = :idSessione and ROWNUM = 1 ",
+			nativeQuery = true
+		)
+	Dmt_t_clsCapoMacellato getCapoMacellatoById (@Param("idCapo") Long idCapo, @Param("codicePremio") String codicePremio, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
+	
 }

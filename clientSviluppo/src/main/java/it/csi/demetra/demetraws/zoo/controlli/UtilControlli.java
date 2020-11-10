@@ -615,27 +615,27 @@ public class UtilControlli {
 			//CALCOLO ESITO CON PRESENZA DI CAPI SANZIONATI E CAPI BOCCIATI
 			esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati));
 			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
+//			if(esito.compareTo(BigDecimal.ONE) >= 0)
+//				capiPagabili = BigDecimal.ZERO;
+//			else
 				capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
 			break;
 		case 1:
 			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI BOCCIATI
 			esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali));
 			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
+//			if(esito.compareTo(BigDecimal.ONE) >= 0)
+//				capiPagabili = BigDecimal.ZERO;
+//			else
 				capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
 			break;
 		case 2:
 			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI SANZIONATI
 			esito = capiSanzionati.divide(capiAccertati);
 			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
+//			if(esito.compareTo(BigDecimal.ONE) >= 0)
+//				capiPagabili = BigDecimal.ZERO;
+//			else
 				capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
 			break;
 		default:

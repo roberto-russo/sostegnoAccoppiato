@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_premio_capi_id;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 
 @Repository
@@ -26,4 +27,5 @@ public interface Dmt_t_premio_capi_repository extends CrudRepository<Dmt_t_premi
 			nativeQuery = true
 		)
 	List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+	
 }

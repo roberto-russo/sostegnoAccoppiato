@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
@@ -246,4 +247,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	@Query(value="select distinct flag_proroga_marcatura from dmt_t_Tws_bdn_du_capi_bov where vitello_capo_id = :idCapo and id_sessione = :idSessione ",
 			nativeQuery=true)
 	public String findFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+	
+	@Query(
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE id_capo = :idCapo and codice_premio = :codicePremio and cuaa = :cuaa and id_Sessione = :idSessione and ROWNUM = 1 ",
+			nativeQuery = true
+		)
+	Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoById (@Param("idCapo") Long idCapo, @Param("codicePremio") String codicePremio, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
 }

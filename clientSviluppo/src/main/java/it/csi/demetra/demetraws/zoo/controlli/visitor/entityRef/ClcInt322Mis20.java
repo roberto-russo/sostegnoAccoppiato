@@ -175,11 +175,9 @@ public class ClcInt322Mis20 extends Controllo {
 								this.getControlliService())) {
 							
 							UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-			        				this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-			        		}else{
+							this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 			        			this.capiSanzionati++;
-			        		}
 
 					} else {
 

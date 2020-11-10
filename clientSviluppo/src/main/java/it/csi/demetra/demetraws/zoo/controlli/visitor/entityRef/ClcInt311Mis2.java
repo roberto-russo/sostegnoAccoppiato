@@ -255,12 +255,10 @@ public class ClcInt311Mis2 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 						
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        		}else{
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 		        			this.capiSanzionati++;
-		        		}
 					} else {
 
 						//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
@@ -268,11 +266,9 @@ public class ClcInt311Mis2 extends Controllo {
 						if (UtilControlli.isDetentoreParto(b, listVitelli)) {
 							
 							UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-		            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		            		}else {
+							this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+							if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 		            			this.capiSanzionati++;
-		            		}
 						} else {
 							listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(), "", getAzienda().getCodicePremio()));
 						}
