@@ -121,12 +121,9 @@ public class ClcInt314Mis18 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        		}else{
+						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 		        			this.capiSanzionati++;
-		        		}
-
 				} else {
 
 					//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA

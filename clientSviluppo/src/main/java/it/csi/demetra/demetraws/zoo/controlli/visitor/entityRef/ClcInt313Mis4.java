@@ -122,11 +122,10 @@ public class ClcInt313Mis4 extends Controllo {
 							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
 							this.getControlliService())) {
 						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-		        				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-		        		}else{
+						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+						//VERIFICO CHE I CAPI SIANO SANZIONATI
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 		        			this.capiSanzionati++;
-		        		}
 
 				} else {
 					
@@ -141,11 +140,10 @@ public class ClcInt313Mis4 extends Controllo {
 						continue;
 					} else {
 						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-	            				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-	            		}else{
+						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+						//VERIFICO CHE I CAPI SIANO SANZIONATI
+						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
 	            			this.capiSanzionati++;
-	            		}
 					}
 				}
 			}

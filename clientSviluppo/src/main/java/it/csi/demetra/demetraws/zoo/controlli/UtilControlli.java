@@ -1,6 +1,8 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -610,62 +612,26 @@ public class UtilControlli {
 	public static HashMap<String, BigDecimal> calcoloEsito(BigDecimal capiAccertati,BigDecimal capiAnomali,BigDecimal capiSanzionati, BigDecimal capiRichiesti){
 	
 		HashMap<String, BigDecimal> result = new HashMap<>();
-		BigDecimal capiPagabili = BigDecimal.ZERO;
+	    BigDecimal capiPagabili = BigDecimal.ZERO;
 		BigDecimal esito = BigDecimal.ZERO;
-		Integer casi = generaCasi(capiAnomali, capiSanzionati);
-		
-		switch (casi) {
-		case 0:
-			//CALCOLO ESITO CON PRESENZA DI CAPI SANZIONATI E CAPI BOCCIATI
-			esito = capiAnomali.add(capiSanzionati).divide(capiRichiesti.subtract(capiSanzionati));
+		BigDecimal sogliaPagabiliVenti = new BigDecimal("0.2");
+		BigDecimal sogliaPagabiliDieci = new BigDecimal("0.1");
 			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
-				capiPagabili = capiRichiesti.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(2).multiply(esito)));
-			break;
-		case 1:
-			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI BOCCIATI
-			esito = capiAnomali.divide(capiRichiesti.subtract(capiAnomali));
-			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
-				capiPagabili = capiRichiesti.subtract(capiAnomali).multiply(BigDecimal.ONE.subtract(esito));
-			break;
-		case 2:
-			//CALCOLO ESITO CON PRESENZA DI SOLI CAPI SANZIONATI
-			esito = capiSanzionati.divide(capiAccertati);
-			
-			if(esito.compareTo(BigDecimal.ONE) >= 0)
-				capiPagabili = BigDecimal.ZERO;
-			else
-				capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(esito));
-			break;
-		default:
-			// CALCOLO ESITO CON SOLI CAPI AMMISSIBILI
-			capiPagabili= capiAccertati;
-			break;
-		}
+		esito = capiSanzionati.add(capiAnomali).divide(capiAccertati.subtract(capiAnomali), MathContext.DECIMAL128);
+		BigDecimal newEsito = esito.setScale(2, RoundingMode.HALF_UP);
+		if (newEsito.compareTo(sogliaPagabiliDieci) <= 0 )
+			capiPagabili = capiAccertati.multiply(BigDecimal.ONE.subtract(newEsito).setScale(0, RoundingMode.HALF_UP));
+			else if (newEsito.compareTo(sogliaPagabiliDieci) > 0 && newEsito.compareTo(sogliaPagabiliVenti) <= 0 ) 
+				capiPagabili = capiAccertati.multiply(BigDecimal.valueOf(2).subtract(newEsito).setScale(0, RoundingMode.HALF_UP));
+		else
+			capiPagabili = BigDecimal.ZERO;
 
 	result.put("capiPagabili", capiPagabili);
-	result.put("esito", esito);
+	result.put("esito", newEsito);
 	return result;
 		
 	}
-	
-	private static Integer generaCasi(BigDecimal capiAnomali, BigDecimal capiSanzionati){
-		if(capiAnomali != BigDecimal.ZERO && capiSanzionati != BigDecimal.ZERO)
-			return 0;
-		else{
-			
-			if(capiAnomali != BigDecimal.ZERO && capiSanzionati == BigDecimal.ZERO)
-				return 1;
-			if(capiAnomali == BigDecimal.ZERO && capiSanzionati != BigDecimal.ZERO)
-				return 2;
-		}
-		return -1;
-	}
+
 	
 	public static Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa, ControlliService controlliService) {
 
@@ -698,48 +664,48 @@ public class UtilControlli {
 		return false;
 	}
 	
-public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b) {
+	public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b) {
+			
+		int contatoreFestivita = 0;
+		contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
+		if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7) &&
+		   	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 )) {
+		   		return true;
+		   	}else if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) > 7) ||
+		   	    	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) > 7 + contatoreFestivita)) {
+		   		return false;
+		   	}
+		return false;
+	}
+	
+	public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato m) {
 		
-	int contatoreFestivita = 0;
-	contatoreFestivita= UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
-	if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7) &&
-	   	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) <= 7 )) {
-	   		return true;
-	   	}else if((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) > 7) ||
-	   	    	(UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) > 7 + contatoreFestivita)) {
-	   		return false;
-	   	}
-	return false;
-}
-
-public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato m) {
+		int contatoreFestivita = 0;
+		contatoreFestivita= UtilControlli.contaFestivi(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso());
+		if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= 7) &&
+	    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) <= 7 )) {
+				return true;
+	   	}else if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) > 7) ||
+	    	    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) > 7 + contatoreFestivita)) {
+	    		return false;
+	    	}
+		return false;
+	}
 	
-	int contatoreFestivita = 0;
-	contatoreFestivita= UtilControlli.contaFestivi(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso());
-	if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= 7) &&
-    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) <= 7 )) {
-			return true;
-   	}else if((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) > 7) ||
-    	    	(UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) > 7 + contatoreFestivita)) {
-    		return false;
-    	}
-	return false;
-}
-
-public static void controlloRegistrazioneStallaDuplicato(Dmt_t_Tws_bdn_du_capi_bovini b, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
+	public static void controlloRegistrazioneStallaDuplicato(Dmt_t_Tws_bdn_du_capi_bovini b, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
+		
+		//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
+		List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
+		if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(b.getAllev_id()))
+			controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, b.getCapoId(), b.getAllev_id(),annoCampagna , cuaa);
+	}
 	
-	//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
-	List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
-	if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(b.getAllev_id()))
-		controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, b.getCapoId(), b.getAllev_id(),annoCampagna , cuaa);
-}
-
-public static void controlloRegistrazioneStallaDuplicato(Dmt_t_clsCapoMacellato m, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
-	
-	//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
-	List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
-	if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(m.getAllevId()))
-		controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, m.getCapoId(), m.getAllevId(),annoCampagna , cuaa);
-}
+	public static void controlloRegistrazioneStallaDuplicato(Dmt_t_clsCapoMacellato m, ControlliService controlliService, String cuaa,Integer annoCampagna, Dmt_t_sessione sessione) {
+		
+		//SI PRENDE LA LISTA DEGLI ALLEVAMENTI DEL CUAA E SI FA IL MACHING CON L'ID DELL'ALLEVAMENTO DEL CAPO E SE COMBACIA LO SALVO A DB.
+		List<Long> listaAllevamentiPerCuaa = controlliService.getListaAllevamentiPerCuaa(cuaa, sessione.getIdSessione());
+		if(!listaAllevamentiPerCuaa.isEmpty() && listaAllevamentiPerCuaa.contains(m.getAllevId()))
+			controlliService.saveAllevamentoBeneficiarioControlloStallaDoppia(sessione, m.getCapoId(), m.getAllevId(),annoCampagna , cuaa);
+	}
 	
 }

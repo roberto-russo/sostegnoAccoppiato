@@ -95,7 +95,6 @@ public class ref03 {
 		}
 
 		for (String cp : capiPerPremio.keySet()) {
-
 			result = this.precalcolo(capiPerPremioFiltrati, cp);
 			capiAccertati = result.get("accertati");
 			capiAnomali = result.get("anomali");
@@ -237,13 +236,14 @@ public class ref03 {
 		
 			resetVariables(capiRichiesti, capiAccertati, capiAnomali,capiSanzionati, capiAnomaliPerCodicePremio, listaCapiEsito);
 			listaCapiEsito = this.getListaCapiEsito(cp);
-			capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());		
+			capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());	
 			if(listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
 				for(Long e : capiPerPremio.get(cp)) 
-					if(listaCapiEsito.contains(e))
+					if(listaCapiEsito.contains(e)) {
 						capiAccertati = capiAccertati.add(BigDecimal.ONE);
-					
-				capiSanzionati = this.getSanzionati(cp);
+						if (isSanzionato(e, cp))
+							capiSanzionati = capiSanzionati.add(BigDecimal.ONE);
+					}
 				capiAnomali = capiRichiesti.subtract(capiAccertati);
 			}
 		
@@ -592,5 +592,35 @@ public class ref03 {
 			sanzionati = BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), cp, this.sessione.getIdSessione()));
 		
 		return sanzionati;
+	}
+	
+	private Dmt_t_clsCapoMacellato getCapoMacellatoSanzionabile (Long idCapo, String codicePremio) {
+		return controlliService.getMacellatoById(idCapo, codicePremio , this.azienda.getCuaa(), this.sessione.getIdSessione());	
+	}
+	
+	private Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoSanzionabile (Long idCapo, String codicePremio) {
+		return controlliService.getBovinoById(idCapo, codicePremio , this.azienda.getCuaa(), this.sessione.getIdSessione());
+	}
+	
+//	private Dmt_t_Tws_bdn_du_capi_ovicaprini getCapoOvicaprinoSanzionabile (Long idCapo, String codicePremio) {
+//		return controlliService.getOviCaprinoById(idCapo, codicePremio , sessione.getIdSessione());
+//	}
+	
+	private Boolean isSanzionato(Long idCapo, String codicePremio) {
+		Dmt_t_clsCapoMacellato capoMacellato = getCapoMacellatoSanzionabile(idCapo , codicePremio);
+		Dmt_t_Tws_bdn_du_capi_bovini capoBovino = getCapoBovinoSanzionabile(idCapo , codicePremio);
+//		Dmt_t_Tws_bdn_du_capi_ovicaprini capoOvicaprino = getCapoOvicaprinoSanzionabile(idCapo , codicePremio);
+		
+		if (capoMacellato != null) 
+			if (!UtilControlli.controlloTempisticheDiRegistrazione(capoMacellato))
+				return true;
+		if (capoBovino != null) 
+			if (!UtilControlli.controlloTempisticheDiRegistrazione(capoBovino))
+				return true;
+//	    if (capoOvicaprino != null) 
+//			return true;
+		
+			return false;
+	
 	}
 }
