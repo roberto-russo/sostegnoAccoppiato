@@ -73,30 +73,17 @@ public class WebServiceController {
     @GetMapping(value = "/calcoloArt52/{annoCampagna}")
     public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna, @PathParam("tipoEsecuzione") String tipoEsecuzione) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
-        List<Rpu_V_pratica_zoote> list = null;
+        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna);;
         TransformerData transformer = new TransformerData();
-        
-        if(this.cuaaScaricoServices.getAll(annoCampagna).isEmpty())
-        	list = aziendaService.getAll(annoCampagna);
-        else
-        	list = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
-        
-        eseguiScarico(list, sessione, annoCampagna, tipoEsecuzione);
+        List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
 
-        switch (tipoEsecuzione) {
-            case "1":
-                eseguiControlli(list, annoCampagna, sessione);
-                eseguiCalcoli(list, sessione);
-                break;
 
-            case "2":
-                eseguiControlli(list, annoCampagna, sessione);
-                break;
-
-            case "3":
-                eseguiCalcoli(list, sessione);
-                break;
+        eseguiScarico(listVista, listParziale, sessione, annoCampagna, tipoEsecuzione);
+        if(!tipoEsecuzione.equals("2")) {
+            eseguiControlli(listVista, annoCampagna, sessione);
+            eseguiCalcoli(listVista, sessione);
         }
+
         System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
         
     }
@@ -126,18 +113,34 @@ public class WebServiceController {
         }
     }
 
-    private void eseguiScarico(List<Rpu_V_pratica_zoote> listaCuaa, Dmt_t_sessione sessione, Integer annoCampagna, String tipoEsecuzione) {
+    private void eseguiScarico(List<Rpu_V_pratica_zoote> listaVista,
+                               List<Rpu_V_pratica_zoote> listaParziale,
+                               Dmt_t_sessione sessione, Integer annoCampagna, String tipoEsecuzione) {
         List<Rpu_V_pratica_zoote> cuaaMancanti = new ArrayList<>();
         if (tipoEsecuzione.equals("3"))
-            cuaaMancanti = listaCuaa;
+            cuaaMancanti = listaVista;
         else {
-            for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+            for (Rpu_V_pratica_zoote azienda : listaParziale) {
                 if (!controlliFramework.
                         scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
                     System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
                     cuaaMancanti.add(azienda);
-                } else
+                } else {
                     System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
+                }
+            }
+
+            for(Rpu_V_pratica_zoote azienda : listaVista) {
+                boolean trovato=false;
+                for (Rpu_V_pratica_zoote aziendaParz : listaParziale) {
+                    if(azienda.getCuaa().equals(aziendaParz.getCuaa())) {
+                        trovato=true;
+                        break;
+                    }
+                }
+                if(!trovato) {
+                    cuaaMancanti.add(azienda);
+                }
             }
         }
 
