@@ -48,7 +48,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
     /**
      * Identificativo univoco dell'allevamento
      */
-    private long identificativo;
+    private String identificativo;
 
     @Column(name = "ID_FASE_AVANZAMENTO")
     private int idFaseAvanzamento;
@@ -93,8 +93,6 @@ public class Rpu_V_pratica_zoote implements Serializable {
      */
     BigDecimal giorniRitardo;
 
-    
-    
     /**
      * Metodo getter che ritorna il numero di giorni di ritardo della presentazione della domanda
      * @return giorniRitardo numero di giorni di ritardo della presentazione della domanda
@@ -111,9 +109,6 @@ public class Rpu_V_pratica_zoote implements Serializable {
 		this.giorniRitardo = giorniRitardo;
 	}
 
-	public void setIdentificativo(long identificativo) {
-		this.identificativo = identificativo;
-	}
 
     /**
      * Metodo getter che ritorna l'anno della campagna
@@ -155,15 +150,8 @@ public class Rpu_V_pratica_zoote implements Serializable {
         this.idPratica = idPratica;
     }
 
-    public long getIdentificativo() {
-        return identificativo;
-    }
+   public int getIdFaseAvanzamento() {
 
-    public void setIdentificativo(int identificativo) {
-        this.identificativo = identificativo;
-    }
-
-    public int getIdFaseAvanzamento() {
         return idFaseAvanzamento;
     }
 
@@ -243,7 +231,15 @@ public class Rpu_V_pratica_zoote implements Serializable {
         return codicePremio;
     }
     
-    /**
+    public String getIdentificativo() {
+		return identificativo;
+	}
+
+	public void setIdentificativo(String identificativo) {
+		this.identificativo = identificativo;
+	}
+
+	/**
      * Metodo setter che imposta il codice intervento 
      * @param codicePremio codice intervento
      */
