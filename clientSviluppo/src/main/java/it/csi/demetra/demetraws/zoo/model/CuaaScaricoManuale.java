@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import it.csi.demetra.demetraws.zoo.compositeIds.CuaaScaricoManuale_id;
 
 @Entity
-@Table(name = "CUAA_SCARICO_MANUALE")
+@Table(name = "DMT_T_CUAA_SCARICO_MANUALE")
 @IdClass(CuaaScaricoManuale_id.class)
 public class CuaaScaricoManuale implements Serializable {
 
@@ -48,7 +48,7 @@ public class CuaaScaricoManuale implements Serializable {
    /**
     * Identificativo univoco dell'allevamento
     */
-   private long identificativo;
+   private String identificativo;
 
    @Column(name = "ID_FASE_AVANZAMENTO")
    private int idFaseAvanzamento;
@@ -111,10 +111,6 @@ public class CuaaScaricoManuale implements Serializable {
 		this.giorniRitardo = giorniRitardo;
 	}
 
-	public void setIdentificativo(long identificativo) {
-		this.identificativo = identificativo;
-	}
-
    /**
     * Metodo getter che ritorna l'anno della campagna
     * @return annoCampagna anno della campagna
@@ -153,14 +149,6 @@ public class CuaaScaricoManuale implements Serializable {
 
    public void setIdPratica(int idPratica) {
        this.idPratica = idPratica;
-   }
-
-   public long getIdentificativo() {
-       return identificativo;
-   }
-
-   public void setIdentificativo(int identificativo) {
-       this.identificativo = identificativo;
    }
 
    public int getIdFaseAvanzamento() {
@@ -235,7 +223,15 @@ public class CuaaScaricoManuale implements Serializable {
        this.descrizione = descrizione;
    }
 
-   /**
+   public String getIdentificativo() {
+	   return identificativo;
+   }
+	
+	public void setIdentificativo(String identificativo) {
+		this.identificativo = identificativo;
+	}
+
+/**
     * Metodo getter che ritorna il codice intervento
     * @return codicePremio codice dell'intervento
     */
