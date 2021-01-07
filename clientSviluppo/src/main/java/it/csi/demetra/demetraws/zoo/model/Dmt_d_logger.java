@@ -1,7 +1,6 @@
 package it.csi.demetra.demetraws.zoo.model;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_d_logger_id;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,16 +27,14 @@ public class Dmt_d_logger implements Serializable {
     private Long idLog;
 
     @Column(name = "tipo_log")
-    @ColumnDefault("'INFO'")
-    private String tipoLog;
+    private String tipoLog = "INFO";
 
     @Column(name = "nome_classe_chiamante")
     @NotNull
     private String nomeClasseChiamante;
 
     @Column(name = "messaggio")
-    @ColumnDefault("'no message avaible'")
-    private String messaggio;
+    private String messaggio = "no message avaible";
 
     @Column(name = "data_generazione_log")
     @Temporal(TemporalType.DATE)

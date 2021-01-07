@@ -11,8 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_Tlatte_mensile_arpea_id;
 
 /**
@@ -120,11 +118,10 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 	private String flagSubentro;
 
 	@Column(name = "cod_mese")
-	@ColumnDefault("'MES'")
 	/**
 	 * Codice mese della decodifca_sop = ''MES''
 	 */
-	private String codMese;
+	private String codMese = "MES";
 
 	@Id
 	@Column(name = "sco_mese")

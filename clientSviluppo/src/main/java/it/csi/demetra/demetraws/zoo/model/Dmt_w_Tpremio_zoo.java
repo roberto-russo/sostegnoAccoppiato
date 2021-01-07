@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_w_Tpremio_zoo_id;
 
@@ -79,9 +78,8 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 */
 	@Id
 	@Column(name = "COD_SPECIE")
-	@ColumnDefault("'TCA'")
 	@NotNull
-	private String cod_specie;
+	private String cod_specie = "TCA";
 
 	/*
 	 * Denominazione
@@ -94,9 +92,8 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Codice Titolarità
 	 */
 	@Column(name = "COD_TITOLARITA")
-	@ColumnDefault("'TCP'")
 	@NotNull
-	private String cod_titolarita;
+	private String cod_titolarita = "TCP";
 
 	/*
 	 * Sottocodice Titolarità

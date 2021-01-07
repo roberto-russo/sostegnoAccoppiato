@@ -16,8 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
-
 /**
  * Model dei Capi per Premio ed allevamento scaricati da BDN con Web Service
  * relativi alle Domande Uniche.
@@ -99,11 +97,10 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 	@Column(name = "COD_RAZZA")
 	@NotNull
-	@ColumnDefault("'TRB'")
 	/**
 	 * Codice della razza del capo
 	 */
-	private String razzaCodice;
+	private String razzaCodice = "TRB";
 
 	@Column(name = "DATA_INIZIO_DETENZ")
 	@Temporal(TemporalType.DATE)
