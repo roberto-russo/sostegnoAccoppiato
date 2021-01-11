@@ -25,14 +25,14 @@ public class Dmt_t_sessione_services {
 	Dmt_t_sessione_repository rep;
 
 	/**
-	 * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo Dmt_t_sessione.
-	 * {@link Dmt_t_sessione_repository#findSessioneByDataEora(Date)}
-	 * @return lista degli oggetti di tipo {@link Dmt_t_sessione}
-	 */
+     * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo Dmt_t_sessione.
+     * {@link Dmt_t_sessione_repository#findSessioneByDataEora(Date)}
+     * @return lista degli oggetti di tipo {@link Dmt_t_sessione}
+     */
 	public List<Dmt_t_sessione> getAll() {
 		return rep.findAll();
 	}
-
+	
 	/**
 	 * Metodo che ritorna un'istanza di tipo @see Dmt_t_sessione in base a dataEora.
 	 * @see Dmt_t_sessione_repository
@@ -42,7 +42,7 @@ public class Dmt_t_sessione_services {
 	public Dmt_t_sessione get(Date dataEora) {
 		return rep.findSessioneByDataEora(dataEora);
 	}
-
+	
 	/**
 	 * Metodo che effettua il salvataggio a DB di un'istanza di tipo Dmt_t_sessione.
 	 * @param sessione identificativo univoco associato all'esecuzione
@@ -51,7 +51,7 @@ public class Dmt_t_sessione_services {
 	public Dmt_t_sessione saveSession(Dmt_t_sessione sessione) {
 		return rep.save(sessione);
 	}
-
+	
 	/**
 	 * Metodo che ritorna un'istanza di tipo {@link Dmt_t_sessione} in base a idSessione
 	 * @param idSessione identificativo univoco associato all'esecuzione

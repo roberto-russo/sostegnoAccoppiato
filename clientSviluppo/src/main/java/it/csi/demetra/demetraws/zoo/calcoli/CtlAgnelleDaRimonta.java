@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 //@Builder
 //@AllArgsConstructor
@@ -30,7 +28,7 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
 
     public final static String ESITO_OK = "OK";
     public final static String ESITO_KO = "KO";
-    public final static List<String> codiciPremio = Stream.of(Constants.PREMIO_320).collect(Collectors.toList());
+    public final static List<String> codiciPremio = Arrays.asList(new String[]{Constants.PREMIO_320});
     private static final String LIVELLO_SCRAPIE_L1 = "L1";
     private static Logger logger = LoggerFactory.getLogger(CtlAgnelleDaRimonta.class);
     @Autowired
@@ -44,7 +42,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
     private CapiControllati9902 capiControllati9902;
     private CalcoloAgnelleDaRimontaPremioIn calcoloAgnelleDaRimontaIn;
     private StringBuilder errorMessage;
-    private Predicate<CalcoloAgnelleDaRimontaPremioIn> isNotNull = x -> {
+
+    private boolean isNotNull(CalcoloAgnelleDaRimontaPremioIn x) {
         boolean res = x != null;
         if (!res) {
             logger.info("null reference");
@@ -52,8 +51,18 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         }
 
         return res;
-    };
-    private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasLivelloScrapie = x -> {
+    }
+
+    //    private Predicate<CalcoloAgnelleDaRimontaPremioIn> isNotNull = x -> {
+//        boolean res = x != null;
+//        if (!res) {
+//            logger.info("null reference");
+//            errorMessage.append("input CalcoloAgnelleDaRimontaPremioIn is null");
+//        }
+//
+//        return res;
+//    };
+    private boolean hasLivelloScrapie(CalcoloAgnelleDaRimontaPremioIn x) {
         boolean res = x.getUbaOviniCensimento() != null && x.getUbaOviniCensimento().getCodQualificaScrapie() != null;
         if (!res) {
             logger.info("livello scrapie non presente");
@@ -61,29 +70,45 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         }
 
         return res;
-    };
-    private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasQdrCalcolabile = x -> {
+    }
+
+    //    private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasLivelloScrapie = x -> {
+//        boolean res = x.getUbaOviniCensimento() != null && x.getUbaOviniCensimento().getCodQualificaScrapie() != null;
+//        if (!res) {
+//            logger.info("livello scrapie non presente");
+//            errorMessage.append("livello scrapie non presente");
+//        }
+//
+//        return res;
+//    };
+    private boolean hasQdrCalcolabile(CalcoloAgnelleDaRimontaPremioIn x) {
         boolean res = x.getUbaOviniCensimento() != null || x.getBdnOviniRegistroStallaList() != null;
         if (!res) {
             logger.info("quota da rimonta non calcolabile");
             errorMessage.append("quota da rimonta non calcolabile");
         }
         return res;
-    };
+    }
+//    private Predicate<CalcoloAgnelleDaRimontaPremioIn> hasQdrCalcolabile = x -> {
+//        boolean res = x.getUbaOviniCensimento() != null || x.getBdnOviniRegistroStallaList() != null;
+//        if (!res) {
+//            logger.info("quota da rimonta non calcolabile");
+//            errorMessage.append("quota da rimonta non calcolabile");
+//        }
+//        return res;
+//    };
 
     public void init(Long idSessione, String codIntervento, Long annoCampagna, String cuaa) {
-
         setIdSessione(idSessione);
         setCodIntrervento(codIntervento);
         setAnnoCampagna(annoCampagna);
         setCuaa(cuaa);
-
-
     }
 
     /**
      * Il metodo ritorna un oggetto contenente: la quota dei capi ammessi a premio, un campo booleano esito che indica
      * se il calcolo è andato a buon fine, ed una stringa motivazioneEsitoCalcolo che contiene le motivazioni dell'esito del calcolo.
+     *
      * @return capiControllati9902 - istanza di tipo @see capiControllati9902
      * @throws CalcoloException - eccezione relativa al calcolo {@linkplain}
      */
@@ -154,7 +179,7 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         // Inizializzo la variabile d'istanza input del calcolo
         calcoloAgnelleDaRimontaIn = getCalcoloAgnelleDaRimontaIn(this.getIdSessione(), this.getCuaa());
 
-        boolean applicabile = isNotNull.and(hasLivelloScrapie).and(hasQdrCalcolabile).test(calcoloAgnelleDaRimontaIn);
+        boolean applicabile = isNotNull(calcoloAgnelleDaRimontaIn) && hasLivelloScrapie(calcoloAgnelleDaRimontaIn) && hasQdrCalcolabile(calcoloAgnelleDaRimontaIn);
 
         if (!applicabile) {
             logger.info(
@@ -264,10 +289,10 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         List<Dmt_t_DsUBA_censimenti_allevamenti_ovini> censimento = ubaCensimentiOviniService.getCensimOviniByIdSessioneAndCodFiscaleDete(idSessione, cuaa);
 
         if (censimento != null && registroStalla != null) {
-        	// Verificare corretta valorizzazione dei campi
-        	calcoloAgnelleDaRimontaPremioIn = new CalcoloAgnelleDaRimontaPremioIn(idSessione, cuaa, registroStalla.size(), censimento != null && !censimento.isEmpty()? censimento.get(0):null, registroStalla);
+            // Verificare corretta valorizzazione dei campi
+            calcoloAgnelleDaRimontaPremioIn = new CalcoloAgnelleDaRimontaPremioIn(idSessione, cuaa, registroStalla.size(), censimento != null && !censimento.isEmpty() ? censimento.get(0) : null, registroStalla);
 
-        	
+
 //        	            calcoloAgnelleDaRimontaPremioIn = CalcoloAgnelleDaRimontaPremioIn.builder().idSessione(idSessione)
 //                    .bdnOviniRegistroStallaList(registroStalla).cuaa(cuaa)
 //                    .quotaCapiPremioRichiesti(registroStalla.size())
