@@ -38,7 +38,9 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 	 * @param capo - subentro istanza da salvare a DB
 	 */
     public void saveCapo(List<Dmt_t_Tws_bdn_du_capi_ovicaprini> capo) {
-        rep.saveAll(capo);
+    	for(Dmt_t_Tws_bdn_du_capi_ovicaprini c : capo)
+    		rep.save(c);
+//        rep.saveAll(capo);
     }
 
     /**

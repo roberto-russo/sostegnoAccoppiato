@@ -27,7 +27,9 @@ public class Dmt_t_premio_capi_services {
 	 * @param listaCapi output istanza da salvare a DB
 	 */
 	public void saveAll (List<Dmt_t_premio_capi> listaCapi) {
-		capiRepository.saveAll(listaCapi);
+		for(Dmt_t_premio_capi c : listaCapi)
+			capiRepository.save(c);
+//		capiRepository.saveAll(listaCapi);
 	}
 	
 }

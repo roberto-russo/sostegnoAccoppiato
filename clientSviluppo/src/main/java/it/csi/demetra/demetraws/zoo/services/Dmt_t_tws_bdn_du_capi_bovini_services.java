@@ -37,7 +37,9 @@ public class Dmt_t_tws_bdn_du_capi_bovini_services {
 	 * @param capo subentro istanza da salvare a DB
 	 */
 	public void saveCapo(List< Dmt_t_Tws_bdn_du_capi_bovini> capo) {
-		rep.saveAll(capo);
+		for(Dmt_t_Tws_bdn_du_capi_bovini c : capo)
+			rep.save(c);
+//		rep.saveAll(capo);
 	}
 	
 	/**
