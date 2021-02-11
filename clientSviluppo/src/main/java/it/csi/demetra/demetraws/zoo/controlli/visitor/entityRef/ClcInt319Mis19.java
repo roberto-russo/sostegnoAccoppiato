@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +22,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
+import it.csi.demetra.demetraws.zoo.util.DEMETRAWSConstants;
 
 /**
  * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
@@ -35,10 +36,12 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 @Component("ClcInt319Mis19")
 public class ClcInt319Mis19 extends Controllo {
 
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
+	
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellatiFiltrati;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt319Mis19.class);
+	
 	@Autowired
 	private CtlUbaMinime ref9903;
 	@Autowired
@@ -70,6 +73,10 @@ public class ClcInt319Mis19 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		logger.info("INIZIO CALCOLO INTERVENTO 319 MISURA 19");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, INIZIO PRE-ESECUZIONE");
+		
 		this.listaCapiMacellati = null;
 		this.duplicatiMacellati = null;
 		this.estrazioneACampione = null;
@@ -84,7 +91,6 @@ public class ClcInt319Mis19 extends Controllo {
 		this.listaCapiMacellatiFiltrati = null;
 		this.contatoreSanzionati = 0;
 
-		LOGGER.info("inizio preEsecuzione()");
 
 		this.listaCapiMacellati = getControlliService().getAllMacellatiSessioneCuua(getSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
@@ -95,17 +101,26 @@ public class ClcInt319Mis19 extends Controllo {
 		try {
 			ubaMin = ref9903.calcolo();
 
-			if (ubaMin.isErrors())
+			if (ubaMin.isErrors()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 319 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
+			}
+			else if (!ubaMin.isResult()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 319 MISURA 19, CONTROLLO UBA MINIME NON RISPETTATO");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(),
 						"controllo uba minime non rispettato"));
+			}
 
 		} catch (CalcoloException e) {
+			logger.error("ERRORE CALCOLO INTERVENTO 319 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI AMMISSIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 		this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, FINE PRE-CALCOLO");
+		logger.info("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 319 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -125,7 +140,9 @@ public class ClcInt319Mis19 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
-		LOGGER.info("inizio esecuzione()");
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, INIZIO CALCOLO");
 
 		if (listaCapiMacellatiFiltrati == null)
 			return;
@@ -227,15 +244,18 @@ public class ClcInt319Mis19 extends Controllo {
 
 					}
 //					---------------------------------------------
-					if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
+					if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+						logger.error("ERRORE CALCOLO INTERVENTO 319 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 						throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 								+ " nessun capo ha suprato il controllo per il premio 319 misura 19");
+					}
 
 				}
 			} catch (ControlloException e) {
-				System.out.println(e.getMessage());
+				logger.error("ERRORE CALCOLO INTERVENTO 319 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19");
 				new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
+				logger.error("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19, NESSUN CAPO DISPONIBILE");
 				throw new ControlloException(
 						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
@@ -247,6 +267,9 @@ public class ClcInt319Mis19 extends Controllo {
 				if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
 					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, FINE CALCOLO");
 
 	}
 
@@ -269,11 +292,11 @@ public class ClcInt319Mis19 extends Controllo {
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
-		LOGGER.info("inizio postEsecuzione()");
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, INIZIO POST-ESECUZIONE");
 
 		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
-			LOGGER.info("il numero di capi ammissibili al premio 319 misura 19 per l'azienda " + getAzienda().getCuaa()
-					+ "e': " + this.numeroCapiAmmissibili);
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB
 			// QUI SALVARE
 			// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
@@ -304,6 +327,10 @@ public class ClcInt319Mis19 extends Controllo {
 				this.getControlliService().saveOutputEscl(this.outputEsclusi);
 			}
 		}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 319 MISURA 19, FINE POST-ESECUZIONE");
+		 logger.info("FINE ESECUZIONE CALCOLO INTERVENTO 319 MISURA 19");
 	}
 
 	// /**

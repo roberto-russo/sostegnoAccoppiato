@@ -41,14 +41,14 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
-	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
+	@JoinColumn(name = "FK_DMT_D_CLS_PREM_VALID", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
 	@GeneratedValue(strategy = GenerationType.AUTO)

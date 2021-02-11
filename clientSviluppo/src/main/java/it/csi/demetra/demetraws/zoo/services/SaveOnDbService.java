@@ -1,7 +1,10 @@
 package it.csi.demetra.demetraws.zoo.services;
 
+import it.csi.demetra.demetraws.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.repository.*;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.List;
  */
 @Service
 public class SaveOnDbService {
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
 
     /**
      * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
@@ -96,7 +100,7 @@ public class SaveOnDbService {
             }
 
         } catch (ConstraintViolationException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -111,12 +115,12 @@ public class SaveOnDbService {
         try {
             repUBA.save(bean);
         } catch (ConstraintViolationException e) {
-            System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL");
+            logger.info("LA CHIAMATA AL METODO DELLA BDN E' NULL");
             Dmt_t_errore errore = new Dmt_t_errore();
             String input = new String("-1, dati non disponibili");
             errore.setNomeMetodo("GetConsistenzaUbaCensimOVini2012");
             errore.setInput(input);
-            System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
+            logger.info("ID SESSIONE ERRORE: " + sessione.getIdSessione());
             errore.setIdSessione(sessione);
             erroreService.saveError(errore);
         }
@@ -146,7 +150,7 @@ public class SaveOnDbService {
 
             repValidResp.save(bean);
         } catch (IllegalStateException e) {
-            System.out.println("DUPLICAZIONE CAMPO");
+            logger.info("DUPLICAZIONE CAMPO");
         }
     }
 

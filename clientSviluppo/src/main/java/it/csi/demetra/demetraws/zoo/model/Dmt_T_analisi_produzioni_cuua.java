@@ -5,6 +5,7 @@ import it.csi.demetra.demetraws.zoo.compositeIds.Analisi_produzioni_cuua_id;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,18 +19,26 @@ public class Dmt_T_analisi_produzioni_cuua {
      */
     private String CUUA;
     @Id
+    @Column(name="data_analisi")
     private Date dataAnalisi;
-    @Id
     /**
      * Anno della campagna premi per cui si è formulata la
      * richiesta di estrazione
      */
+    @Id
+    @Column(name="anno_campagna")
     private int annoCampagna;
+    @Column(name="ragione_sociale")
     private String ragioneSociale;
+    @Column(name="codice_asl")
     private String codiceAsl;
+    @Column(name="partita_iva")
     private String partitaIva;
+    @Column(name="proteine")
     private BigDecimal proteine;
+    @Column(name="cellule_somatiche")
     private BigDecimal celluleSomatiche;
+    @Column(name="carica_batterica")
     private BigDecimal caricaBatterica;
 
     public int getAnnoCampagna() {

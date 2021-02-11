@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.csi.demetra.demetraws.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9903;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Capo9903;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
@@ -33,7 +34,7 @@ import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 @Service
 public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime>, Calcolo{
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CtlUbaMinime.class);
+	private static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
 	
 	private static final Double UBA_100 = 1.0;
 	
@@ -105,7 +106,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	private boolean preesecuzioneEseguitaCorrettamente = true;
 	
 	public void init(List<?> listaCapi, String codIntervento,Long annoCampagna, String cuaa, Dmt_t_sessione sessione) {
+		if(logger.isDebugEnabled())
+			logger.debug("INIZIO CONTROLLO UBA MINIME");
 		if( listaCapi!=null && sessione!=null && codIntervento!=null && annoCampagna!=null && cuaa!=null ){
+			
 		
 			if( !listaCapi.isEmpty() ) {
 				
@@ -130,6 +134,9 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			initEseguitaCorrettamente = false;
 			
 		}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("FINE CONTROLLO UBA MINIME");
 	}
 
 	/**
@@ -155,8 +162,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 */
 	@Override
 	public ResultCtlUbaMinime calcolo() throws CalcoloException {
-		
-		LOGGER.info("Inizio Calcolo 9903: calcolo() ");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO REF99.03, INIZIO CALCOLO");
 		
 		try {
 			if(initEseguitaCorrettamente) {
@@ -168,13 +175,14 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			postEsecuzione();			
 		} catch (CalcoloException e) {
 			
-			LOGGER.error("Errore Calcolo 9903: ",e);
+			logger.error("ERRORE CALCOLO REF99.03, ",e);
 			
 		}
 		resultCtlUbaMinime.setListaCapi(listaCapiResult);
 		resultCtlUbaMinime.setResult(response);
 		resultCtlUbaMinime.setErrors(!initEseguitaCorrettamente|| !preesecuzioneEseguitaCorrettamente || !metodoEseguitoCorrettamente || !salvataggioEseguitoCorrettamente);
 		return resultCtlUbaMinime;
+		
 	}
 	
 	/**
@@ -190,8 +198,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 * 
 	 * */
 	private boolean calcoloUBA() {
-			
-			LOGGER.info("Inizio Calcolo 9903: calcoloUBA() ");
+			if(logger.isDebugEnabled())
+				logger.debug("CALCOLO REF99.03, INIZIO CALCOLO UBA");
 			
 			try {
 				
@@ -201,7 +209,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 						if(!listaCapiVacche.isEmpty()) {
 							ubaMinime += listaCapiVacche.size()*UBA_100;
 						} else {
-							LOGGER.info("Fine Calcolo UBA : Tutti i capi richiesti sono stati esclusi dal premio "+getCodIntrervento()+".");
+							logger.info("CALCOLO REF99.03, FINE CALCOLO UBA, TUTTI I CAPI RICHIESTI SONO STATI ESCLUSI DAL PREMIO "+getCodIntrervento()+".");
 						}
 					} else if (PREMI_BOV_MACELLATI.contains(getCodIntrervento())) {
 						ubaMinime += listaCapiMacellati.size()*UBA_60;
@@ -211,18 +219,19 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 						
 				} else {
 					
-					LOGGER.error("Errore nel Calcolo UBA : Il codice intervento "+getCodIntrervento()+" è errato.");
+					logger.error("ERRORE REF99.03, ERRORE NEL CALCOLO UBA, IL CODICE INTERVENTO "+getCodIntrervento()+" E' ERRATO.");
 					throw new CalcoloException ("Errore nel Calcolo UBA : Il codice intervento "+getCodIntrervento()+" è errato.");
 					
 					
 				}
 				
 				controlloUBA();
-				LOGGER.info("Fine Calcolo 9903: calcoloUBA() ");
+				if(logger.isDebugEnabled())
+					logger.debug("CALCOLO REF99.03, FINE CALCOLO UBA");
 				return true;
 				
 			} catch (Exception e) {
-				LOGGER.error("Errore Calcolo 9903: - ",e);
+				logger.error("ERRORE CALCOLO REF99.03 ",e);
 				return false;
 			}
 		
@@ -234,7 +243,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 * e si settano i parametri esito e motivazioneCalcolo
 	 * */
 	private void controlloUBA() {
-		LOGGER.info("Inizio Controllo UBA: controlloUBA() ");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO REF99.03, INIZIO CALCOLO UBA");
 		if(ubaMinime >= UBA) {
 			CapiControllati9903.setEsito(true);
 			CapiControllati9903.setMotivazioneEsitoCalcolo("Si è raggiunto il numero necessario di UBA per accedere al premio");
@@ -242,7 +252,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			CapiControllati9903.setEsito(false);
 			CapiControllati9903.setMotivazioneEsitoCalcolo("Non si è raggiunto il numero necessario di UBA per accedere al premio");
 		}
-		LOGGER.info("Fine Controllo UBA: controlloUBA() ");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO REF99.03, FINE CALCOLO UBA");
 	}
 	
 	/**
@@ -254,8 +265,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 * */
 	@Override
 	public void preEsecuzione() throws CalcoloException {
-		
-		LOGGER.info("Inizio Preesecuzione : preEsecuzione() ");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO UBA MINIME, INIZIO PRE-ESECUZIONE");
 	
 		
 		if ( listaCapi != null && !listaCapi.isEmpty() ) {
@@ -319,7 +330,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 						}
 						
 					}
-					LOGGER.info("Fine della Preesecuzione.");
+					if(logger.isDebugEnabled())
+						logger.debug("CALCOLO UBA MINIME, FINE PRE-ESECUZIONE");
 					
 				} else if ( PREMI_BOV_MACELLATI.contains(getCodIntrervento()) ) {
 					
@@ -328,7 +340,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 						Dmt_t_premio_capi tmp = inizializzaCapoMacellato(capo, "S", "Capo macellato ammesso a premio");
 						listaCapiResult.add(tmp);
 					}
-					LOGGER.info("Fine della Preesecuzione.");
+					if(logger.isDebugEnabled())
+						logger.debug("CALCOLO UBA MINIME, FINE PRE-ESECUZIONE");
 					
 				} else if ( PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento()) ) {
 					
@@ -341,34 +354,35 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 					
 					if( quotaCapiPremio == null ) {
 						
-						LOGGER.error("Errore nella Preesecuzione : Sessione "+getIdSessione()+" Cuaa "+getCuaa()+" quotaCapiPremio = null.");
+						logger.error("ERRORE CALCOLO UBA MINIME, ERRRORE PRE-ESECUZIONE: SESSIONE "+getIdSessione()+" CUAA "+getCuaa()+" QUOTA CAPI PREMIO = NULL.");
 						preesecuzioneEseguitaCorrettamente = false;
 						
 					} else {
-						LOGGER.info("Fine della Preesecuzione.");
+						if(logger.isDebugEnabled())
+							logger.info("CALCOLO UBA MINIME, FINE PRE-ESECUZIONE");
 					}
 					
 				} else {
 					
-					LOGGER.error("Errore nella Preesecuzione : Il tipo degli oggetti appartenenti alla listaCapi non corrisponde a quelli ammissibili.");
+					logger.error("ERRORE CALCOLO UBA MINIME, ERRORE PRE-ESECUZIONE: IL TIPO DEGLI OGGETTI APPARTENENTI ALLA LISTA CAPI NON CORRISPONDE A QUELLI AMMISSIBILI.");
 					preesecuzioneEseguitaCorrettamente = false;
 					
 				}
 			} else {
 				
-				LOGGER.error("Errore nella Preesecuzione : Codice intervento errato.");
+				logger.error("ERRORE CALCOLO UBA MININE, ERRORE PRE-ESECUZIONE CODICE INTERVENTO ERRATO");
 				preesecuzioneEseguitaCorrettamente = false;
 				
 			}
 		} else {
 			if (listaCapi == null) {
 				
-				LOGGER.error("Errore nella Preesecuzione : parametro listaCapi = null.");
+				logger.error("ERRORE CALCOLO UBA MINIME, ERRORE PRE-ESECUZIONE PARAMETRO LISTA CAPI = NULL");
 				preesecuzioneEseguitaCorrettamente = false;
 				
 			} else {
 				
-				LOGGER.error("Errore nella Preesecuzione : La lista di capi passata per il Calcolo UBA è vuota.");
+				logger.error("ERRORE CALCOLO UBA MINIME, ERRORE PRE-ESECUZIONE LA LISTA DEI CAPI PASSATA PER IL CALCOLO UBA E' VUOTA.");
 				preesecuzioneEseguitaCorrettamente = false;
 				
 			}
@@ -390,20 +404,21 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 		if(initEseguitaCorrettamente && preesecuzioneEseguitaCorrettamente && metodoEseguitoCorrettamente) {
 			
 			saveOnDB();
-			LOGGER.info("Fine Calcolo9903: calcolo() ");
+			if(logger.isDebugEnabled())
+				logger.info("CALCOLO REF99.03, FINE CALCOLO");
 			
 		} else {
 			if(!initEseguitaCorrettamente) {
-				LOGGER.error("Errore nella init del Calcolo 9903: tutti i parametri devono essere valorizzati");
+				logger.error("ERRORE NELLA INIT DEL CALCOLO REF99.03: TUTTI I PARAMETRI DEVONO ESSERE VALORIZZATI");
 			} else {
 				if(!preesecuzioneEseguitaCorrettamente) {
-					LOGGER.error("Errore nella preesecuzione del Calcolo 9903.");
+					logger.error("ERRORE NELLA PRE-ESECUZIONE DEL CALCOLO REF99.03");
 				} else {
 					if(!metodoEseguitoCorrettamente ) {
-						LOGGER.error("Errore nella esecuzione del Calcolo 9903: calcoloUBA() ");
+						logger.error("ERRORE NEL CALCOLO DEL REF99.03, ERRORE CALCOLO UBA");
 					} else {
 						if(!salvataggioEseguitoCorrettamente) {
-							LOGGER.error("Errore nel salvataggio dei dati Calcolo 9903: saveOnDB() ");
+							logger.error("ERRORE CALCOLO REF99.03, ERRORE NEL SALVATAGGIO DATI");
 						}
 					}
 				}
@@ -437,14 +452,11 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			
 			capiControllati.setListaCapi9903(listaCapi9903);
 			
-			
-			LOGGER.info("Fine Recupero Dati: setListaCapi9903() ");
+			if(logger.isDebugEnabled())
+				logger.info("Fine Recupero Dati: setListaCapi9903() ");
 			
 		} catch (Exception e) {
-			
-			System.err.println(e);
-			LOGGER.error("Errore nel setListaCapi9903(): - ",e);
-			
+			logger.error("ERRORE NEL SETLISTACAPI9903(): - ",e);
 		}
 	}
 	
@@ -551,23 +563,26 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 	 * */
 	private void saveOnDB() {
 		try {
-			
-			LOGGER.info("Inizio salvataggio capi controllati 9903");
+			if(logger.isDebugEnabled())
+				logger.debug("Inizio salvataggio capi controllati 9903");
 			
 			if(!listaCapiResult.isEmpty()) {
 				
 				try {
 					capiAmmessiServices.saveAll(listaCapiResult);
 					salvataggioEseguitoCorrettamente = true;
-					LOGGER.info("Fine salvataggio capi ammessi 9903");
+					if(logger.isDebugEnabled())
+						logger.debug("FINE SALVATAGGIO VAPI AMMESSI REF99.03");
+					
 				} catch (IllegalArgumentException e) {
 					salvataggioEseguitoCorrettamente = false;
-					LOGGER.error("Errore durante il salvataggio capi ammessi 9903 : ", e);
+					logger.error("ERRORE DURANTE IL SALVATAGGIO CAPI AMMESSI REF99.03: ", e);
 				}
 				
 			} else {
 				if ( !PREMI_OVICAPRINI_AGNELLE.contains(getCodIntrervento()) ) {
-					LOGGER.info("Nessun capo ammesso 9903");
+					if(logger.isDebugEnabled())
+						logger.debug("NESSUN CAPO AMMESSO AL CALCOLO 9903");
 					//Response false se nessun capo ammesso non si raggiungono le uba minime
 					response = false;
 				}
@@ -577,7 +592,8 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 				salvataggioEseguitoCorrettamente = true;
 			}
 			
-			LOGGER.info("Fine salvataggio capi controllati 9903");
+			if(logger.isDebugEnabled())
+				logger.debug("FINE SALVATAGGIO CAPI CONTROLLATI REF99.03");
 			
 			model.setAnnoCampagna(getAnnoCampagna());
 			model.setCodiceIntervento(getCodIntrervento());
@@ -601,7 +617,7 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
 			
 		}catch (Exception e) {
 			salvataggioEseguitoCorrettamente = false;
-			LOGGER.error("Errore durante il salvataggio capi controllati 9903 : ",e);
+			logger.error("ERRORE DURANTE IL SALVATAGGIO DEI CAPI CONTROLLATI REF99.03 : ",e);
 		}
 	}
 	

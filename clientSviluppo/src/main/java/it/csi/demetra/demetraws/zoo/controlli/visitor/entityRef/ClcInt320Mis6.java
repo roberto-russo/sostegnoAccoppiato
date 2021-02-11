@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.util.DEMETRAWSConstants;
 
 /**
  * La classe ClcInt320Mis6 indica i controlli da applicare per il calcolo del
@@ -32,6 +35,9 @@ import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 @Component("ClcInt320Mis6")
 public class ClcInt320Mis6 extends Controllo {
 
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
+	
+	
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private ResultCtlUbaMinime ubaMin;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
@@ -66,6 +72,10 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
+		logger.info("INIZIO CALCOLO INTERVENTO 320 MISURA 6");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, INIZIO PRE-ESECUZIONE");
+		
 		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
@@ -88,11 +98,14 @@ public class ClcInt320Mis6 extends Controllo {
 
 			CapiControllati9902 esito = ref9902.calcolo();
 
-			if (!esito.isEsito())
+			if (!esito.isEsito()) {
 				// controllare che motivazioni ti da
+				logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO AGNELLE DA RIMONTA REF99.02");
 				throw new CalcoloException(esito.getMotivazioni());
+			}
 
 		} catch (CalcoloException e) {
+			logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO ANGELLE DA RIMONTA REF99.02");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
 		}
 
@@ -103,19 +116,27 @@ public class ClcInt320Mis6 extends Controllo {
 		try {
 			this.ubaMin = ref9903.calcolo();
 
-			if (ubaMin.isErrors())
+			if (ubaMin.isErrors()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
+			}
+			else if (!ubaMin.isResult()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, CONTROLLO UBA MINIME NON RISPETTATO");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(),
 						"controllo uba minime non rispettato"));
+				}
 
 		} catch (CalcoloException e) {
+			logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI AMMISSIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 
 		// LISTA DI CAPI AMMESSI
 
 		capiAmmessiUba = ubaMin.getListaCapi();
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, FINE PRE-ESECUZIONE");
+		logger.info("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 320 MISURA 6 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -131,6 +152,9 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, INIZIO ESECUZIONE");
 
 //		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
 		this.numeroCapiRichiesti = BigDecimal.valueOf(this.modelOvicaprini.size());
@@ -195,26 +219,30 @@ public class ClcInt320Mis6 extends Controllo {
 									} else {
 
 //							DA CONTROLLARE SE DEVE FARE ALTRO
-										System.out.println(
-												"il premio è già stato chiesto dal detentore dell'allevamento");
+										if(logger.isDebugEnabled())
+											logger.debug("CALCOLO INTERVENTO 320 MISURA 6, IL PREMIO E' GIA' STATO CHIESTO DAL DETENTORE DELL'ALLEVAMENTO");
 									}
 								}
 							}
 						} else {
+							logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE CUAA PROPRIETARIO/CUAA DETENTORE NON TROVATO");
 							new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "",
 									"errore, cuaa proprietario o cuaa detentore non trovato");
 						}
 					}
 				}
 				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+					logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 320 misura 6");
 				}
 
 			} catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+				logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO PER L'INTERVENTO 320 MISURA 6");
 				new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
+				logger.error("ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO DISPONIBILE");
 				throw new ControlloException(
 						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
@@ -226,6 +254,9 @@ public class ClcInt320Mis6 extends Controllo {
 				if (!c.getAnomalie_cgo().contains("B"))
 					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, FINE ESECUZIONE");
 	}
 
 	/**
@@ -242,8 +273,9 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
-
 		// SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, INIZIO POST-ESECUZIONE");
 		this.oc = new Dmt_t_output_controlli();
 		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
@@ -253,6 +285,10 @@ public class ClcInt320Mis6 extends Controllo {
 		this.oc.setIntervento(getAzienda().getCodicePremio());
 		this.oc.setIdSessione(getSessione());
 		getControlliService().saveOutput(this.oc);
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 320 MISURA 6, FINE POST-ESECUZIONE");
+		logger.info("FINE ESECUZIONE CALCOLO INTERVENTO 320 MISURA 6");
 	}
 
 	@Override

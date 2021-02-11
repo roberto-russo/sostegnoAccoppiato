@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.calcoli;
 
+import it.csi.demetra.demetraws.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CalcoloAgnelleDaRimontaPremioIn;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9902;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
@@ -10,8 +11,7 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_AgnelleRimonta_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_DsUBA_censimenti_allevamenti_ovini_services;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_Tws_bdn_du_capi_ovicaprini_services;
 import it.csi.demetra.demetraws.zoo.shared.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
     public final static String ESITO_OK = "OK";
     public final static String ESITO_KO = "KO";
     public final static List<String> codiciPremio = Arrays.asList(new String[]{Constants.PREMIO_320});
+    private static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
     private static final String LIVELLO_SCRAPIE_L1 = "L1";
-    private static Logger logger = LoggerFactory.getLogger(CtlAgnelleDaRimonta.class);
     @Autowired
     Dmt_t_Tws_bdn_du_capi_ovicaprini_services bdnCapiOvicapriniService;
     @Autowired
@@ -46,7 +46,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
     private boolean isNotNull(CalcoloAgnelleDaRimontaPremioIn x) {
         boolean res = x != null;
         if (!res) {
-            logger.info("null reference");
+            if (logger.isDebugEnabled())
+                logger.debug("NULL REFERENCE");
             errorMessage.append("input CalcoloAgnelleDaRimontaPremioIn is null");
         }
 
@@ -84,7 +85,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
     private boolean hasQdrCalcolabile(CalcoloAgnelleDaRimontaPremioIn x) {
         boolean res = x.getUbaOviniCensimento() != null || x.getBdnOviniRegistroStallaList() != null;
         if (!res) {
-            logger.info("quota da rimonta non calcolabile");
+            if (logger.isDebugEnabled())
+                logger.debug("QUOTA DA RIMONTA NON CALCOLABILE");
             errorMessage.append("quota da rimonta non calcolabile");
         }
         return res;
@@ -114,23 +116,27 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
      */
     @Override
     public CapiControllati9902 calcolo() throws CalcoloException {
-        logger.info("calcolo - IN");
+        if (logger.isDebugEnabled())
+            logger.debug("CALCOLO - IN");
 
         if (hasValidFields()) {
             preEsecuzione();
             esecuzione();
             postEsecuzione();
         } else {
+            logger.error("ERRORE CALCOLO - CAMPI OBBLIGATORI NON VALORIZZATI");
             throw new RuntimeException("calcolo - Campi obbligatori non valorizzati");
         }
 
-        logger.info("calcolo - OUT");
+        if (logger.isDebugEnabled())
+            logger.debug("CALCOLO - OUT");
         return capiControllati9902;
     }
 
     @Override
     public List<CapiControllati9902> calcoloMassivo() throws CalcoloException {
-        logger.info("calcoloMassivo - IN");
+        if (logger.isDebugEnabled())
+            logger.debug("CALCOLO MASSIVO - IN");
         List<CapiControllati9902> capiControllati9902List = new ArrayList<CapiControllati9902>();
         if (hasValidCalcoloFields()) {
             Integer currentYearAnnoCampagna = LocalDate.now().getYear();
@@ -147,7 +153,7 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
                     capiControllati9902List.add(capiControllati9902);
 
                 } catch (CalcoloException ex) {
-                    logger.error("calcoloMassivo - {}", ex.getMessage());
+                    logger.error("CALCOLO MASSIVO - " + ex.getMessage());
                 }
 
             }
@@ -155,8 +161,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
             throw new RuntimeException("calcoloMassivo - Campi obbligatori non valorizzati");
         }
 
-
-        logger.info("calcolo - OUT");
+        if (logger.isDebugEnabled())
+            logger.debug("CALCOLO - OUT");
         return capiControllati9902List;
     }
 
@@ -165,10 +171,12 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         logger.info("preEsecuzione - IN");
 
         if (hasValidFields()) {
-            logger.info("idSessione: {}", this.getIdSessione());
-            logger.info("cuaa: {}", this.getCuaa());
-            logger.info("annoCampagna: {}", this.getAnnoCampagna());
-            logger.info("codiceIntervento: {}", this.getCodIntrervento());
+            if (logger.isDebugEnabled()) {
+                logger.debug("ID_SESSIONE: " + this.getIdSessione());
+                logger.debug("CUAA: " + this.getCuaa());
+                logger.debug("ANNO_CAMPAGNA: " + this.getAnnoCampagna());
+                logger.debug("CODICE_INTERVENTO: " + this.getCodIntrervento());
+            }
         }
 
         errorMessage = new StringBuilder("");
@@ -182,21 +190,24 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
         boolean applicabile = isNotNull(calcoloAgnelleDaRimontaIn) && hasLivelloScrapie(calcoloAgnelleDaRimontaIn) && hasQdrCalcolabile(calcoloAgnelleDaRimontaIn);
 
         if (!applicabile) {
-            logger.info(
-                    "preEsecuzione - Non è possibile effettuare il calcolo, condizioni preliminari non soddisfatte. Salvo il risultato sul db.");
+            if (logger.isDebugEnabled())
+                logger.debug(
+                        "PRE-ESECUZIONE - NON E' POSSIBILE EFFETTUARE IL CALCOLO, CONDIZIONI PRELIMINARI NON SODDISFATTE. SALVO IL RISULTATO SUL DB.");
             capiControllati9902 = new CapiControllati9902(this.getIdSessione(), this.getCuaa(), false, errorMessage.toString(), new Double(0), this.getAnnoCampagna().intValue(), this.getCodIntrervento());
 
             postEsecuzione();
+            logger.error("NON E' POSSIBILE EFFETTUARE IL CALCOLO PER ID_SESSIONE: " + this.getIdSessione() + " E CUAA: " + this.getCuaa());
             throw new CalcoloException(
                     "Non è possibile effettuare il calcolo per idSessione " + this.getIdSessione() + " e cuaa " + this.getCuaa());
         }
-
-        logger.info("preEsecuzione - OUT");
+        if (logger.isDebugEnabled())
+            logger.debug("PRE-ESECUZIONE- OUT");
     }
 
     @Override
     public void esecuzione() throws CalcoloException {
-        logger.info("esecuzione - IN");
+        if (logger.isDebugEnabled())
+            logger.debug("ESECUZIONE IN");
         try {
             StringBuilder motivazioniSb = new StringBuilder("");
 
@@ -231,17 +242,18 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
                     true, motivazioniSb.toString(), quotaCapiPremioAmmessi, this.getAnnoCampagna().intValue(), this.getCodIntrervento());
 
         } catch (Exception ex) {
-            logger.error("esecuzione - {}", ex.getMessage());
+            logger.error("ESECUZIONE: " + ex.getMessage());
             capiControllati9902 = new CapiControllati9902(this.getIdSessione(), this.getCuaa(), false, errorMessage.toString(), new Double(0), this.getAnnoCampagna().intValue(), this.getCodIntrervento());
 
         }
-
-        logger.info("esecuzione - OUT");
+        if (logger.isDebugEnabled())
+            logger.debug("ESECUZIONE - OUT");
     }
 
     @Override
     public void postEsecuzione() throws CalcoloException {
-        logger.info("postEsecuzione - IN");
+        if (logger.isDebugEnabled())
+            logger.debug("POST-ESECUZIONE - IN");
 
         Dmt_t_AgnelleRimonta agnelleRimonta = new Dmt_t_AgnelleRimonta();
 
@@ -259,7 +271,8 @@ public class CtlAgnelleDaRimonta extends Ref implements RefInterface<CapiControl
 
         agnelleRimontaService.save(agnelleRimonta);
 
-        logger.info("postEsecuzione - OUT");
+        if (logger.isDebugEnabled())
+            logger.debug("POST-ESECUZIONE - OUT");
 
     }
 

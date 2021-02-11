@@ -134,7 +134,7 @@ public class TransformerData {
 	public Dmt_d_clsPremio_ValidazioneResponse TransformDmt_d_clsPremio_ValidazioneResponse(Response response, Dmt_t_sessione sessione, String codiceIntervento)
 			throws JAXBException, ParseException {
 		
-//		System.out.println("ID SESSIONE IN TransformerData: " + sessione.getIdSessione());
+//		logger.info("ID SESSIONE IN TransformerData: " + sessione.getIdSessione());
 		
 		
 		List<Capo> listaCapi = response.getVCapi(); // DEPRECARIATA E NON MOSTRATA SULLA DOCUMENTAZIONE BDN
@@ -270,19 +270,19 @@ public class TransformerData {
 			}
 		
 		if(Objects.isNull(response)) {
-//			System.out.println("RESPONSE NULL");
+//			logger.info("RESPONSE NULL");
 			model.setErrCod("-1");
 			model.setErrDescr("dati non disponibili");
 		}
 		else {
 			model.setErrCod("0");
 			model.setErrDescr("nessun errore occorso");
-//			System.out.println("RESPONSE NOT NULL");
+//			logger.info("RESPONSE NOT NULL");
 		}
 			model.setNumeroCapi(numeroCapi);
 			
 			model.setIdSessione(sessione);
-//			System.out.println("MODEL ID SESSIONE: " + model.getSessione().getIdSessione());
+//			logger.info("MODEL ID SESSIONE: " + model.getSessione().getIdSessione());
 		
 		if(!( capiMacellati.isEmpty() ) ) {
 			

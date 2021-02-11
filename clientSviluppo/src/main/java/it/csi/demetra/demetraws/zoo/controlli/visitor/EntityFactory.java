@@ -26,10 +26,10 @@ public class EntityFactory {
      * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
      */
     public Controllo getControllo(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessione, ControlliService controlliService, ApplicationContext ctx) throws ControlloException {
-        Optional<Dmt_w_controllo_bean> c = controlliService.findByIdControlloBean(azienda.getCodicePremio());
+        Dmt_w_controllo_bean c = controlliService.findByIdControlloBean(azienda.getCodicePremio());
         Controllo res = null;
-        if (c.isPresent())
-            res = (Controllo) ctx.getBean(c.get().getBean());
+        if (null != c)
+            res = (Controllo) ctx.getBean(c.getBean());
         else throw new ControlloException("Bean corrispondente non trovato -> " + azienda.getCodicePremio());
 
         res.setSessione(sessione);

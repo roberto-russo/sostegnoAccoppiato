@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
+import it.csi.demetra.demetraws.zoo.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 /**
  * controlli da applicare per il calcolo del premio zootecnia per l’intervento 312 – Misura 3:<br>
@@ -30,6 +33,8 @@ import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
  */
 @Component("ClcInt312Mis3")
 public class ClcInt312Mis3 extends Controllo{
+	
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
 	
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 
@@ -75,6 +80,10 @@ public class ClcInt312Mis3 extends Controllo{
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
 		
+		logger.info("INIZIO CALCOLO INTERVENTO 312 MISURA 3");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, INIZIO PRE-ESECUZIONE");
+		
 		this.capiSanzionati = 0;
 		//reset delle variabili di classe prima di iniziare l'esecuzione
 		this.resetLists();
@@ -91,17 +100,15 @@ public class ClcInt312Mis3 extends Controllo{
 		listVaccheDetentoriAllevNonAttivi = getControlliService().getBoviniOfDetentoriAllevamentiNonAttivi(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
 		
 		if(modelVacche == null) {
-			
+			logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NON E' STATO POSSIBILE RECUPERARE I DATI REF02.003");
             throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Non è stato possibile recuperare i dati"));
-            
 		}
 		
 		sizeModelVacche = BigDecimal.valueOf(modelVacche.size());
 		
 		if (listVaccheDetentoriAllevAttivi == null) {
-			
-            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessun allevamento attivo"));
-            
+			logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NESSUN ALLEVAMENTO ATTIVO REF02.003");
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessun allevamento attivo"));    
 		}	
 		
 		if (listVaccheDetentoriAllevNonAttivi != null && !listVaccheDetentoriAllevNonAttivi.isEmpty()) {
@@ -120,14 +127,19 @@ public class ClcInt312Mis3 extends Controllo{
 			
 			this.modelVaccheAmmesseRegCapi = ref9901.calcolo();
 			
-			if(this.modelVaccheAmmesseRegCapi == null)
+			if(this.modelVaccheAmmesseRegCapi == null) {
+				logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, SI E' VERIFICATO UN ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO TEMPISITA DI REGISTRAZIONE DEI CAPI");
 				throw new CalcoloException("si e' verificato un errore durante l'esecuzione del controllo tempistica di registrazione dei capi");
-			else
+			}
+			else {
 				if(this.modelVaccheAmmesseRegCapi.isEmpty()) {
+					logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NESSUN CAPO HA SUPERATO IL CONTROLLO: TEMPISTICA DI REGISTRAZIONE CAPI");
 					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt312Mis3", getInput(), "Nessun capo ha superato il controllo: tempistica di registrazione capi"));
-				}			
+				}
+			}
 			
 		} catch (CalcoloException e) {
+			logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLA TEMPISTICA DI REGISTRAZIONE CAPI REF99.01");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
 		}
 		
@@ -162,20 +174,23 @@ public class ClcInt312Mis3 extends Controllo{
 		            	}
 		            	
 		            } else {
-		            	
+		            	logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, ERRORI DURANTE IL CONTROLLO DELLE UBA MINIME REF99.03");
 		            	 throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), "Ci sono stati errori durante il calcolo della UBA minime"));
 		            
 		            }
 		    	} else {
-		    		
+		    		logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NON E' POSSIBILE CALCOLARE LE UBA MINIME, NESSUNA VACCA PRESENTE REF99.03");
 		    		throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), "Non è possibile calcolare le UBA minime, nessuna vacca presente."));
 		    		
 		    	}
 		            
 		  } catch (CalcoloException e) {
-		        	
+		      logger.error("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 312 MISURA 3");
 			  throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		  }
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, FINE PRE-ESECUZIONE");
+		logger.info("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 312 MISURA 3 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 		
 	}
 
@@ -185,6 +200,8 @@ public class ClcInt312Mis3 extends Controllo{
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, INIZIO ESECUZIONE");
 		if (modelVaccheAmmesseUba != null && !modelVaccheAmmesseUba.isEmpty()) {
 			
 
@@ -226,8 +243,11 @@ public class ClcInt312Mis3 extends Controllo{
 			}
 			
 			} else {
+			logger.error("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NESSUNA VACCA PRESENTE, IMPOSSIBILE ESEGUIRE IL CALCOLO DEL PREMIO REF02.003");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(), "Nessuna vacca presente impossibile eseguire il calcolo del premio"));
 		}
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, FINE ESECUZIONE");
 	}
 
 	/**
@@ -237,6 +257,8 @@ public class ClcInt312Mis3 extends Controllo{
 	@Override
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, INIZIO POST-ESECUZIONE");
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         outputControlli.setIdSessione(getSessione());
         outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
@@ -249,7 +271,9 @@ public class ClcInt312Mis3 extends Controllo{
 
         for (Dmt_t_output_esclusi o : listEsclusi)
             getControlliService().saveOutputEscl(o);
-		
+        if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 312 MISURA 3, FINE POST-ESECUZIONE");
+        logger.info("FINE ESECUZIONE CALCOLO INTERVENTO 312 MISURA 3");
 	}
 	
 	private void setListEsclusi(List<Dmt_t_Tws_bdn_du_capi_bovini> bovini, String motivazione) {

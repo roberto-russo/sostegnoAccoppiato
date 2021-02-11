@@ -76,7 +76,7 @@
 //            eseguiCalcoli(listVista, sessione);
 //        }
 //
-//        System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
+//        logger.info("Download dei dati dalla BDN completato\nInizio i controlli");
 //
 //    }
 //
@@ -87,9 +87,9 @@
 //            } catch (ControlloException e) {
 //                if (null != e.getErrore())
 //                    erroreService.saveError(e.getErrore());
-//                else System.out.println(e.getMessage());
+//                else logger.info(e.getMessage());
 //            } catch (CalcoloException e) {
-//                System.out.println(e.getCause() + e.getMessage());
+//                logger.info(e.getCause() + e.getMessage());
 //            }
 //        }
 //    }
@@ -100,7 +100,7 @@
 //            try {
 //                calcoloRef03.esecuzione();
 //            } catch (CalcoloException e) {
-//                System.out.println(e.getMessage());
+//                logger.info(e.getMessage());
 //            }
 //        }
 //    }
@@ -115,10 +115,10 @@
 //            for (Rpu_V_pratica_zoote azienda : listaParziale) {
 //                if (!controlliFramework.
 //                        scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
-//                    System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
+//                    logger.info("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
 //                    cuaaMancanti.add(azienda);
 //                } else {
-//                    System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
+//                    logger.info("Scarico dati completato per -> " + azienda.getCuaa());
 //                }
 //            }
 //
@@ -148,10 +148,10 @@
 ////    @GetMapping(value = "/chiamataDb/{annoCampagna}")
 ////    public String chiamataDb(@PathVariable("annoCampagna") Integer annoCampagna) {
 ////        List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
-////        System.out.println(list.size());
-////        System.out.println("--- STAMPO INFORMAZIONI ---");
+////        logger.info(list.size());
+////        logger.info("--- STAMPO INFORMAZIONI ---");
 ////        for (Rpu_V_pratica_zoote x : list)
-////            System.out.println(x.toString());
+////            logger.info(x.toString());
 ////        if (list.isEmpty())
 ////            return "KO";
 ////        else
@@ -169,10 +169,10 @@
 ////
 ////
 ////            for (Rpu_V_pratica_zoote x : list) {
-////                System.out.println("PROVO CHIAMATA CON CUAA: " + x.getCuaa());
+////                logger.info("PROVO CHIAMATA CON CUAA: " + x.getCuaa());
 ////                subentro = subentroService.getSubentro(2018, x.getCuaa());
 ////                response = wsBridge2.getElencoCapiPremio2New(0, x.getCodicePremio(), x.getCuaa(), subentro.getCuaaSubentro(), 2018);
-////                System.out.println("---------- INFORMAZIONI RESPONSE METODO GET ELENCO CAPI PREMIO 2 ----------");
+////                logger.info("---------- INFORMAZIONI RESPONSE METODO GET ELENCO CAPI PREMIO 2 ----------");
 ////            }
 ////        } catch (WSBridgeInternalException_Exception | IndexOutOfBoundsException | NullPointerException e) {
 ////            e.printStackTrace();

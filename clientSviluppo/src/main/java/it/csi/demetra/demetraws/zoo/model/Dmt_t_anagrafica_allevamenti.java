@@ -31,7 +31,7 @@ public class Dmt_t_anagrafica_allevamenti implements Serializable {
 	private Long idAutogenerato;
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	/**
 	 * codice sessione associato all'esecuzione
 	 */

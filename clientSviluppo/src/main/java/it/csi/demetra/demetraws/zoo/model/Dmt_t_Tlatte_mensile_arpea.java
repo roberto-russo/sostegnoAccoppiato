@@ -28,10 +28,9 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 
 	private static final long serialVersionUID = -3584487512539450047L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	@Column(name = "primo_anno_campagna")
 	/**
@@ -411,12 +410,12 @@ public class Dmt_t_Tlatte_mensile_arpea implements Serializable {
 		this.scoMese = scoMese;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 	
 

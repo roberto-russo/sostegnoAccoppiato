@@ -39,14 +39,14 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
-	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
+	@JoinColumn(name = "FK_DMT_D_CLS_PREM_VALID", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
 	@Column(name = "id_allevamento")

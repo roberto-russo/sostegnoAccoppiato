@@ -8,11 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.csi.demetra.demetraws.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9901;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Capo9901;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.Ref;
@@ -27,7 +28,7 @@ import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 @Service
 public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<List<Dmt_t_Tws_bdn_du_capi_bovini>>, Calcolo {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CtlVerificaRegistrazioneCapi.class);
+	private static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
 
 	private CapiControllati9901 capiControllati = new CapiControllati9901();
 	
@@ -120,7 +121,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 			
 		} catch (CalcoloException e) {
 			
-			LOGGER.error("Errore Calcolo 9901: ",e);
+			logger.error("ERRORE CALCOLO REF99.01: ",e);
 			
 		}
 		return output;
@@ -149,8 +150,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	private boolean calcoloTempisticaDiRegistrazione(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi) {
 		
 		setListaCapi9901(listaCapi);
-
-		LOGGER.info("Inizio Calcolo Tempistica di Registrazione 9901: calcoloTempisticaDiRegistrazione() ");
+		if(logger.isDebugEnabled())
+			logger.info("INIZIO CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01");
 		
 		try {
 			
@@ -283,7 +284,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 				} else {
 					
 					System.err.println("Campi del capo non valorizzati correttamente");
-					LOGGER.error("Errore nel Calcolo Tempistica di Registrazione 9901: - Campi del capo non valorizzati correttamente");
+					logger.error("ERRORE NEL CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01: CAMPI DEL CAPO NON VALORIZZATI CORRETTAMENTE");
 					return false;
 				}
 				
@@ -303,8 +304,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 					
 				}
 			}
-			
-			LOGGER.info("Fine Calcolo Tempistica di Registrazione 9901: calcoloTempisticaDiRegistrazione() ");
+			if(logger.isDebugEnabled())
+				logger.info("FINE CALCOLO TEMPISTICA DI REGISTRAZIONE");
 			
 			
 			controllaAmmissibilita(capiControllati);
@@ -314,7 +315,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		} catch (Exception e) {
 			
 			System.err.println(e);
-			LOGGER.error("Errore nel Calcolo Tempistica di Registrazione 9901: - ",e);
+			logger.error("ERRORE NEL CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01: ",e);
 			return false;
 			
 		}
@@ -330,8 +331,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * @param capiControllati - istanza di tipo {@link it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9901}
 	 */
 	private void controllaAmmissibilita(CapiControllati9901 capiControllati) {
-		
-		LOGGER.info("Inizio Controllo Ammissibilità 9901: controllaAmmissibilita() ");
+		if(logger.isDebugEnabled())
+			logger.debug("INIZIO CONTROLLO AMMISSIBILITA' REF99.01");
 		
 		try {
 			for (Capo9901 capo: capiControllati.getListaCapi9901()) {
@@ -342,13 +343,13 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 				}
 			}
 			
-			LOGGER.info("Fine Controllo Ammissibilità 9901: controllaAmmissibilita() ");
+			if(logger.isDebugEnabled())
+				logger.debug("FINE CONTROLLO AMMISSIBILITA' REF99.01");
 			
 		} catch (Exception e) {
 			
 			System.err.println(e);
-			LOGGER.error("Errore nel Controllo Ammissibilità 9901: - ",e);
-			
+			logger.error("ERRORE NEL CONTROLLO AMMISSIBILITA' REF99.01: ",e);
 		}
 		
 	}
@@ -365,7 +366,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 */
 //	private void recuperoDatiCapi() {
 //		
-//		LOGGER.info("Inizio Recupero Dati: recuperoDatiCapi() ");
+//		logger.info("Inizio Recupero Dati: recuperoDatiCapi() ");
 //		
 //		try {
 //			
@@ -383,7 +384,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 //			
 //			mapVaccaVitelli = vaccheVitelli;	
 //			
-//			LOGGER.info("Fine Recupero Dati: recuperoDatiCapi() ");
+//			logger.info("Fine Recupero Dati: recuperoDatiCapi() ");
 //			
 //		} catch (Exception e) {
 //			
@@ -414,13 +415,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 			
 			capiControllati.setListaCapi9901(listaCapi9901);
 			
-			
-			LOGGER.info("Fine Recupero Dati: setListaCapi9901() ");
+			if(logger.isDebugEnabled())
+				logger.info("FINE RECUPERO DATI: SETLISTACAPI9901() ");
 			
 		} catch (Exception e) {
 			
-			System.err.println(e);
-			LOGGER.error("Errore nel setListaCapi9901() 9901: - ",e);
+			logger.error("ERRORE NEL SETLISTACAPI9901(): - ",e);
 			
 		}
 		
@@ -451,8 +451,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * */
 	@Override
 	public void esecuzione() throws CalcoloException {
-		
-		LOGGER.info("Inizio Calcolo 9901: calcolo() ");
+		if(logger.isDebugEnabled())
+			logger.debug("INIZIO CALCOLO REF99.01");
 //		Dmt_t_Tws_bdn_du_capi_bovini capoVacca;
 //		for(Dmt_t_Tws_bdn_du_capi_bovini vacca : listaVacche) {
 //			capoVacca = null;
@@ -465,11 +465,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 		metodoEseguitoCorrettamente = calcoloTempisticaDiRegistrazione(listaVacche);
 		if(metodoEseguitoCorrettamente) {
 		
-			LOGGER.info("Esecuzione andata a buon fine: calcoloTempisticaDiRegistrazione() ");
+			if(logger.isDebugEnabled())
+				logger.debug("ESECUZIONE ANDATA A BUON FINE: CALCOLOTEMPISTICADIREGISTRAZIONE()");
 		
 		} else {
 			
-			LOGGER.error("Errore nella esecuzione del Calcolo 9901: calcoloTempisticaDiRegistrazione() ");
+			logger.error("ERRORE NELL'ESECUZIONE DI CALCOLO REF99.01: CALCOLOTEMPISTICADIREGISTRAZIONE() ");
 			
 		}
 //		if (metodoEseguitoCorrettamente) {
@@ -521,15 +522,15 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 			
 		} else {
 			if(!initEseguitaCorrettamente) {
-				LOGGER.error("Errore nella init del Calcolo 9901: tutti i parametri devono essere valorizzati");
+				logger.error("ERRORE NELLA INIT DI CALCOLO REF99.01: TUTTI I PARAMETRI DEVONO ESSERE VALORIZZATI");
 				output = null;
 			} else {
 				if(!metodoEseguitoCorrettamente ) {
-					LOGGER.error("Errore nella esecuzione del Calcolo 9901: calcoloTempisticaDiRegistrazione() ");
+					logger.error("ERRORE NELL'ESECUZIONE DI CALCOLO REF99.01: CALCOLO TEMPISTICA DI REGISTRAZIONE() ");
 					output = null;
 				} else {
 					if(!salvataggioEseguitoCorrettamente) {
-						LOGGER.error("Errore nel salvataggio dei dati Calcolo 9901: saveOnDB() ");
+						logger.error("ERRORE NEL SALVATAGGIO DEI DATI REF99.01");
 						output = null;
 					}
 				}
@@ -602,7 +603,8 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 	 * */
 	private void saveOnDB() {
 		try {
-			LOGGER.info("Inizio salvataggio capi controllati 9901");
+			if(logger.isDebugEnabled())
+				logger.debug("INIZIO SALVATAGGIO CAPI CONTROLLATI REF99.01");
 			
 			if(!listaCapiResult.isEmpty()) {
 				
@@ -610,18 +612,21 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 					capiAmmessiServices.saveAll(listaCapiResult);
 					salvataggioEseguitoCorrettamente = true;
 				} catch (IllegalArgumentException e) {
-					LOGGER.error("Errore durante il salvataggio capi ammessi 9901 : ", e);
+					logger.error("ERRORE DURANTE IL SALVATAGGIO DEI CAPI AMMESSI REF99.01 : ", e);
 				}
-				LOGGER.info("Fine salvataggio capi controllati 9901");
+				if(logger.isDebugEnabled())
+					if(logger.isDebugEnabled())
+						logger.debug("FINE SALVATAGGIO CAPI CONTROLLATI REF99.01");
 			} else {
 				salvataggioEseguitoCorrettamente = false;
-				LOGGER.info("Nessun capo da salvare per il calcolo 9901");
+				if(logger.isDebugEnabled())
+					logger.debug("NESSUN CAPO DA SALVARE CALCOLO REF99.01");
 			}
 			
 			
 		}catch (Exception e) {
 			salvataggioEseguitoCorrettamente = false;
-			LOGGER.error("Errore durante il salvataggio capi controllati 9901 : ",e);
+			logger.error("ERRORE DURANTE IL SALVATAGGIO CAPI CONTROLLATI REF99.01 : ",e);
 		}
 	}
 
@@ -635,7 +640,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 //	
 //		try {
 //			
-//			LOGGER.info("Recupero della lista di capi della sessione "+getIdBdn());
+//			logger.info("Recupero della lista di capi della sessione "+getIdBdn());
 //			return capiServices.getVitelliOfVacca(getIdBdn(), getCuaa(), idCapo, getAnnoCampagna());
 //		} catch (Exception e) {
 //			

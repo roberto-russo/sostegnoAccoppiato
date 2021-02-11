@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+import it.csi.demetra.demetraws.util.DEMETRAWSConstants;
 import it.csi.demetra.demetraws.zoo.BdnWsManagerImpl;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
@@ -10,6 +11,8 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.ControlliService;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -23,7 +26,7 @@ import java.text.ParseException;
  * */
 @Component("controlliFramework")
 public class ControlliFrameworkImpl implements ControlliFramework {
-
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -82,7 +85,7 @@ public class ControlliFrameworkImpl implements ControlliFramework {
             return true;
         } catch (JAXBException | WSBridgeInternalException_Exception | ParseException | NullPointerException e) {
             // TODO Auto-generated catch block
-            System.out.println("ERRORE: " + e.getCause());
+            logger.info("ERRORE: " + e.getCause());
         }
         return false;
     }

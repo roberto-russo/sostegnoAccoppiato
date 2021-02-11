@@ -24,10 +24,9 @@ public class Dmt_t_gestori implements Serializable {
      */
     private static final long serialVersionUID = 8713738907975123618L;
    	
-   	@MapsId
-   	@ManyToOne
-   	@JoinColumn(name = "idSessione", nullable = false)
-   	private Dmt_t_sessione idSessione;
+   	@Id
+	@Column(name = "id_sessione")
+   	private Long idSessione;
 
 
     @Column(name = "ID")
@@ -58,12 +57,12 @@ public class Dmt_t_gestori implements Serializable {
         this.nomeService = nomeService;
     }
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setId(Long id) {

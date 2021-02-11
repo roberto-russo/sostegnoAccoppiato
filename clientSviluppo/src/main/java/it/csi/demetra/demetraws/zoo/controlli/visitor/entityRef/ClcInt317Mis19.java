@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
+import it.csi.demetra.demetraws.zoo.util.DEMETRAWSConstants;
 
 /**
  * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
@@ -31,6 +34,8 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
 @Component("ClcInt317Mis19")
 public class ClcInt317Mis19 extends Controllo {
 
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
+	
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private List<Dmt_t_clsCapoMacellato> modelMacellato;
 	private List<Dmt_t_clsCapoMacellato> modelMacellatoFiltrato;
@@ -68,6 +73,10 @@ public class ClcInt317Mis19 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		logger.info("INIZIO CALCOLO INTERVENTO 317 MISURA 19");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 317 MISURA 19, INIZIO PRE-ESECUZIONE");
+		
 		this.importoLiquidabile = new BigDecimal(0);
 		this.contatoreBocciati = 0;
 		this.contatoreSanzionati = 0;
@@ -92,17 +101,26 @@ public class ClcInt317Mis19 extends Controllo {
 		try {
 			ubaMin = ref9903.calcolo();
 
-			if (ubaMin.isErrors())
+			if (ubaMin.isErrors()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 317 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
+			}
+			else if (!ubaMin.isResult()) {
+				logger.error("ERRORE CALCOLO INTERVENTO 317 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 317 MISURA 19");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt317Mis19", getInput(),
 						"controllo uba minime non rispettato"));
+			}
 
 		} catch (CalcoloException e) {
+			logger.error("ERRORE CALCOLO INTERVENTO 317 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI DI AMMISIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 		this.modelMacellatoFiltrato = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 317 MISURA 19, FINE PRE-ESECUZIONE");
+		logger.info("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 317 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -117,6 +135,8 @@ public class ClcInt317Mis19 extends Controllo {
 	@Override
 	public void esecuzione() throws ControlloException{
 		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 317 MISURA 19, INIZIO ESECUZIONE");
 		
 		numeroCapiRichiesti = BigDecimal.valueOf(this.modelMacellato.size());
 		
@@ -200,15 +220,17 @@ public class ClcInt317Mis19 extends Controllo {
 						this.listaCapiBocciati.add(m);
 				}
 				}
-				}if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0)
+				}if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0) {
+					logger.error("ERRORE CALCOLO INTERVENTO 317 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 317 misura 19");
+				}
 			}
 			 catch (ControlloException e) {
-		
-				System.out.println(e.getMessage());
+					logger.error("ERRORE CALCOLO INTERVENTO 317 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 317 MISURA 19 REF02.009");
 				new Dmt_t_errore(getSessione(), "ref02_009", getInput(), e.getMessage());
 			}catch (NullPointerException e){
+				logger.error("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 317 MISURA 19, NESSUN CAPO DISPONIBILE");
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
 			
@@ -218,6 +240,9 @@ public class ClcInt317Mis19 extends Controllo {
 			if (!c.getAnomalie_cgo().contains("B"))
 				this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 	}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 317 MISURA 19, FINE ESECUZIONE");
 
 	}
 
@@ -240,6 +265,9 @@ public class ClcInt317Mis19 extends Controllo {
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO INTERVENTO 317 MISURA 19, INIZIO POST-ESECUZIONE");
 
 		if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
 			this.oc = new Dmt_t_output_controlli();
@@ -268,6 +296,11 @@ public class ClcInt317Mis19 extends Controllo {
 			}
 
 		}
+		
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO 316 MISURA 19, FINE POST-ESECUZIONE");
+		 logger.info("FINE ESECUZIONE CALCOLO INTERVENTO 317 MISURA 19");
 	}
 
 	// /**

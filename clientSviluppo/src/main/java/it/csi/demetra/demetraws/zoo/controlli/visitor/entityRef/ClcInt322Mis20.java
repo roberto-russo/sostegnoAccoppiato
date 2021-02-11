@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +22,7 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
+import it.csi.demetra.demetraws.zoo.util.DEMETRAWSConstants;
 
 /**
  * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
@@ -34,13 +35,14 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_servic
 @Component("ClcInt322Mis20")
 public class ClcInt322Mis20 extends Controllo {
 
+	protected static final Logger logger = Logger.getLogger(DEMETRAWSConstants.LOGGING.LOGGER_NAME + ".zoo");
+	
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private BigDecimal numeroCapiAmmissibili;
 	private BigDecimal numeroCapiRichiesti;
 	private Integer capiSanzionati;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
 	@Autowired
 	private CtlVerificaRegistrazioneCapi ref9901;
 	@Autowired
@@ -72,6 +74,9 @@ public class ClcInt322Mis20 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		logger.info("INIZIO CALCOLO PREMIO 322 MISURA 20");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, INIZIO PRE-ESECUZIONE");
 
 		// INIZIALIZZAZIONE DELLE VARIABILI
 
@@ -89,7 +94,6 @@ public class ClcInt322Mis20 extends Controllo {
 		this.modelVaccheFiltrate = null;
 		this.capiSanzionati = 0;
 
-		LOGGER.info("inizio preEsecuzione()");
 
 		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
 
@@ -130,6 +134,10 @@ public class ClcInt322Mis20 extends Controllo {
 		}
 		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, FINE PRE-ESECUZIONE");
+		logger.info("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO PREMIO 322 MISURA 20 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -149,7 +157,8 @@ public class ClcInt322Mis20 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
-		LOGGER.info("inizio esecuzione()");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, INIZIO ESECUZIONE");
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
@@ -219,6 +228,9 @@ public class ClcInt322Mis20 extends Controllo {
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if (!c.getAnomalie_cgo().contains("B"))
 					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, FINE ESECUZIONE");
 	}
 
 	/**
@@ -240,7 +252,8 @@ public class ClcInt322Mis20 extends Controllo {
 	@Override
 	public void postEsecuzione() throws ControlloException {
 
-		LOGGER.info("inizio postEsecuzione()");
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, INIZIO POST-ESECUZIONE");
 
 		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
@@ -274,6 +287,10 @@ public class ClcInt322Mis20 extends Controllo {
 			}
 
 		}
+		
+		if(logger.isDebugEnabled())
+			logger.debug("CALCOLO PREMIO 322 MISURA 20, FINE POST-ESECUZIONE");
+		logger.info("FINE ESECUZIONE CALCOLO PREMIO 322 MISURA 20");
 	}
 
 	@Override

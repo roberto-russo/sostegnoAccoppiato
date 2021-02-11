@@ -33,7 +33,7 @@ public class Dmt_t_DsUBA_censimenti_allevamenti_ovini implements Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	 /**
      * id univoco associato all'istanza di sessione.
      */

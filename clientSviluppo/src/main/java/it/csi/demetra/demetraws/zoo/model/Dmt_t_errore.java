@@ -21,6 +21,7 @@ public class Dmt_t_errore implements Serializable {
     private static final long serialVersionUID = -6196503556701889330L;
 
     @Id
+    @Column(name = "nome_metodo")
     /**
      * nome del metodo richiamato. 
      */
@@ -31,13 +32,10 @@ public class Dmt_t_errore implements Serializable {
      * parametri di input del metodo richiamato.
      */
     private String input;
-    @MapsId
-    @ManyToOne
-    @JoinColumn(name = "idSessione", nullable = false)
-    /**
-     * codice univoco associato all'istanza di sessione
-     */
-    private Dmt_t_sessione idSessione;
+
+    @Id
+    @Column(name="id_sessione")
+    private Long idSessione;
 
     @Column(name = "errore_descrizione")
     /**
@@ -66,7 +64,7 @@ public class Dmt_t_errore implements Serializable {
      * @param erroreDesc descrizione dell'errore occorso
      */
     public Dmt_t_errore(Dmt_t_sessione idSessione, String nomeMetodo, String input, String erroreDesc) {
-        this.idSessione = idSessione;
+        this.idSessione = idSessione.getIdSessione();
         this.nomeMetodo = nomeMetodo;
         this.input = input;
         this.erroreDesc = erroreDesc;
@@ -84,7 +82,7 @@ public class Dmt_t_errore implements Serializable {
      * Metodo getter che ritorna il codice univoco associato all'esecuzione
      * @return idSessione codice univoco associato all'esecuzione.
      */
-    public Dmt_t_sessione getIdSessione() {
+    public Long getIdSessione() {
         return idSessione;
     }
 
@@ -95,7 +93,7 @@ public class Dmt_t_errore implements Serializable {
      * @param sessione identificativo univoco associato all'esecuzione
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
-        this.idSessione = sessione;
+        this.idSessione = sessione.getIdSessione();
     }
 
     /**

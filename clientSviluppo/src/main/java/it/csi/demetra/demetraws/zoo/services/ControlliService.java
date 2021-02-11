@@ -214,7 +214,7 @@ public class ControlliService {
      * @param codicePremio codcie intervento
      * @return collection Optional di tipo {@link Dmt_w_controllo_bean}
      */
-    public Optional<Dmt_w_controllo_bean> findByIdControlloBean(String codicePremio) {
+    public Dmt_w_controllo_bean findByIdControlloBean(String codicePremio) {
         return controlloBeanRepository.findByCodicePremio(codicePremio);
     }
 
@@ -536,12 +536,10 @@ public class ControlliService {
     }
     
     public Integer getGiorniRitardoPresentazioneDomanda(String cuaa, String codicePremio, Integer annoCampagna) {
-    	
     	return rpuVPraticaRep.findByCuaaAndCodicePremioAndAnnoCampagna(cuaa, codicePremio,  annoCampagna);
     }
     
     public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniRitardo) {
-    	
     	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniRitardo);
     }
 

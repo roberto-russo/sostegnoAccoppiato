@@ -23,7 +23,7 @@ public class Dmt_t_dsScarico_allevamenti implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	private Dmt_t_sessione idSessione;
 
 	@Id

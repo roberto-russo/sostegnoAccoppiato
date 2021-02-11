@@ -15,10 +15,9 @@ public class Dmt_d_logger implements Serializable {
 
     private static final long serialVersionUID = 1515828060901867701L;
 
-    @MapsId
-    @ManyToOne
-    @JoinColumn(name = "idSessione", nullable = false)
-    private Dmt_t_sessione idSessione;
+    @Id
+    @Column(name = "id_sessione", nullable = false)
+    private Long idSessione;
 
     @Id
     @GeneratedValue(generator = "seq_dmt_d_logger")
@@ -89,12 +88,12 @@ public class Dmt_d_logger implements Serializable {
         this.dataGenerazioneLog = dataGenerazioneLog;
     }
 
-    public Dmt_t_sessione getIdSessione() {
+    public Long getIdSessione() {
         return idSessione;
     }
 
     public void setIdSessione(Dmt_t_sessione sessione) {
-        this.idSessione = sessione;
+        this.idSessione = sessione.getIdSessione();
     }
 
 
