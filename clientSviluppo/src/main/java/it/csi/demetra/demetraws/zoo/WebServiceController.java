@@ -52,7 +52,7 @@ public class WebServiceController {
      * un'eccezione contenente un log dettagliato dell'errore ottenuto.
      * Alla fine della procedura sarà possibile ripercorrere lo storico delle operazione in DB.
      *
-     * @param annoCampagna anno della campagna
+     * @param annoCampagna anno dreella campagna
      */
 
     @RequestMapping(value = "/calcoloArt52/{annoCampagna}", method = RequestMethod.GET)
@@ -70,7 +70,7 @@ public class WebServiceController {
             eseguiCalcoli(listaScarico, sessione);
         }
 
-        System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
+        System.out.println("Download dei dati dalla BDN completato");
 
     }
 
@@ -91,9 +91,30 @@ public class WebServiceController {
         }
     }
 
+    private Boolean isM19(String cp) {
+        return cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
+    }
+
     private void eseguiCalcoli(List<Rpu_V_pratica_zoote> listaCuaa, Dmt_t_sessione sessione) {
         System.out.println("INIZIO CALCOLI SU N.ELEMENTI -> " + listaCuaa.size());
-        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+        List<Rpu_V_pratica_zoote> newListAziende = new ArrayList<>();
+        // ELIMINO I DUPLICATI DEI CP M19 DALLA LISTA
+        for (Rpu_V_pratica_zoote v : listaCuaa) {
+            if (isM19(v.getCodicePremio())) {
+                Boolean find = false;
+                for (Rpu_V_pratica_zoote a : newListAziende) {
+                    if (a.getCuaa().equals(v.getCuaa()) && isM19(a.getCodicePremio())) {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                    newListAziende.add(v);
+
+            } else newListAziende.add(v);
+        }
+
+        for (Rpu_V_pratica_zoote azienda : newListAziende) {
             calcoloRef03.inizializzazione(sessione, azienda);
             try {
                 calcoloRef03.esecuzione();

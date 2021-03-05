@@ -374,9 +374,11 @@ public class ControlliService {
     }
 
     public List<Dmt_t_Tws_bdn_du_capi_bovini> getCapiBoviniDaCuaaAndIdSessione(Long sessione, String cuaa, String codicePremio) {
-
         return boviniRepository.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
+    }
 
+    public List<Dmt_t_Tws_bdn_du_capi_bovini> getCapiBoviniM19DaCuaaAndIdSessione(Long sessione, String cuaa) {
+        return boviniRepository.findM19BySessioneAndCuaa(sessione, cuaa);
     }
 
     /**
@@ -391,6 +393,11 @@ public class ControlliService {
         return macellatiRepository.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
     }
 
+    public List<Dmt_t_clsCapoMacellato> getCapiMacellatiM19DaCuaaAndIdSessione(Long sessione, String cuaa) {
+
+        return macellatiRepository.findM19BySessioneAndCuaa(sessione, cuaa);
+    }
+
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_ovicaprini} in base alla sessione e il cuaa
      * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_repository#findBySessioneAndCuaa(Long, String, String)}
@@ -399,9 +406,11 @@ public class ControlliService {
      * @return lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_ovicaprini}
      */
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniDaCuaaAndIdSessione(Long sessione, String cuaa, String codicePremio) {
-
         return ovicapriniRep.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
+    }
 
+    public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniM19DaCuaaAndIdSessione(Long sessione, String cuaa) {
+        return ovicapriniRep.findM19BySessioneAndCuaa(sessione, cuaa);
     }
 
     /**

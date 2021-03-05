@@ -314,11 +314,23 @@ public class ref03 {
      * @return tempHashmap - istanza di tipo {@link HashMap}
      */
     public HashMap<String, List<Long>> buildMap(List<String> codiciPremio) {
-
         HashMap<String, List<Long>> tempHashmap = new HashMap<String, List<Long>>();
-        List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-        List<Dmt_t_clsCapoMacellato> listaCapiMacellati = this.controlliService.getCapiMacellatiDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+        List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini;
+        List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
+        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini;
+        String cp = azienda.getCodicePremio();
+        Boolean isM19 = cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
+
+        if (isM19) {
+            listaCapiBovini = this.controlliService.getCapiBoviniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+            listaCapiMacellati = this.controlliService.getCapiMacellatiM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+        } else {
+            listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+            listaCapiMacellati = this.controlliService.getCapiMacellatiDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+        }
+
         Dmt_t_output_controlli outConctrolli = new Dmt_t_output_controlli();
 
 //		COSTRUZIONE HASHMAP

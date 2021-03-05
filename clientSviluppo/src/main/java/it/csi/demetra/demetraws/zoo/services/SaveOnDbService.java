@@ -167,6 +167,7 @@ public class SaveOnDbService {
             newObj.setIdSessione(sessioneNew);
             listCapreNew.add(newObj);
         }
+
         for (Dmt_t_Tws_bdn_du_capi_bovini d : listVacche) {
             Dmt_t_Tws_bdn_du_capi_bovini newObj = new Dmt_t_Tws_bdn_du_capi_bovini(d);
             newObj.setIdSessione(sessioneNew);
