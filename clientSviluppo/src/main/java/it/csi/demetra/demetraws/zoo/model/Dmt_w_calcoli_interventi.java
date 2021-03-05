@@ -24,13 +24,12 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	 */
 	private static final long serialVersionUID = -2204240524598028161L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@Id
+	@Column(name = "id_sessione")
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
-	private Dmt_t_sessione idSessione;
+	private Long idSessione;
 
 	@Id
 	@Column(name = "id_gestore")
@@ -69,7 +68,7 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
 	 * @return idSessione identificativo univoco associato all'esecuzione
 	 */
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
@@ -80,7 +79,7 @@ public class Dmt_w_calcoli_interventi implements Serializable {
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setIdGestore(Long idGestore) {

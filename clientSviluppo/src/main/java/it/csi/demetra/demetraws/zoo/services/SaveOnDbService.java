@@ -1,11 +1,13 @@
 package it.csi.demetra.demetraws.zoo.services;
 
+
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ import java.util.List;
  */
 @Service
 public class SaveOnDbService {
+
 
     /**
      * Repository in cui sono definite le Query di tipo DsUBA_censimenti_allevamenti_ovini_repository.
@@ -43,7 +46,7 @@ public class SaveOnDbService {
      * istanza di tipo Dmt_t_clsCapoMacellato_services
      */
     @Autowired
-    Dmt_t_clsCapoMacellato_services MacellatoService;
+    Dmt_t_clsCapoMacellato_services macellatoService;
 
     /**
      * istanza di tipo Dmt_t_tws_bdn_du_capi_bovini_services
@@ -139,7 +142,7 @@ public class SaveOnDbService {
                 vaccheService.saveCapo(bean.getClsCapoVacca());
 
             if (bean.getClsCapoMacellato() != null)
-                MacellatoService.saveCapo(bean.getClsCapoMacellato());
+                macellatoService.saveCapo(bean.getClsCapoMacellato());
 
             if (bean.getClsCapo() != null)
                 capiService.saveCapo(bean.getClsCapo());
@@ -151,22 +154,33 @@ public class SaveOnDbService {
     }
 
     public void duplicaSessioneByCuaa(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessioneOld, Dmt_t_sessione sessioneNew) {
-        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> beanCapre = capreService.getCapiOviByIdSessioneCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
-        List<Dmt_t_Tws_bdn_du_capi_bovini> beanVacche = vaccheService.getByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
-        List<Dmt_t_clsCapoMacellato> beanMacellato = MacellatoService.getCapiMacellatiByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listCapre = capreService.getCapiOviByIdSessioneCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+        List<Dmt_t_Tws_bdn_du_capi_bovini> listVacche = vaccheService.getByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
+        List<Dmt_t_clsCapoMacellato> listMacellato = macellatoService.getCapiMacellatiByIDSessionCuaaCodInt(sessioneOld.getIdSessione(), azienda.getCuaa(), azienda.getCodicePremio());
 
-        for (Dmt_t_Tws_bdn_du_capi_ovicaprini d : beanCapre) {
-            d.setIdSessione(sessioneNew);
+        List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listCapreNew = new ArrayList<>();
+        List<Dmt_t_Tws_bdn_du_capi_bovini> listBoviniNew = new ArrayList<>();
+        List<Dmt_t_clsCapoMacellato> listMacellatoNew = new ArrayList<>();
+
+        for (Dmt_t_Tws_bdn_du_capi_ovicaprini d : listCapre) {
+            Dmt_t_Tws_bdn_du_capi_ovicaprini newObj = new Dmt_t_Tws_bdn_du_capi_ovicaprini(d);
+            newObj.setIdSessione(sessioneNew);
+            listCapreNew.add(newObj);
         }
-        for (Dmt_t_Tws_bdn_du_capi_bovini d : beanVacche) {
-            d.setIdSessione(sessioneNew);
-        }
-        for (Dmt_t_clsCapoMacellato d : beanMacellato) {
-            d.setIdSessione(sessioneNew);
+        for (Dmt_t_Tws_bdn_du_capi_bovini d : listVacche) {
+            Dmt_t_Tws_bdn_du_capi_bovini newObj = new Dmt_t_Tws_bdn_du_capi_bovini(d);
+            newObj.setIdSessione(sessioneNew);
+            listBoviniNew.add(newObj);
         }
 
-        capreService.saveCapo(beanCapre);
-        vaccheService.saveCapo(beanVacche);
-        MacellatoService.saveCapo(beanMacellato);
+        for (Dmt_t_clsCapoMacellato d : listMacellato) {
+            Dmt_t_clsCapoMacellato newObj = new Dmt_t_clsCapoMacellato(d);
+            newObj.setIdSessione(sessioneNew);
+            listMacellatoNew.add(newObj);
+        }
+
+        capreService.saveCapo(listCapreNew);
+        vaccheService.saveCapo(listBoviniNew);
+        macellatoService.saveCapo(listMacellatoNew);
     }
 }

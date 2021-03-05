@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,7 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_servic
 @Component("ClcInt313Mis4")
 public class ClcInt313Mis4 extends Controllo {
 
+
 	@Autowired
 	CtlVerificaRegistrazioneCapi ref9901;
 	@Autowired
@@ -48,6 +51,7 @@ public class ClcInt313Mis4 extends Controllo {
 	private ResultCtlUbaMinime ubaMin;
 
 	private void init() {
+		System.out.println("INIZIO CALCOLO INTERVENTO 313 MISURA 4");
 		listEsclusi = new ArrayList<>();
 		importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
 		importoLiquidabile = new BigDecimal(0);
@@ -65,6 +69,9 @@ public class ClcInt313Mis4 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO PRE-ESECUZIONE");
 		this.capiSanzionati = 0;
 		// RECUPERO DATI DALLA BDN
 		// modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(),
@@ -78,6 +85,7 @@ public class ClcInt313Mis4 extends Controllo {
 						Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 				modelVacche = ref9901.calcolo();
 			} catch (CalcoloException e) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, ERRORE DURANTE IL CONTROLLO TEMPISTICA REGISTRAZIONE CAPI REF99.01");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
 			}
 
@@ -85,12 +93,17 @@ public class ClcInt313Mis4 extends Controllo {
 				ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
 						getAzienda().getCuaa(), getSessione());
 				ubaMin = ref9903.calcolo();
-				if (ubaMin.isErrors())
+				if (ubaMin.isErrors()) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI DELLE UBA MINIME");
 					throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-				else if (!ubaMin.isResult())
+				}
+				else if (!ubaMin.isResult()) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, CONTROLLO UBA MINIME NON RISPETTATO");
 					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt310Mis1", getInput(),
 							"controllo uba minime non rispettato"));
+				}
 			} catch (CalcoloException e) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI AMMISIBILITA' TRASVERSALI REF99.03");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 			}
 
@@ -98,6 +111,9 @@ public class ClcInt313Mis4 extends Controllo {
 					getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
 		}
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE PRE-ESECUZIONE");
+		System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 313 MISURA 4 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 	}
 
 	/**
@@ -109,6 +125,8 @@ public class ClcInt313Mis4 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO ESECUZIONE");
 		
 		if (null == modelVaccheFiltrate)
 			return;
@@ -128,10 +146,7 @@ public class ClcInt313Mis4 extends Controllo {
 		        			this.capiSanzionati++;
 
 				} else {
-					
-					//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
-
-					List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
+						List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
 							.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
 					if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
 						this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
@@ -149,9 +164,13 @@ public class ClcInt313Mis4 extends Controllo {
 			}
 		
 		}catch (NullPointerException e) {
+			System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, NESSUN CAPO DISPONIBILE");
 			throw new ControlloException(
 					new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE ESECUZIONE");
 	}
 
 	/**
@@ -164,6 +183,8 @@ public class ClcInt313Mis4 extends Controllo {
 	@Override
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO POST-ESECUZIONE");
 		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
 		outputControlli.setIdSessione(getSessione());
 		outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
@@ -177,6 +198,10 @@ public class ClcInt313Mis4 extends Controllo {
 
 		for (Dmt_t_output_esclusi o : listEsclusi)
 			getControlliService().saveOutputEscl(o);
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE POST-ESECUZIONE");
+		 System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 313 MISURA 4");
 
 	}
 

@@ -38,12 +38,14 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
 	 * @param capo - subentro istanza da salvare a DB
 	 */
     public void saveCapo(List<Dmt_t_Tws_bdn_du_capi_ovicaprini> capo) {
-        rep.saveAll(capo);
+    	for(Dmt_t_Tws_bdn_du_capi_ovicaprini c : capo)
+    		rep.save(c);
+//        rep.saveAll(capo);
     }
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_ovicaprini} in base a idSessione, cuaa e codiceIntervento.
-     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_repository#findByIdSessionAndCuaa(Long, String, String)}
+     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_repository#findByIdSessionAndCuaa(Long, String String)}
      * @param idSessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @param codIntervento codice intervento

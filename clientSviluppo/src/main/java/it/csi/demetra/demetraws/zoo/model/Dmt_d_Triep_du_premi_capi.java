@@ -15,8 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_d_Triep_du_premi_capi_id;
 
 @Entity
@@ -26,10 +24,9 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 
 	private static final long serialVersionUID = -9034733570550933438L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	@Id
 	@Column(name = "id_domanda")
@@ -41,9 +38,8 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	private Long idAzienda;
 
 	@Column(name = "cod_attivita")
-	@ColumnDefault("'TAT'")
 	@NotNull
-	private String codAttivita;
+	private String codAttivita = "TAT";
 
 	@Id
 	@Column(name = "sco_attivita")
@@ -53,8 +49,7 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 	@Id
 	@Column(name = "id_richiesta")
 	@NotNull
-	@ColumnDefault("'0'")
-	private Long idRichiesta;
+	private Long idRichiesta = 0L;
 
 	@Column(name = "tipo_riga")
 	@NotNull
@@ -130,13 +125,11 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 
 	@Column(name = "cod_tipo_calcolo" )
 	@NotNull
-	@ColumnDefault("'CLC'")
-	private String codTipoCalcolo;
+	private String codTipoCalcolo = "CLC";
 
 	@Column(name = "sco_tipo_calcolo")
 	@NotNull
-	@ColumnDefault("'002'")
-	private String scoTipoCalcolo;
+	private String scoTipoCalcolo = "002";
 
 	@Column(name = "data_calcolo")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -455,12 +448,12 @@ public class Dmt_d_Triep_du_premi_capi implements Serializable {
 		this.scostamentoPerc = scostamentoPerc;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setIdDomanda(Long idDomanda) {

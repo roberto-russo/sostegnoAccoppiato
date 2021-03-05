@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_errore_repository;
@@ -21,6 +22,9 @@ public class Dmt_t_errore_services {
 	 */
 	@Autowired
 	Dmt_t_errore_repository error_rep;
+	
+	@Autowired
+	Dmt_t_sessione_services sessione_services;
 	
 	/**
      * Metodo che restituisce una lista di tutte le istanze che persistono in DB di tipo {@link Dmt_t_errore} in base ad annoCampagna.

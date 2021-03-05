@@ -85,7 +85,7 @@ public final class DateUtilService {
 			return dateConverted;
 		} catch (ParseException e) {
 			e.printStackTrace();
-			LOGGER.error("Errore durante la conversione della data: - ",e);
+			System.out.println("Errore durante la conversione della data: - ");
 			return null;
 		} 
 	}
@@ -96,7 +96,7 @@ public final class DateUtilService {
 			return capodanno;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}
 	}
@@ -107,7 +107,7 @@ public final class DateUtilService {
 			return epifania;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -118,7 +118,7 @@ public final class DateUtilService {
 			return pasqua;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -129,7 +129,7 @@ public final class DateUtilService {
 			return pasquetta;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -140,7 +140,7 @@ public final class DateUtilService {
 			return anniversarioLiberazione;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}
 	}
@@ -151,7 +151,7 @@ public final class DateUtilService {
 			return festaLavoro;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -162,7 +162,7 @@ public final class DateUtilService {
 			return festaRepubblica;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -173,7 +173,7 @@ public final class DateUtilService {
 			return ferragosto;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -184,7 +184,7 @@ public final class DateUtilService {
 			return tuttiSanti;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -195,7 +195,7 @@ public final class DateUtilService {
 			return immacolata;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -206,7 +206,7 @@ public final class DateUtilService {
 			return natale;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}
@@ -217,7 +217,7 @@ public final class DateUtilService {
 			return santoStefano;
 		} catch (ParseException e) {
 			System.err.println(e);
-			LOGGER.error("Errore durante la creazione della data: - ",e);
+			System.out.println("Errore durante la creazione della data: - ");
 			return null;
 		}	
 	}	

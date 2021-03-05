@@ -251,7 +251,7 @@ public class CuaaScaricoManuale implements Serializable {
 public String toString() {
 	return "ListaCuaaScaricoManuale [annoCampagna=" + annoCampagna + ", codiceMisura=" + codiceMisura + ", idPratica="
 			+ idPratica + ", identificativo=" + identificativo + ", idFaseAvanzamento=" + idFaseAvanzamento
-			+ ", tipoFase=" + tipoFase + ", extIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
+			+ ", tipoFase=" + tipoFase + "xtIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
 			+ denominazione + ", idStatoPratica=" + idStatoPratica + ", descrizione=" + descrizione + ", codicePremio="
 			+ codicePremio + ", giorniRitardo=" + giorniRitardo + "]";
 }

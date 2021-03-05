@@ -1,6 +1,7 @@
 package it.csi.demetra.demetraws.zoo.controlli;
 
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
+
 import it.csi.demetra.demetraws.zoo.BdnWsManagerImpl;
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
@@ -10,9 +11,11 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_subentro_zoo;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.ControlliService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBException;
 import java.text.ParseException;
@@ -70,6 +73,7 @@ public class ControlliFrameworkImpl implements ControlliFramework {
      * - <b>false</b> altrimenti
      */
     @Override
+
     public Boolean scaricoDati(Rpu_V_pratica_zoote azienda, Dmt_t_subentro_zoo subentro, Dmt_t_sessione sessione, Integer annoCampagna) {
         try {
             bdnImpl.getElencoCapiPremio(azienda.getCodicePremio(), azienda.getCuaa(), azienda.getAnnoCampagna(), sessione);

@@ -111,22 +111,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -161,22 +161,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -216,10 +216,10 @@ public class ControlliFwSuiteTest {
                 controllo.esecuzione();
                 controllo.postEsecuzione();
             } catch (ControlloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
                 fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
             } catch (CalcoloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
                 fail(e.getMessage());
             }
 
@@ -227,7 +227,7 @@ public class ControlliFwSuiteTest {
                 calcoloRef03.inizializzazione(sessione, controllo.getAzienda());
                 calcoloRef03.esecuzione();
             } catch (CalcoloException e) {
-                logger.info(e.getCause() + " | " + e.getMessage());
+                System.out.println(e.getCause() + " | " + e.getMessage());
             }
 
             Dmt_t_output_ref03 outRef03 = ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(Integer.valueOf(anno), cuaa, sessione.getIdSessione(), cPremio);
@@ -269,10 +269,10 @@ public class ControlliFwSuiteTest {
                 controllo.esecuzione();
                 controllo.postEsecuzione();
             } catch (ControlloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
                 fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
             } catch (CalcoloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
                 fail(e.getMessage());
             }
 
@@ -280,7 +280,7 @@ public class ControlliFwSuiteTest {
                 calcoloRef03.inizializzazione(sessione, controllo.getAzienda());
                 calcoloRef03.esecuzione();
             } catch (CalcoloException e) {
-                logger.info(e.getCause() + " | " + e.getMessage());
+                System.out.println(e.getCause() + " | " + e.getMessage());
             }
 
             Dmt_t_output_ref03 outRef03 = ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(Integer.valueOf(anno), cuaa, sessione.getIdSessione(), cPremio);
@@ -322,10 +322,10 @@ public class ControlliFwSuiteTest {
                 controllo.esecuzione();
                 controllo.postEsecuzione();
             } catch (ControlloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
                 fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
             } catch (CalcoloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
                 fail(e.getMessage());
             }
 
@@ -333,7 +333,7 @@ public class ControlliFwSuiteTest {
                 calcoloRef03.inizializzazione(sessione, controllo.getAzienda());
                 calcoloRef03.esecuzione();
             } catch (CalcoloException e) {
-                logger.info(e.getCause() + " | " + e.getMessage());
+                System.out.println(e.getCause() + " | " + e.getMessage());
             }
 
             Dmt_t_output_ref03 outRef03 = ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(Integer.valueOf(anno), cuaa, sessione.getIdSessione(), cPremio);
@@ -375,10 +375,10 @@ public class ControlliFwSuiteTest {
                 controllo.esecuzione();
                 controllo.postEsecuzione();
             } catch (ControlloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio + " | MOTIVAZIONI: " + e.getCause() + " , " + e.getMessage());
                 fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
             } catch (CalcoloException e) {
-                logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+                System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
                 fail(e.getMessage());
             }
 
@@ -386,7 +386,7 @@ public class ControlliFwSuiteTest {
                 calcoloRef03.inizializzazione(sessione, controllo.getAzienda());
                 calcoloRef03.esecuzione();
             } catch (CalcoloException e) {
-                logger.info(e.getCause() + " | " + e.getMessage());
+                System.out.println(e.getCause() + " | " + e.getMessage());
             }
 
             Dmt_t_output_ref03 outRef03 = ref03Rep.findCapiPagabiliByAnnoCampagnaAndCuaaAndIdSessioneAndIntervento(Integer.valueOf(anno), cuaa, sessione.getIdSessione(), cPremio);
@@ -424,22 +424,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -474,22 +474,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -524,22 +524,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -575,22 +575,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -625,22 +625,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -723,22 +723,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -773,22 +773,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -823,22 +823,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());				
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}			
 //			Dmt_t_output_controlli out = controlliService
@@ -873,22 +873,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());			
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -923,22 +923,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());;
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -973,22 +973,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo potEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo potEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -1024,22 +1024,22 @@ public class ControlliFwSuiteTest {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
 //				e.printStackTrace();
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo secuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo secuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -1074,22 +1074,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService
@@ -1124,22 +1124,22 @@ public class ControlliFwSuiteTest {
 //			try {
 //				controllo.preEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			} catch (CalcoloException e) {
-//				logger.info("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo preEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getMessage());
 //			}
 //			try {
 //				controllo.esecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo esecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());			
 //			}
 //			try {
 //				controllo.postEsecuzione();
 //			} catch (ControlloException e) {
-//				logger.info("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
+//				System.out.println("Test Fallito nel metodo postEsecuzione CUAA: " + cuaa + " |" + " CODICE PREMIO: " + cPremio);
 //				fail(e.getErrore() != null ? e.getErrore().getErroreDesc() : e.getMessage());
 //			}
 //			Dmt_t_output_controlli out = controlliService

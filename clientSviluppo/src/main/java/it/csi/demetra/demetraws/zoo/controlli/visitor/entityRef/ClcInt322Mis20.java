@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +34,14 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_servic
 @Component("ClcInt322Mis20")
 public class ClcInt322Mis20 extends Controllo {
 
+
+	
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
 	private BigDecimal numeroCapiAmmissibili;
 	private BigDecimal numeroCapiRichiesti;
 	private Integer capiSanzionati;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt322Mis20.class);
 	@Autowired
 	private CtlVerificaRegistrazioneCapi ref9901;
 	@Autowired
@@ -72,6 +73,9 @@ public class ClcInt322Mis20 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		System.out.println("INIZIO CALCOLO PREMIO 322 MISURA 20");
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO PRE-ESECUZIONE");
 
 		// INIZIALIZZAZIONE DELLE VARIABILI
 
@@ -89,7 +93,6 @@ public class ClcInt322Mis20 extends Controllo {
 		this.modelVaccheFiltrate = null;
 		this.capiSanzionati = 0;
 
-		LOGGER.info("inizio preEsecuzione()");
 
 		// LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
 
@@ -130,6 +133,10 @@ public class ClcInt322Mis20 extends Controllo {
 		}
 		this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE PRE-ESECUZIONE");
+		System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO PREMIO 322 MISURA 20 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -149,7 +156,8 @@ public class ClcInt322Mis20 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
-		LOGGER.info("inizio esecuzione()");
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO ESECUZIONE");
 
 		// SE E' NULL ALLORA NON E' ESTRATTO A CAMPIONE
 		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
@@ -219,6 +227,9 @@ public class ClcInt322Mis20 extends Controllo {
 			for (Dmt_t_contr_loco c : this.estrazioneACampione)
 				if (!c.getAnomalie_cgo().contains("B"))
 					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+		
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE ESECUZIONE");
 	}
 
 	/**
@@ -240,7 +251,8 @@ public class ClcInt322Mis20 extends Controllo {
 	@Override
 	public void postEsecuzione() throws ControlloException {
 
-		LOGGER.info("inizio postEsecuzione()");
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO POST-ESECUZIONE");
 
 		if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
 			// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
@@ -274,6 +286,10 @@ public class ClcInt322Mis20 extends Controllo {
 			}
 
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE POST-ESECUZIONE");
+		System.out.println("FINE ESECUZIONE CALCOLO PREMIO 322 MISURA 20");
 	}
 
 	@Override

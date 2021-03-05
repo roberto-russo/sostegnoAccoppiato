@@ -68,13 +68,14 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
 	 * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base allìidSessione e il cuaa
 	 * @param idSessione codice di sessione associato all'esecuzione
 	 * @param cuaa codice fiscale del richiedente
+	 * @param codicePremio
 	 * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
 	 */
 	@Query(
-			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa ",
+			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio ",
 			nativeQuery = true
 		)
-	List<Dmt_t_clsCapoMacellato> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
+	List<Dmt_t_clsCapoMacellato> findBySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa,@Param("codicePremio") String codicePremio);
 
 	
 	@Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE CAPO_ID IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI WHERE DMT_T_PREMIO_CAPI.ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) "

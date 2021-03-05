@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_clsCapoMacellato;
 
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
@@ -218,10 +217,10 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 	List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(@Param("idSessione") Long idSessione, @Param("cuaa")String cuaa,@Param("codiceIntervento")String codiceIntervento);
 
 	@Query(
-			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione and CUAA = :cuaa ",
+			value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio ",
 			nativeQuery = true
 		)
-	List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione")Long idSessione, @Param("cuaa") String cuaa);
+	List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa,@Param("codicePremio") String codicePremio);
 	
 	@Query(value = "SELECT flag_zona_montana FROM dmt_t_info_allevamenti WHERE allev_id = :allevId ",
 			nativeQuery = true)

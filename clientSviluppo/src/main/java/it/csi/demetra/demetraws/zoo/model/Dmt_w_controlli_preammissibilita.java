@@ -24,13 +24,12 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	 */
 	private static final long serialVersionUID = -6971116035802038379L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@Id
+	@Column(name = "id_sessione")
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
-	private Dmt_t_sessione idSessione;
+	private Long idSessione;
 	
 	@Id
 	@Column(name = "nome_classe_calcolo")
@@ -76,7 +75,7 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
 	 * @return idSessione identificativo univoco associato all'esecuzione
 	 */
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
@@ -87,7 +86,7 @@ public class Dmt_w_controlli_preammissibilita implements Serializable {
 	 * @param sessione identificativo univoco associato all'esecuzione.
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	/**

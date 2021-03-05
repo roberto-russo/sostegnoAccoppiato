@@ -251,7 +251,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 	public String toString() {
 		return "Rpu_V_pratica_zoote [annoCampagna=" + annoCampagna + ", codiceMisura=" + codiceMisura + ", idPratica="
 				+ idPratica + ", identificativo=" + identificativo + ", idFaseAvanzamento=" + idFaseAvanzamento
-				+ ", tipoFase=" + tipoFase + ", extIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
+				+ ", tipoFase=" + tipoFase + "xtIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
 				+ denominazione + ", idStatoPratica=" + idStatoPratica + ", descrizione=" + descrizione
 				+ ", codicePremio=" + codicePremio + "]";
 	}

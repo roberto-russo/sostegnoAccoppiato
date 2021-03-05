@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,9 @@ import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 @Component("ClcInt320Mis6")
 public class ClcInt320Mis6 extends Controllo {
 
+
+	
+	
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private ResultCtlUbaMinime ubaMin;
 	private List<Dmt_t_contr_loco> estrazioneACampione;
@@ -66,6 +71,10 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
+		System.out.println("INIZIO CALCOLO INTERVENTO 320 MISURA 6");
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO PRE-ESECUZIONE");
+		
 		this.numeroCapiRichiesti = BigDecimal.ZERO;
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
@@ -88,11 +97,14 @@ public class ClcInt320Mis6 extends Controllo {
 
 			CapiControllati9902 esito = ref9902.calcolo();
 
-			if (!esito.isEsito())
+			if (!esito.isEsito()) {
 				// controllare che motivazioni ti da
+				System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO AGNELLE DA RIMONTA REF99.02");
 				throw new CalcoloException(esito.getMotivazioni());
+			}
 
 		} catch (CalcoloException e) {
+			System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO ANGELLE DA RIMONTA REF99.02");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
 		}
 
@@ -103,19 +115,27 @@ public class ClcInt320Mis6 extends Controllo {
 		try {
 			this.ubaMin = ref9903.calcolo();
 
-			if (ubaMin.isErrors())
+			if (ubaMin.isErrors()) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
+			}
+			else if (!ubaMin.isResult()) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, CONTROLLO UBA MINIME NON RISPETTATO");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(),
 						"controllo uba minime non rispettato"));
+				}
 
 		} catch (CalcoloException e) {
+			System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEI CONTROLLI AMMISSIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 
 		// LISTA DI CAPI AMMESSI
 
 		capiAmmessiUba = ubaMin.getListaCapi();
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE PRE-ESECUZIONE");
+		System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 320 MISURA 6 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
 	}
 
@@ -131,6 +151,9 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO ESECUZIONE");
 
 //		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
 		this.numeroCapiRichiesti = BigDecimal.valueOf(this.modelOvicaprini.size());
@@ -195,26 +218,30 @@ public class ClcInt320Mis6 extends Controllo {
 									} else {
 
 //							DA CONTROLLARE SE DEVE FARE ALTRO
-										System.out.println(
-												"il premio è già stato chiesto dal detentore dell'allevamento");
+										if(1==1)
+											System.out.println("CALCOLO INTERVENTO 320 MISURA 6, IL PREMIO E' GIA' STATO CHIESTO DAL DETENTORE DELL'ALLEVAMENTO");
 									}
 								}
 							}
 						} else {
+							System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE CUAA PROPRIETARIO/CUAA DETENTORE NON TROVATO");
 							new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "",
 									"errore, cuaa proprietario o cuaa detentore non trovato");
 						}
 					}
 				}
 				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 320 misura 6");
 				}
 
 			} catch (ControlloException e) {
 				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+				System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO PER L'INTERVENTO 320 MISURA 6");
 				new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO DISPONIBILE");
 				throw new ControlloException(
 						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
@@ -226,6 +253,9 @@ public class ClcInt320Mis6 extends Controllo {
 				if (!c.getAnomalie_cgo().contains("B"))
 					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE ESECUZIONE");
 	}
 
 	/**
@@ -242,8 +272,9 @@ public class ClcInt320Mis6 extends Controllo {
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
-
 		// SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO POST-ESECUZIONE");
 		this.oc = new Dmt_t_output_controlli();
 		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
 		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
@@ -253,6 +284,10 @@ public class ClcInt320Mis6 extends Controllo {
 		this.oc.setIntervento(getAzienda().getCodicePremio());
 		this.oc.setIdSessione(getSessione());
 		getControlliService().saveOutput(this.oc);
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE POST-ESECUZIONE");
+		System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 320 MISURA 6");
 	}
 
 	@Override

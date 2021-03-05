@@ -23,13 +23,12 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 */
 	private static final long serialVersionUID = -3035054461744829200L;
 	
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@Id
+	@Column(name = "id_sessione")
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
-	private Dmt_t_sessione idSessione;
+	private Long idSessione;
 
 	@Id
 	@Column(name = "cuaa")
@@ -167,7 +166,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * Metodo getter che imposta l'identificativo univoco associato all'esecuzione
 	 * @return idSessione identificativo univoco associato all'esecuzione.
 	 */
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
@@ -176,7 +175,7 @@ public class Dmt_t_output_ref03 implements Serializable{
 	 * @param sessione identificativo univoco associato all'esecuzione.
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	/**

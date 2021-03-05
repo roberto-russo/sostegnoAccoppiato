@@ -21,7 +21,7 @@ public final class LocalDateConverter {
 	        .toLocalDate();
 	    } catch (DateTimeException e) {
 	    	System.err.println("Errore nella conversione della data.");
-			LOGGER.error("Errore LocalDateConverter: - ",e);
+			System.out.println("Errore LocalDateConverter: - ");
 	    	return null;
 
 	    }
@@ -34,7 +34,7 @@ public final class LocalDateConverter {
 		      .toInstant());
 		} catch (Exception e) {
 			System.err.println("Errore nella conversione della data.");
-			LOGGER.error("Errore LocalDateConverter: - ",e);
+			System.out.println("Errore LocalDateConverter: - ");
 	    	return null;
 		}
 	}

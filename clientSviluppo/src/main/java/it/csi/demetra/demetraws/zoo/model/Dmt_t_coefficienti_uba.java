@@ -22,13 +22,12 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 
 	private static final long serialVersionUID = 4821666006881108733L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@Id
+	@Column(name = "id_sessione")
 	/**
 	 * codice sessione associato all'esecuzione
 	 */
-	private Dmt_t_sessione idSessione;
+	private Long idSessione;
 
 	@Id
 	@Column(name = "id_specie")
@@ -70,7 +69,7 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	 * metodo getter che ritorna il codice della sessione associato all'esecuzione.
 	 * @return sessione codice della sessione associata all'esecuzione.
 	 */
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
@@ -79,7 +78,7 @@ public class Dmt_t_coefficienti_uba implements Serializable {
 	 * @param sessione codice della sessione associato all'esecuzione.
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	/**

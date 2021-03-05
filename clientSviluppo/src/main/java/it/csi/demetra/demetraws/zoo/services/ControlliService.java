@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -214,7 +213,7 @@ public class ControlliService {
      * @param codicePremio codcie intervento
      * @return collection Optional di tipo {@link Dmt_w_controllo_bean}
      */
-    public Optional<Dmt_w_controllo_bean> findByIdControlloBean(String codicePremio) {
+    public Dmt_w_controllo_bean findByIdControlloBean(String codicePremio) {
         return controlloBeanRepository.findByCodicePremio(codicePremio);
     }
 
@@ -366,7 +365,7 @@ public class ControlliService {
 
     /**
      * Metodo che ritorna una lista di codici premio in base al cuaa.
-     * {@link Dmt_t_tws_bdn_du_capi_bovini_repository#findBySessioneAndCuaa(Long, String)}
+     * {@link Dmt_t_tws_bdn_du_capi_bovini_repository#findBySessioneAndCuaa(Long, String, String)}
      * @param cuaa codice fiscale del richiedente
      * @return {@link String} lista dei codici premio associati al codice fiscale del richiedente.
      */
@@ -374,34 +373,34 @@ public class ControlliService {
         return rpuVPraticaRep.findByCuaa(cuaa);
     }
 
-    public List<Dmt_t_Tws_bdn_du_capi_bovini> getCapiBoviniDaCuaaAndIdSessione(Long sessione, String cuaa) {
+    public List<Dmt_t_Tws_bdn_du_capi_bovini> getCapiBoviniDaCuaaAndIdSessione(Long sessione, String cuaa, String codicePremio) {
 
-        return boviniRepository.findBySessioneAndCuaa(sessione, cuaa);
+        return boviniRepository.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
 
     }
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_clsCapoMacellato} in base alla sessione e il cuaa.
-     * {@link Dmt_t_clsCapoMacellato_repository#findBySessioneAndCuaa(Long, String)}
+     * {@link Dmt_t_clsCapoMacellato_repository#findBySessioneAndCuaa(Long, String, String)}
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del richiedente
      * @return lista di istanze di tipo {@link Dmt_t_clsCapoMacellato}
      */
-    public List<Dmt_t_clsCapoMacellato> getCapiMacellatiDaCuaaAndIdSessione(Long sessione, String cuaa) {
+    public List<Dmt_t_clsCapoMacellato> getCapiMacellatiDaCuaaAndIdSessione(Long sessione, String cuaa, String codicePremio) {
 
-        return macellatiRepository.findBySessioneAndCuaa(sessione, cuaa);
+        return macellatiRepository.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
     }
 
     /**
      * Metodo che ritorna una lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_ovicaprini} in base alla sessione e il cuaa
-     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_repository#findBySessioneAndCuaa(Long, String)}
+     * {@link Dmt_t_Tws_bdn_du_capi_ovicaprini_repository#findBySessioneAndCuaa(Long, String, String)}
      * @param sessione identificativo univoco associato all'esecuzione
      * @param cuaa codice fiscale del detentore
      * @return lista di istanze di tipo {@link Dmt_t_Tws_bdn_du_capi_ovicaprini}
      */
-    public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniDaCuaaAndIdSessione(Long sessione, String cuaa) {
+    public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> getCapiOvicapriniDaCuaaAndIdSessione(Long sessione, String cuaa, String codicePremio) {
 
-        return ovicapriniRep.findBySessioneAndCuaa(sessione, cuaa);
+        return ovicapriniRep.findBySessioneAndCuaa(sessione, cuaa, codicePremio);
 
     }
 
@@ -536,12 +535,10 @@ public class ControlliService {
     }
     
     public Integer getGiorniRitardoPresentazioneDomanda(String cuaa, String codicePremio, Integer annoCampagna) {
-    	
     	return rpuVPraticaRep.findByCuaaAndCodicePremioAndAnnoCampagna(cuaa, codicePremio,  annoCampagna);
     }
     
     public BigDecimal getPercentualeDiDecurtazione(Integer annoCampagna, Integer giorniRitardo) {
-    	
     	return ggRitardoRep.findByAnnoCampagnaAndGiorniDiRitardo(annoCampagna, giorniRitardo);
     }
 

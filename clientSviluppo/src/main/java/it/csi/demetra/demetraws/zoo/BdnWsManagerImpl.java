@@ -4,19 +4,27 @@ import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridge2;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
+
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
 import it.csi.demetra.demetraws.zoo.services.SaveOnDbService;
 import it.csi.demetra.demetraws.zoo.transformer.TransformerData;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+
+
+
+
 
 @Component
 public class BdnWsManagerImpl {
@@ -36,7 +44,11 @@ public class BdnWsManagerImpl {
     }
 
     public void connectWsBridge2() {
+        System.out.println("[BdnWsManagerImpl.connectWsBridge2] - BEGIN.");
+
         this.wsBridge2 = new WSBridgeService().getWSBridge2Port();
+
+        System.out.println("[BdnWsManagerImpl.connectWsBridge2] - END.");
     }
 
     public void getAnagraficaAllevamenti(String cuaa, Date dataRichiesta, String codiceIntervento, Dmt_t_sessione sessione) {
@@ -199,6 +211,9 @@ public class BdnWsManagerImpl {
             errore.setInput(input);
 //			System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
             errore.setIdSessione(sessione);
+            System.out.println("---  PRINT ERRORE -----");
+            System.out.println(sessione);
+            System.out.println(errore);
             erroreService.saveError(errore);
 
 //			System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");
@@ -210,6 +225,6 @@ public class BdnWsManagerImpl {
     }
 
     public void duplicaSessioneByCuaa(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessioneOld, Dmt_t_sessione sessioneNew) {
-		save.duplicaSessioneByCuaa(azienda,sessioneOld,sessioneNew);
+        save.duplicaSessioneByCuaa(azienda, sessioneOld, sessioneNew);
     }
 }

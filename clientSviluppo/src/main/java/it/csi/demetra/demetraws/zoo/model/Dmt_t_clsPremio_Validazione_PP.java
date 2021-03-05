@@ -30,10 +30,9 @@ public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 	 */
 	private static final long serialVersionUID = -8112440981387660017L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	@Id
 	@Column(name = "id_alle_bdn")
@@ -173,12 +172,12 @@ public class Dmt_t_clsPremio_Validazione_PP implements Serializable {
 		this.cuaa2 = cuaa2;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setIdAlleBDN(Long idAlleBDN) {

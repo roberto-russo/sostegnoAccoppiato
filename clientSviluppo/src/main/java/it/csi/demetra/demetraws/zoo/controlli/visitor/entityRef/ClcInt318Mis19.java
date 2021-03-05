@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +34,12 @@ import it.csi.demetra.demetraws.zoo.services.Dmt_t_clsCapoMacellato_services;
  */
 @Component("ClcInt318Mis19")
 public class ClcInt318Mis19 extends Controllo {
+	
+
 
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
 	private List<Dmt_t_clsCapoMacellato> duplicatiMacellati;
 	private List<Dmt_t_clsCapoMacellato> listaCapiMacellatiFiltrati;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ClcInt318Mis19.class);
 	private ResultCtlUbaMinime ubaMin;
 	@Autowired
 	private CtlUbaMinime ref9903;
@@ -68,6 +69,9 @@ public class ClcInt318Mis19 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		System.out.println("INIZIO CALCOLO INTERVENTO 318 MISURA 19");
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO PRE-ESECUZIONE");
 		this.listaCapiMacellati = null;
 		this.estrazioneACampione = null;
 		this.numeroCapiAmmissibili = new BigDecimal(0);
@@ -80,7 +84,6 @@ public class ClcInt318Mis19 extends Controllo {
 		this.ubaMin = new ResultCtlUbaMinime();
 		this.listaCapiMacellatiFiltrati = null;
 
-		LOGGER.info("inizio preEsecuzione()");
 		// CONTROLLO DI PREAMMISSIBILITA' TRASVERSALE
 
 		this.listaCapiMacellati = this.controlloCapiDichiarati(getControlliService()
@@ -92,17 +95,25 @@ public class ClcInt318Mis19 extends Controllo {
 		try {
 			ubaMin = ref9903.calcolo();
 
-			if (ubaMin.isErrors())
+			if (ubaMin.isErrors()) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
+			}
+			else if (!ubaMin.isResult()) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, CONTROLLO UBA MINIME NON RISPETTATO");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(),
 						"controllo uba minime non rispettato"));
+			}
 
 		} catch (CalcoloException e) {
+			System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE I CONTROLLI AMMISIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
 		this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
 				getAzienda().getCuaa(), getAzienda().getCodicePremio());
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 318 MISURA 19, FINE PRE-CALCOLO");
+		System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 318 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 	}
 
 	@Override
@@ -117,7 +128,9 @@ public class ClcInt318Mis19 extends Controllo {
 	 * in @see Dmt_t_output_esclusi.
 	 */
 	public void esecuzione() throws ControlloException {
-		LOGGER.info("inizio esecuzione()");
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO CALCOLO");
 
 		if (listaCapiMacellatiFiltrati == null)
 			return;
@@ -209,16 +222,19 @@ public class ClcInt318Mis19 extends Controllo {
 					}
 				}
 					
-				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0)
+				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 318 misura 19");
+				}
 				}
 			}
 				} catch (ControlloException e) {
 				//GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
-				System.out.println(e.getMessage());
+				System.out.println(" ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 318 MISURA 19");
 				new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(), e.getMessage());
 			} catch (NullPointerException e) {
+				System.out.println("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 318 MISURA 19, NESSUN CAPO DISPONIBILE");
                 throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
 			}
 			
@@ -228,6 +244,9 @@ public class ClcInt318Mis19 extends Controllo {
 				  if((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1) )
 					  this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);	
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 318 MISURA 19, FINE CALCOLO");
 	}
 
 	@Override
@@ -240,12 +259,11 @@ public class ClcInt318Mis19 extends Controllo {
 	 * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la domanda e il codice premio.
 	 */
 	public void postEsecuzione() throws ControlloException {
-		LOGGER.info("inizio postEsecuzione()");
 
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO POST-ESECUZIONE");
 		
 			if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
-				LOGGER.info("il numero di capi ammissibili al premio 318 misura 19 per l'azienda "
-						+ getAzienda().getCuaa() + "e': " + this.numeroCapiAmmissibili);
 				// SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
 				// SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
 				
@@ -274,6 +292,9 @@ public class ClcInt318Mis19 extends Controllo {
 					this.getControlliService().saveOutputEscl(this.outputEsclusi);
 				}
 			}
+			if(1==1)
+				System.out.println("CALCOLO INTERVENTO 318 MISURA 19, FINE POST ESECUZIONE");
+			 System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 318 MISURA 19");
 	}
 
 //	/**

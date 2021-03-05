@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,8 @@ import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
 @Component("ClcInt315Mis5")
 public class ClcInt315Mis5 extends Controllo {
 
+
+	
 	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
 	private List<Dmt_t_clsCapoMacellato> modelMacellato;
 	private BigDecimal importoLiquidabile;
@@ -63,6 +67,9 @@ public class ClcInt315Mis5 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException {
+		System.out.println("INIZIO CALCOLO INTERVENTO 315 MISURA 5");
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO PRE-ESECUZIONE");
 		this.importoLiquidabile = new BigDecimal(0);
 		this.contatoreBocciati = 0;
 		this.contatoreSanzionati = 0;
@@ -85,15 +92,24 @@ public class ClcInt315Mis5 extends Controllo {
 		try {
 			ubaMin = ref9903.calcolo();
 			
-			if( ubaMin.isErrors())
+			if( ubaMin.isErrors()) {
+				System.out.println("ERRORE CALCOLO INTERVENTO 315 MISURA 5, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
 				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else
-				if(!ubaMin.isResult())
+			}
+			else {
+				if(!ubaMin.isResult()) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 315 MISURA 5, CONTROLLO UBA MINIME NON RISPETTATO");
 					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt315Mis5", getInput(), "controllo uba minime non rispettato"));
+				}
+			}
 			
 		} catch (CalcoloException e) {
+			System.out.println("ERRORE CALCOLO INTERVENTO 315 MISURA 5, ERRORE DURANTE L'ESECUZIONE DEI CONOTROLLI AMMISIBILITA' TRASVERSALI REF99.03");
 			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 		}
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE PRE-ESECUZIONE");
+		System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 315 MISURA 5 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 	}
 
 	/**
@@ -114,6 +130,9 @@ public class ClcInt315Mis5 extends Controllo {
 	 */
 	@Override
 	public void esecuzione() throws ControlloException {
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO ESECUZIONE");
 
 		numeroCapiRichiesti = BigDecimal.valueOf(getControlliService()
 				.getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio())
@@ -198,12 +217,12 @@ public class ClcInt315Mis5 extends Controllo {
 
 				}
 				if (importoLiquidabile.compareTo(BigDecimal.ZERO) == 0) {
+					System.out.println("ERRORE CALCOLO INTERVENTO 315 MISURA 5, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
 					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
 							+ " nessun capo ha suprato il controllo per il premio 315 misura 5");
 				}
 			} catch (ControlloException e) {
-
-				System.out.println(e.getMessage());
+				System.out.println("ERRORE CALCOLO INTERVENTO 315 MISURA 5, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 315 MISURA 5 REF02.007");
 				new Dmt_t_errore(getSessione(), "ref02_007", getInput(), e.getMessage());
 			}
 
@@ -213,6 +232,9 @@ public class ClcInt315Mis5 extends Controllo {
 				if (!c.getAnomalie_cgo().contains("B"))
 					this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE ESECUZIONE");
 
 	}
 
@@ -235,6 +257,9 @@ public class ClcInt315Mis5 extends Controllo {
 	 */
 	@Override
 	public void postEsecuzione() throws ControlloException {
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO POST-ESECUZIONE");
 
 		if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) != 0) {
 			this.oc = new Dmt_t_output_controlli();
@@ -262,6 +287,10 @@ public class ClcInt315Mis5 extends Controllo {
 				this.getControlliService().saveOutputEscl(this.oe);
 			}
 		}	
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE POST-ESECUZIONE");
+		 System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 315 MISURA 5");
 	}
 
 	// /**

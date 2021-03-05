@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
@@ -32,6 +35,8 @@ import it.csi.demetra.demetraws.zoo.util.LocalDateConverter;
 @Component("ClcInt311Mis2")
 public class ClcInt311Mis2 extends Controllo {
 
+
+	
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
 
 	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheAmmesseInt310Mis1;
@@ -71,6 +76,10 @@ public class ClcInt311Mis2 extends Controllo {
 	 */
 	@Override
 	public void preEsecuzione() throws ControlloException, CalcoloException {
+		System.out.println("INIZIO CALCOLO INTERVENTO 311 MISURA 2");
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, INIZIO PRE-ESECUZIONE");
 
 		this.capiSanzionati = 0;
 		/*
@@ -186,20 +195,20 @@ public class ClcInt311Mis2 extends Controllo {
 						}
 
 					} else {
-
+						System.out.println("ERRORE CALCOLO INTERVENTO 311 MISURA 2, ERRORE DURANTE IL CALCOLO DELLE UBA MINIME.");
 						throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),
 								"Ci sono stati errori durante il calcolo della UBA minime"));
 
 					}
 				} else {
-
+					System.out.println("ERRORE CALCOLO INTERVENTO 311 MISURA 2, NESSUNA VACCA PRESENTE, NON E' POSSIBILE CALCOLARE LE UBA MINIME.");
 					throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(),
 							"Non è possibile calcolare le UBA minime, nessuna vacca presente."));
 
 				}
 
 			} catch (CalcoloException e) {
-
+				System.out.println("ERRORE DI ESECUZIONE CALCOLO INTERVENTO 311 MISURA 2");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
 			}
 
@@ -219,6 +228,9 @@ public class ClcInt311Mis2 extends Controllo {
 					"Il capo è escluso dal premio perchè l'allevamento non è situato in una zona montana. ");
 
 		}
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, FINE PRE-ESECUZIONE");
+		 System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 311 MISURA 2 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 	}
 
 	/**
@@ -234,6 +246,8 @@ public class ClcInt311Mis2 extends Controllo {
 		 * Se ci sono vacche ammesse si può, infine, calcolare il premio per
 		 * l'Intervento 311 Misura 2
 		 */
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, INIZIO ESECUZIONE");
 		if (modelVaccheAmmesse != null && !modelVaccheAmmesse.isEmpty()) {
 
 			if (ubaMinimeRaggiunte) {
@@ -275,17 +289,20 @@ public class ClcInt311Mis2 extends Controllo {
 					}
 				}
 			} else {
-
+				System.out.println("ERRORE CALCOLO INTERVENTO 311 MISURA 2, NON E' STATO RAGGIUNTO IL NUMERO DELLE UBA MINIME NECESSARIE AL RAGGIUNGIMENTO DEL PREMIO REF02.002");
 				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02002", getInput(),
 						"Non è stato ragginuto il numero delle Uba minime necessarie al raggiungimento del premio"));
 
 			}
 		} else {
-
+			System.out.println("ERRORE CALCOLO INTERVENTO 311 MISURA 2, NESSUNA VACCA E' STATA AMMESSA A PREMIO REF02002");
 			throw new ControlloException(
 					new Dmt_t_errore(getSessione(), "REF_02002", getInput(), "Nessuna vacca è stata ammessa a premio"));
 
 		}
+		
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, FINE ESECUZIONE");
 	}
 
 	/**
@@ -298,6 +315,8 @@ public class ClcInt311Mis2 extends Controllo {
 	@Override
 	public void postEsecuzione() throws ControlloException {
 		// ESECUZIONI CONTROLLI PER SOGGETTO
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, INIZIO POST-ESECUZIONE");
 		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
 		outputControlli.setIdSessione(getSessione());
 		outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
@@ -311,6 +330,9 @@ public class ClcInt311Mis2 extends Controllo {
 
 		for (Dmt_t_output_esclusi o : listEsclusi)
 			getControlliService().saveOutputEscl(o);
+		if(1==1)
+			System.out.println("CALCOLO INTERVENTO 311 MISURA 2, FINE POST-ESECUZIONE");
+		System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 311 MISURA 2");
 	}
 
 	private void setListEsclusi(List<Dmt_t_Tws_bdn_du_capi_bovini> bovini, String motivazione) {

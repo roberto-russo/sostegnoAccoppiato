@@ -35,7 +35,9 @@ public class Dmt_t_clsCapoMacellato_services {
 	 * @param capo lista di istanze da salvare a DB
 	 */
 	public void saveCapo(List<Dmt_t_clsCapoMacellato> capo) {
-		rep.saveAll(capo);
+		for(Dmt_t_clsCapoMacellato c : capo)
+			rep.save(c);
+//		rep.saveAll(capo);
 	}
 	
 	/**
