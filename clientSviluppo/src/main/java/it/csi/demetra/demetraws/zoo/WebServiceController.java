@@ -148,7 +148,7 @@ public class WebServiceController {
             for (Rpu_V_pratica_zoote azienda : listaVista) {
                 boolean trovato = false;
                 for (Rpu_V_pratica_zoote aziendaParz : listaParziale) {
-                    if (azienda.getCuaa().equals(aziendaParz.getCuaa())) {
+                    if (azienda.getCuaa().equals(aziendaParz.getCuaa()) && azienda.getCodicePremio().equals(aziendaParz.getCodicePremio())) {
                         trovato = true;
                         break;
                     }
