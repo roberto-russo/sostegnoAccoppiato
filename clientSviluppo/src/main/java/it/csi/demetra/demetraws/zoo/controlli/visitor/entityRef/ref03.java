@@ -241,12 +241,22 @@ public class ref03 {
         listaCapiEsito = this.getListaCapiEsito(cp);
         capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
         if (listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
-            for (Long e : capiPerPremio.get(cp))
-                if (listaCapiEsito.contains(e)) {
-                    capiAccertati = capiAccertati.add(BigDecimal.ONE);
-                    if (isSanzionato(e, cp))
-                        capiSanzionati = capiSanzionati.add(BigDecimal.ONE);
+            for (Long e : capiPerPremio.get(cp)) {
+                Boolean trovato = false;
+                for (Object capo : listaCapiEsito) {
+                    System.out.println("CAPO CLASS -> " + capo.getClass().getName());
+                    if (((BigDecimal) capo).longValue() == e.longValue()) {
+                        trovato = true;
+                        break;
+                    }
                 }
+                if (trovato) {
+                    capiAccertati = capiAccertati.add(BigDecimal.ONE);
+                    if (isSanzionato(e, cp)) {
+                        capiSanzionati = capiSanzionati.add(BigDecimal.ONE);
+                    }
+                }
+            }
             capiAnomali = capiRichiesti.subtract(capiAccertati);
         }
 
