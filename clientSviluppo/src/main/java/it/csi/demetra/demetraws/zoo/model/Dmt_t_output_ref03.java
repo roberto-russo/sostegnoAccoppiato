@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_output_ref03_id;
 
 @Entity
-@Table(name = "Dmt_t_output_ref03")
+@Table(name = "dmt_t_premio_calcolato_zoo")
 @IdClass(Dmt_t_output_ref03_id.class)
 public class Dmt_t_output_ref03 implements Serializable{
 

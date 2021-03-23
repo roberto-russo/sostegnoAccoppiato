@@ -21,12 +21,12 @@ public interface Dmt_t_SistemiDiEtichettaturaFacoltativa_repository extends Crud
 	 * query che ritorna la lista delle istanze che persistono a DB di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa
 	 */
 	List<Dmt_t_SistemiDiEtichettaturaFacoltativa>findAll();
-	
+
 	/**
 	 * Query che ritorna un'istanza di tipo Dmt_t_SistemiDiEtichettaturaFacoltativa in base al cuaa
 	 * @param cuaa codice fiscale del richiedente
 	 * @return istanza di tipo @see Dmt_t_SistemiDiEtichettaturaFacoltativa
 	 */
 	@Query(value = "select * from Dmt_t_sistemi_etichettatura where cuaa = :cuaa", nativeQuery = true)
-	Dmt_t_SistemiDiEtichettaturaFacoltativa findByCuaa(@Param("cuaa") String cuaa);
+	List<Dmt_t_SistemiDiEtichettaturaFacoltativa> findByCuaa(@Param("cuaa") String cuaa);
 }

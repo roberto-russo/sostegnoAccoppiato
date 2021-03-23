@@ -60,8 +60,11 @@ public class WebServiceController {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
 //        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna);
         TransformerData transformer = new TransformerData();
-        List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
-        List<Rpu_V_pratica_zoote> listVista = listParziale;
+//        List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
+        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna); // IN TEST
+        List<Rpu_V_pratica_zoote> listParziale = listVista;
+//        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna); // IN PROD
+
 
 
         List<Rpu_V_pratica_zoote> listaScarico = eseguiScarico(listVista, (listParziale != null && listParziale.size() > 0) ? listParziale : listVista, sessione, annoCampagna, tipoEsecuzione);

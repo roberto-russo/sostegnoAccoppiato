@@ -1,66 +1,110 @@
 package it.csi.demetra.demetraws.zoo.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity
 @Table(name = "Dmt_t_sistemi_etichettatura")
-public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable{
+public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
 
 
-	private static final long serialVersionUID = 1421420988744825874L;
+    private static final long serialVersionUID = 1421420988744825874L;
 
-	
-	
-	
-	@Id
-	@Column(name = "cuaa")
-	/**
-	 * codice fiscale del richiedente
-	 */
-	private String cuaa;
-	
-	@Column(name= "flag_etichettatura")
-	/**
-	 * Flag che indica l'adesione ai sistemi di etichettatura facoltativa.
-	 * Puo' assumere i seguenti valori:
-	 * - S -> se l'intestatario conincide con il soggetto aderente a sistemi di etichettatura facoltativa
-	 * - N -> se l'intenstatario non conincide con il soggetto aderente a sistemi di etichettatura facoltativa
-	 */
-	private String flagEtichettatura;
+    @Id
+    @Column(name = "ID")
+    private Long id;
 
-	/**
-	 * Metodo getter che ritorna il codice fiscale del richiedente
-	 * @return cuaa codice fiscale del richiedente
-	 */
-	public String getCuaa() {
-		return cuaa;
-	}
+    @Column(name = "CUAA")
+    /**
+     * codice fiscale del richiedente
+     */
+    private String cuaa;
 
-	/**
-	 * Metodo setter che ritorna il codice fiscale del richiedente
-	 * @param cuaa codice fiscale del richiedente
-	 */
-	public void setCuaa(String cuaa) {
-		this.cuaa = cuaa;
-	}
+    @Column(name = "CODICE_ORGANISMO")
+    private String codiceOrganismo;
 
-	/**
-	 * Metodo getter che ritorna il flag di adesione ai sistemi di etichettatura facoltativa
-	 * @return flagEtichettatura flag di adesione ai sistemi di etichettatura facoltativa
-	 */
-	public String getFlagEtichettatura() {
-		return flagEtichettatura;
-	}
+    @Column(name = "CODICE_ASL")
+    private String codiceAsl;
 
-	/**
-	 * Metodo setter che imposta il flag di adesione ai sistemi di eitchettatura facoltativa
-	 * @param flagEtichettatura flag di adesione ai sistemi di etichettatura facoltativa
-	 */
-	public void setFlagEtichettatura(String flagEtichettatura) {
-		this.flagEtichettatura = flagEtichettatura;
-	}
+    @Column(name = "PARTITA_IVA")
+    private Integer partitaIva;
+
+    @Column(name = "DATA_INIZIO_ADESIONE")
+    private Date dataInizioAdesione;
+
+    @Column(name = "DATA_FINE_ADESIONE")
+    private Date dataFineAdesione;
+
+    @Column(name = "ANNOTAZIONI")
+    private String annotazioni;
+
+    public String getCodiceAsl() {
+        return codiceAsl;
+    }
+
+    public void setCodiceAsl(String codiceAsl) {
+        this.codiceAsl = codiceAsl;
+    }
+
+    /**
+     * Metodo getter che ritorna il codice fiscale del richiedente
+     *
+     * @return cuaa codice fiscale del richiedente
+     */
+    public String getCuaa() {
+        return cuaa;
+    }
+
+    /**
+     * Metodo setter che ritorna il codice fiscale del richiedente
+     *
+     * @param cuaa codice fiscale del richiedente
+     */
+    public void setCuaa(String cuaa) {
+        this.cuaa = cuaa;
+    }
+
+    public String getCodiceOrganismo() {
+        return codiceOrganismo;
+    }
+
+    public void setCodiceOrganismo(String codiceOrganismo) {
+        this.codiceOrganismo = codiceOrganismo;
+    }
+
+    public Integer getPartitaIva() {
+        return partitaIva;
+    }
+
+    public void setPartitaIva(Integer partitaIva) {
+        this.partitaIva = partitaIva;
+    }
+
+    public Date getDataInizioAdesione() {
+        return dataInizioAdesione;
+    }
+
+    public void setDataInizioAdesione(Date dataInizioAdesione) {
+        this.dataInizioAdesione = dataInizioAdesione;
+    }
+
+    public Date getDataFineAdesione() {
+        return dataFineAdesione;
+    }
+
+    public void setDataFineAdesione(Date dataFineAdesione) {
+        this.dataFineAdesione = dataFineAdesione;
+    }
+
+    public String getAnnotazioni() {
+        return annotazioni;
+    }
+
+    public void setAnnotazioni(String annotazioni) {
+        this.annotazioni = annotazioni;
+    }
 }

@@ -109,8 +109,6 @@ public class ref03 {
                 System.out.println(cp);
                 Dmt_t_importo_unitario o = this.controlliService
                         .getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp);
-                System.out.println("CHECK IMPORTO NULL -> ");
-                System.out.println(o);
                 this.importoUnit = new BigDecimal(o
                         .getImportoUnitario());
             } catch (Exception e) {
@@ -216,6 +214,8 @@ public class ref03 {
         BigDecimal capiAccertati = new BigDecimal(0);
         BigDecimal capiRichiesti = new BigDecimal(0);
         BigDecimal capiSanzionati = new BigDecimal(0);
+        BigDecimal ammissibiliPlusSanzionati = new BigDecimal(0);
+        Dmt_t_output_controlli outputControlli;
         HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
         List<Long> capiAnomaliPerCodicePremio = new ArrayList<Long>();
         List<Long> listaCapiEsito = new ArrayList<Long>();
@@ -243,21 +243,68 @@ public class ref03 {
         if (listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
             for (Long e : capiPerPremio.get(cp)) {
                 Boolean trovato = false;
-                for (Object capo : listaCapiEsito) {
-                    System.out.println("CAPO CLASS -> " + capo.getClass().getName());
-                    if (((BigDecimal) capo).longValue() == e.longValue()) {
+                for (Long capo : listaCapiEsito) {
+//					System.out.println("CAPO CLASS -> " + capo.getClass().getName());
+                    // CAMBIARE DA LONG A BIGDECIMAL COME CONVERSIONE
+                    if (capo.longValue() == e.longValue()) {
                         trovato = true;
                         break;
                     }
                 }
                 if (trovato) {
                     capiAccertati = capiAccertati.add(BigDecimal.ONE);
+                    // aggiungere controllo M19
                     if (isSanzionato(e, cp)) {
                         capiSanzionati = capiSanzionati.add(BigDecimal.ONE);
                     }
                 }
             }
+            /* IMPLEMENTAZIONE DEI LIMITI SU CAPI_RICHIESTI E CAPI_ACCERTATI */
+            // 1) ESEGUIRE LA QUERY A DB PER RECUPERO DEI DATI DI OUTPUT_CONTROLLI DA DB PER
+            // CUAA E INTERVENTO.
+            // 2) CAPI_RICHIESTI REF03 = LIMITE SUPERIORE COME CAPI_RICHIESTI
+            // OUTPUT_CONTROLLI.
+            // 3) CAPI_ACCERTATI_REF03 = LIMITE SUPERIORE COME CAPI_AMMISSIBILI +
+            // CAPI_SANZIONATI DI OUTPUT_CONTROLLI.
+
+            if (cp.equals("M19"))
+                outputControlli = this.controlliService
+                        .getOutputControlliM19BySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione,
+                                this.azienda.getCuaa(), (long) this.azienda.getAnnoCampagna());
+            else
+                outputControlli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(
+                        this.sessione, this.azienda.getCuaa(), (long) this.azienda.getAnnoCampagna(), cp);
+
+            if (null == outputControlli) {
+
+                result.put("accertati", capiAccertati);
+                result.put("anomali", capiAnomali);
+                result.put("richiesti", capiRichiesti);
+                result.put("sanzionati", capiSanzionati);
+
+                return result;
+            }
+
+            ammissibiliPlusSanzionati = outputControlli.getCapiAmmissibili().add(new BigDecimal(
+                    null != outputControlli.getCapiSanzionati() ? outputControlli.getCapiSanzionati() : 0));
+
+            // SE I CAPI RICHIESTI DI OUTPUT REF03 SONO MAGGIORI DI QUELLI DI OUTPUT
+            // CONTROLLI, ALLORA SETTARE IL LIMITE SUPERIORE
+            capiRichiesti = capiRichiesti.min(outputControlli.getCapiRichiesti());
+
+            // SE I CAPI ACCERTATI DI OUTPUT REF03 SONO MAGGIORI DI QUELLI DI OUTPUT
+            // CONTROLLI, ALLORA SETTARE IL LIMITE SUPERIORE
+
+            capiAccertati = capiAccertati.min(ammissibiliPlusSanzionati);
+
+            if (null != outputControlli.getCapiSanzionati())
+                capiSanzionati = capiSanzionati.min(new BigDecimal(outputControlli.getCapiSanzionati()));
+
             capiAnomali = capiRichiesti.subtract(capiAccertati);
+
+            // RESET DELLE VARIABLI
+            outputControlli = null;
+            ammissibiliPlusSanzionati = null;
         }
 
         result.put("accertati", capiAccertati);

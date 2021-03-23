@@ -268,9 +268,8 @@ public class ControlliService {
      * @param cuaa codice fiscale del richiedente
      * @return Dmt_t_SistemiDiEtichettaturaFacoltativa
      */
-    public Dmt_t_SistemiDiEtichettaturaFacoltativa getSistemaEtichettarua(String cuaa) {
-
-        return this.etichettaturaRepository.findByCuaa(cuaa) == null ? new Dmt_t_SistemiDiEtichettaturaFacoltativa() : this.etichettaturaRepository.findByCuaa(cuaa);
+    public List<Dmt_t_SistemiDiEtichettaturaFacoltativa> getSistemaEtichettarua(String cuaa) {
+        return this.etichettaturaRepository.findByCuaa(cuaa);
     }
 
     /**
@@ -621,6 +620,11 @@ public class ControlliService {
     public Dmt_t_Tws_bdn_du_capi_bovini getBovinoById(Long idCapo, String codicePremio, String cuaa, Long idSessione) {
     	return boviniRepository.getCapoBovinoById(idCapo, codicePremio, cuaa, idSessione);
     }
+
+    public Dmt_t_output_controlli getOutputControlliM19BySessioneAndCuaaAndAnnoCampagnaAndIntervento(Dmt_t_sessione sessione, String cuaa, Long anno) {
+        return outputRepository.findBySessioneAndCuaaAndAnnoCampagnaAndInterventoM19(sessione, cuaa, anno);
+    }
+
 
 //    public Dmt_t_Tws_bdn_du_capi_ovicaprini getOviCaprinoById (Long idCapo, String codicePremio, String cuaa, Long idSessione) {
 //    	return covicapriniRep.getOviCaprinoById(idCapo, codicePremio, cuaa, idSessione);

@@ -48,4 +48,20 @@ public interface Dmt_t_output_controlli_repository extends CrudRepository<Dmt_t_
 
 	@Query(value = "select capi_sanzionati from dmt_t_output_controlli where cuaa = :cuaa and intervento = :intervento and id_sessione=:idSessione", nativeQuery = true)
 	Long findCapiSanzionati(@Param("cuaa") String cuaa , @Param("intervento")String intervento ,@Param("idSessione")Long idSessione);
+
+
+	@Query(value = "select distinct anno_campagna, cuaa, 'M19' as intervento,\n" +
+			"id_sessione, sum (capi_ammissibili) as capi_ammissibili,\n" +
+			"sum (capi_richiesti) as capi_richiesti,\n" +
+			"sum (capi_sanzionati) as capi_sanzionati\n" +
+			"from dmt_t_output_controlli\n" +
+			"where id_sessione=:sessione\n" +
+			"and cuaa=:cuaa\n" +
+			"and anno_campagna=:anno\n" +
+			"and intervento in ('316','317','318','319')\n" +
+			"group by anno_campagna, cuaa, id_sessione"
+			,
+			nativeQuery = true
+	)
+	Dmt_t_output_controlli findBySessioneAndCuaaAndAnnoCampagnaAndInterventoM19(@Param("sessione") Dmt_t_sessione sessione, @Param("cuaa") String cuaa, @Param("anno") Long anno);
 }

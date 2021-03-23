@@ -1,5 +1,6 @@
 package it.csi.demetra.demetraws.zoo.services;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,9 @@ public class Dmt_t_clsCapoMacellato_services {
 	 */
 	public List<Dmt_t_clsCapoMacellato>getMacellatiUbaMinime(Long idSessione, String cuaa, String codIntervento) {
 		return rep.getMacellatiUbaMinime(idSessione, cuaa, codIntervento);
+	}
+
+	public List<Dmt_t_clsCapoMacellato> getCapiMacellatiByStalla(Long idSessione, String cuaa, String codiceAsl, Long idCapo) {
+		return rep.getCapiMacellatiByStalla(idSessione,cuaa,codiceAsl,idCapo);
 	}
 }

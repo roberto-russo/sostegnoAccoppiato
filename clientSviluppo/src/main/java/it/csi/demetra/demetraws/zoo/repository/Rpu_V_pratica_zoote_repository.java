@@ -24,7 +24,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
 	 * @return  lista di istanze di tipo Rpu_V_pratica_zoote_repository
 	 */
 	@Query(
-			value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna", 
+			value = " select * from RPU_V_PRATICA_ZOOTE where cuaa in ('03021090042') and anno_campagna=2019 and codice_premio='318' ",
 			nativeQuery = true
 		  )
 	List<Rpu_V_pratica_zoote> findAll(@Param("annoCampagna") Integer annoCampagna);
