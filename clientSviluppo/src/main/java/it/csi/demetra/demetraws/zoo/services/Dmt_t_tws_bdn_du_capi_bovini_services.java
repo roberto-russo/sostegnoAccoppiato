@@ -40,6 +40,9 @@ public class Dmt_t_tws_bdn_du_capi_bovini_services {
      */
     public void saveCapo(List<Dmt_t_Tws_bdn_du_capi_bovini> capo) {
         for (Dmt_t_Tws_bdn_du_capi_bovini c : capo) {
+            System.out.println("------- SESSO VITELLO -------");
+            System.out.println(c.getVitelloTipoOrigine());
+            System.out.println(c.getVitelloTipoOrigine().length());
             rep.save(c);
         }
 //		rep.saveAll(capo);

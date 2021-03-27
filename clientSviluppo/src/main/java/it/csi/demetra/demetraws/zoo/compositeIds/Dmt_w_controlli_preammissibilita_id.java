@@ -55,10 +55,7 @@ public class Dmt_w_controlli_preammissibilita_id implements Serializable {
         } else if (!nomeClasseCalcolo.equals(other.nomeClasseCalcolo))
             return false;
         if (ordineEsecuzione == null) {
-            if (other.ordineEsecuzione != null)
-                return false;
-        } else if (!ordineEsecuzione.equals(other.ordineEsecuzione))
-            return false;
-        return true;
+            return other.ordineEsecuzione == null;
+        } else return ordineEsecuzione.equals(other.ordineEsecuzione);
     }
 }

@@ -1,56 +1,56 @@
 package it.csi.demetra.demetraws.zoo.calcoli.entity;
 
 public class Ref {
-	
-	private Long idSessione;
 
-	private String codIntrervento;
-	
-	private Long annoCampagna;
-	
-	private String cuaa;
-	
-	private Long idBdn;
-	
-	public String getCodIntrervento() {
-		return codIntrervento;
-	}
+    private Long idSessione;
 
-	public void setCodIntrervento(String codIntrervento) {
-		this.codIntrervento = codIntrervento;
-	}
+    private String codIntrervento;
 
-	public Long getAnnoCampagna() {
-		return annoCampagna;
-	}
+    private Long annoCampagna;
 
-	public void setAnnoCampagna(Long annoCampagna) {
-		this.annoCampagna = annoCampagna;
-	}
+    private String cuaa;
 
-	public String getCuaa() {
-		return cuaa;
-	}
+    private Long idBdn;
 
-	public void setCuaa(String cuaa) {
-		this.cuaa = cuaa;
-	}
+    public String getCodIntrervento() {
+        return codIntrervento;
+    }
 
-	public Long getIdBdn() {
-		return idBdn;
-	}
+    public void setCodIntrervento(String codIntrervento) {
+        this.codIntrervento = codIntrervento;
+    }
 
-	public void setIdBdn(Long idBdn) {
-		this.idBdn = idBdn;
-	}
+    public Long getAnnoCampagna() {
+        return annoCampagna;
+    }
 
-	public Long getIdSessione() {
-		return idSessione;
-	}
+    public void setAnnoCampagna(Long annoCampagna) {
+        this.annoCampagna = annoCampagna;
+    }
 
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
-	
-	
+    public String getCuaa() {
+        return cuaa;
+    }
+
+    public void setCuaa(String cuaa) {
+        this.cuaa = cuaa;
+    }
+
+    public Long getIdBdn() {
+        return idBdn;
+    }
+
+    public void setIdBdn(Long idBdn) {
+        this.idBdn = idBdn;
+    }
+
+    public Long getIdSessione() {
+        return idSessione;
+    }
+
+    public void setIdSessione(Long idSessione) {
+        this.idSessione = idSessione;
+    }
+
+
 }

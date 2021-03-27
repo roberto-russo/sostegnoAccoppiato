@@ -1,6 +1,5 @@
 package it.csi.demetra.demetraws.zoo.services;
 
-
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,7 +115,7 @@ public class SaveOnDbService {
         } catch (ConstraintViolationException e) {
             System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL");
             Dmt_t_errore errore = new Dmt_t_errore();
-            String input = new String("-1, dati non disponibili");
+            String input = "-1, dati non disponibili";
             errore.setNomeMetodo("GetConsistenzaUbaCensimOVini2012");
             errore.setInput(input);
             System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
@@ -167,7 +166,6 @@ public class SaveOnDbService {
             newObj.setIdSessione(sessioneNew);
             listCapreNew.add(newObj);
         }
-
         for (Dmt_t_Tws_bdn_du_capi_bovini d : listVacche) {
             Dmt_t_Tws_bdn_du_capi_bovini newObj = new Dmt_t_Tws_bdn_du_capi_bovini(d);
             newObj.setIdSessione(sessioneNew);

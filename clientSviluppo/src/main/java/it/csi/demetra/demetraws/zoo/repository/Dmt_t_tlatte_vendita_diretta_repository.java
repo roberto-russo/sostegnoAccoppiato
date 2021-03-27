@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * interfaccia che estende CrudRepository in cui sono definiti i metodi di persistenza degli oggetti
  * di tipo Dmt_t_tlatte_vendita_diretta_repository e le query ad esso associate.
+ *
  * @author Bcsoft
  */
 @Repository

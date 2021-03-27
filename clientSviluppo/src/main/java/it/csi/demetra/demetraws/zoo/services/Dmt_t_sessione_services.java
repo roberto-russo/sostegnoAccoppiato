@@ -3,11 +3,8 @@ package it.csi.demetra.demetraws.zoo.services;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.repository.Dmt_t_sessione_repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -75,7 +72,7 @@ public class Dmt_t_sessione_services {
     }
 
     public Dmt_t_sessione getOldSessione(Long idSessione, String cuaa, String codicePremio) {
-        Dmt_t_sessione sessione = rep.findOldSessione(idSessione,cuaa,codicePremio);
+        Dmt_t_sessione sessione = rep.findOldSessione(idSessione, cuaa, codicePremio);
         return sessione;
     }
 }

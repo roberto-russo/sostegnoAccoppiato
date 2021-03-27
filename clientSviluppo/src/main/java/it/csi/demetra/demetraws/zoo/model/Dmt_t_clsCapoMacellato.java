@@ -16,8 +16,6 @@ import java.util.Date;
 public class Dmt_t_clsCapoMacellato implements Serializable {
 
     private static final long serialVersionUID = -787054678069256335L;
-
-
     @Id
     @GeneratedValue(generator = "seq_dmt_t_cls_capo_macellato")
     @SequenceGenerator(name = "seq_dmt_t_cls_capo_macellato", sequenceName = "SEQ_DMT_T_CLS_CAPO_MACELLATO", allocationSize = 1)
@@ -26,126 +24,105 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
      * id autogenerato associato all'oggetto di tipo Dmt_t_clsCapoMacellato
      */
     private Long idAutogenerato;
-
-
     @ManyToOne
     @JoinColumn(name = "id_sessione", nullable = false)
     /**
      * codice di sessione associato all'esecuzione
      */
     private Dmt_t_sessione idSessione;
-
     @ManyToOne
     @JoinColumn(name = "FK_DMT_D_CLS_PREM_VALID", nullable = true)
     private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
-
     @Column(name = "capo_id")
     @NotNull
     /**
      * Identificativo univoco in BDN del capo bovino
      */
     private Long capoId;
-
     @Column(name = "allev_id")
     @NotNull
     /**
      * Identificativo univoco in BDN dell’allevamento di detenzione del capo
      */
     private Long allevId;
-
     @Column(name = "CODICE_PREMIO")
     @NotNull
     private String codicePremio;
-
     @Column(name = "codice")
     /**
      * Codice della marca auricolare applicata al capo bovino.
      */
     private String codice;
-
     @Column(name = "razza_codice")
     /**
      * Codice della razza del capo
      */
     private String razzaCodice;
-
     @Column(name = "sesso")
     /**
      * Sesso del capo.
      */
     private String sesso;
-
     @Column(name = "dt_nascita")
     @Temporal(TemporalType.DATE)
     /**
      * Data di nascita del capo.
      */
     private Date dtNascita;
-
     @Column(name = "azienda_codice")
     /**
      * Codice dell’azienda di detenzione
      */
     private String aziendaCodice;
-
     @Column(name = "azienda_latitudine")
     /**
      * Latitudine dell’azienda
      */
     private Double aziendaLatitudine;
-
     @Column(name = "azienda_longitudine")
     /**
      * Longitudine dell’azienda
      */
     private Double aziendaLongitudine;
-
     @Column(name = "dt_ingresso")
     @Temporal(TemporalType.DATE)
     /**
      * Data di ingresso del capo
      */
     private Date dtIngresso;
-
     @Column(name = "dt_macellazione")
     @Temporal(TemporalType.DATE)
     /**
      * Data di macellazione del capo
      */
     private Date dtMacellazione;
-
     @Column(name = "cod_libro")
     /**
      * Codice del libro genealogico, se iscritto
      */
     private String codLibro;
-
     @Column(name = "descr_libro")
     /**
      * Descrizione del libro genealogico, se iscritto
      */
     private String descrLibro;
-
     @Column(name = "dt_com_autorita_ingresso")
     @Temporal(TemporalType.DATE)
     /**
      * Data di comunicazione all’autorità competente dell’ingresso in stalla
      */
     private Date dtComAutoritaIngresso;
-
     @Column(name = "dt_inserimento_bdn_ingresso")
     @Temporal(TemporalType.DATE)
     /**
      * Data di registrazione in BDN dell’ingresso in stalla
      */
     private Date dtInserimentoBdnIngresso;
-
     @Column(name = "cuaa", length = 16)
     /**
      * Codice fiscale del richiedente
      */
     private String cuaa;
-
     @Column(name = "dt_com_autorita_uscita")
     @Temporal(TemporalType.DATE)
     /**
@@ -153,60 +130,64 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
      * macello
      */
     private Date dtComAutoritaUscita;
-
     @Column(name = "dt_uscita")
     @Temporal(TemporalType.DATE)
     /**
      * Data di uscita
      */
     private Date dtUscita;
-
     @Column(name = "dt_inserimento_bdn_uscita")
     @Temporal(TemporalType.DATE)
     /**
      * Data di registrazione in BDN dell’uscita del capo verso macello.
      */
     private Date dtInserimentoBdnUscita;
-
     @Column(name = "dt_Inizio_Detenzione")
     @Temporal(TemporalType.DATE)
     /**
      * Data di inizio detenzione del capo
      */
     private Date dtInizioDetenzione;
-
     @Column(name = "dt_fine_detenzione")
     @Temporal(TemporalType.DATE)
     /**
      * Data fine detenzione del capo
      */
     private Date dtFineDetenzione;
-
     @Column(name = "flag_delegato_ingresso")
     /**
      * Flag che assume valori a seconda dell'ingresso del capo
      */
     private String flagDelegatoIngresso;
-
     @Column(name = "ruolo_utente_ingresso")
     /**
      * Flag che rappresenta il tipo delegato che ha registrato l'ingresso del capo
      * in BDN.
      */
     private String ruoloUtenteIngresso;
-
     @Column(name = "flag_delegato_uscita")
     /**
      * Flag che assume valori a seconda dell'uscita del capo
      */
     private String flagDelegatoUscita;
-
     @Column(name = "ruolo_utente_uscita")
     /**
-     * Flag che rappresenta il tipo delegato che ha registrato l’uscita del capo in
-     * BDN.
+     * Flag che rappresenta il tipo delegato che ha registrato l’uscita del capo
+     * in BDN.
      */
     private String ruoloUtenteUscita;
+
+    @Transient
+    private String motivazioneEsclusione;
+
+    @Transient
+    public String getMotivazioneEsclusione() {
+        return motivazioneEsclusione;
+    }
+
+    public void setMotivazioneEsclusione(String motivazioneEsclusione) {
+        this.motivazioneEsclusione = motivazioneEsclusione;
+    }
 
     public Dmt_t_clsCapoMacellato() {
         super();
@@ -240,7 +221,6 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
         this.flagDelegatoUscita = dmt_t_clsCapoMacellato.getFlagDelegatoUscita();
         this.ruoloUtenteUscita = dmt_t_clsCapoMacellato.getRuoloUtenteUscita();
     }
-
 
     public Long getIdAutogenerato() {
         return idAutogenerato;
@@ -505,8 +485,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     }
 
     /**
-     * Recupera la data di comunicazione all’autorità competente dell’ingresso in
-     * stalla
+     * Recupera la data di comunicazione all’autorità competente dell’ingresso
+     * in stalla
      *
      * @return dtComAutoritaIngresso la data di comunicazione dell'ingresso in
      * stalla
@@ -516,8 +496,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     }
 
     /**
-     * Imposta la data di comunicazione all’autorità competente dell’ingresso in
-     * stalla
+     * Imposta la data di comunicazione all’autorità competente dell’ingresso
+     * in stalla
      *
      * @param dtComAutoritaIngresso la data di comunicazione dell'ingresso in stalla
      */
@@ -564,8 +544,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     }
 
     /**
-     * Recupera la data di comunicazione all’autorità competente dell’uscita del
-     * capo verso il macello
+     * Recupera la data di comunicazione all’autorità competente dell’uscita
+     * del capo verso il macello
      *
      * @return dtComAutoritaUscita la data di comunicazione dell'uscita del capo
      * verso il macello
@@ -575,8 +555,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     }
 
     /**
-     * Imposta la data di comunicazione all’autorità competente dell’uscita del capo
-     * verso il macello
+     * Imposta la data di comunicazione all’autorità competente dell’uscita del
+     * capo verso il macello
      *
      * @param dtComAutoritaUscita la data di comunicazione dell'uscita del capo
      *                            verso il macello
@@ -604,7 +584,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     }
 
     /**
-     * Recupera la data di registrazione in BDN dell’uscita del capo verso macello.
+     * Recupera la data di registrazione in BDN dell’uscita del capo verso
+     * macello.
      *
      * @return dtInserimentoBdnUscita la data di registrazione in BDN dell’uscita
      * del capo
@@ -616,8 +597,8 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
     /**
      * Imposta la data di registrazione in BDN dell’uscita del capo verso macello.
      *
-     * @param dtInserimentoBdnUscita la data di registrazione in BDN dell’uscita del
-     *                               capo
+     * @param dtInserimentoBdnUscita la data di registrazione in BDN dell’uscita
+     *                               del capo
      */
     public void setDtInserimentoBdnUscita(Date dtInserimentoBdnUscita) {
         this.dtInserimentoBdnUscita = dtInserimentoBdnUscita;
@@ -739,6 +720,5 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
             Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse) {
         this.dmt_d_clsPremio_ValidazioneResponse = dmt_d_clsPremio_ValidazioneResponse;
     }
-
 
 }

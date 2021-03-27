@@ -1,16 +1,12 @@
 package it.csi.demetra.demetraws.zoo.model;
 
-import java.io.Serializable;
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_errore_id;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-
-import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_errore_id;
+import java.io.Serializable;
 
 @Entity(name = "DMT_t_errore")
 @IdClass(Dmt_t_errore_id.class)
@@ -34,7 +30,7 @@ public class Dmt_t_errore implements Serializable {
     private String input;
 
     @Id
-    @Column(name="id_sessione")
+    @Column(name = "id_sessione")
     private Long idSessione;
 
     @Column(name = "errore_descrizione")
@@ -58,9 +54,10 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Costruttore con parametri che imposta idSessione, nomeMetodo, input ed erroreDesc
+     *
      * @param idSessione id della sessione corrente
      * @param nomeMetodo nome del metodo richiamato
-     * @param input parametri di input del metodo richiamato
+     * @param input      parametri di input del metodo richiamato
      * @param erroreDesc descrizione dell'errore occorso
      */
     public Dmt_t_errore(Dmt_t_sessione idSessione, String nomeMetodo, String input, String erroreDesc) {
@@ -72,6 +69,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * metodo getter che ritorna  SerialVersionUID
+     *
      * @return serialVerisonUID
      */
     public static long getSerialVersionUID() {
@@ -80,6 +78,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice univoco associato all'esecuzione
+     *
      * @return idSessione codice univoco associato all'esecuzione.
      */
     public Long getIdSessione() {
@@ -90,6 +89,7 @@ public class Dmt_t_errore implements Serializable {
      * Metodo setter che imposta il codice univoco associato all'esecuzione.
      * <b>ATTENZIONE</b> questo metodo non viene utilizzato in quanto il codice
      * univoco della sessione viene generato automaticamente, @see Dmt_t_sessione.
+     *
      * @param sessione identificativo univoco associato all'esecuzione
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
@@ -98,6 +98,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * metodo getter che ritorna la descrizione dell'errore occorso
+     *
      * @return erroreDesc descrizione dell'errore occorso.
      */
     public String getErroreDesc() {
@@ -106,6 +107,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo setter che imposta la descrizione dell'errore occorso.
+     *
      * @param erroreDesc descrizione dell'errore occorso.
      */
     public void setErroreDesc(String erroreDesc) {
@@ -114,6 +116,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * metodo getter che ritorna il codice dell'errore occorso.
+     *
      * @return erroreCodice codice dell'errore occorso.
      */
     public String getErrorecodice() {
@@ -122,6 +125,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo setter che imposta il codice dell'errore occorso.
+     *
      * @param errorecodice codice dell'errore occorso.
      */
     public void setErrorecodice(String errorecodice) {
@@ -130,6 +134,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo getter che ritorna il nome del metodo richiamato
+     *
      * @return nomeMetodo nome del metodo richiamato.
      */
     public String getNomeMetodo() {
@@ -138,6 +143,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo setter che imposta il nome del metodo richiamato.
+     *
      * @param nomeMetodo nome del metodo richiamato.
      */
     public void setNomeMetodo(String nomeMetodo) {
@@ -146,6 +152,7 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo getter che ritorna i parametri di input del metodo richiamato
+     *
      * @return input parametri di input del metodo richiamato.
      */
     public String getInput() {
@@ -154,12 +161,12 @@ public class Dmt_t_errore implements Serializable {
 
     /**
      * Metodo setter che imposta i parametri di input del metodo richiamato.
+     *
      * @param input parametri di input del metodo richiamato.
      */
     public void setInput(String input) {
         this.input = input;
     }
-
 
 
     @Override
@@ -169,8 +176,8 @@ public class Dmt_t_errore implements Serializable {
                 ", input='" + input + '\'' +
                 ", idSessione=" + idSessione +
                 ", sessione=" + idSessione +
-                "rroreDesc='" + erroreDesc + '\'' +
-                "rrorecodice='" + errorecodice + '\'' +
+                ", erroreDesc='" + erroreDesc + '\'' +
+                ", errorecodice='" + errorecodice + '\'' +
                 '}';
     }
 }

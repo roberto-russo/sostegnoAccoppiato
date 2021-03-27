@@ -28,6 +28,7 @@ public class Dmt_w_controllo_bean implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice intervento
+     *
      * @return codice codice intervento
      */
     public String getCodice() {
@@ -36,6 +37,7 @@ public class Dmt_w_controllo_bean implements Serializable {
 
     /**
      * Metodo setter che imposta il codice intervento
+     *
      * @param codice codice intervento
      */
     public void setCodice(String codice) {
@@ -44,6 +46,7 @@ public class Dmt_w_controllo_bean implements Serializable {
 
     /**
      * Metodo getter che ritorna la classe di calcolo associata al codice intervento
+     *
      * @return bean classe di calcolo associata al codice intervento
      */
     public String getBean() {
@@ -52,6 +55,7 @@ public class Dmt_w_controllo_bean implements Serializable {
 
     /**
      * Metodo getter che imposta la classe di calcolo associata al codice intervento
+     *
      * @param bean classe di calcolo associata al codice intervento
      */
     public void setBean(String bean) {

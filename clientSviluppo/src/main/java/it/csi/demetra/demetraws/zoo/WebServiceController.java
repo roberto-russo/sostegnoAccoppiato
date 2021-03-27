@@ -60,11 +60,9 @@ public class WebServiceController {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
 //        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna);
         TransformerData transformer = new TransformerData();
-//        List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
-        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna); // IN TEST
-        List<Rpu_V_pratica_zoote> listParziale = listVista;
+        List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
+        List<Rpu_V_pratica_zoote> listVista = listParziale; // IN TEST
 //        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna); // IN PROD
-
 
 
         List<Rpu_V_pratica_zoote> listaScarico = eseguiScarico(listVista, (listParziale != null && listParziale.size() > 0) ? listParziale : listVista, sessione, annoCampagna, tipoEsecuzione);
@@ -79,10 +77,16 @@ public class WebServiceController {
 
     private void eseguiControlli(List<Rpu_V_pratica_zoote> listaCuaa, Integer annoCampagna, Dmt_t_sessione sessione) {
         System.out.println("INIZIO CONTROLLI SU N.ELEMENTI -> " + listaCuaa.size());
+        List<String> cuaaProcessed = new ArrayList<String>();
         for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+            if (cuaaProcessed.contains(azienda.getCuaa()))
+                continue;
             try {
-                controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
+                cuaaProcessed.add(azienda.getCuaa());
+                controlliFramework.handleControlloCUUA(getAllRpuFromCuaa(azienda.getCuaa(), listaCuaa), azienda.getCuaa(), annoCampagna,
+                        subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
             } catch (ControlloException e) {
+                e.printStackTrace();
                 if (null != e.getErrore()) {
                     Dmt_t_errore err = e.getErrore();
                     err.setIdSessione(sessione);
@@ -92,7 +96,18 @@ public class WebServiceController {
                 e.printStackTrace();
             }
         }
+
     }
+
+    private List<Rpu_V_pratica_zoote> getAllRpuFromCuaa(String cuaa, List<Rpu_V_pratica_zoote> listRpu) {
+        List<Rpu_V_pratica_zoote> res = new ArrayList<Rpu_V_pratica_zoote>();
+        for (Rpu_V_pratica_zoote x : listRpu)
+            if (x.getCuaa().equals(cuaa))
+                res.add(x);
+
+        return res;
+    }
+
 
     private Boolean isM19(String cp) {
         return cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
@@ -114,10 +129,11 @@ public class WebServiceController {
                 if (!find)
                     newListAziende.add(v);
 
-            } else newListAziende.add(v);
+            } else
+                newListAziende.add(v);
         }
 
-        for (Rpu_V_pratica_zoote azienda : newListAziende) {
+        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
             calcoloRef03.inizializzazione(sessione, azienda);
             try {
                 calcoloRef03.esecuzione();
@@ -127,10 +143,9 @@ public class WebServiceController {
         }
     }
 
-
     private List<Rpu_V_pratica_zoote> eseguiScarico(List<Rpu_V_pratica_zoote> listaVista,
-                                                    List<Rpu_V_pratica_zoote> listaParziale,
-                                                    Dmt_t_sessione sessione, Integer annoCampagna, String tipoEsecuzione) {
+                                                    List<Rpu_V_pratica_zoote> listaParziale, Dmt_t_sessione sessione, Integer annoCampagna,
+                                                    String tipoEsecuzione) {
         System.out.println("INIZIO SCARICO");
         List<Rpu_V_pratica_zoote> cuaaMancanti = new ArrayList<>();
         List<Rpu_V_pratica_zoote> result = new ArrayList<>();
@@ -138,9 +153,10 @@ public class WebServiceController {
             cuaaMancanti = listaVista;
         else {
             for (Rpu_V_pratica_zoote azienda : listaParziale) {
-                if (!controlliFramework.
-                        scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
-                    System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
+                if (!controlliFramework.scaricoDati(azienda,
+                        subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
+                    System.out.println(
+                            "Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
                     cuaaMancanti.add(azienda);
                 } else {
                     System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
@@ -151,7 +167,8 @@ public class WebServiceController {
             for (Rpu_V_pratica_zoote azienda : listaVista) {
                 boolean trovato = false;
                 for (Rpu_V_pratica_zoote aziendaParz : listaParziale) {
-                    if (azienda.getCuaa().equals(aziendaParz.getCuaa()) && azienda.getCodicePremio().equals(aziendaParz.getCodicePremio())) {
+                    if (azienda.getCuaa().equals(aziendaParz.getCuaa())
+                            && azienda.getCodicePremio().equals(aziendaParz.getCodicePremio())) {
                         trovato = true;
                         break;
                     }
@@ -165,13 +182,15 @@ public class WebServiceController {
         if (cuaaMancanti.size() > 0) {
             System.out.println("INIZIO DUPLICAZIONE CUAA DA SESSIONE PRECEDENTE");
             for (Rpu_V_pratica_zoote a : cuaaMancanti) {
-                Dmt_t_sessione sessioneOld = sessioneService.getOldSessione(sessione.getIdSessione(), a.getCuaa(), a.getCodicePremio());
+                Dmt_t_sessione sessioneOld = sessioneService.getOldSessione(sessione.getIdSessione(), a.getCuaa(),
+                        a.getCodicePremio());
                 if (null == sessioneOld) {
                     System.out.println("DUPLICATO NON TROVATO PER IL CUAA -> " + a.getCuaa());
                     continue;
                 }
                 controlliFramework.duplicaSessioneByCuaa(a, sessioneOld, sessione);
                 result.add(a);
+
                 System.out.println("DUPLICATO CORRETTAMENTE CUAA -> " + a.getCuaa());
             }
         }

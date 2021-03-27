@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Classe per la verifica di eventuali riduzioni da applicare per il pagamento
@@ -51,11 +48,13 @@ public class ref03 {
      * effettuato tali calcoli, verranno salvati a db nella rispettiva tabella di
      * output.
      *
-     * @throws CalcoloException     eccezione riferita al calcolo di tipo {@link CalcoloException}
-     * @throws NullPointerException eccezione riferita al passaggio di un valore null {@link NullPointerException}
+     * @throws CalcoloException     eccezione riferita al calcolo di tipo
+     *                              {@link CalcoloException}
+     * @throws NullPointerException eccezione riferita al passaggio di un valore
+     *                              null {@link NullPointerException}
      */
     public void esecuzione() throws CalcoloException {
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO REF03, INIZIO ESECUZIONE");
         this.importoUnit = new BigDecimal(0);
         this.isIrregolaritaIntenzionale = false;
@@ -94,91 +93,101 @@ public class ref03 {
             capiSanzionati = result.get("sanzionati");
 
             result.clear();
-
-
-            try {
-                result = UtilControlli.calcoloEsito(capiAccertati, capiAnomali, capiSanzionati, capiRichiesti);
-                esito = result.get("esito");
-            } catch (ArithmeticException e) {
-            }
-
-            percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
-
-            try {
-                System.out.println(this.azienda.getAnnoCampagna());
-                System.out.println(cp);
-                Dmt_t_importo_unitario o = this.controlliService
-                        .getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp);
-                this.importoUnit = new BigDecimal(o
-                        .getImportoUnitario());
-            } catch (Exception e) {
-                System.out.println("ERRORE CALCOLO REF03, ERRORE DURANTE IL RECUPERO DELL'IMPORTO UNITARIO, CP -> " + cp);
-                e.printStackTrace();
-                throw new CalcoloException("errore durante il recupero dell'importo unitario");
-            }
-
-            if (cp.equals("320") && capiPagabili.compareTo(BigDecimal.ZERO) > 0) {
+            if (capiRichiesti.compareTo(BigDecimal.ZERO) > 0) {
                 try {
-                    importoPagatoLordoDecurtazione = this.controlliService
-                            .getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(this.azienda.getCuaa(),
-                                    this.sessione.getIdSessione(), this.azienda.getAnnoCampagna(), cp).multiply(this.importoUnit);
-                } catch (NullPointerException e) {
-                    System.out.println("ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL LORDO DELLA DECURTAZIONE");
+                    result = UtilControlli.calcoloEsito(capiAccertati, capiAnomali, capiSanzionati, capiRichiesti);
+                    esito = result.get("esito");
+                } catch (ArithmeticException e) {
+
+                }
+
+                percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
+
+                try {
+                    System.out.println(this.azienda.getAnnoCampagna());
+                    System.out.println(cp);
+                    Dmt_t_importo_unitario o = this.controlliService
+                            .getImportoUnitarioByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), cp);
+                    System.out.println("CHECK IMPORTO NULL -> ");
+                    System.out.println(o);
+                    this.importoUnit = new BigDecimal(o.getImportoUnitario());
+                } catch (Exception e) {
+                    System.out.println("ERRORE CALCOLO REF03, ERRORE DURANTE IL RECUPERO DELL'IMPORTO UNITARIO, CP -> " + cp);
                     e.printStackTrace();
-                    throw new CalcoloException("errore durante il calcolo dell'importo pagato al lordo della decurtazione");
+                    throw new CalcoloException("errore durante il recupero dell'importo unitario");
                 }
 
-            } else {
-                try {
-                    capiPagabili = result.get("capiPagabili") != null ? result.get("capiPagabili") : BigDecimal.ZERO;
-                    importoPagatoLordoDecurtazione = capiPagabili.multiply(this.importoUnit);
+                if (cp.equals("320") && capiPagabili.compareTo(BigDecimal.ZERO) > 0) {
+                    try {
+                        importoPagatoLordoDecurtazione = this.controlliService
+                                .getQuotaCapiPremioByCuaaAndIdSessioneAndAnnoCampagnaAndCodInt(this.azienda.getCuaa(),
+                                        this.sessione.getIdSessione(), this.azienda.getAnnoCampagna(), cp)
+                                .multiply(this.importoUnit);
+                    } catch (NullPointerException e) {
+                        System.out.println(
+                                "ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL LORDO DELLA DECURTAZIONE");
+                        e.printStackTrace();
+                        throw new CalcoloException(
+                                "errore durante il calcolo dell'importo pagato al lordo della decurtazione");
+                    }
+                } else {
+                    try {
+                        capiPagabili = result.get("capiPagabili") != null ? result.get("capiPagabili")
+                                : BigDecimal.ZERO;
+                        importoPagatoLordoDecurtazione = capiPagabili.multiply(this.importoUnit);
 
-                } catch (NullPointerException e) {
-                    System.out.println("ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL LORDO DELLA DECURTAZIONE");
-                    e.printStackTrace();
-                    throw new CalcoloException("errore durante il calcolo dell'importo pagato al lordo della decurtazione");
+                    } catch (NullPointerException e) {
+                        System.out.println(
+                                "ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL LORDO DELLA DECURTAZIONE");
+                        e.printStackTrace();
+                        throw new CalcoloException(
+                                "errore durante il calcolo dell'importo pagato al lordo della decurtazione");
+                    }
                 }
-            }
-            if (giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
-                try {
-                    percDecurtazione = this.controlliService
-                            .getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo);
-                    importoPagatoNettoDecurtazione = percDecurtazione != null ? importoPagatoLordoDecurtazione.subtract(
-                            (importoPagatoLordoDecurtazione.multiply(percDecurtazione)).divide(new BigDecimal(100)), MathContext.DECIMAL128)
-                            : BigDecimal.ZERO;
-                } catch (NullPointerException e) {
-                    System.out.println("ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL NETTO DELLA DECURTAZIONE");
-                    throw new CalcoloException("errore durante il calcolo dell'importo pagato al netto della decurtazione");
+                if (giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
+                    try {
+                        percDecurtazione = this.controlliService
+                                .getPercentualeDiDecurtazione(this.azienda.getAnnoCampagna(), giorniRitardo);
+                        importoPagatoNettoDecurtazione = percDecurtazione != null ? importoPagatoLordoDecurtazione
+                                .subtract((importoPagatoLordoDecurtazione.multiply(percDecurtazione))
+                                        .divide(new BigDecimal(100)), MathContext.DECIMAL128)
+                                : BigDecimal.ZERO;
+                    } catch (NullPointerException e) {
+                        System.out.println(
+                                "ERRORE CALCOLO REF03, ERRORE DURANTE IL CALCOLO DELL'IMPORTO PAGATO AL NETTO DELLA DECURTAZIONE");
+                        throw new CalcoloException(
+                                "errore durante il calcolo dell'importo pagato al netto della decurtazione");
+                    }
                 }
+
+                outputCalcolo = new Dmt_t_output_ref03();
+                outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
+                outputCalcolo.setCapiAccertati(capiAccertati);
+                outputCalcolo.setCapiAnomali(capiAnomali);
+                outputCalcolo.setCapiPagabili(capiPagabili);
+                outputCalcolo.setCapiRichiesti(capiRichiesti);
+                outputCalcolo.setCapiSanzionati(capiSanzionati);
+                outputCalcolo.setCuaa(this.azienda.getCuaa());
+                outputCalcolo.setEsito(esito);
+                outputCalcolo.setImportoPagatoLordoDecurtazione(importoPagatoLordoDecurtazione);
+                outputCalcolo.setImportoPagatoNettoDecurtazione(importoPagatoNettoDecurtazione);
+                outputCalcolo.setIntervento(cp);
+                outputCalcolo.setPercentualeRiduzione(percentualeRiduzione);
+                outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
+                outputCalcolo.setIdSessione(this.sessione);
+
+                if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale) {
+                    outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati));
+                    outputCalcolo.setImportoARecupero(
+                            outputCalcolo.getDifferenzaCapiRichiestiAccertati().multiply(this.importoUnit));
+                    this.isIrregolaritaIntenzionale = false;
+                }
+
+                this.controlliService.saveOutputRef03(outputCalcolo);
             }
-
-            outputCalcolo = new Dmt_t_output_ref03();
-            outputCalcolo.setAnnoCampagna(this.azienda.getAnnoCampagna());
-            outputCalcolo.setCapiAccertati(capiAccertati);
-            outputCalcolo.setCapiAnomali(capiAnomali);
-            outputCalcolo.setCapiPagabili(capiPagabili);
-            outputCalcolo.setCapiRichiesti(capiRichiesti);
-            outputCalcolo.setCapiSanzionati(capiSanzionati);
-            outputCalcolo.setCuaa(this.azienda.getCuaa());
-            outputCalcolo.setEsito(esito);
-            outputCalcolo.setImportoPagatoLordoDecurtazione(importoPagatoLordoDecurtazione);
-            outputCalcolo.setImportoPagatoNettoDecurtazione(importoPagatoNettoDecurtazione);
-            outputCalcolo.setIntervento(cp);
-            outputCalcolo.setPercentualeRiduzione(percentualeRiduzione);
-            outputCalcolo.setPercentualeDecurtazione(percDecurtazione);
-            outputCalcolo.setIdSessione(this.sessione);
-
-            if (esito.compareTo(new BigDecimal("0.5")) > 0 || this.isIrregolaritaIntenzionale) {
-                outputCalcolo.setDifferenzaCapiRichiestiAccertati(capiRichiesti.subtract(capiAccertati));
-                outputCalcolo.setImportoARecupero(
-                        outputCalcolo.getDifferenzaCapiRichiestiAccertati().multiply(this.importoUnit));
-                this.isIrregolaritaIntenzionale = false;
-            }
-
-            this.controlliService.saveOutputRef03(outputCalcolo);
         }
 
-        //RESET DELLE VARIABILI
+        // RESET DELLE VARIABILI
 
         capiAccertati = BigDecimal.ZERO;
         capiAnomali = BigDecimal.ZERO;
@@ -192,12 +201,12 @@ public class ref03 {
         percDecurtazione = BigDecimal.ZERO;
         result.clear();
 
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO REF03, FINE ESECUZIONE");
         System.out.println("FINE CALCOLO REF03 AMMISIBILITA' AL PREMIO E SANZIONI");
     }
 
-    //	/**
+    // /**
 //	 * nel metodo precalcolo vengono valorizzate le seguenti variabili in base alla
 //	 * mappa di hash e al codice premio preso in esame: <br>
 //	 * capiAnomali - capi valorizzati nella tabella dmt_t_output_esclusi,
@@ -215,11 +224,10 @@ public class ref03 {
         BigDecimal capiRichiesti = new BigDecimal(0);
         BigDecimal capiSanzionati = new BigDecimal(0);
         BigDecimal ammissibiliPlusSanzionati = new BigDecimal(0);
-        Dmt_t_output_controlli outputControlli;
+        Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
         List<Long> capiAnomaliPerCodicePremio = new ArrayList<Long>();
         List<Long> listaCapiEsito = new ArrayList<Long>();
-
 
 //		capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
 //		capiAnomaliPerCodicePremio = this.controlliService.isAnomalo(this.sessione.getIdSessione(), cp);
@@ -235,12 +243,12 @@ public class ref03 {
 //			}
 //		}
 //		
-//		capiAccertati = capiRichiesti.subtract(capiAnomali);
-
-        resetVariables(capiRichiesti, capiAccertati, capiAnomali, capiSanzionati, capiAnomaliPerCodicePremio, listaCapiEsito);
+        resetVariables(capiRichiesti, capiAccertati, capiAnomali, capiSanzionati, capiAnomaliPerCodicePremio,
+                listaCapiEsito);
         listaCapiEsito = this.getListaCapiEsito(cp);
         capiRichiesti = new BigDecimal(capiPerPremio.get(cp).size());
         if (listaCapiEsito != null && !listaCapiEsito.isEmpty()) {
+            Set<Long> processed = new HashSet<Long>();
             for (Long e : capiPerPremio.get(cp)) {
                 Boolean trovato = false;
                 for (Long capo : listaCapiEsito) {
@@ -251,12 +259,13 @@ public class ref03 {
                         break;
                     }
                 }
-                if (trovato) {
+                if (trovato && !processed.contains(e)) {
                     capiAccertati = capiAccertati.add(BigDecimal.ONE);
                     // aggiungere controllo M19
                     if (isSanzionato(e, cp)) {
                         capiSanzionati = capiSanzionati.add(BigDecimal.ONE);
                     }
+                    processed.add(e);
                 }
             }
             /* IMPLEMENTAZIONE DEI LIMITI SU CAPI_RICHIESTI E CAPI_ACCERTATI */
@@ -307,6 +316,11 @@ public class ref03 {
             ammissibiliPlusSanzionati = null;
         }
 
+        System.out.println("CP ANALISI -> " + cp);
+        System.out.println("CAPI ACCERTATI -> " + capiAccertati);
+        System.out.println("CAPI ANOMALI -> " + capiAnomali);
+        System.out.println("CAPI RICHIESTI -> " + capiRichiesti);
+        System.out.println("CAPI SANZIONATI -> " + capiSanzionati);
         result.put("accertati", capiAccertati);
         result.put("anomali", capiAnomali);
         result.put("richiesti", capiRichiesti);
@@ -315,7 +329,7 @@ public class ref03 {
         return result;
     }
 
-    //	/**
+    // /**
 //	 * nel metodo viene valorizzata la seguente variabile in base
 //	 * al numero di capi anomali e all'esito: percentuale di riduzione a premio.
 //	 * Tale variabile sara' necessaria al calcolo della quota pagata al richiedente.
@@ -364,10 +378,14 @@ public class ref03 {
      * al riconosciumento del singolo capo. Le altre informazioni vengono ignorate
      * poiche' ritenute non necessarie ai fini del calcolo.
      *
-     * @param listaCapiBovini     - lista degli animali di tipo bovino appartenenti all'azienda che si sta analizzando.
-     * @param listaCapiOvicaprini - lista degli animali di tipo ovicaprino appartenenti all'azienda che si sta analizzando.
-     * @param listaCapiMacellati  - lista degli animali di tipo macellato appartenenti all'azienda che si sta analizzando.
-     * @param codiciPremio        - codici premio per cui concorre l'azienda che si sta analizzando.
+     * @param listaCapiBovini     - lista degli animali di tipo bovino appartenenti
+     *                            all'azienda che si sta analizzando.
+     * @param listaCapiOvicaprini - lista degli animali di tipo ovicaprino
+     *                            appartenenti all'azienda che si sta analizzando.
+     * @param listaCapiMacellati  - lista degli animali di tipo macellato
+     *                            appartenenti all'azienda che si sta analizzando.
+     * @param codiciPremio        - codici premio per cui concorre l'azienda che si
+     *                            sta analizzando.
      * @return tempHashmap - istanza di tipo {@link HashMap}
      */
     public HashMap<String, List<Long>> buildMap(List<String> codiciPremio) {
@@ -379,13 +397,19 @@ public class ref03 {
         Boolean isM19 = cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
 
         if (isM19) {
-            listaCapiBovini = this.controlliService.getCapiBoviniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-            listaCapiMacellati = this.controlliService.getCapiMacellatiM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+            listaCapiBovini = this.controlliService.getCapiBoviniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(),
+                    this.azienda.getCuaa());
+            listaCapiMacellati = this.controlliService
+                    .getAmmissibiliCapiMacellatiM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
+            listaCapiOvicaprini = this.controlliService
+                    .getCapiOvicapriniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
         } else {
-            listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-            listaCapiMacellati = this.controlliService.getCapiMacellatiDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+            listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(),
+                    this.azienda.getCuaa(), this.azienda.getCodicePremio());
+            listaCapiMacellati = this.controlliService.getAmmissibiliCapiMacellatiDaCuaaAndIdSessione(
+                    this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
+            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(
+                    this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
         }
 
         Dmt_t_output_controlli outConctrolli = new Dmt_t_output_controlli();
@@ -400,7 +424,8 @@ public class ref03 {
 
         for (String c : codiciPremio) {
 
-            outConctrolli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), c);
+            outConctrolli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(
+                    this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), c);
 
             if (listaCapiBovini != null && !listaCapiBovini.isEmpty())
                 for (Dmt_t_Tws_bdn_du_capi_bovini b : listaCapiBovini)
@@ -437,12 +462,15 @@ public class ref03 {
     /**
      * nel metodo updateMap viene effettuato l'aggiornamento dei capi in base al
      * codice premio. i premi zootecnici non sono tutti tra loro cumulabili. I soli
-     * interventi che sono cumulabili tra di loro sono le seguenti coppie di misure: <br>
-     * - Misura 1 (310) {@link ClcInt310Mis1} con la misura 2 (311) {@link ClcInt311Mis2} <br>
-     * - Misura 4 (313) {@link ClcInt313Mis4} con la misura 18(314) {@link ClcInt314Mis18} . <br>
-     * Pertanto, qualora un capo dovesse risultare ammissibile al pagamento
-     * per una pluralità di misure zootecniche tra loro non cumulabili, il sostegno
-     * è erogato con riferimento alla misura per la quale è previsto l’importo
+     * interventi che sono cumulabili tra di loro sono le seguenti coppie di misure:
+     * <br>
+     * - Misura 1 (310) {@link ClcInt310Mis1} con la misura 2 (311)
+     * {@link ClcInt311Mis2} <br>
+     * - Misura 4 (313) {@link ClcInt313Mis4} con la misura 18(314)
+     * {@link ClcInt314Mis18} . <br>
+     * Pertanto, qualora un capo dovesse risultare ammissibile al pagamento per una
+     * pluralità di misure zootecniche tra loro non cumulabili, il sostegno è
+     * erogato con riferimento alla misura per la quale è previsto l’importo
      * unitario più elevato (o alla somma dei importi unitari nel caso di misure
      * cumulabili).
      *
@@ -458,20 +486,23 @@ public class ref03 {
         for (String k : capiPerPremio.keySet())
             tempHash.put(k, new ArrayList<Long>());
 
+        Set<Long> capiElaborati = new HashSet<>();
         for (String k : capiPerPremio.keySet())
             for (Long e : capiPerPremio.get(k)) {
 
                 codiciPremioFiltratiPerAnimali = this.controlliService.getCodiciPremioPerCapo(e,
                         this.sessione.getIdSessione());
 
-
                 this.unificazionePremiMis19(codiciPremioFiltratiPerAnimali);
 
                 if (codiciPremioFiltratiPerAnimali.size() == 1) {
                     tempHash.get(k).add(e);
+                    capiElaborati.add(e);
                 } else if (codiciPremioFiltratiPerAnimali.size() >= 2) {
 
-                    List<Dmt_t_importo_unitario> importiUnitariPerAnimale = this.controlliService.getListImportiUnitariByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(), codiciPremioFiltratiPerAnimali);
+                    List<Dmt_t_importo_unitario> importiUnitariPerAnimale = this.controlliService
+                            .getListImportiUnitariByAnnoCampagnaAndIntervento(this.azienda.getAnnoCampagna(),
+                                    codiciPremioFiltratiPerAnimali);
 
                     double max = Double.MIN_VALUE;
 
@@ -481,12 +512,14 @@ public class ref03 {
                             maxImportoUnitario = importiUnitariPerAnimale.get(i);
                         }
 
-                    List<Dmt_t_importo_unitario> listaImportiMassimi = impostaImportiMassimi(maxImportoUnitario, codiciPremioFiltratiPerAnimali, importiUnitariPerAnimale);
-
+                    List<Dmt_t_importo_unitario> listaImportiMassimi = impostaImportiMassimi(maxImportoUnitario,
+                            codiciPremioFiltratiPerAnimali, importiUnitariPerAnimale);
 
                     for (Dmt_t_importo_unitario imp : listaImportiMassimi)
-                        if (imp.getIntervento().equals(k))
+                        if (imp.getIntervento().equals(k) && !capiElaborati.contains(e)) {
                             tempHash.get(k).add(e);
+                            capiElaborati.add(e);
+                        }
 
                     listaImportiMassimi.clear();
                     importiUnitariPerAnimale.clear();
@@ -503,9 +536,12 @@ public class ref03 {
      * associati al dato animale, allora viene ritornato un valore booleano true,
      * altrimenti viene ritornato un valore booleano false.
      *
-     * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per cui un dato animale concorre.
-     * @param codPremio                             - codice premio che si sta analizzando.
-     * @return <b>true:</b> se codPremio si trova in codiciPremioFiltratiPerAnimaliAPremio, <b>false:</b> altrimenti.
+     * @param codiciPremioFiltratiPerAnimaliAPremio - lista dei codici premio per
+     *                                              cui un dato animale concorre.
+     * @param codPremio                             - codice premio che si sta
+     *                                              analizzando.
+     * @return <b>true:</b> se codPremio si trova in
+     * codiciPremioFiltratiPerAnimaliAPremio, <b>false:</b> altrimenti.
      */
     public Boolean contains(List<String> codiciPremioFiltratiPerAnimaliAPremio, String codPremio) {
 
@@ -516,14 +552,15 @@ public class ref03 {
         return false;
     }
 
-    //	/**
+    // /**
 //	 * Metodo che verifica se il cuaa fornito ha commesso delle irregolarità intenzionali, {@link Dmt_t_irregolarita_intenzionale}.
 //	 * @return il numero di animali anomali a causa di una irregolarità intenzionale di tipo {@link BigDecimal}.
 //	 */
     private BigDecimal isIrregolaritaIntenzionale() {
         BigDecimal numeroAnimaliAnomali = new BigDecimal(0);
         List<Dmt_t_irregolarita_intenzionale> listaIrregolaritaIntenzionali = this.controlliService
-                .getIrregolaritaByCuaaAndAnnoCampagna(this.azienda.getCuaa(), new Integer(this.azienda.getAnnoCampagna()));
+                .getIrregolaritaByCuaaAndAnnoCampagna(this.azienda.getCuaa(),
+                        new Integer(this.azienda.getAnnoCampagna()));
 
         if (listaIrregolaritaIntenzionali != null && !listaIrregolaritaIntenzionali.isEmpty()
                 && listaIrregolaritaIntenzionali.size() == 1)
@@ -540,7 +577,8 @@ public class ref03 {
         return numeroAnimaliAnomali;
     }
 
-    private Dmt_t_importo_unitario getImporto(List<Dmt_t_importo_unitario> importiUnitariPerAnimale, String codicePremio) {
+    private Dmt_t_importo_unitario getImporto(List<Dmt_t_importo_unitario> importiUnitariPerAnimale,
+                                              String codicePremio) {
 
         Dmt_t_importo_unitario importoDaTornare = null;
 
@@ -551,7 +589,8 @@ public class ref03 {
         return importoDaTornare;
     }
 
-    private List<Dmt_t_importo_unitario> impostaImportiMassimi(Dmt_t_importo_unitario importoUnitarioMax, List<String> codiciPremioFiltratiPerAnimali, List<Dmt_t_importo_unitario> importiUnitariPerAnimale) {
+    private List<Dmt_t_importo_unitario> impostaImportiMassimi(Dmt_t_importo_unitario importoUnitarioMax,
+                                                               List<String> codiciPremioFiltratiPerAnimali, List<Dmt_t_importo_unitario> importiUnitariPerAnimale) {
         List<Dmt_t_importo_unitario> importiDaRitornare = new ArrayList<Dmt_t_importo_unitario>();
 
         switch (importoUnitarioMax.getIntervento()) {
@@ -588,7 +627,8 @@ public class ref03 {
         return importiDaRitornare;
     }
 
-    private void resetVariables(BigDecimal capiRichiesti, BigDecimal capiAccertati, BigDecimal capiAnomali, BigDecimal capiSanzionati, List<Long> capiAnomaliPerCodicePremio, List<Long> listaCapiEsito) {
+    private void resetVariables(BigDecimal capiRichiesti, BigDecimal capiAccertati, BigDecimal capiAnomali,
+                                BigDecimal capiSanzionati, List<Long> capiAnomaliPerCodicePremio, List<Long> listaCapiEsito) {
 
         if (capiRichiesti.compareTo(BigDecimal.ZERO) != 0)
             capiRichiesti = BigDecimal.ZERO;
@@ -615,13 +655,13 @@ public class ref03 {
 
     private void removePremiDa316A319(List<String> premi) {
         if (premi.indexOf("316") != -1)
-            premi.remove(premi.indexOf("316"));
+            premi.remove("316");
         if (premi.indexOf("317") != -1)
-            premi.remove(premi.indexOf("317"));
+            premi.remove("317");
         if (premi.indexOf("318") != -1)
-            premi.remove(premi.indexOf("318"));
+            premi.remove("318");
         if (premi.indexOf("319") != -1)
-            premi.remove(premi.indexOf("319"));
+            premi.remove("319");
     }
 
     private void unificazionePremiMis19(List<String> premi) {
@@ -642,29 +682,44 @@ public class ref03 {
         } else
             capi = this.controlliService.getListaCapiEsito(this.sessione, this.azienda.getCuaa(), cp);
 
-        return !capi.isEmpty() ? capi : Collections.emptyList();
+        return capi;
     }
 
     private BigDecimal getSanzionati(String cp) {
         BigDecimal sanzionati = BigDecimal.ZERO;
 
         if (cp.equals("M19")) {
-            sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "316", this.sessione.getIdSessione())));
-            sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "317", this.sessione.getIdSessione())));
-            sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "318", this.sessione.getIdSessione())));
-            sanzionati = sanzionati.add(BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), "319", this.sessione.getIdSessione())));
+            sanzionati = sanzionati.add(BigDecimal.valueOf(
+                    controlliService.getCapiSanzionati(this.azienda.getCuaa(), "316", this.sessione.getIdSessione())));
+            sanzionati = sanzionati.add(BigDecimal.valueOf(
+                    controlliService.getCapiSanzionati(this.azienda.getCuaa(), "317", this.sessione.getIdSessione())));
+            sanzionati = sanzionati.add(BigDecimal.valueOf(
+                    controlliService.getCapiSanzionati(this.azienda.getCuaa(), "318", this.sessione.getIdSessione())));
+            sanzionati = sanzionati.add(BigDecimal.valueOf(
+                    controlliService.getCapiSanzionati(this.azienda.getCuaa(), "319", this.sessione.getIdSessione())));
         } else
-            sanzionati = BigDecimal.valueOf(controlliService.getCapiSanzionati(this.azienda.getCuaa(), cp, this.sessione.getIdSessione()));
+            sanzionati = BigDecimal.valueOf(
+                    controlliService.getCapiSanzionati(this.azienda.getCuaa(), cp, this.sessione.getIdSessione()));
 
         return sanzionati;
     }
 
     private Dmt_t_clsCapoMacellato getCapoMacellatoSanzionabile(Long idCapo, String codicePremio) {
-        return controlliService.getMacellatoById(idCapo, codicePremio, this.azienda.getCuaa(), this.sessione.getIdSessione());
+        return controlliService.getMacellatoById(idCapo, codicePremio, this.azienda.getCuaa(),
+                this.sessione.getIdSessione());
     }
 
     private Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoSanzionabile(Long idCapo, String codicePremio) {
-        return controlliService.getBovinoById(idCapo, codicePremio, this.azienda.getCuaa(), this.sessione.getIdSessione());
+        return controlliService.getBovinoById(idCapo, codicePremio, this.azienda.getCuaa(),
+                this.sessione.getIdSessione());
+    }
+
+    private Dmt_t_clsCapoMacellato getCapoMacellatoSanzionabileM19(Long idCapo) {
+        return controlliService.getMacellatoM19ById(idCapo, this.azienda.getCuaa(), this.sessione.getIdSessione());
+    }
+
+    private Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoSanzionabileM19(Long idCapo) {
+        return controlliService.getBovinoM19ById(idCapo, this.azienda.getCuaa(), this.sessione.getIdSessione());
     }
 
 //	private Dmt_t_Tws_bdn_du_capi_ovicaprini getCapoOvicaprinoSanzionabile (Long idCapo, String codicePremio) {
@@ -672,16 +727,25 @@ public class ref03 {
 //	}
 
     private Boolean isSanzionato(Long idCapo, String codicePremio) {
-        Dmt_t_clsCapoMacellato capoMacellato = getCapoMacellatoSanzionabile(idCapo, codicePremio);
-        Dmt_t_Tws_bdn_du_capi_bovini capoBovino = getCapoBovinoSanzionabile(idCapo, codicePremio);
+
+        Dmt_t_clsCapoMacellato capoMacellato;
+        Dmt_t_Tws_bdn_du_capi_bovini capoBovino;
+
+        if (codicePremio.equals("M19")) {
+            capoMacellato = getCapoMacellatoSanzionabileM19(idCapo);
+            capoBovino = getCapoBovinoSanzionabileM19(idCapo);
+        } else {
+            capoMacellato = getCapoMacellatoSanzionabile(idCapo, codicePremio);
+            capoBovino = getCapoBovinoSanzionabile(idCapo, codicePremio);
+        }
+
 //		Dmt_t_Tws_bdn_du_capi_ovicaprini capoOvicaprino = getCapoOvicaprinoSanzionabile(idCapo , codicePremio);
 
         if (capoMacellato != null)
             if (!UtilControlli.controlloTempisticheDiRegistrazione(capoMacellato))
                 return true;
         if (capoBovino != null)
-            if (!UtilControlli.controlloTempisticheDiRegistrazione(capoBovino))
-                return true;
+			return !UtilControlli.controlloTempisticheDiRegistrazione(capoBovino);
 //	    if (capoOvicaprino != null) 
 //			return true;
 

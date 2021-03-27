@@ -231,28 +231,28 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
 
     @Query(value = "SELECT flag_zona_montana FROM dmt_t_info_allevamenti WHERE allev_id = :allevId ",
             nativeQuery = true)
-    public String findFlagZonaMontanaByAllevId(@Param("allevId") Long allevId);
+    String findFlagZonaMontanaByAllevId(@Param("allevId") Long allevId);
 
     @Query(value = "SELECT DISTINCT data_nascita_vitello FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_capo = :idCapo and id_sessione = :idSessione ",
             nativeQuery = true)
-    public List<Date> findDataNascitaVitelloByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+    List<Date> findDataNascitaVitelloByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 
     @Query(value = "SELECT DISTINCT data_nascita_vitello FROM DMT_T_TWS_BDN_DU_CAPI_BOV where vitello_capo_id = :idCapo and id_sessione = :idSessione ",
             nativeQuery = true)
-    public Date findDataNascitaVitelloByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+    Date findDataNascitaVitelloByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 
 
     @Query(value = "SELECT DISTINCT vitello_data_inser_bdn_nascita FROM DMT_T_TWS_BDN_DU_CAPI_BOV where vitello_capo_id = :idCapo and id_sessione = :idSessione ",
             nativeQuery = true)
-    public Date findDataInsBdnNascitaByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+    Date findDataInsBdnNascitaByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 
     @Query(value = "select distinct flag_delegato_nascita_vitello from dmt_t_Tws_bdn_du_capi_bov where vitello_capo_id = :idCapo and id_sessione = :idSessione ",
             nativeQuery = true)
-    public String findFlagDelegatoNascitaVitelloByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+    String findFlagDelegatoNascitaVitelloByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 
     @Query(value = "select distinct flag_proroga_marcatura from dmt_t_Tws_bdn_du_capi_bov where vitello_capo_id = :idCapo and id_sessione = :idSessione ",
             nativeQuery = true)
-    public String findFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
+    String findFlagProrogaMarcaturaByVitelloCapoIdAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);
 
     @Query(
             value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE id_capo = :idCapo and codice_premio = :codicePremio and cuaa = :cuaa and id_Sessione = :idSessione and ROWNUM = 1 ",
@@ -260,4 +260,9 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
     )
     Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoById(@Param("idCapo") Long idCapo, @Param("codicePremio") String codicePremio, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
 
+    @Query(
+            value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV WHERE id_capo = :idCapo and codice_premio IN ('316', '317', '318', '319') and cuaa = :cuaa and id_Sessione = :idSessione  and ROWNUM = 1",
+            nativeQuery = true
+    )
+    Dmt_t_Tws_bdn_du_capi_bovini getCapoBovinoByIdM19(@Param("idCapo") Long idCapo, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
 }

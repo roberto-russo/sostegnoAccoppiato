@@ -20,6 +20,50 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
      */
     private static final long serialVersionUID = -543360576165358523L;
 
+    public Dmt_t_Tws_bdn_du_capi_bovini() {
+    }
+
+    public Dmt_t_Tws_bdn_du_capi_bovini(Dmt_t_Tws_bdn_du_capi_bovini dmt_t_Tws_bdn_du_capi_bovini) {
+        this.allev_id = dmt_t_Tws_bdn_du_capi_bovini.getAllev_id();
+        this.capoId = dmt_t_Tws_bdn_du_capi_bovini.getCapoId();
+        this.sessoVitello = dmt_t_Tws_bdn_du_capi_bovini.getSessoVitello();
+        this.codicePremio = dmt_t_Tws_bdn_du_capi_bovini.getCodicePremio();
+        this.codiceVitello = dmt_t_Tws_bdn_du_capi_bovini.getCodiceVitello();
+        this.codice = dmt_t_Tws_bdn_du_capi_bovini.getCodice();
+        this.codLibro = dmt_t_Tws_bdn_du_capi_bovini.getCodLibro();
+        this.descLibro = dmt_t_Tws_bdn_du_capi_bovini.getDescLibro();
+        this.dataNascita = dmt_t_Tws_bdn_du_capi_bovini.getDataNascita();
+        this.dtNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getDtNascitaVitello();
+        this.razzaCodice = dmt_t_Tws_bdn_du_capi_bovini.getRazzaCodice();
+        this.dtInizioDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtInizioDetenzione();
+        this.dtFineDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtFineDetenzione();
+        this.aziendaCodice = dmt_t_Tws_bdn_du_capi_bovini.getAziendaCodice();
+        this.aziendaLongitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLongitudine();
+        this.aziendaLatitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLatitudine();
+        this.flagIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagIbr();
+        this.flagRispettoPrevalenzaIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagRispettoPrevalenzaIbr();
+        this.vaccaDtIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtIngresso();
+        this.vaccaDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtComAutIngresso();
+        this.vaccaDtInserBdnIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtInserBdnIngresso();
+        this.vitelloDtApplMarchio = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtApplMarchio();
+        this.vitelloDtComAutNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutNascita();
+        this.vitelloDtInserBdnNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtInserBdnNascita();
+        this.flagProrogaMarcatura = dmt_t_Tws_bdn_du_capi_bovini.getFlagProrogaMarcatura();
+        this.cuaa = dmt_t_Tws_bdn_du_capi_bovini.getCuaa();
+        this.sesso = dmt_t_Tws_bdn_du_capi_bovini.getSesso();
+        this.vitelloCapoId = dmt_t_Tws_bdn_du_capi_bovini.getVitelloCapoId();
+        this.vitelloTipoOrigine = dmt_t_Tws_bdn_du_capi_bovini.getVitelloTipoOrigine();
+        this.vitelloDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutIngresso();
+        this.vitello_data_ins_bdn_ingresso = dmt_t_Tws_bdn_du_capi_bovini.getVitello_data_ins_bdn_ingresso();
+        this.flagDelegato = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegato();
+        this.flagDelegatoIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVacca();
+        this.flagDelegatoNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoNascitaVitello();
+        this.flagDelegatoIngressoVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVitello();
+        this.ruoloUtenteIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressoVacca();
+        this.ruoloUtenteNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteNascitaVitello();
+        this.ruoloUtenteIngressovitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressovitello();
+    }
+
     @Id
     @GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_bov")
     @SequenceGenerator(name = "seq_dmt_t_bdn_du_capi_bov", sequenceName = "SEQ_DMT_T_BDN_DU_CAPI_BOV", allocationSize = 1)
@@ -307,50 +351,6 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
      *
      */
     private String ruoloUtenteIngressovitello;
-
-    public Dmt_t_Tws_bdn_du_capi_bovini() {
-    }
-
-    public Dmt_t_Tws_bdn_du_capi_bovini(Dmt_t_Tws_bdn_du_capi_bovini dmt_t_Tws_bdn_du_capi_bovini) {
-        this.allev_id = dmt_t_Tws_bdn_du_capi_bovini.getAllev_id();
-        this.capoId = dmt_t_Tws_bdn_du_capi_bovini.getCapoId();
-        this.sessoVitello = dmt_t_Tws_bdn_du_capi_bovini.getSessoVitello();
-        this.codicePremio = dmt_t_Tws_bdn_du_capi_bovini.getCodicePremio();
-        this.codiceVitello = dmt_t_Tws_bdn_du_capi_bovini.getCodiceVitello();
-        this.codice = dmt_t_Tws_bdn_du_capi_bovini.getCodice();
-        this.codLibro = dmt_t_Tws_bdn_du_capi_bovini.getCodLibro();
-        this.descLibro = dmt_t_Tws_bdn_du_capi_bovini.getDescLibro();
-        this.dataNascita = dmt_t_Tws_bdn_du_capi_bovini.getDataNascita();
-        this.dtNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getDtNascitaVitello();
-        this.razzaCodice = dmt_t_Tws_bdn_du_capi_bovini.getRazzaCodice();
-        this.dtInizioDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtInizioDetenzione();
-        this.dtFineDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtFineDetenzione();
-        this.aziendaCodice = dmt_t_Tws_bdn_du_capi_bovini.getAziendaCodice();
-        this.aziendaLongitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLongitudine();
-        this.aziendaLatitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLatitudine();
-        this.flagIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagIbr();
-        this.flagRispettoPrevalenzaIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagRispettoPrevalenzaIbr();
-        this.vaccaDtIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtIngresso();
-        this.vaccaDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtComAutIngresso();
-        this.vaccaDtInserBdnIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtInserBdnIngresso();
-        this.vitelloDtApplMarchio = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtApplMarchio();
-        this.vitelloDtComAutNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutNascita();
-        this.vitelloDtInserBdnNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtInserBdnNascita();
-        this.flagProrogaMarcatura = dmt_t_Tws_bdn_du_capi_bovini.getFlagProrogaMarcatura();
-        this.cuaa = dmt_t_Tws_bdn_du_capi_bovini.getCuaa();
-        this.sesso = dmt_t_Tws_bdn_du_capi_bovini.getSesso();
-        this.vitelloCapoId = dmt_t_Tws_bdn_du_capi_bovini.getVitelloCapoId();
-        this.vitelloTipoOrigine = dmt_t_Tws_bdn_du_capi_bovini.getVitelloTipoOrigine();
-        this.vitelloDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutIngresso();
-        this.vitello_data_ins_bdn_ingresso = dmt_t_Tws_bdn_du_capi_bovini.getVitello_data_ins_bdn_ingresso();
-        this.flagDelegato = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegato();
-        this.flagDelegatoIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVacca();
-        this.flagDelegatoNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoNascitaVitello();
-        this.flagDelegatoIngressoVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVitello();
-        this.ruoloUtenteIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressoVacca();
-        this.ruoloUtenteNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteNascitaVitello();
-        this.ruoloUtenteIngressovitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressovitello();
-    }
 
     /**
      * Metodo getter che restituisce il ruoloUtenteIngressoVacca

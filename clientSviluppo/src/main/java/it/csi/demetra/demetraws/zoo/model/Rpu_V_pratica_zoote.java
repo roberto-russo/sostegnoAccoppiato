@@ -1,16 +1,11 @@
 package it.csi.demetra.demetraws.zoo.model;
 
+import it.csi.demetra.demetraws.zoo.compositeIds.Rpu_V_pratica_zoote_id;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import it.csi.demetra.demetraws.zoo.compositeIds.Rpu_V_pratica_zoote_id;
 
 @Entity
 @Table(name = "RPU_V_PRATICA_ZOOTE")
@@ -19,11 +14,11 @@ public class Rpu_V_pratica_zoote implements Serializable {
     /**
      *
      */
-   
-	private static final long serialVersionUID = -3507870865737703825L;
+
+    private static final long serialVersionUID = -3507870865737703825L;
 
 
-	@Id
+    @Id
     @Column(name = "ANNO_CAMPAGNA")
     @NotNull
     /**
@@ -86,48 +81,53 @@ public class Rpu_V_pratica_zoote implements Serializable {
      * Codice intervento
      */
     private String codicePremio;
-    
+
     @Column(name = "GIORNI_RITARDO")
     /**
      * Giorni di ritardo della presentazione della domanda
      */
-    BigDecimal giorniRitardo;
+            BigDecimal giorniRitardo;
 
     /**
      * Metodo getter che ritorna il numero di giorni di ritardo della presentazione della domanda
+     *
      * @return giorniRitardo numero di giorni di ritardo della presentazione della domanda
      */
     public BigDecimal getGiorniRitardo() {
-		return giorniRitardo;
-	}
+        return giorniRitardo;
+    }
 
     /**
      * Metodo setter che imposta il numero di giorni di ritardo della presentazione della domanda
+     *
      * @param giorniRitardo giorni di ritardo della presentazione della domanda
      */
-	public void setGiorniRitardo(BigDecimal giorniRitardo) {
-		this.giorniRitardo = giorniRitardo;
-	}
+    public void setGiorniRitardo(BigDecimal giorniRitardo) {
+        this.giorniRitardo = giorniRitardo;
+    }
 
 
     /**
      * Metodo getter che ritorna l'anno della campagna
+     *
      * @return annoCampagna anno della campagna
      */
-	public int getAnnoCampagna() {
+    public int getAnnoCampagna() {
         return annoCampagna;
     }
 
-	/**
-	 * Metodo setter che imposta l'anno della campagna
-	 * @param annoCampagna anno della campagna
-	 */
+    /**
+     * Metodo setter che imposta l'anno della campagna
+     *
+     * @param annoCampagna anno della campagna
+     */
     public void setAnnoCampagna(int annoCampagna) {
         this.annoCampagna = annoCampagna;
     }
 
     /**
      * Metodo getter che imposta il codice misura
+     *
      * @return codiceMisura codice della misucra associato al codice intervento
      */
     public String getCodiceMisura() {
@@ -136,6 +136,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo setter che imposta il codice misura associato al codice intervento
+     *
      * @param codiceMisura codice misura associato al codice intervento
      */
     public void setCodiceMisura(String codiceMisura) {
@@ -150,7 +151,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
         this.idPratica = idPratica;
     }
 
-   public int getIdFaseAvanzamento() {
+    public int getIdFaseAvanzamento() {
 
         return idFaseAvanzamento;
     }
@@ -177,6 +178,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice fiscale del richiedente
+     *
      * @return cuaa - codice fiscale del richiedente
      */
     public String getCuaa() {
@@ -185,6 +187,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo setter che imposta il codice fiscale del richiedente
+     *
      * @param cuaa - codice fiscale del richiedente
      */
     public void setCuaa(String cuaa) {
@@ -193,6 +196,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo getter che ritorna la denomionazione del richiedente
+     *
      * @return denominazione denominazione del richiedente
      */
     public String getDenominazione() {
@@ -201,6 +205,7 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo setter che imposta la denominazione del richiedente
+     *
      * @param denominazione - denominazione del richiedente
      */
     public void setDenominazione(String denominazione) {
@@ -225,34 +230,36 @@ public class Rpu_V_pratica_zoote implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice intervento
+     *
      * @return codicePremio codice dell'intervento
      */
     public String getCodicePremio() {
         return codicePremio;
     }
-    
+
     public String getIdentificativo() {
-		return identificativo;
-	}
+        return identificativo;
+    }
 
-	public void setIdentificativo(String identificativo) {
-		this.identificativo = identificativo;
-	}
+    public void setIdentificativo(String identificativo) {
+        this.identificativo = identificativo;
+    }
 
-	/**
-     * Metodo setter che imposta il codice intervento 
+    /**
+     * Metodo setter che imposta il codice intervento
+     *
      * @param codicePremio codice intervento
      */
     public void setCodicePremio(String codicePremio) {
         this.codicePremio = codicePremio;
     }
 
-	@Override
-	public String toString() {
-		return "Rpu_V_pratica_zoote [annoCampagna=" + annoCampagna + ", codiceMisura=" + codiceMisura + ", idPratica="
-				+ idPratica + ", identificativo=" + identificativo + ", idFaseAvanzamento=" + idFaseAvanzamento
-				+ ", tipoFase=" + tipoFase + "xtIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
-				+ denominazione + ", idStatoPratica=" + idStatoPratica + ", descrizione=" + descrizione
-				+ ", codicePremio=" + codicePremio + "]";
-	}
+    @Override
+    public String toString() {
+        return "Rpu_V_pratica_zoote [annoCampagna=" + annoCampagna + ", codiceMisura=" + codiceMisura + ", idPratica="
+                + idPratica + ", identificativo=" + identificativo + ", idFaseAvanzamento=" + idFaseAvanzamento
+                + ", tipoFase=" + tipoFase + ", extIdAzienda=" + extIdAzienda + ", cuaa=" + cuaa + ", denominazione="
+                + denominazione + ", idStatoPratica=" + idStatoPratica + ", descrizione=" + descrizione
+                + ", codicePremio=" + codicePremio + "]";
+    }
 }

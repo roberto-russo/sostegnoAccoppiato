@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "Dmt_t_sistemi_etichettatura")
+@Table(name = "DMT_T_SISTEMI_ETICHETTATURA")
 public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
 
 
@@ -16,7 +16,7 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
 
     @Id
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "CUAA")
     /**
@@ -31,7 +31,7 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
     private String codiceAsl;
 
     @Column(name = "PARTITA_IVA")
-    private Integer partitaIva;
+    private String partitaIva;
 
     @Column(name = "DATA_INIZIO_ADESIONE")
     private Date dataInizioAdesione;
@@ -41,6 +41,15 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
 
     @Column(name = "ANNOTAZIONI")
     private String annotazioni;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
     public String getCodiceAsl() {
         return codiceAsl;
@@ -76,11 +85,11 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
         this.codiceOrganismo = codiceOrganismo;
     }
 
-    public Integer getPartitaIva() {
+    public String getPartitaIva() {
         return partitaIva;
     }
 
-    public void setPartitaIva(Integer partitaIva) {
+    public void setPartitaIva(String partitaIva) {
         this.partitaIva = partitaIva;
     }
 

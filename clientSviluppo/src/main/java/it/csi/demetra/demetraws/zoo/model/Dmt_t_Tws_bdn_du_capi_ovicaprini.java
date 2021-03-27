@@ -20,6 +20,34 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
      */
     private static final long serialVersionUID = -8829170877502816563L;
 
+    public Dmt_t_Tws_bdn_du_capi_ovicaprini() {
+    }
+
+    public Dmt_t_Tws_bdn_du_capi_ovicaprini(Dmt_t_Tws_bdn_du_capi_ovicaprini dmt_t_Tws_bdn_du_capi_ovicaprini) {
+        this.allevId = dmt_t_Tws_bdn_du_capi_ovicaprini.getAllevId();
+        this.capoId = dmt_t_Tws_bdn_du_capi_ovicaprini.getCapoId();
+        this.codicePremio = dmt_t_Tws_bdn_du_capi_ovicaprini.getCodicePremio();
+        this.codice = dmt_t_Tws_bdn_du_capi_ovicaprini.getCodice();
+        this.sesso = dmt_t_Tws_bdn_du_capi_ovicaprini.getSesso();
+        this.razzaCodice = dmt_t_Tws_bdn_du_capi_ovicaprini.getRazzaCodice();
+        this.dtNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtNascita();
+        this.dtInizioDetenzione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtInizioDetenzione();
+        this.dtFineDetenzione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtFineDetenzione();
+        this.dtMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtMacellazione();
+        this.aziendaCodice = dmt_t_Tws_bdn_du_capi_ovicaprini.getAziendaCodice();
+        this.dtRegistrMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtRegistrMacellazione();
+        this.genotipo = dmt_t_Tws_bdn_du_capi_ovicaprini.getGenotipo();
+        this.consMedia = dmt_t_Tws_bdn_du_capi_ovicaprini.getConsMedia();
+        this.dtComMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtComMacellazione();
+        this.dtUltimoPrelProfilassi = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtUltimoPrelProfilassi();
+        this.dtComNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtComNascita();
+        this.dtInserimentoBdnNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtInserimentoBdnNascita();
+        this.dtApplMarchio = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtApplMarchio();
+        this.cuaa = dmt_t_Tws_bdn_du_capi_ovicaprini.getCuaa();
+        this.flagDelegatoNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getFlagDelegatoNascita();
+        this.ruoloUtenteNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getRuoloUtenteNascita();
+    }
+
     @Id
     @GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_ov")
     @SequenceGenerator(name = "seq_dmt_t_bdn_du_capi_ov", sequenceName = "SEQ_DMT_T_BDN_DU_CAPI_OV", allocationSize = 1)
@@ -197,34 +225,6 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
      * dell’allevamento
      */
     private String ruoloUtenteNascita;
-
-    public Dmt_t_Tws_bdn_du_capi_ovicaprini() {
-    }
-
-    public Dmt_t_Tws_bdn_du_capi_ovicaprini(Dmt_t_Tws_bdn_du_capi_ovicaprini dmt_t_Tws_bdn_du_capi_ovicaprini) {
-        this.allevId = dmt_t_Tws_bdn_du_capi_ovicaprini.getAllevId();
-        this.capoId = dmt_t_Tws_bdn_du_capi_ovicaprini.getCapoId();
-        this.codicePremio = dmt_t_Tws_bdn_du_capi_ovicaprini.getCodicePremio();
-        this.codice = dmt_t_Tws_bdn_du_capi_ovicaprini.getCodice();
-        this.sesso = dmt_t_Tws_bdn_du_capi_ovicaprini.getSesso();
-        this.razzaCodice = dmt_t_Tws_bdn_du_capi_ovicaprini.getRazzaCodice();
-        this.dtNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtNascita();
-        this.dtInizioDetenzione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtInizioDetenzione();
-        this.dtFineDetenzione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtFineDetenzione();
-        this.dtMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtMacellazione();
-        this.aziendaCodice = dmt_t_Tws_bdn_du_capi_ovicaprini.getAziendaCodice();
-        this.dtRegistrMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtRegistrMacellazione();
-        this.genotipo = dmt_t_Tws_bdn_du_capi_ovicaprini.getGenotipo();
-        this.consMedia = dmt_t_Tws_bdn_du_capi_ovicaprini.getConsMedia();
-        this.dtComMacellazione = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtComMacellazione();
-        this.dtUltimoPrelProfilassi = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtUltimoPrelProfilassi();
-        this.dtComNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtComNascita();
-        this.dtInserimentoBdnNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtInserimentoBdnNascita();
-        this.dtApplMarchio = dmt_t_Tws_bdn_du_capi_ovicaprini.getDtApplMarchio();
-        this.cuaa = dmt_t_Tws_bdn_du_capi_ovicaprini.getCuaa();
-        this.flagDelegatoNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getFlagDelegatoNascita();
-        this.ruoloUtenteNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getRuoloUtenteNascita();
-    }
 
     public Dmt_d_clsPremio_ValidazioneResponse getDmt_d_clsPremio_ValidazioneResponse() {
         return dmt_d_clsPremio_ValidazioneResponse;

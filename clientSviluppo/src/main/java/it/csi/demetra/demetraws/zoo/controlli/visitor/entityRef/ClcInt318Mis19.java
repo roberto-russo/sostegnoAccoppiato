@@ -1,7 +1,5 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
-import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
-import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
@@ -33,8 +31,6 @@ public class ClcInt318Mis19 extends Controllo {
     private List<Dmt_t_clsCapoMacellato> listaCapiMacellatiFiltrati;
     private ResultCtlUbaMinime ubaMin;
     @Autowired
-    private CtlUbaMinime ref9903;
-    @Autowired
     private Dmt_t_clsCapoMacellato_services capiMacellatiService;
     private BigDecimal numeroCapiAmmissibili;
     private BigDecimal numeroCapiRichiesti;
@@ -55,9 +51,11 @@ public class ClcInt318Mis19 extends Controllo {
      * 19. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
      * errore. il metodo preEsecuzione utilizza il controllo:<br>
      * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     *
+     * @return
      */
     @Override
-    public void preEsecuzione() throws ControlloException {
+    public List<Dmt_t_clsCapoMacellato> preEsecuzione() throws ControlloException {
         System.out.println("INIZIO CALCOLO INTERVENTO 318 MISURA 19");
         if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO PRE-ESECUZIONE");
@@ -77,31 +75,11 @@ public class ClcInt318Mis19 extends Controllo {
 
         this.listaCapiMacellati = this.controlloCapiDichiarati(getControlliService()
                 .getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
-
-        ref9903.init(listaCapiMacellati, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
-                getAzienda().getCuaa(), getSessione());
-
-        try {
-            ubaMin = ref9903.calcolo();
-
-            if (ubaMin.isErrors()) {
-                System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CONTROLLO DELLE UBA MINIME");
-                throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-            } else if (!ubaMin.isResult()) {
-                System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, CONTROLLO UBA MINIME NON RISPETTATO");
-                throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(),
-                        "controllo uba minime non rispettato"));
-            }
-
-        } catch (CalcoloException e) {
-            System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE I CONTROLLI AMMISIBILITA' TRASVERSALI REF99.03");
-            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
-        }
-        this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
-                getAzienda().getCuaa(), getAzienda().getCodicePremio());
         if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 318 MISURA 19, FINE PRE-CALCOLO");
         System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 318 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE ✔");
+
+        return listaCapiMacellati;
     }
 
     @Override
@@ -115,7 +93,10 @@ public class ClcInt318Mis19 extends Controllo {
      * non ammessi a premio. La lista di capi non ammessi a premio sarà visibile
      * in @see Dmt_t_output_esclusi.
      */
-    public void esecuzione() throws ControlloException {
+    public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
+
+        this.listaCapiMacellatiFiltrati = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
+                getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
         if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO CALCOLO");
@@ -123,7 +104,22 @@ public class ClcInt318Mis19 extends Controllo {
         if (listaCapiMacellatiFiltrati == null)
             return;
 
-        numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiMacellati.size());
+
+        List<Dmt_t_clsCapoMacellato> newListModel = new ArrayList<Dmt_t_clsCapoMacellato>();
+        for (Dmt_t_clsCapoMacellato x : listaCapiMacellatiFiltrati) {
+            if (UtilControlli.isControlloRegistrazioneUscita(x, getAzienda().getAnnoCampagna())
+                    && UtilControlli.controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
+                newListModel.add(x);
+            else {
+                x.setMotivazioneEsclusione("Capo anomalo per registrazione tardiva  (no sanzione).");
+                numeroCapiBocciati++;
+                listaCapiBocciati.add(x);
+            }
+        }
+
+        listaCapiMacellatiFiltrati = newListModel;
+
+        numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiMacellatiFiltrati.size());
 
         this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(), getAzienda().getAnnoCampagna());
 
@@ -145,17 +141,18 @@ public class ClcInt318Mis19 extends Controllo {
                         if (UtilControlli.controlloTempisticheDiRegistrazione(m) && controlloAdesioneEtichettatura(m, sistemiEtichettatura)) {
                             this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
                         } else {
+                            if (UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
+                                UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                                this.contatoreSanzionati++;
+                            } else {
+                                this.numeroCapiBocciati++;
+                                m.setMotivazioneEsclusione("Tempistiche di pagamento non rispettate");
+                                this.listaCapiBocciati.add(m);
+                            }
 //                            if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
 //                                    .differenzaMesi(m.getDtUscita(), m.getDtInserimentoBdnIngresso()) >= 6)) {
 //                                if (this.etic != null && this.etic.getFlagEtichettatura().equals("S")) {
-//                                    if (UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
-//                                        UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-//                                        this.contatoreSanzionati++;
-//                                    } else {
-//                                        this.motivazione = "il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' essere pagato a meno di una rinuncia da parte di uno dei richiedenti";
-//                                        this.numeroCapiBocciati++;
-//                                        this.listaCapiBocciati.add(m);
-//                                    }
+//
 //                                } else {
 //                                    this.motivazione = "le conformita' a sistemi di etichettatura facoltativa non rispettati";
 //                                    this.numeroCapiBocciati++;
@@ -235,7 +232,7 @@ public class ClcInt318Mis19 extends Controllo {
             return false;
 
         for (Dmt_t_SistemiDiEtichettaturaFacoltativa etic : sistemiEtichettatura) {
-            if(!etic.getCodiceAsl().equals(lastCodiceAsl)) continue;
+            if (!etic.getCodiceAsl().equals(lastCodiceAsl)) continue;
 
             if (null == etic.getDataFineAdesione()) return true;
             else if (lastDate.compareTo(etic.getDataFineAdesione()) <= 0) return true;
@@ -279,7 +276,7 @@ public class ClcInt318Mis19 extends Controllo {
         if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 318 MISURA 19, INIZIO POST-ESECUZIONE");
 
-        if (this.numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) != 0) {
+        if (null != this.numeroCapiRichiesti && numeroCapiRichiesti.longValue() != 0) {
             // SE NON SONO STATI RISCONTRATI ERRORI ALLORA POSSO SALVARE A DB QUI SALVARE
             // SIA I CAPI RICHIESTI CHE I CAPI AMMISSIBILI A PREMIO
 
@@ -305,6 +302,8 @@ public class ClcInt318Mis19 extends Controllo {
                 this.outputEsclusi.setCapoId(x.getCapoId());
                 this.outputEsclusi.setIdSessione(getSessione());
                 this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
+                outputEsclusi.setCuaa(getAzienda().getCuaa());
+                outputEsclusi.setCodicePremio(getAzienda().getCodicePremio());
                 this.getControlliService().saveOutputEscl(this.outputEsclusi);
             }
         }

@@ -1,92 +1,91 @@
 package it.csi.demetra.demetraws.zoo.calcoli.entity;
 
 public class CapiControllati9902 {
-	
-	private Long idSessione;
-	
-	private String cuaa;
-	
-	private Integer annoCampagna;
-	
-	private String codiceIntervento;
-	
-	private boolean esito;
-	
-	private String motivazioni;
-	
-	private Double quotaCapiPremio;
-	
-	public CapiControllati9902() {}
-	
-	public CapiControllati9902(Long idSessione, String cuaa, boolean esito, String motivazioni,
-			Double quotaCapiPremio, Integer annoCampagna, String codiceIntervento) {
-		super();
-		this.idSessione = idSessione;
-		this.cuaa = cuaa;
-		this.esito = esito;
-		this.motivazioni = motivazioni;
-		this.quotaCapiPremio = quotaCapiPremio;
-		this.annoCampagna = annoCampagna;
-		this.codiceIntervento = codiceIntervento;
-	}
 
-	public Long getIdSessione() {
-		return idSessione;
-	}
+    private Long idSessione;
 
-	public void setIdSessione(Long idSessione) {
-		this.idSessione = idSessione;
-	}
+    private String cuaa;
 
-	public String getCuaa() {
-		return cuaa;
-	}
+    private Integer annoCampagna;
 
-	public void setCuaa(String cuaa) {
-		this.cuaa = cuaa;
-	}
+    private String codiceIntervento;
 
-	public Double getQuotaCapiPremio() {
-		return quotaCapiPremio;
-	}
+    private boolean esito;
 
-	public void setQuotaCapiPremio(Double quotaCapiPremio) {
-		this.quotaCapiPremio = quotaCapiPremio;
-	}
+    private String motivazioni;
 
-	public boolean isEsito() {
-		return esito;
-	}
+    private Double quotaCapiPremio;
 
-	public void setEsito(boolean esito) {
-		this.esito = esito;
-	}
+    public CapiControllati9902() {
+    }
 
-	public String getMotivazioni() {
-		return motivazioni;
-	}
+    public CapiControllati9902(Long idSessione, String cuaa, boolean esito, String motivazioni,
+                               Double quotaCapiPremio, Integer annoCampagna, String codiceIntervento) {
+        super();
+        this.idSessione = idSessione;
+        this.cuaa = cuaa;
+        this.esito = esito;
+        this.motivazioni = motivazioni;
+        this.quotaCapiPremio = quotaCapiPremio;
+        this.annoCampagna = annoCampagna;
+        this.codiceIntervento = codiceIntervento;
+    }
 
-	public void setMotivazioni(String motivazioni) {
-		this.motivazioni = motivazioni;
-	}
+    public Long getIdSessione() {
+        return idSessione;
+    }
 
-	public Integer getAnnoCampagna() {
-		return annoCampagna;
-	}
+    public void setIdSessione(Long idSessione) {
+        this.idSessione = idSessione;
+    }
 
-	public void setAnnoCampagna(Integer annoCampagna) {
-		this.annoCampagna = annoCampagna;
-	}
+    public String getCuaa() {
+        return cuaa;
+    }
 
-	public String getCodiceIntervento() {
-		return codiceIntervento;
-	}
+    public void setCuaa(String cuaa) {
+        this.cuaa = cuaa;
+    }
 
-	public void setCodiceIntervento(String codiceIntervento) {
-		this.codiceIntervento = codiceIntervento;
-	}
-	
-	
+    public Double getQuotaCapiPremio() {
+        return quotaCapiPremio;
+    }
+
+    public void setQuotaCapiPremio(Double quotaCapiPremio) {
+        this.quotaCapiPremio = quotaCapiPremio;
+    }
+
+    public boolean isEsito() {
+        return esito;
+    }
+
+    public void setEsito(boolean esito) {
+        this.esito = esito;
+    }
+
+    public String getMotivazioni() {
+        return motivazioni;
+    }
+
+    public void setMotivazioni(String motivazioni) {
+        this.motivazioni = motivazioni;
+    }
+
+    public Integer getAnnoCampagna() {
+        return annoCampagna;
+    }
+
+    public void setAnnoCampagna(Integer annoCampagna) {
+        this.annoCampagna = annoCampagna;
+    }
+
+    public String getCodiceIntervento() {
+        return codiceIntervento;
+    }
+
+    public void setCodiceIntervento(String codiceIntervento) {
+        this.codiceIntervento = codiceIntervento;
+    }
 
 
 }

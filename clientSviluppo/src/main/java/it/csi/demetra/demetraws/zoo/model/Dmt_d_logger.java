@@ -21,7 +21,7 @@ public class Dmt_d_logger implements Serializable {
 
     @Id
     @GeneratedValue(generator = "seq_dmt_d_logger")
-    @SequenceGenerator(name="seq_dmt_d_logger",sequenceName="SEQ_DMT_D_LOGGER", allocationSize=1)
+    @SequenceGenerator(name = "seq_dmt_d_logger", sequenceName = "SEQ_DMT_D_LOGGER", allocationSize = 1)
     @Column(name = "id_log")
     private Long idLog;
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Dmt_t_errore_id implements Serializable {
 
-	private static final long serialVersionUID = -8891708525889181529L;
+    private static final long serialVersionUID = -8891708525889181529L;
 
     private Long idSessione;
     private String nomeMetodo;
@@ -74,10 +74,7 @@ public class Dmt_t_errore_id implements Serializable {
         } else if (!input.equals(other.input))
             return false;
         if (nomeMetodo == null) {
-            if (other.nomeMetodo != null)
-                return false;
-        } else if (!nomeMetodo.equals(other.nomeMetodo))
-            return false;
-        return true;
+            return other.nomeMetodo == null;
+        } else return nomeMetodo.equals(other.nomeMetodo);
     }
 }

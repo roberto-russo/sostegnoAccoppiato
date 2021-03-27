@@ -4,30 +4,23 @@ import it.csi.demetra.demetraws.srmanags.wsbridge2.Response;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridge2;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeInternalException_Exception;
 import it.csi.demetra.demetraws.srmanags.wsbridge2.WSBridgeService;
-
 import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_errore_services;
 import it.csi.demetra.demetraws.zoo.services.SaveOnDbService;
 import it.csi.demetra.demetraws.zoo.transformer.TransformerData;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.JAXBException;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
 @Component
 public class BdnWsManagerImpl {
+
 
     @Autowired
     SaveOnDbService save;
@@ -44,7 +37,7 @@ public class BdnWsManagerImpl {
     }
 
     public void connectWsBridge2() {
-        System.out.println("[BdnWsManagerImpl.connectWsBridge2] - BEGIN.");
+
 
         this.wsBridge2 = new WSBridgeService().getWSBridge2Port();
 
@@ -76,7 +69,7 @@ public class BdnWsManagerImpl {
             System.out.println(e.getMessage());
 
             Dmt_t_errore errore = new Dmt_t_errore();
-            String input = new String(codiceIntervento + " | " + cuaa + " | " + dataRichiesta + " | " + codiceIntervento + " | " + sessione.getIdSessione());
+            String input = codiceIntervento + " | " + cuaa + " | " + dataRichiesta + " | " + codiceIntervento + " | " + sessione.getIdSessione();
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
             errore.setNomeMetodo("getAnagraficaAllevamenti");
@@ -113,7 +106,7 @@ public class BdnWsManagerImpl {
 //			System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL GET ELENCO CAPI PREMIO");
             Dmt_t_errore errore = new Dmt_t_errore();
 
-            String input = new String(codiceIntervento + " | " + cuaa + " | " + anno_campagna + " | " + sessione.getIdSessione());
+            String input = codiceIntervento + " | " + cuaa + " | " + anno_campagna + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
@@ -155,7 +148,7 @@ public class BdnWsManagerImpl {
 //			System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL METODO GET ELENCO CAPI PREMIO 2");
             Dmt_t_errore errore = new Dmt_t_errore();
 
-            String input = new String(idAlleBdn + " | " + codiceIntervento + " | " + cuaa + " | " + cuua2 + " | " + annoCampagna + " | " + sessione.getIdSessione());
+            String input = idAlleBdn + " | " + codiceIntervento + " | " + cuaa + " | " + cuua2 + " | " + annoCampagna + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
@@ -203,7 +196,7 @@ public class BdnWsManagerImpl {
 //			else
 //				System.out.println("CODICE ERRORE PIENO");
 
-            String input = new String(p_cuaa + " | " + data_inizio_periodo + " | " + Data_fine_periodo + " | " + p_tipo_responsabilita + " | " + sessione.getIdSessione());
+            String input = p_cuaa + " | " + data_inizio_periodo + " | " + Data_fine_periodo + " | " + p_tipo_responsabilita + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");

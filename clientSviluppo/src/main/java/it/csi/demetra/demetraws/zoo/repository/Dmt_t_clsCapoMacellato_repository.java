@@ -71,22 +71,23 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
     /**
      * query che ritorna una lista di istanze di tipo Dmt_t_clsCapoMacellato in base allìidSessione e il cuaa
      *
-     * @param idSessione   codice di sessione associato all'esecuzione
-     * @param cuaa         codice fiscale del richiedente
-     * @param codicePremio
+     * @param idSessione codice di sessione associato all'esecuzione
+     * @param cuaa       codice fiscale del richiedente
      * @return lista di istanze di tipo Dmt_t_clsCapoMacellato
      */
     @Query(
-            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio ",
+            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio " +
+                    " AND capo_id NOT IN (select capo_id from DMT_T_OUTPUT_ESCLUSI where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio)",
             nativeQuery = true
     )
-    List<Dmt_t_clsCapoMacellato> findBySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
+    List<Dmt_t_clsCapoMacellato> findAmmissibiliBySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);
 
     @Query(
-            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa and codice_premio IN ('316','317','318','319')",
+            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO where id_sessione = :idSessione and CUAA = :cuaa and codice_premio IN ('316','317','318','319') " +
+                    "AND capo_id NOT IN (select capo_id from DMT_T_OUTPUT_ESCLUSI where id_sessione = :idSessione and CUAA = :cuaa and codice_premio IN ('316','317','318','319'))",
             nativeQuery = true
     )
-    List<Dmt_t_clsCapoMacellato> findM19BySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
+    List<Dmt_t_clsCapoMacellato> findAmmissibiliM19BySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa);
 
 
     @Query(value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE CAPO_ID IN (SELECT ID_CAPO FROM DMT_T_PREMIO_CAPI WHERE DMT_T_PREMIO_CAPI.ID_SESSIONE = :idSessione AND CUAA = :cuaa AND CODICE_PREMIO = :codiceIntervento) "
@@ -103,8 +104,14 @@ public interface Dmt_t_clsCapoMacellato_repository extends CrudRepository<Dmt_t_
     Dmt_t_clsCapoMacellato getCapoMacellatoById(@Param("idCapo") Long idCapo, @Param("codicePremio") String codicePremio, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
 
     @Query(
-			value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE capo_id = :idCapo and cuaa = :cuaa and id_Sessione = :idSessione and azienda_codice = :codiceAsl",
-			nativeQuery = true
-	)
+            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE capo_id = :idCapo and codice_premio IN ('316', '317', '318', '319') and cuaa = :cuaa and id_Sessione = :idSessione and ROWNUM = 1",
+            nativeQuery = true
+    )
+    Dmt_t_clsCapoMacellato getCapoMacellatoByIdM19(@Param("idCapo") Long idCapo, @Param("cuaa") String cuaa, @Param("idSessione") Long idSessione);
+
+    @Query(
+            value = "SELECT * FROM DMT_T_CLS_CAPO_MACELLATO WHERE capo_id = :idCapo and cuaa = :cuaa and id_Sessione = :idSessione and azienda_codice = :codiceAsl",
+            nativeQuery = true
+    )
     List<Dmt_t_clsCapoMacellato> getCapiMacellatiByStalla(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceAsl") String codiceAsl, @Param("idCapo") Long idCapo);
 }
