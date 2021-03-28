@@ -51,6 +51,16 @@ public class Dmt_t_output_esclusi implements Serializable {
     @Column(name = "codice_premio")
     private String codicePremio;
 
+    @Column(name = "tipologia_esclusione")
+    private String tipologiaEsclusione;
+
+    public String getTipologiaEsclusione() {
+        return tipologiaEsclusione;
+    }
+
+    public void setTipologiaEsclusione(String tipologiaEsclusione) {
+        this.tipologiaEsclusione = tipologiaEsclusione;
+    }
     public String getCuaa() {
         return cuaa;
     }

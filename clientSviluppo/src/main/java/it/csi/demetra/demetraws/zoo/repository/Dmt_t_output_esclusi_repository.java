@@ -43,4 +43,17 @@ public interface Dmt_t_output_esclusi_repository extends CrudRepository<Dmt_t_ou
             nativeQuery = true
     )
     List<Long> isAnomalo(@Param("idSessione") Long idSessione, @Param("calcolo") String calcolo);
+
+    @Query(
+            value = "select capo_id from dmt_t_output_esclusi where id_sessione = :idSessione and cuaa = :cuaa AND capo_id = :capoId and codice_premio = :intervento " +
+                    "AND TIPOLOGIA_ESCLUSIONE != 'S'",
+            nativeQuery = true
+    )
+    List<Long> getCapiEsclusi(@Param("idSessione") Long idSessione,@Param("cuaa") String cuaa,@Param("capoId") Long capoId,@Param("intervento")  String intervento);
+
+    @Query(
+            value = "select tipologia_esclusione from dmt_t_output_esclusi where id_sessione = :idSessione and cuaa = :cuaa AND capo_id = :capoId and codice_premio = :intervento",
+            nativeQuery = true
+    )
+    String getFlagEsclusioneCapo(@Param("idSessione") Long idSessione,@Param("cuaa") String cuaa,@Param("capoId") Long capoId,@Param("intervento")  String intervento);
 }

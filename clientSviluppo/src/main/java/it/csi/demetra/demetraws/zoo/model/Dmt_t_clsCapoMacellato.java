@@ -177,6 +177,7 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
      */
     private String ruoloUtenteUscita;
 
+
     @Transient
     private String motivazioneEsclusione;
 
@@ -187,6 +188,18 @@ public class Dmt_t_clsCapoMacellato implements Serializable {
 
     public void setMotivazioneEsclusione(String motivazioneEsclusione) {
         this.motivazioneEsclusione = motivazioneEsclusione;
+    }
+
+    @Transient
+    private String tipologiaEsclusione;
+
+    @Transient
+    public String getTipologiaEsclusione() {
+        return tipologiaEsclusione;
+    }
+
+    public void setTipologiaEsclusione(String tipologiaEsclusione) {
+        this.tipologiaEsclusione = tipologiaEsclusione;
     }
 
     public Dmt_t_clsCapoMacellato() {

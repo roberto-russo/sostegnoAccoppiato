@@ -39,6 +39,7 @@ public class ClcInt318Mis19 extends Controllo {
     private int contatoreSanzionati;
     private String motivazione;
     private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
+    private List<Dmt_t_clsCapoMacellato> capiSanzionati;
     private Dmt_t_output_esclusi outputEsclusi;
 
 
@@ -67,6 +68,7 @@ public class ClcInt318Mis19 extends Controllo {
         this.numeroCapiRichiesti = BigDecimal.ZERO;
         this.motivazione = null;
         this.listaCapiBocciati = new ArrayList<>();
+        this.capiSanzionati = new ArrayList<>();
         this.outputEsclusi = null;
         this.ubaMin = new ResultCtlUbaMinime();
         this.listaCapiMacellatiFiltrati = null;
@@ -125,28 +127,30 @@ public class ClcInt318Mis19 extends Controllo {
 
 
         if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-            try {
-                for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
-                    this.sistemiEtichettatura = getControlliService().getSistemaEtichettarua(getAzienda().getCuaa());
-                    this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
-                    // SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CUAA
-                    UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-                    if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-                            this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
-                            this.getControlliService())) {
+            for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
+                this.sistemiEtichettatura = getControlliService().getSistemaEtichettarua(getAzienda().getCuaa());
+                this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(), getSessione().getIdSessione(), getAzienda().getCodicePremio());
+                // SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CUAA
+                UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+                        this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), m.getCapoId(),
+                        this.getControlliService())) {
 
-                        UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-                        this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-                    } else {
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(m) && controlloAdesioneEtichettatura(m, sistemiEtichettatura)) {
+                    UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                    this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                } else {
+                    if (controlloAdesioneEtichettatura(m, sistemiEtichettatura)) {
+                        if (UtilControlli.controlloTempisticheDiRegistrazione(m)) {
                             this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
                         } else {
                             if (UtilControlli.flagDuplicatiRichiedenti(duplicatiMacellati, getAzienda().getCuaa(), this.getControlliService())) {
                                 UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                                 this.contatoreSanzionati++;
+                                capiSanzionati.add(m);
                             } else {
                                 this.numeroCapiBocciati++;
                                 m.setMotivazioneEsclusione("Tempistiche di pagamento non rispettate");
+                                m.setTipologiaEsclusione("E");
                                 this.listaCapiBocciati.add(m);
                             }
 //                            if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
@@ -164,22 +168,22 @@ public class ClcInt318Mis19 extends Controllo {
 //                                this.listaCapiBocciati.add(m);
 //                            }
                         }
-
-                        if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
-                            System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
-                            throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-                                    + " nessun capo ha suprato il controllo per il premio 318 misura 19");
-                        }
+                    } else {
+                        this.numeroCapiBocciati++;
+                        m.setMotivazioneEsclusione("Sistema di etichettatura non rispettato");
+                        m.setTipologiaEsclusione("E");
+                        this.listaCapiBocciati.add(m);
                     }
+
                 }
-            } catch (ControlloException e) {
-                //GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
-                System.out.println(" ERRORE CALCOLO INTERVENTO 318 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 318 MISURA 19");
-                new Dmt_t_errore(getSessione(), "ClcInt318Mis19", getInput(), e.getMessage());
-            } catch (NullPointerException e) {
-                System.out.println("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 318 MISURA 19, NESSUN CAPO DISPONIBILE");
-                throw new ControlloException(new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
             }
+
+//                if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+//                    System.out.println("ERRORE CALCOLO INTERVENTO 318 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
+//                    throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+//                            + " nessun capo ha suprato il controllo per il premio 318 misura 19");
+//                }
+
 
         } else {
             // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
@@ -301,12 +305,28 @@ public class ClcInt318Mis19 extends Controllo {
                 this.outputEsclusi.setCalcolo("ClcInt318Mis19");
                 this.outputEsclusi.setCapoId(x.getCapoId());
                 this.outputEsclusi.setIdSessione(getSessione());
-                this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
+                this.outputEsclusi.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+                outputEsclusi.setTipologiaEsclusione(x.getTipologiaEsclusione());
                 outputEsclusi.setCuaa(getAzienda().getCuaa());
                 outputEsclusi.setCodicePremio(getAzienda().getCodicePremio());
                 this.getControlliService().saveOutputEscl(this.outputEsclusi);
             }
         }
+
+
+        for (Dmt_t_clsCapoMacellato x : this.capiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
+
+
         if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 318 MISURA 19, FINE POST ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 318 MISURA 19");

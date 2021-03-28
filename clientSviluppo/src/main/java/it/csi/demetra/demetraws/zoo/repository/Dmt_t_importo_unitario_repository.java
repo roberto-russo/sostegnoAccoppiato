@@ -52,7 +52,7 @@ public interface Dmt_t_importo_unitario_repository extends CrudRepository<Dmt_t_
      * @param interventi   lista dei codici premio associati alle richieste dei cuaa
      * @return lista di istanze di tipo Dmt_t_importo_unitario
      */
-    @Query(value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA_INIZIO = :annoCampagna AND CODICE IN :interventi ",
+    @Query(value = "SELECT * FROM DMT_T_IMPORTO_UNITARIO WHERE ANNO_CAMPAGNA_INIZIO = :annoCampagna AND CODICE IN :interventi ORDER BY importo_premio DESC ",
             nativeQuery = true
     )
     List<Dmt_t_importo_unitario> findAllByAnnoCampagnaAndIntervento(@Param("annoCampagna") Integer annoCampagna, @Param("interventi") List<String> interventi);

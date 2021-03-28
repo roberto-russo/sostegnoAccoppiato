@@ -611,6 +611,16 @@ public class ControlliService {
         return boviniRepository.getCapoBovinoByIdM19(idCapo, cuaa, idSessione);
     }
 
+    public boolean isCapoPagabile(Long idSessione, String cuaa, Long capoId, String intervento) {
+        List<Long> idEsclusi = this.esclusiRepository.getCapiEsclusi(idSessione, cuaa, capoId, intervento);
+        if (null == idEsclusi || idEsclusi.size() == 0) return true;
+        return false;
+    }
+
+    public String getFlagEsclusioneCapo(Long idSessione, String cuaa, Long capoId, String cp) {
+        return this.esclusiRepository.getFlagEsclusioneCapo(idSessione,cuaa,capoId,cp);
+    }
+
 //    public Dmt_t_Tws_bdn_du_capi_ovicaprini getOviCaprinoById (Long idCapo, String codicePremio, String cuaa, Long idSessione) {
 //    	return covicapriniRep.getOviCaprinoById(idCapo, codicePremio, cuaa, idSessione);
 //    }

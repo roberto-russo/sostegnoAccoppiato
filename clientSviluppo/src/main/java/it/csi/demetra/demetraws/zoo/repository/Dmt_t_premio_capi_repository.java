@@ -21,7 +21,9 @@ public interface Dmt_t_premio_capi_repository extends CrudRepository<Dmt_t_premi
 
 
     @Query(
-            value = "SELECT codice_premio FROM dmt_t_premio_capi WHERE id_capo = :idCapo and id_sessione = :idSessione ",
+            value = "SELECT codice_premio FROM dmt_t_premio_capi c WHERE id_capo = :idCapo and id_sessione = :idSessione and flag_amissibile = 'S' " +
+                    " and codice_premio not IN (select codice_premio from DMT_T_OUTPUT_ESCLUSI e where c.id_capo = e.capo_id  AND c.codice_premio = e.codice_premio" +
+                    " AND tipologia_esclusione='E') ",
             nativeQuery = true
     )
     List<String> findCodiciPremioByIdCapoAndIdSessione(@Param("idCapo") Long idCapo, @Param("idSessione") Long idSessione);

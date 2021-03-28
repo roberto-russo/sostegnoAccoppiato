@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * i controlli da applicare per il calcolo del premio zootecnia per
- * l’intervento 315 – Misura 5:<br>
- * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal
+ * lâ€™intervento 315 â€“ Misura 5:<br>
+ * capi bovini macellati di etÃ  compresa tra i 12 e 24 mesi allevati dal
  * richiedente per un periodo non inferiore a sei mesi prima della macellazione.
  *
  * @author bcsoft
@@ -42,10 +42,10 @@ public class ClcInt315Mis5 extends Controllo {
 
     /**
      * Nel metodo preEsecuzione vengono effettuate due operazioni principali. La
-     * prima è l'inizializzazione delle variabili di classe. La seconda è
-     * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di
+     * prima Ã¨ l'inizializzazione delle variabili di classe. La seconda Ã¨
+     * l'esecuzione dei controlli di preammissibilitÃ  trasversali. Il risultato di
      * tali controlli pregiudica l'esecuzione del calcolo stesso. Se l'esecuzione ha
-     * esito positivo, allora si può procedere con il calcolo intervento 315 misura
+     * esito positivo, allora si puÃ² procedere con il calcolo intervento 315 misura
      * 5. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
      * errore. Il metodo preEsecuzione utilizza il controllo:<br>
      * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
@@ -57,7 +57,7 @@ public class ClcInt315Mis5 extends Controllo {
     @Override
     public List<Dmt_t_clsCapoMacellato> preEsecuzione() throws ControlloException {
         System.out.println("INIZIO CALCOLO INTERVENTO 315 MISURA 5");
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO PRE-ESECUZIONE");
         this.importoLiquidabile = new BigDecimal(0);
         this.contatoreBocciati = 0;
@@ -71,7 +71,7 @@ public class ClcInt315Mis5 extends Controllo {
         this.motivazione = null;
         this.ubaMin = new ResultCtlUbaMinime();
 
-        // controlli di preammissibilità
+        // controlli di preammissibilitÃ 
 
         // this.modelMacellato =
         // getControlliService().getAllMacellatiSessioneCuua(getSessione(),
@@ -79,10 +79,10 @@ public class ClcInt315Mis5 extends Controllo {
         this.modelMacellato = this.controlloCapiDichiarati(getControlliService()
                 .getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE PRE-ESECUZIONE");
         System.out.println(
-                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 315 MISURA 5 SONO STATI ESEGUITI CORRETTAMENTE ✔");
+                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 315 MISURA 5 SONO STATI ESEGUITI CORRETTAMENTE âœ”");
 
         return modelMacellato;
     }
@@ -91,12 +91,12 @@ public class ClcInt315Mis5 extends Controllo {
      * nel metodo esecuzione vengono eseguiti i controlli per il calcolo
      * intervento 315 misura 5. Se i controlli per il suddetto calcolo risultano
      * essere positivi, allora viene incrementato il contatore di importo
-     * liquidabile e il capo sarà visibile in
+     * liquidabile e il capo sarÃ  visibile in
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}.
-     * Qualora i capi risultassero non idonei al premio in questione, verrà
-     * incrementato il numero di capi non ammessi a premio e tale capo sarà
+     * Qualora i capi risultassero non idonei al premio in questione, verrÃ 
+     * incrementato il numero di capi non ammessi a premio e tale capo sarÃ 
      * inserito nella lista di capi non ammessi a premio. La lista di capi non
-     * ammessi a premio sarà visibile in
+     * ammessi a premio sarÃ  visibile in
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
      *
      * @throws ControlloException eccezione relativa al controllo di tipo
@@ -105,7 +105,7 @@ public class ClcInt315Mis5 extends Controllo {
     @Override
     public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO ESECUZIONE");
 
         capiPagabili = new ArrayList<Dmt_t_clsCapoMacellato>();
@@ -113,14 +113,17 @@ public class ClcInt315Mis5 extends Controllo {
         capiBocciati = new ArrayList<Dmt_t_clsCapoMacellato>();
         modelMacellato = getControlliService()
                 .getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+
         List<Dmt_t_clsCapoMacellato> newListModel = new ArrayList<Dmt_t_clsCapoMacellato>();
         for (Dmt_t_clsCapoMacellato x : modelMacellato) {
             if (UtilControlli.isControlloRegistrazioneUscita(x, getAzienda().getAnnoCampagna())
                     && UtilControlli.controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
                 newListModel.add(x);
             else {
+                x.setTipologiaEsclusione("E");
                 x.setMotivazioneEsclusione("Capo anomalo per registrazione tardiva  (no sanzione).");
                 listaCapiBocciati.add(x);
+                contatoreBocciati++;
             }
         }
 
@@ -141,7 +144,7 @@ public class ClcInt315Mis5 extends Controllo {
 
                     /*
                      * Qualora lo stesso capo sia richiesto in pagamento da due
-                     * soggetti, il capo non può essere pagato, salvo rinuncia
+                     * soggetti, il capo non puÃ² essere pagato, salvo rinuncia
                      * da parte di uno dei richiedenti. Il premio alla
                      * macellazione viene riconosciuto ai proprietari/detentori
                      * dei capi macellati ed in caso di richiesta di aiuti da
@@ -169,7 +172,7 @@ public class ClcInt315Mis5 extends Controllo {
                              * 6 mesi
                              *
                              */
-                            if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null) && (UtilControlli
+                            if ((m.getDtUscita() != null && m.getDtIngresso() != null) && (UtilControlli
                                     .differenzaMesi(m.getDtUscita(), m.getDtInserimentoBdnIngresso()) >= 6)) {
 
                                 /*
@@ -184,13 +187,14 @@ public class ClcInt315Mis5 extends Controllo {
                                 capiSanzionati.add(m);
                             } else {
                                 /*
-                                 * il capo non è stato allevato per un periodo
+                                 * il capo non Ã¨ stato allevato per un periodo
                                  * minimo di 6 mesi continuativi
                                  */
 
                                 this.contatoreBocciati++;
                                 m.setMotivazioneEsclusione("il capo non e' stato allevato per un periodo minimo di 6 mesi continuativi");
                                 this.listaCapiBocciati.add(m);
+                                m.setTipologiaEsclusione("A");
                                 capiBocciati.add(m);
 
                             }
@@ -198,13 +202,14 @@ public class ClcInt315Mis5 extends Controllo {
                     } else {
 
                         /*
-                         * il capo è stato richiesto in pagamento da più di un
-                         * soggetto, il capo non può esserepagato a meno di una
+                         * il capo Ã¨ stato richiesto in pagamento da piÃ¹ di un
+                         * soggetto, il capo non puÃ² esserepagato a meno di una
                          * rinuncia da parte di uno dei richiedenti.
                          */
                         this.contatoreBocciati++;
                         m.setMotivazioneEsclusione("il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti");
                         this.listaCapiBocciati.add(m);
+                        m.setTipologiaEsclusione("A");
                     }
 
                 }
@@ -225,7 +230,7 @@ public class ClcInt315Mis5 extends Controllo {
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
         }
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE ESECUZIONE");
 
         checkDuplicatiContatori();
@@ -245,10 +250,10 @@ public class ClcInt315Mis5 extends Controllo {
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i dati
      * relativi ai capi non ammessi a premio in
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}. Dei capi non
-     * ammessi a premio sarà salvata l'informazione di identificazione del capo, il
-     * premio per cui è stata effettuata la richiesta di amissione e la motivazione
+     * ammessi a premio sarÃ  salvata l'informazione di identificazione del capo, il
+     * premio per cui Ã¨ stata effettuata la richiesta di amissione e la motivazione
      * per cui risulta non idoneo al premio. Per i capi risultanti idonei al premio
-     * in questione, sarà salvata l'informazione dell'anno campagna per cui
+     * in questione, sarÃ  salvata l'informazione dell'anno campagna per cui
      * concorrono, il numero di capi ammessi a premio, il cuaa che ha presentato la
      * domanda e il codice premio.
      *
@@ -258,7 +263,7 @@ public class ClcInt315Mis5 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, INIZIO POST-ESECUZIONE");
 
         // salvataggio capi ammissibili
@@ -275,23 +280,37 @@ public class ClcInt315Mis5 extends Controllo {
             getControlliService().saveOutput(this.oc);
         }
 
+        System.out.println("Contatore bocciati -> " + getAzienda().getCodicePremio() + " -> " + contatoreBocciati);
         if (this.contatoreBocciati != 0) {
             // salvataggio capi esclusi
             this.oe = new Dmt_t_output_esclusi();
 
             for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-
                 this.oe.setCalcolo("ClcInt315Mis5");
                 this.oe.setCapoId(x.getCapoId());
                 this.oe.setIdSessione(getSessione());
-                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 oe.setCuaa(getAzienda().getCuaa());
+                oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
                 oe.setCodicePremio(getAzienda().getCodicePremio());
+                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 this.getControlliService().saveOutputEscl(this.oe);
             }
         }
 
-        if (1==1)
+
+        for (Dmt_t_clsCapoMacellato x : this.capiSanzionati) {
+            this.oe = new Dmt_t_output_esclusi();
+            this.oe.setCalcolo("ClcInt315Mis5");
+            this.oe.setCapoId(x.getCapoId());
+            this.oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(this.oe);
+        }
+
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 315 MISURA 5, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 315 MISURA 5");
     }
@@ -302,7 +321,7 @@ public class ClcInt315Mis5 extends Controllo {
     // per poter effettuare il calcolo.
     // * @param dataFine per dataFine si intende la seconda data da inserire per
     // poter effettuare il calcolo.
-    // * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda
+    // * il metodo calcolerÃ  i mesi che intercorrono tra la prima e la seconda
     // data.
     // * @return monthsBetween il numero di mesi che intercorrono tra le due
     // date inserite.
@@ -325,8 +344,8 @@ public class ClcInt315Mis5 extends Controllo {
 //		else if (duplicatiMacellati.size() == 2) {
 //
 //			// se la vacca compare due volte nello stesso allevamento,
-//			// controllare chi è il
-//			// proprietario e chi è il detentore
+//			// controllare chi Ã¨ il
+//			// proprietario e chi Ã¨ il detentore
 //			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
 //
 //				allev1 = getControlliService()

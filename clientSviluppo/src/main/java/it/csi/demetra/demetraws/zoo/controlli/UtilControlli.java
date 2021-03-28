@@ -584,15 +584,9 @@ public class UtilControlli {
         BigDecimal sogliaPagabiliVenti = new BigDecimal("0.2");
         BigDecimal sogliaPagabiliDieci = new BigDecimal("0.1");
 
-        System.out.println("CALCOLO ESITO ()");
-        System.out.println("CAPI ACCERTATI -> " + capiAccertati);
-        System.out.println("CAPI ANOMALI -> " + capiAnomali);
-        System.out.println("CAPI RICHIESTI -> " + capiRichiesti);
-        System.out.println("CAPI SANZIONATI -> " + capiSanzionati);
-        esito = capiSanzionati.add(capiAnomali).divide(capiAccertati.subtract(capiAnomali), MathContext.DECIMAL128);
-        System.out.println("ESITO -> " + esito);
+        esito = capiSanzionati.add(capiAnomali).divide(capiAccertati, MathContext.DECIMAL128);
         BigDecimal newEsito = esito.setScale(2, RoundingMode.HALF_UP);
-        System.out.println("NEW ESITO -> " + newEsito);
+
         if (newEsito.compareTo(sogliaPagabiliDieci) <= 0)
             capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(newEsito))).setScale(0, RoundingMode.HALF_UP);
         else if (newEsito.compareTo(sogliaPagabiliDieci) > 0 && newEsito.compareTo(sogliaPagabiliVenti) <= 0)
@@ -601,7 +595,6 @@ public class UtilControlli {
         else
             capiPagabili = BigDecimal.ZERO;
 
-        System.out.println("CAPI PAGABILI -> " + capiPagabili);
         result.put("capiPagabili", capiPagabili);
         result.put("esito", newEsito);
         return result;

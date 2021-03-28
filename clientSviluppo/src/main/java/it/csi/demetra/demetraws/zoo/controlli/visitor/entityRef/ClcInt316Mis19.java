@@ -14,15 +14,14 @@ import java.util.List;
 
 /**
  * i controlli da applicare per il calcolo del premio zootecnia per
- * l’intervento 316 – Misura 19:<br>
- * capi bovini macellati di età compresa tra i 12 e 24 mesi allevati dal
+ * lâ€™intervento 316 â€“ Misura 19:<br>
+ * capi bovini macellati di etÃ  compresa tra i 12 e 24 mesi allevati dal
  * richiedente per un periodo non inferiore ai dodici mesi.
  *
  * @author Bcsoft
  */
 @Component("ClcInt316Mis19")
 public class ClcInt316Mis19 extends Controllo {
-
 
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_clsCapoMacellato> modelMacellato;
@@ -39,14 +38,15 @@ public class ClcInt316Mis19 extends Controllo {
     private int contatoreBocciati;
     private int contatoreSanzionati;
     private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
+    private List<Dmt_t_clsCapoMacellato> capiSanzionati;
     private String motivazione;
 
     /**
      * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
-     * prima è l'inizializzazione delle variabili di classe. La seconda è
-     * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di
+     * prima Ã¨ l'inizializzazione delle variabili di classe. La seconda Ã¨
+     * l'esecuzione dei controlli di preammissibilitÃ  trasversali. Il risultato di
      * tali controlli pregiudica l'esecuzione del calcolo stesso. Se l'esecuzione ha
-     * esito positivo, allora si può procedere con il calcolo intervento 316 misura
+     * esito positivo, allora si puÃ² procedere con il calcolo intervento 316 misura
      * 19. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
      * errore. Il metodo preEsecuzione utilizza il controllo:<br>
      * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
@@ -58,7 +58,7 @@ public class ClcInt316Mis19 extends Controllo {
     @Override
     public List<Dmt_t_clsCapoMacellato> preEsecuzione() throws ControlloException {
         System.out.println("INIZIO CALCOLO INTERVENTO 316 MISURA 19");
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, INIZIO PRE-ESECUZIONE");
         this.importoLiquidabile = new BigDecimal(0);
         this.contatoreBocciati = 0;
@@ -67,13 +67,14 @@ public class ClcInt316Mis19 extends Controllo {
         this.numeroCapiRichiesti = BigDecimal.ZERO;
         this.estrazioneACampione = null;
         this.listaCapiBocciati = new ArrayList<>();
+        this.capiSanzionati = new ArrayList<>();
         this.oe = null;
         this.motivazione = null;
         this.ubaMin = new ResultCtlUbaMinime();
         this.modelMacellatoFiltrato = null;
         this.contatoreSanzionati = 0;
 
-        // controlli di preammissibilità
+        // controlli di preammissibilitÃ 
 
         // this.modelMacellato =
         // getControlliService().getAllMacellatiSessioneCuua(getSessione(),
@@ -81,10 +82,10 @@ public class ClcInt316Mis19 extends Controllo {
         this.modelMacellato = this.controlloCapiDichiarati(getControlliService()
                 .getAllMacellatiSessioneCuua(getSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio()));
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, FINE PRE-ESECUZIONE");
         System.out.println(
-                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 316 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE ✔");
+                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 316 MISURA 19 SONO STATI ESEGUITI CORRETTAMENTE âœ”");
 
         return modelMacellato;
 
@@ -94,11 +95,11 @@ public class ClcInt316Mis19 extends Controllo {
      * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento
      * 316 misura 19. Se i controlli per il suddetto calcolo risultano essere
      * positivi, allora viene incrementato il contatore di importo liquidabile e il
-     * capo sarà visibile in
+     * capo sarÃ  visibile in
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Qualora i
-     * capi risultassero non idonei al premio in questione, verrà incrementato il
-     * numero di capi non ammessi a premio e tale capo sarà inserito nella lista di
-     * capi non ammessi a premio. La lista di capi non ammessi a premio sarà
+     * capi risultassero non idonei al premio in questione, verrÃ  incrementato il
+     * numero di capi non ammessi a premio e tale capo sarÃ  inserito nella lista di
+     * capi non ammessi a premio. La lista di capi non ammessi a premio sarÃ 
      * visibile in {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi}.
      *
      * @throws ControlloException eccezione relativa al controllo di tipo
@@ -109,7 +110,7 @@ public class ClcInt316Mis19 extends Controllo {
 
         this.modelMacellatoFiltrato = capiMacellatiService.getMacellatiUbaMinime(getSessione().getIdSessione(),
                 getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, INIZIO ESECUZIONE");
 
         List<Dmt_t_clsCapoMacellato> newListModel = new ArrayList<Dmt_t_clsCapoMacellato>();
@@ -118,6 +119,7 @@ public class ClcInt316Mis19 extends Controllo {
                     && UtilControlli.controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
                 newListModel.add(x);
             else {
+                x.setTipologiaEsclusione("E");
                 x.setMotivazioneEsclusione("Capo anomalo per registrazione tardiva  (no sanzione).");
                 contatoreBocciati++;
                 listaCapiBocciati.add(x);
@@ -154,7 +156,7 @@ public class ClcInt316Mis19 extends Controllo {
 
                         /*
                          * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il capo
-                         * non può essere pagato, salvo rinuncia da parte di uno dei richiedenti. Il
+                         * non puÃ² essere pagato, salvo rinuncia da parte di uno dei richiedenti. Il
                          * premio alla macellazione viene riconosciuto ai proprietari/detentori dei capi
                          * macellati ed in caso di richiesta di aiuti da parte di entrambi, i capi
                          * ammissibili sono pagati esclusivamente al detentore
@@ -182,7 +184,7 @@ public class ClcInt316Mis19 extends Controllo {
                                  * Sia stato allevato per un periodo continuativo di 12 mesi
                                  *
                                  */
-                                if ((m.getDtUscita() != null && m.getDtInserimentoBdnIngresso() != null)
+                                if ((m.getDtUscita() != null && m.getDtIngresso() != null)
                                         && (UtilControlli.differenzaMesi(m.getDtUscita(),
                                         m.getDtInserimentoBdnIngresso()) >= 12)) {
                                     /*
@@ -195,26 +197,29 @@ public class ClcInt316Mis19 extends Controllo {
                                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                             this.getSessione());
                                     this.contatoreSanzionati++;
+                                    this.capiSanzionati.add(m);
 
                                 } else {
                                     /*
-                                     * il capo non è stato allevato per un periodo minimo di 12 mesi continuativi
+                                     * il capo non Ã¨ stato allevato per un periodo minimo di 12 mesi continuativi
                                      */
                                     this.contatoreBocciati++;
                                     m.setMotivazioneEsclusione("il capo non e' stato allevato per un periodo minimo di 12 mesi continuativi ");
                                     this.listaCapiBocciati.add(m);
+                                    m.setTipologiaEsclusione("A");
                                 }
                             }
                         } else {
 
                             /*
-                             * il capo è stato richiesto in pagamento da più di un soggetto, il capo non
-                             * può esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
+                             * il capo Ã¨ stato richiesto in pagamento da piÃ¹ di un soggetto, il capo non
+                             * puÃ² esserepagato a meno di una rinuncia da parte di uno dei richiedenti.
                              */
 
                             this.contatoreBocciati++;
                             m.setMotivazioneEsclusione("il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti");
                             this.listaCapiBocciati.add(m);
+                            m.setTipologiaEsclusione("A");
                         }
                     }
                 }
@@ -245,7 +250,7 @@ public class ClcInt316Mis19 extends Controllo {
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
         }
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, FINE ESECUZIONE");
 
     }
@@ -255,10 +260,10 @@ public class ClcInt316Mis19 extends Controllo {
      * ammessi a premio in
      * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli} e i dati
      * relativi ai capi non ammessi a premio in {@link Dmt_t_output_esclusi}. Dei
-     * capi non ammessi a premio sarà salvata l'informazione di identificazione del
-     * capo, il premio per cui è stata effettuata la richiesta di amissione e la
+     * capi non ammessi a premio sarÃ  salvata l'informazione di identificazione del
+     * capo, il premio per cui Ã¨ stata effettuata la richiesta di amissione e la
      * motivazione per cui risulta non idoneo al premio. Per i capi risultanti
-     * idonei al premio in questione, sarà salvata l'informazione dell'anno
+     * idonei al premio in questione, sarÃ  salvata l'informazione dell'anno
      * campagna per cui concorrono, il numero di capi ammessi a premio, il cuaa che
      * ha presentato la domanda e il codice premio.
      *
@@ -268,7 +273,7 @@ public class ClcInt316Mis19 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, INIZIO POST-ESECUZIONE");
 
         if (null != this.numeroCapiRichiesti && numeroCapiRichiesti.longValue() != 0) {
@@ -283,24 +288,37 @@ public class ClcInt316Mis19 extends Controllo {
             this.oc.setIdSessione(getSessione());
             getControlliService().saveOutput(this.oc);
         }
+        System.out.println("Contatore bocciati -> " + getAzienda().getCodicePremio() + " -> " + contatoreBocciati);
 
         if (this.contatoreBocciati != 0) {
             // salvataggio capi esclusi
-            this.oe = new Dmt_t_output_esclusi();
 
             for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
+                this.oe = new Dmt_t_output_esclusi();
                 this.oe.setCalcolo("ClcInt316Mis19");
                 this.oe.setCapoId(x.getCapoId());
                 this.oe.setIdSessione(getSessione());
-                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 oe.setCuaa(getAzienda().getCuaa());
                 oe.setCodicePremio(getAzienda().getCodicePremio());
+                oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
+                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 this.getControlliService().saveOutputEscl(this.oe);
             }
-
         }
 
-        if (1==1)
+        for (Dmt_t_clsCapoMacellato x : this.capiSanzionati) {
+            this.oe = new Dmt_t_output_esclusi();
+            this.oe.setCalcolo(getClass().getSimpleName());
+            this.oe.setCapoId(x.getCapoId());
+            this.oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(this.oe);
+        }
+
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 316 MISURA 19, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 316 MISURA 19");
     }
@@ -312,7 +330,7 @@ public class ClcInt316Mis19 extends Controllo {
     // per poter effettuare il calcolo.
     // * @param dataFine per dataFine si intende la seconda data da inserire per
     // poter effettuare il calcolo.
-    // * il metodo calcolerà i mesi che intercorrono tra la prima e la seconda
+    // * il metodo calcolerÃ  i mesi che intercorrono tra la prima e la seconda
     // data.
     // * @return monthsBetween il numero di mesi che intercorrono tra le due
     // date inserite.
@@ -330,7 +348,7 @@ public class ClcInt316Mis19 extends Controllo {
     // * nel metodo flagDuplicatiRichiedenti viene analizzata la lista dei cuaa
     // che effettuano una richiesta sullo stesso capo.
     // * Qualora lo stesso capo sia richiesto in pagamento da due soggetti, il
-    // capo non può essere pagato, salvo rinuncia da parte di uno dei
+    // capo non puÃ² essere pagato, salvo rinuncia da parte di uno dei
     // richiedenti.
     // * Il premio alla macellazione viene riconosciuto ai proprietari/detentori
     // dei capi macellati ed in caso di richiesta di aiuti da parte di entrambi,
@@ -338,7 +356,7 @@ public class ClcInt316Mis19 extends Controllo {
     // * @param duplicatiMacellati lista delle richieste effettuate sullo stesso
     // capo
     // * @param cuaa codice fiscale del richiedente analizzato
-    // * @return boolean true se il capo può essere pagato al cuaa analizzato,
+    // * @return boolean true se il capo puÃ² essere pagato al cuaa analizzato,
     // false altrimenti
     // */
 //	private Boolean flagDuplicatiRichiedenti(List<Dmt_t_clsCapoMacellato> duplicatiMacellati, String cuaa) {
@@ -351,8 +369,8 @@ public class ClcInt316Mis19 extends Controllo {
 //		else if (duplicatiMacellati.size() == 2) {
 //
 //			// se la vacca compare due volte nello stesso allevamento,
-//			// controllare chi è il
-//			// proprietario e chi è il detentore
+//			// controllare chi Ã¨ il
+//			// proprietario e chi Ã¨ il detentore
 //			if (duplicatiMacellati.get(0).getAllevId().equals(duplicatiMacellati.get(1).getAllevId())) {
 //
 //				allev1 = getControlliService()

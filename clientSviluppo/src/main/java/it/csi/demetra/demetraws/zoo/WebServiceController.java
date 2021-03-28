@@ -118,22 +118,18 @@ public class WebServiceController {
         List<Rpu_V_pratica_zoote> newListAziende = new ArrayList<>();
         // ELIMINO I DUPLICATI DEI CP M19 DALLA LISTA
         for (Rpu_V_pratica_zoote v : listaCuaa) {
-            if (isM19(v.getCodicePremio())) {
-                Boolean find = false;
-                for (Rpu_V_pratica_zoote a : newListAziende) {
-                    if (a.getCuaa().equals(v.getCuaa()) && isM19(a.getCodicePremio())) {
-                        find = true;
-                        break;
-                    }
+            Boolean find = false;
+            for (Rpu_V_pratica_zoote a : newListAziende) {
+                if (a.getCuaa().equals(v.getCuaa())) {
+                    find = true;
+                    break;
                 }
-                if (!find)
-                    newListAziende.add(v);
-
-            } else
+            }
+            if (!find)
                 newListAziende.add(v);
         }
 
-        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+        for (Rpu_V_pratica_zoote azienda : newListAziende) {
             calcoloRef03.inizializzazione(sessione, azienda);
             try {
                 calcoloRef03.esecuzione();

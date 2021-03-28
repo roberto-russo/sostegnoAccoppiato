@@ -257,7 +257,6 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
                                                 || period.getYears() > 18) {
                                             listaCapi.get(cp).remove(capo);
 //											capo.setFlagCapoAmmesso("N");
-                                            System.out.println("\n\n CAPO NO ETA' -> " + capo.getCapoId());
                                             Dmt_t_premio_capi tmp = inizializzaCapo(capo, "N",
                                                     "Il capo non ha un'età compresa tra 20 mesi e 18 anni");
                                             listaCapiResult.get(cp).add(tmp);
@@ -265,14 +264,10 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
                                             LocalDate dataNascitaVitello = LocalDateConverter
                                                     .convertToLocalDateViaInstant(capo.getVitelloDtComAutNascita());
                                             period = Period.between(dataNascitaVitello, oggi);
-                                            // int giorniDiVita =
-                                            // (period.getDays()+period.getMonths()*30+period.getYears()*365);
                                             long giorniDiVita = ChronoUnit.DAYS.between(dataNascitaVitello, oggi);
                                             if (giorniDiVita < 270) {
                                                 listaCapi.get(cp).remove(capo);
-//												capo.setFlagCapoAmmesso("N");
 
-                                                System.out.println("\n\n CAPO NO 270 -> " + capo.getCapoId());
                                                 Dmt_t_premio_capi tmp = inizializzaCapo(capo, "N",
                                                         "Il periodo minimo di 270 giorni di interparto non � stato rispettato");
                                                 listaCapiResult.get(cp).add(tmp);
@@ -437,7 +432,6 @@ public class CtlUbaMinime extends Ref implements RefInterface<ResultCtlUbaMinime
      * @return capoTmp
      */
     private Dmt_t_premio_capi inizializzaCapo(Dmt_t_Tws_bdn_du_capi_bovini capoVacca, String ammissibile, String msg) {
-
         Dmt_t_premio_capi capoTmp = new Dmt_t_premio_capi();
         capoTmp.setCodiceAzienda(capoVacca.getAziendaCodice());
         capoTmp.setIdCapo(capoVacca.getCapoId());
