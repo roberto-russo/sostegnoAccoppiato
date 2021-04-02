@@ -47,7 +47,6 @@ public class Dmt_t_Tws_bdn_du_capi_ovicaprini implements Serializable {
         this.flagDelegatoNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getFlagDelegatoNascita();
         this.ruoloUtenteNascita = dmt_t_Tws_bdn_du_capi_ovicaprini.getRuoloUtenteNascita();
     }
-
     @Id
     @GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_ov")
     @SequenceGenerator(name = "seq_dmt_t_bdn_du_capi_ov", sequenceName = "SEQ_DMT_T_BDN_DU_CAPI_OV", allocationSize = 1)

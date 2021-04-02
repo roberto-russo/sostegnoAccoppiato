@@ -41,6 +41,7 @@ public class ClcInt317Mis19 extends Controllo {
     private int contatoreBocciati;
     private int contatoreSanzionati;
     private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
+    private List<Dmt_t_clsCapoMacellato> capiSanzionati;
     private String motivazione;
 
     /**
@@ -72,6 +73,7 @@ public class ClcInt317Mis19 extends Controllo {
         this.numeroCapiRichiesti = BigDecimal.ZERO;
         this.estrazioneACampione = null;
         this.listaCapiBocciati = new ArrayList<>();
+        this.capiSanzionati = new ArrayList<>();
         this.oe = null;
         this.motivazione = null;
         this.ubaMin = new ResultCtlUbaMinime();
@@ -116,6 +118,7 @@ public class ClcInt317Mis19 extends Controllo {
                     && UtilControlli.controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
                 newListModel.add(x);
             else {
+                x.setTipologiaEsclusione("E");
                 x.setMotivazioneEsclusione("Capo anomalo per registrazione tardiva  (no sanzione).");
                 contatoreBocciati++;
                 listaCapiBocciati.add(x);
@@ -180,12 +183,13 @@ public class ClcInt317Mis19 extends Controllo {
                                     /*
                                      * OK: Periodo di detenzione soddisfatto,
                                      * nonostante presenza del ritardo nella
-                                     * registrazione della movimentazione del capo
+                                     * registrazione della movimentazione del caposs
                                      *
                                      * CAPO PAGATO E SANZIONATO
                                      */
                                     UtilControlli.controlloRegistrazioneStallaDuplicato(m, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                                     this.contatoreSanzionati++;
+                                    capiSanzionati.add(m);
                                 } else {
                                     /*
                                      * il capo non è stato allevato per un periodo minimo di 6 mesi continuativi
@@ -194,6 +198,7 @@ public class ClcInt317Mis19 extends Controllo {
                                     this.contatoreBocciati++;
                                     m.setMotivazioneEsclusione("il capo non e' stato allevato per un periodo minimo di 12 mesi continuativi ");
                                     this.listaCapiBocciati.add(m);
+                                    m.setTipologiaEsclusione("A");
                                 }
 
                             }
@@ -204,6 +209,7 @@ public class ClcInt317Mis19 extends Controllo {
                             this.contatoreBocciati++;
                             m.setMotivazioneEsclusione("il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti");
                             this.listaCapiBocciati.add(m);
+                            m.setTipologiaEsclusione("A");
                         }
                     }
                 }
@@ -273,18 +279,30 @@ public class ClcInt317Mis19 extends Controllo {
 
             for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
 
-                this.oe.setCalcolo("ClcInt317Mis19");
+                this.oe.setCalcolo(getClass().getSimpleName());
                 this.oe.setCapoId(x.getCapoId());
                 this.oe.setIdSessione(getSessione());
-                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 oe.setCuaa(getAzienda().getCuaa());
+                oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
                 oe.setCodicePremio(getAzienda().getCodicePremio());
+                this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 this.getControlliService().saveOutputEscl(this.oe);
             }
 
         }
 
 
+        for (Dmt_t_clsCapoMacellato x : this.capiSanzionati) {
+            this.oe = new Dmt_t_output_esclusi();
+            this.oe.setCalcolo(getClass().getSimpleName());
+            this.oe.setCapoId(x.getCapoId());
+            this.oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            this.oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(this.oe);
+        }
         if (1==1)
             System.out.println("CALCOLO 316 MISURA 19, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 317 MISURA 19");

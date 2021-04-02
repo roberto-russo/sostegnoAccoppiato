@@ -41,6 +41,7 @@ public class ClcInt319Mis19 extends Controllo {
     Dmt_t_certificato_igp_dop certIgpDop;
     private String motivazione;
     private List<Dmt_t_clsCapoMacellato> listaCapiBocciati;
+    private List<Dmt_t_clsCapoMacellato> capiSanzionati;
     private Dmt_t_output_esclusi outputEsclusi;
     private ResultCtlUbaMinime ubaMin;
 
@@ -73,6 +74,7 @@ public class ClcInt319Mis19 extends Controllo {
         this.certIgpDop = null;
         this.motivazione = null;
         this.listaCapiBocciati = new ArrayList<>();
+        this.capiSanzionati = new ArrayList<>();
         this.outputEsclusi = null;
         this.ubaMin = new ResultCtlUbaMinime();
         this.listaCapiMacellatiFiltrati = null;
@@ -115,13 +117,13 @@ public class ClcInt319Mis19 extends Controllo {
         if (listaCapiMacellatiFiltrati == null)
             return;
 
-
         List<Dmt_t_clsCapoMacellato> newListModel = new ArrayList<Dmt_t_clsCapoMacellato>();
         for (Dmt_t_clsCapoMacellato x : listaCapiMacellatiFiltrati) {
-            if (UtilControlli.isControlloRegistrazioneUscita(x, getAzienda().getAnnoCampagna())
-                    && UtilControlli.controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
+            if (UtilControlli.isControlloRegistrazioneUscita(x, getAzienda().getAnnoCampagna()) && UtilControlli
+                    .controlloDemarcazioneCapoMacellato(x, getControlliService(), getAzienda().getAnnoCampagna()))
                 newListModel.add(x);
             else {
+                x.setTipologiaEsclusione("E");
                 x.setMotivazioneEsclusione("Capo anomalo per registrazione tardiva  (no sanzione).");
                 numeroCapiBocciati++;
                 listaCapiBocciati.add(x);
@@ -132,12 +134,13 @@ public class ClcInt319Mis19 extends Controllo {
 
         numeroCapiRichiesti = BigDecimal.valueOf(this.listaCapiMacellatiFiltrati.size());
 
-        this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
-                getAzienda().getAnnoCampagna());
+        try {
+            for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
 
-        if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
-            try {
-                for (Dmt_t_clsCapoMacellato m : this.listaCapiMacellatiFiltrati) {
+                this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
+                        getAzienda().getAnnoCampagna());
+
+                if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
                     this.duplicatiMacellati = getControlliService().getDuplicati(m.getCapoId(),
                             getSessione().getIdSessione(), getAzienda().getCodicePremio());
@@ -196,6 +199,7 @@ public class ClcInt319Mis19 extends Controllo {
                                                 this.getControlliService(), this.getAzienda().getCuaa(),
                                                 this.getAzienda().getAnnoCampagna(), this.getSessione());
                                         this.contatoreSanzionati++;
+                                        capiSanzionati.add(m);
                                     } else {
                                         /*
                                          * il capo è stato richiesto in pagamento da più di un soggetto, il capo non
@@ -203,8 +207,10 @@ public class ClcInt319Mis19 extends Controllo {
                                          *
                                          */
                                         this.numeroCapiBocciati++;
-                                        m.setMotivazioneEsclusione("Il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti");
+                                        m.setMotivazioneEsclusione(
+                                                "Il capo e' stato richiesto in pagamento da piu' di un soggetto, il capo non puo' esserepagato a meno di una rinuncia da parte di uno dei richiedenti");
                                         this.listaCapiBocciati.add(m);
+                                        m.setTipologiaEsclusione("A");
                                     }
                                 }
                             } else {
@@ -213,8 +219,10 @@ public class ClcInt319Mis19 extends Controllo {
                                  * geografica protetta
                                  */
                                 this.numeroCapiBocciati++;
-                                m.setMotivazioneEsclusione("Non e' stato certificato a denominazione di origine protetta o indicazione geografica protetta");
+                                m.setMotivazioneEsclusione(
+                                        "Non e' stato certificato a denominazione di origine protetta o indicazione geografica protetta");
                                 this.listaCapiBocciati.add(m);
+                                m.setTipologiaEsclusione("A");
                             }
                         } else {
                             this.motivazione = "il capo non e' stato allevato per un periodo continuativo di almeno 6 mesi";
@@ -223,32 +231,30 @@ public class ClcInt319Mis19 extends Controllo {
                         }
 
                     }
-//					---------------------------------------------
+//						---------------------------------------------
                     if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
                         System.out.println(
                                 "ERRORE CALCOLO INTERVENTO 319 MISURA 19, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
                         throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
                                 + " nessun capo ha suprato il controllo per il premio 319 misura 19");
                     }
+                } else {
 
+                    // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
+                    for (Dmt_t_contr_loco c : this.estrazioneACampione)
+                        if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
+                            this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
                 }
-            } catch (ControlloException e) {
-                System.out.println(
-                        "ERRORE CALCOLO INTERVENTO 319 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19");
-                new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
-            } catch (NullPointerException e) {
-                System.out.println(
-                        "ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19, NESSUN CAPO DISPONIBILE");
-                throw new ControlloException(
-                        new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+
             }
-
-        } else {
-
-            // GESTIONE CONTROLLI BY DMT_CONTR_LOCO
-            for (Dmt_t_contr_loco c : this.estrazioneACampione)
-                if ((c.getAnomalie_cgo() == null) || (c.getAnomalie_cgo().indexOf('B') == -1))
-                    this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+        } catch (ControlloException e) {
+            System.out.println(
+                    "ERRORE CALCOLO INTERVENTO 319 MISURA 19, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19");
+            new Dmt_t_errore(getSessione(), "ClcInt319Mis19", getInput(), e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("ERRORE DURANTE L'ESECUZIONE DEL CALCOLO INTERVENTO 319 MISURA 19, NESSUN CAPO DISPONIBILE");
+            throw new ControlloException(
+                    new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
         }
 
         if (1==1)
@@ -302,14 +308,27 @@ public class ClcInt319Mis19 extends Controllo {
             this.outputEsclusi = new Dmt_t_output_esclusi();
 
             for (Dmt_t_clsCapoMacellato x : this.listaCapiBocciati) {
-                this.outputEsclusi.setCalcolo("ClcInt319Mis19");
+                this.outputEsclusi.setCalcolo(getClass().getSimpleName());
                 this.outputEsclusi.setCapoId(x.getCapoId());
                 this.outputEsclusi.setIdSessione(getSessione());
-                this.outputEsclusi.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 outputEsclusi.setCuaa(getAzienda().getCuaa());
                 outputEsclusi.setCodicePremio(getAzienda().getCodicePremio());
+                outputEsclusi.setTipologiaEsclusione(x.getTipologiaEsclusione());
+                this.outputEsclusi.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 this.getControlliService().saveOutputEscl(this.outputEsclusi);
             }
+        }
+
+        for (Dmt_t_clsCapoMacellato x : this.capiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            getControlliService().saveOutputEscl(oe);
         }
 
         if (1==1)

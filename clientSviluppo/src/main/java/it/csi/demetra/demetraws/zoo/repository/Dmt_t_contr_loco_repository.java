@@ -32,4 +32,8 @@ public interface Dmt_t_contr_loco_repository extends CrudRepository<Dmt_t_contr_
      */
     @Query(value = "select * from dmt_t_contr_loco where cuaa = :cuaa and anno = :annoCampagna", nativeQuery = true)
     List<Dmt_t_contr_loco> findByCuaa(@Param("cuaa") String cuaa, @Param("annoCampagna") Integer annoCampagna);
+
+    @Query(value = "select * from dmt_t_contr_loco where cuaa = :cuaa and anno = :annoCampagna and marchio = :codiceMarchio", nativeQuery = true)
+    List<Dmt_t_contr_loco> findByCuaaAndMarchio(@Param("cuaa") String cuaa, @Param("annoCampagna") Integer annoCampagna
+            , @Param("codiceMarchio") String codiceMarchio);
 }

@@ -1,17 +1,24 @@
 package it.csi.demetra.demetraws.zoo.model;
 
-import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_consistenza_uba_censim_ovini_id;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_consistenza_uba_censim_ovini_id;
 
 
 /**
  * Classe model con parametri di ingresso per il metodo Consistenza_UBA_Censim_Ovini
- *
- * @author bcsoft
  * @version 0.1 (02/04/2020)
+ * @author bcsoft
  */
 @Entity
 @Table(name = "DMT_T_CONSIST_UBA_CENSIM_OVINI")
@@ -23,14 +30,14 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
      */
     private static final long serialVersionUID = -6260458970616077053L;
 
-    @Id
-    @Column(name = "id_sessione")
-    /**
-     * codice sessione associato all'esecuzione.
-     */
-    private Long idSessione;
+  	@Id
+	@Column(name = "id_sessione")
+  	/**
+  	 * codice sessione associato all'esecuzione.
+  	 */
+  	private Long idSessione;
 
-    @Id
+  	@Id
     @Column(name = "p_cuaa")
     @NotNull
     /**
@@ -122,7 +129,6 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
 
     /**
      * metodo getter che ritorna il codice di sessione associato all'esecuzione
-     *
      * @return sessione codice di sessione associato all'esecuzione.
      */
     public Long getIdSessione() {
@@ -131,7 +137,6 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
 
     /**
      * metodo setter che imposta il codice di sessione associato all'esecuzione
-     *
      * @param sessione codice di sessione associato all'esecuzione.
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
@@ -140,12 +145,11 @@ public class Dmt_t_consistenza_uba_censim_ovini implements Serializable {
 
     /**
      * metodo setter che imposta il codice fiscale del soggetto proprietario e/o detentore
-     *
      * @param pCuaa codice fiscale del soggetto proprietario e/o detentore.
      */
-    public void setpCuaa(String pCuaa) {
-        this.pCuaa = pCuaa;
-    }
+	public void setpCuaa(String pCuaa) {
+		this.pCuaa = pCuaa;
+	}
 
-
+	
 }

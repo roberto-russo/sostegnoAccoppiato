@@ -52,17 +52,19 @@ public class ClcInt310Mis1 extends Controllo {
     /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
     private BigDecimal importoLiquidabile;
     private BigDecimal importoRichiesto;
     private Integer capiSanzionati;
-    private List<Dmt_t_output_esclusi> listEsclusi;
     private String motivazioneEsclusione = "";
     private Boolean isProduttoreChecked;
     private ResultCtlUbaMinime ubaMin;
 
     private void init() {
         System.out.println("INIZIO CALCOLO INTERVENTO 310 MISURA 1");
-        listEsclusi = new ArrayList<>();
+        listaCapiSanzionati = new ArrayList<>();
+        listaCapiBocciati = new ArrayList<>();
         importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
         importoLiquidabile = new BigDecimal(0);
         modelVaccheFiltrate = null;
@@ -295,6 +297,7 @@ public class ClcInt310Mis1 extends Controllo {
                             this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                         } else {
                             this.capiSanzionati++;
+                            listaCapiSanzionati.add(b);
                         }
                     } else {
 
@@ -304,9 +307,9 @@ public class ClcInt310Mis1 extends Controllo {
                         List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService().getVitelliNatiDaBovini(
                                 getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
                         if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
-                            this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
-                                    "Il richiedente non è detentore del capo al momento del parto",
-                                    getAzienda().getCodicePremio()));
+                            b.setMotivazioneEsclusione("Il richiedente non è detentore del capo al momento del parto");
+                            b.setTipologiaEsclusione("E");
+                            listaCapiBocciati.add(b);
                             continue;
                         } else {
                             UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
@@ -315,6 +318,7 @@ public class ClcInt310Mis1 extends Controllo {
                             if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
                                 this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                             } else {
+                                listaCapiSanzionati.add(b);
                                 this.capiSanzionati++;
                             }
                         }
@@ -355,11 +359,31 @@ public class ClcInt310Mis1 extends Controllo {
         outputControlli.setIntervento(getAzienda().getCodicePremio());
         getControlliService().saveOutput(outputControlli);
 
-        for (Dmt_t_output_esclusi o : listEsclusi) {
-            o.setCuaa(getAzienda().getCuaa());
-            o.setCodicePremio(getAzienda().getCodicePremio());
-            getControlliService().saveOutputEscl(o);
+
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
         }
+
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
+
         if (1==1)
             System.out.println("CALCOLO INTERVENTO 310 MISURA 1, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 310 MISURA 1 ✔");

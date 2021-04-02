@@ -38,16 +38,18 @@ public class ClcInt313Mis4 extends Controllo {
     private BigDecimal importoLiquidabile;
     private BigDecimal importoRichiesto;
     private Integer capiSanzionati;
-    private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
     private ResultCtlUbaMinime ubaMin;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
 
     private void init() {
         System.out.println("INIZIO CALCOLO INTERVENTO 313 MISURA 4");
-        listEsclusi = new ArrayList<>();
         importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
         importoLiquidabile = new BigDecimal(0);
         modelVaccheFiltrate = null;
         ubaMin = null;
+        listaCapiSanzionati = new ArrayList<>();
+        listaCapiBocciati = new ArrayList<>();
     }
 
     /**
@@ -65,9 +67,6 @@ public class ClcInt313Mis4 extends Controllo {
         if (1==1)
             System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO PRE-ESECUZIONE");
         this.capiSanzionati = 0;
-        // RECUPERO DATI DALLA BDN
-        // modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(),
-        // getAzienda().getCuaa(), getAzienda().getCodicePremio());
         modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
                 getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         init();
@@ -124,24 +123,28 @@ public class ClcInt313Mis4 extends Controllo {
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                     // VERIFICO CHE I CAPI SIANO SANZIONATI
-                    if (UtilControlli.controlloTempisticheDiRegistrazione(b))
+                    if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                        listaCapiSanzionati.add(b);
                         this.capiSanzionati++;
+                    }
 
                 } else {
                     List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
                             .getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
                     if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
-                        this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
-                                "Il richiedente non è detentore del capo al momento del parto",
-                                getAzienda().getCodicePremio()));
+                        b.setMotivazioneEsclusione("Il richiedente non e' detentore del capo al momento del parto");
+                        b.setTipologiaEsclusione("E");
+                        this.listaCapiBocciati.add(b);
                         continue;
                     } else {
                         UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                                 this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                         this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                         // VERIFICO CHE I CAPI SIANO SANZIONATI
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b))
+                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                            listaCapiSanzionati.add(b);
                             this.capiSanzionati++;
+                        }
                     }
                 }
             }
@@ -179,12 +182,29 @@ public class ClcInt313Mis4 extends Controllo {
 
         getControlliService().saveOutput(outputControlli);
 
-        for (Dmt_t_output_esclusi o : listEsclusi) {
-            o.setCuaa(getAzienda().getCuaa());
-            o.setCodicePremio(getAzienda().getCodicePremio());
-            getControlliService().saveOutputEscl(o);
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
         }
 
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
         if (1==1)
             System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 313 MISURA 4");

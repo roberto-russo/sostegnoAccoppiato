@@ -41,7 +41,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * Metodo getter che ritorna il flag di alpeggio
-     *
      * @return alpeggio flag di alpeggio
      */
     public String getAlpeggio() {
@@ -50,7 +49,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * Metodo setter che imposta il flag di alpeggio
-     *
      * @param alpeggio flag di alpeggio
      */
     public void setAlpeggio(String alpeggio) {
@@ -59,7 +57,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * Metodo getter che ritorna la zona in cui è situato l'allevamento
-     *
      * @return zona zona in cui è situato l'allevamento
      */
     public String getZona() {
@@ -68,7 +65,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * Metodo setter che imposta la zona in cui è situato l'allevamento
-     *
      * @param zona zona in cui è situato l'allevamento
      */
     public void setZona(String zona) {
@@ -77,7 +73,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo getter che ritorna il codice fiscale del richiedente
-     *
      * @return cuaa codice fiscale del richiedente.
      */
     public String getCuaa() {
@@ -86,7 +81,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo setter che imposta il codice fiscale del richiedente
-     *
      * @param cuaa codice fiscale del richiedente.
      */
     public void setCuaa(String cuaa) {
@@ -95,7 +89,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo getter che ritorna il flag per l'indicazione geografica protetta
-     *
      * @return flagIgp flag per l'indicazione geografica protetta.
      */
     public String getFlagIgp() {
@@ -104,7 +97,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo setter che imposta il flag per l'indicazione geografica protetta
-     *
      * @param flagIgp flag per l'indicazione geografica protetta.
      */
     public void setFlagIgp(String flagIgp) {
@@ -113,7 +105,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo getter che ritorna il flag di certificato a denominazione di origine protetta
-     *
      * @return flagDop flag di certificato a denominazione di origine protetta.
      */
     public String getFlagDop() {
@@ -122,7 +113,6 @@ public class Dmt_t_certificato_igp_dop implements Serializable {
 
     /**
      * metodo setter che imposta il flag di certificato a denominazione di origine protetta
-     *
      * @param flagDop flag di certificato a denominazione di origine protetta.
      */
     public void setFlagDop(String flagDop) {

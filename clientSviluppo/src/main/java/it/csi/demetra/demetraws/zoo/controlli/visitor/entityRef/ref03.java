@@ -54,7 +54,7 @@ public class ref03 {
      *                              null {@link NullPointerException}
      */
     public void esecuzione() throws CalcoloException {
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO REF03, INIZIO ESECUZIONE");
         this.importoUnit = new BigDecimal(0);
         this.isIrregolaritaIntenzionale = false;
@@ -71,9 +71,11 @@ public class ref03 {
         HashMap<String, List<Long>> capiPerPremio = new HashMap<String, List<Long>>();
         HashMap<String, List<Long>> capiPerPremioFiltrati = new HashMap<String, List<Long>>();
         HashMap<String, BigDecimal> result = new HashMap<String, BigDecimal>();
-        Map<String, HashMap<String, BigDecimal>> resultsMap = new HashMap<>();
+        Integer giorniRitardo = this.controlliService.getGiorniRitardoPresentazioneDomanda(this.azienda.getCuaa(),
+                this.azienda.getCodicePremio(), this.azienda.getAnnoCampagna());
         BigDecimal percDecurtazione = null;
         BigDecimal importoPagatoNettoDecurtazione = null;
+        Map<String, HashMap<String, BigDecimal>> resultsMap = new HashMap<>();
 
         capiPerPremio = buildMap(codiciPremio);
 
@@ -121,7 +123,6 @@ public class ref03 {
                     result = UtilControlli.calcoloEsito(capiAccertati, capiAnomali, capiSanzionati, capiRichiesti);
                     esito = result.get("esito");
                 } catch (ArithmeticException e) {
-
                 }
 
                 percentualeRiduzione = calcoloRiduzione(capiAnomali, esito);
@@ -153,6 +154,7 @@ public class ref03 {
                         throw new CalcoloException(
                                 "errore durante il calcolo dell'importo pagato al lordo della decurtazione");
                     }
+
                 } else {
                     try {
                         capiPagabili = result.get("capiPagabili") != null ? result.get("capiPagabili")
@@ -167,9 +169,6 @@ public class ref03 {
                                 "errore durante il calcolo dell'importo pagato al lordo della decurtazione");
                     }
                 }
-
-                Integer giorniRitardo = this.controlliService.getGiorniRitardoPresentazioneDomanda(this.azienda.getCuaa(),
-                        cp, this.azienda.getAnnoCampagna());
                 if (giorniRitardo != null && !giorniRitardo.equals(new Integer(0))) {
                     try {
                         percDecurtazione = this.controlliService
@@ -227,7 +226,7 @@ public class ref03 {
         percDecurtazione = BigDecimal.ZERO;
         result.clear();
 
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO REF03, FINE ESECUZIONE");
         System.out.println("FINE CALCOLO REF03 AMMISIBILITA' AL PREMIO E SANZIONI");
     }
@@ -268,9 +267,7 @@ public class ref03 {
 //			} catch (NullPointerException e) {
 //			}
 //		}
-//
-
-
+//		
         resetVariables(capiRichiesti, capiAccertati, capiAnomali, capiSanzionati, capiAnomaliPerCodicePremio,
                 listaCapiEsito);
         listaCapiEsito = this.getListaCapiEsito(cp);
@@ -288,8 +285,8 @@ public class ref03 {
                     }
                 }
                 if (trovato && !processed.contains(e)) {
-                    String flagCapo = this.controlliService.getFlagEsclusioneCapo(sessione.getIdSessione(), azienda.getCuaa(), e,
-                            cp);
+                    String flagCapo = this.controlliService.getFlagEsclusioneCapo(sessione.getIdSessione(),
+                            azienda.getCuaa(), e, cp);
                     if (null == flagCapo) {
                         capiAccertati = capiAccertati.add(BigDecimal.ONE);
                     } else if (flagCapo.equals("S")) {
@@ -316,6 +313,7 @@ public class ref03 {
                         this.sessione, this.azienda.getCuaa(), (long) this.azienda.getAnnoCampagna(), cp);
 
             if (null == outputControlli) {
+
                 result.put("accertati", capiAccertati);
                 result.put("anomali", capiAnomali);
                 result.put("richiesti", capiRichiesti);
@@ -423,24 +421,6 @@ public class ref03 {
         List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBovini;
         List<Dmt_t_clsCapoMacellato> listaCapiMacellati;
         List<Dmt_t_Tws_bdn_du_capi_ovicaprini> listaCapiOvicaprini;
-//        Boolean isM19 = cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
-        Boolean isM19 = false;
-//        String cp = azienda.getCodicePremio();
-//        if (isM19) {
-//            listaCapiBovini = this.controlliService.getCapiBoviniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(),
-//                    this.azienda.getCuaa());
-//            listaCapiMacellati = this.controlliService
-//                    .getAmmissibiliCapiMacellatiM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-//            listaCapiOvicaprini = this.controlliService
-//                    .getCapiOvicapriniM19DaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa());
-//        } else {
-//            listaCapiBovini = this.controlliService.getCapiBoviniDaCuaaAndIdSessione(this.sessione.getIdSessione(),
-//                    this.azienda.getCuaa(), this.azienda.getCodicePremio());
-//            listaCapiMacellati = this.controlliService.getAmmissibiliCapiMacellatiDaCuaaAndIdSessione(
-//                    this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-//            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(
-//                    this.sessione.getIdSessione(), this.azienda.getCuaa(), this.azienda.getCodicePremio());
-//        }
 
         Dmt_t_output_controlli outConctrolli = new Dmt_t_output_controlli();
 
@@ -454,8 +434,8 @@ public class ref03 {
                     this.azienda.getCuaa(), c);
             listaCapiMacellati = this.controlliService.getAmmissibiliCapiMacellatiDaCuaaAndIdSessione(
                     this.sessione.getIdSessione(), this.azienda.getCuaa(), c);
-            listaCapiOvicaprini = this.controlliService.getCapiOvicapriniDaCuaaAndIdSessione(
-                    this.sessione.getIdSessione(), this.azienda.getCuaa(), c);
+            listaCapiOvicaprini = this.controlliService
+                    .getCapiOvicapriniDaCuaaAndIdSessione(this.sessione.getIdSessione(), this.azienda.getCuaa(), c);
             outConctrolli = this.controlliService.getOutputControlliBySessioneAndCuaaAndAnnoCampagnaAndIntervento(
                     this.sessione, this.azienda.getCuaa(), Long.valueOf(this.azienda.getAnnoCampagna()), c);
 

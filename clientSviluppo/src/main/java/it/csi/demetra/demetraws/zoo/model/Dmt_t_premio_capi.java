@@ -77,7 +77,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
-     *
      * @return idSessione identificativo univoco associato all'esecuzione.
      */
     public Long getIdSessione() {
@@ -86,7 +85,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta l'identificativo univoco associato all'esecuzione
-     *
      * @param sessione identificativo univoco associato all'esecuzione
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
@@ -95,7 +93,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna l'identificativo interno in BDN dell'allevamento
-     *
      * @return idAllevamento identificativo interno in BDN dell'allevamento
      */
     public Long getIdAllevamento() {
@@ -104,7 +101,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta l'identificativo interno in BDN dell'allevamento
-     *
      * @param idAllevamento identificativo interno in BDN dell'allevamento.
      */
     public void setIdAllevamento(Long idAllevamento) {
@@ -113,7 +109,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice dell'azienda a cui appartiene l'allevamento
-     *
      * @return codiceAzienda codice dell'azienda a cui appartiene l'allevamento.
      */
     public String getCodiceAzienda() {
@@ -122,7 +117,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta il codice dell'azienda a cui appartiene l'allevamento
-     *
      * @param codiceAzienda codice dell'azienda a cui appartiene l'allevamento
      */
     public void setCodiceAzienda(String codiceAzienda) {
@@ -131,7 +125,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna l'identificativo univoco del capo animale
-     *
      * @return idCapo identificativo univoco del capo animale
      */
     public Long getIdCapo() {
@@ -140,7 +133,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta l'identificativo univoco del campo animale
-     *
      * @param idCapo identificativo univoco del capo animale
      */
     public void setIdCapo(Long idCapo) {
@@ -149,7 +141,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice intervento
-     *
      * @return codicePremio codice intervento
      */
     public String getCodicePremio() {
@@ -158,7 +149,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta il codice intervento
-     *
      * @param codicePremio codice intervento
      */
     public void setCodicePremio(String codicePremio) {
@@ -167,7 +157,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice identificativo univoco del vitello
-     *
      * @return codiceVitello codice identificativo univoco del vitello
      */
     public String getCodiceVitello() {
@@ -176,7 +165,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che ritorna il codice identificativo univoco del vitello
-     *
      * @param codiceVitello codice identificativo univoco del vitello
      */
     public void setCodiceVitello(String codiceVitello) {
@@ -185,7 +173,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice fiscale del richiedente
-     *
      * @return cuaa codice fiscale del richiedente
      */
     public String getCuaa() {
@@ -194,7 +181,6 @@ public class Dmt_t_premio_capi implements Serializable {
 
     /**
      * Metodo setter che imposta il codice fiscale del richiedente
-     *
      * @param cuaa codice fiscale del richiedente
      */
     public void setCuaa(String cuaa) {

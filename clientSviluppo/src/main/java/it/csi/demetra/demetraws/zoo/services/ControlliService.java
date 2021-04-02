@@ -227,9 +227,12 @@ public class ControlliService {
      * @param annoCampagna anno della campagna
      * @return Dmt_t_contr_loco Lista di tipo {@link Dmt_t_contr_loco}
      */
-    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa, Integer annoCampagna) {
 
+    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaa(String cuaa, Integer annoCampagna) {
         return contrLocoRepository.findByCuaa(cuaa, annoCampagna);
+    }
+    public List<Dmt_t_contr_loco> getEsrtazioneACampioneByCuaaAndMarchio(String cuaa, Integer annoCampagna, String codiceMarchio) {
+        return contrLocoRepository.findByCuaaAndMarchio(cuaa, annoCampagna,codiceMarchio);
     }
 
     /**

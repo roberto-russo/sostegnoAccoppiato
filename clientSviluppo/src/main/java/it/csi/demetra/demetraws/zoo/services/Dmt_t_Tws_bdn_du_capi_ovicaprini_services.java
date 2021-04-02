@@ -5,6 +5,8 @@ import it.csi.demetra.demetraws.zoo.repository.Dmt_t_Tws_bdn_du_capi_ovicaprini_
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -15,7 +17,6 @@ import java.util.List;
  */
 @Service
 public class Dmt_t_Tws_bdn_du_capi_ovicaprini_services {
-
     /**
      * Repository in cui sono definite le Query di tipo Dmt_t_Tws_bdn_du_capi_ovicaprini_repository.
      */

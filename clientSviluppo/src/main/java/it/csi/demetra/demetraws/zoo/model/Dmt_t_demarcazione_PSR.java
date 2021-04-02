@@ -1,163 +1,168 @@
 package it.csi.demetra.demetraws.zoo.model;
 
-import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_demarcazione_PSR_id;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+
+import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_t_demarcazione_PSR_id;
+
 @Entity
-@Table(name = "DMT_T_DEMARCAZIONE_PSR")
+@Table(name="DMT_T_DEMARCAZIONE_PSR")
 @IdClass(Dmt_t_demarcazione_PSR_id.class)
 public class Dmt_t_demarcazione_PSR implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 176824868151307294L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 176824868151307294L;
+	
+	@Id
+	@Column(name = "ANNO")
+	private Integer anno;
+	
+	@Id
+	@Column(name = "MARCHIO_AURICOLARE")
+	private String marchioAuricolare;
+	
+	@Column(name = "OPERAZIONE")
+	private String operazione;
+	
+	@Column(name = "NR_PROCEDIMENTO")
+	private Long nrProcedimento;
+	
+	@Column(name = "CUAA")
+	private String cuaa;
+	
+	@Column(name = "RAGIONE_SOCIALE")
+	private String ragioneSociale;
+	
+	@Column(name = "STATO_PROCEDIMENTO")
+	private String statoProcedimento;
+	
+	@Column(name = "SPECIE_ANIMALE")
+	private String specieAnimale;
+	
+	@Column(name = "CATEGORIA")
+	private String categoria;
+	
+	@Column(name = "RAZZA")
+	private String razza;
+	
+	@Column(name = "NUMERO_CAPI")
+	private BigDecimal numeroCapi;
+	
+	@Column(name = "NUMERO_CAPI_PAGABILI")
+	private BigDecimal numeroCapiPagabili;
+	
+	@Column(name = "NR_CAPI_SOSTITUITI")
+	private BigDecimal numeroCapiSostituiti;
 
-    @Id
-    @Column(name = "ANNO")
-    private Integer anno;
+	public Integer getAnno() {
+		return anno;
+	}
 
-    @Id
-    @Column(name = "MARCHIO_AURICOLARE")
-    private String marchioAuricolare;
+	public void setAnno(Integer anno) {
+		this.anno = anno;
+	}
 
-    @Column(name = "OPERAZIONE")
-    private String operazione;
+	public String getMarchioAuricolare() {
+		return marchioAuricolare;
+	}
 
-    @Column(name = "NR_PROCEDIMENTO")
-    private Long nrProcedimento;
+	public void setMarchioAuricolare(String marchioAuricolare) {
+		this.marchioAuricolare = marchioAuricolare;
+	}
 
-    @Column(name = "CUAA")
-    private String cuaa;
+	public String getOperazione() {
+		return operazione;
+	}
 
-    @Column(name = "RAGIONE_SOCIALE")
-    private String ragioneSociale;
+	public void setOperazione(String operazione) {
+		this.operazione = operazione;
+	}
 
-    @Column(name = "STATO_PROCEDIMENTO")
-    private String statoProcedimento;
+	public Long getNrProcedimento() {
+		return nrProcedimento;
+	}
 
-    @Column(name = "SPECIE_ANIMALE")
-    private String specieAnimale;
+	public void setNrProcedimento(Long nrProcedimento) {
+		this.nrProcedimento = nrProcedimento;
+	}
 
-    @Column(name = "CATEGORIA")
-    private String categoria;
+	public String getCuaa() {
+		return cuaa;
+	}
 
-    @Column(name = "RAZZA")
-    private String razza;
+	public void setCuaa(String cuaa) {
+		this.cuaa = cuaa;
+	}
 
-    @Column(name = "NUMERO_CAPI")
-    private BigDecimal numeroCapi;
+	public String getRagioneSociale() {
+		return ragioneSociale;
+	}
 
-    @Column(name = "NUMERO_CAPI_PAGABILI")
-    private BigDecimal numeroCapiPagabili;
+	public void setRagioneSociale(String ragioneSociale) {
+		this.ragioneSociale = ragioneSociale;
+	}
 
-    @Column(name = "NR_CAPI_SOSTITUITI")
-    private BigDecimal numeroCapiSostituiti;
+	public String getStatoProcedimento() {
+		return statoProcedimento;
+	}
 
-    public Integer getAnno() {
-        return anno;
-    }
+	public void setStatoProcedimento(String statoProcedimento) {
+		this.statoProcedimento = statoProcedimento;
+	}
 
-    public void setAnno(Integer anno) {
-        this.anno = anno;
-    }
+	public String getSpecieAnimale() {
+		return specieAnimale;
+	}
 
-    public String getMarchioAuricolare() {
-        return marchioAuricolare;
-    }
+	public void setSpecieAnimale(String specieAnimale) {
+		this.specieAnimale = specieAnimale;
+	}
 
-    public void setMarchioAuricolare(String marchioAuricolare) {
-        this.marchioAuricolare = marchioAuricolare;
-    }
+	public String getCategoria() {
+		return categoria;
+	}
 
-    public String getOperazione() {
-        return operazione;
-    }
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 
-    public void setOperazione(String operazione) {
-        this.operazione = operazione;
-    }
+	public String getRazza() {
+		return razza;
+	}
 
-    public Long getNrProcedimento() {
-        return nrProcedimento;
-    }
+	public void setRazza(String razza) {
+		this.razza = razza;
+	}
 
-    public void setNrProcedimento(Long nrProcedimento) {
-        this.nrProcedimento = nrProcedimento;
-    }
+	public BigDecimal getNumeroCapi() {
+		return numeroCapi;
+	}
 
-    public String getCuaa() {
-        return cuaa;
-    }
+	public void setNumeroCapi(BigDecimal numeroCapi) {
+		this.numeroCapi = numeroCapi;
+	}
 
-    public void setCuaa(String cuaa) {
-        this.cuaa = cuaa;
-    }
+	public BigDecimal getNumeroCapiPagabili() {
+		return numeroCapiPagabili;
+	}
 
-    public String getRagioneSociale() {
-        return ragioneSociale;
-    }
+	public void setNumeroCapiPagabili(BigDecimal numeroCapiPagabili) {
+		this.numeroCapiPagabili = numeroCapiPagabili;
+	}
 
-    public void setRagioneSociale(String ragioneSociale) {
-        this.ragioneSociale = ragioneSociale;
-    }
+	public BigDecimal getNumeroCapiSostituiti() {
+		return numeroCapiSostituiti;
+	}
 
-    public String getStatoProcedimento() {
-        return statoProcedimento;
-    }
-
-    public void setStatoProcedimento(String statoProcedimento) {
-        this.statoProcedimento = statoProcedimento;
-    }
-
-    public String getSpecieAnimale() {
-        return specieAnimale;
-    }
-
-    public void setSpecieAnimale(String specieAnimale) {
-        this.specieAnimale = specieAnimale;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getRazza() {
-        return razza;
-    }
-
-    public void setRazza(String razza) {
-        this.razza = razza;
-    }
-
-    public BigDecimal getNumeroCapi() {
-        return numeroCapi;
-    }
-
-    public void setNumeroCapi(BigDecimal numeroCapi) {
-        this.numeroCapi = numeroCapi;
-    }
-
-    public BigDecimal getNumeroCapiPagabili() {
-        return numeroCapiPagabili;
-    }
-
-    public void setNumeroCapiPagabili(BigDecimal numeroCapiPagabili) {
-        this.numeroCapiPagabili = numeroCapiPagabili;
-    }
-
-    public BigDecimal getNumeroCapiSostituiti() {
-        return numeroCapiSostituiti;
-    }
-
-    public void setNumeroCapiSostituiti(BigDecimal numeroCapiSostituiti) {
-        this.numeroCapiSostituiti = numeroCapiSostituiti;
-    }
+	public void setNumeroCapiSostituiti(BigDecimal numeroCapiSostituiti) {
+		this.numeroCapiSostituiti = numeroCapiSostituiti;
+	}
 }

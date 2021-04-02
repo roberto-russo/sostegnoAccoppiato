@@ -25,7 +25,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
      * @return lista di istanze di tipo Rpu_V_pratica_zoote_repository
      */
     @Query(
-            value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna",
+            value = " SELECT * FROM RPU_V_PRATICA_ZOOTE PZ WHERE PZ.ANNO_CAMPAGNA = :annoCampagna AND cuaa = 'CLMMNL85A05A429R'",
             nativeQuery = true
     )
     List<Rpu_V_pratica_zoote> findAll(@Param("annoCampagna") Integer annoCampagna);
@@ -63,7 +63,7 @@ public interface Rpu_V_pratica_zoote_repository extends CrudRepository<Rpu_V_pra
      * @return lista dei codici premio associati al codice fiscale del richiedente
      */
     @Query(
-            value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa",
+            value = "SELECT codice_premio FROM RPU_V_PRATICA_ZOOTE WHERE cuaa = :cuaa AND id_stato_pratica != 55",
             nativeQuery = true
     )
     List<String> findByCuaa(@Param("cuaa") String cuaa);

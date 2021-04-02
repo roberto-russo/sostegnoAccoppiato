@@ -11,9 +11,8 @@ import java.io.Serializable;
 /**
  * Tabella di raccolata dati relativi alle quantità di latte vendute dai
  * produttori in regime di vendita diretta
- *
- * @author Bcsoft
  * @version 0.1 (03/04/2020)
+ * @author Bcsoft
  */
 @Entity
 @Table(name = "Dmt_t_latte_vendita_diretta")
@@ -51,7 +50,6 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
 
     /**
      * Metodo getter che ritorna il codice fiscale del richiedente
-     *
      * @return cuaa codice fiscale del richiedente.
      */
     public String getCuua() {
@@ -60,7 +58,6 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
 
     /**
      * Metodo setter che imposta il codice fiscale del richiedente.
-     *
      * @param cuua codice fiscale del richiedente.
      */
     public void setCuua(String cuua) {
@@ -85,7 +82,6 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
 
     /**
      * Metodo getter che ritorna l'anno della campagna.
-     *
      * @return annoCampagna anno della campagna.
      */
     public int getAnnoCampagna() {
@@ -94,7 +90,6 @@ public class Dmt_t_latte_vendita_diretta implements Serializable {
 
     /**
      * Metodo setter che imposta l'anno della campagna.
-     *
      * @param annoCampagna anno della campagna.
      */
     public void setAnnoCampagna(int annoCampagna) {

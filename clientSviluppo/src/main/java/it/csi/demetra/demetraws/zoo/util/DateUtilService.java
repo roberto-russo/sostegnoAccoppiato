@@ -23,12 +23,6 @@ public final class DateUtilService {
     private static Date epifania;
     private final static String epifaniaString = "06/01";
 
-    private static Date pasqua;
-    private final static String pasquaString = "12/04";
-
-    private static Date pasquetta;
-    private final static String pasquettaString = "22/04";
-
     private static Date anniversarioLiberazione;
     private final static String anniversarioLiberazioneString = "25/04";
 
@@ -64,8 +58,6 @@ public final class DateUtilService {
 
         giorniFestivi.add(DateUtilService.getCapodanno());
         giorniFestivi.add(DateUtilService.getEpifania());
-        giorniFestivi.add(DateUtilService.getPasqua());
-        giorniFestivi.add(DateUtilService.getPasquetta());
         giorniFestivi.add(DateUtilService.getAnniversarioLiberazione());
         giorniFestivi.add(DateUtilService.getFestaLavoro());
         giorniFestivi.add(DateUtilService.getFestaRepubblica());
@@ -105,28 +97,6 @@ public final class DateUtilService {
         try {
             epifania = SIMPLE_DATE_FORMAT.parse(epifaniaString + "/" + ANNO);
             return epifania;
-        } catch (ParseException e) {
-            System.err.println(e);
-            System.out.println("Errore durante la creazione della data: - ");
-            return null;
-        }
-    }
-
-    private static Date getPasqua() {
-        try {
-            pasqua = SIMPLE_DATE_FORMAT.parse(pasquaString + "/" + ANNO);
-            return pasqua;
-        } catch (ParseException e) {
-            System.err.println(e);
-            System.out.println("Errore durante la creazione della data: - ");
-            return null;
-        }
-    }
-
-    private static Date getPasquetta() {
-        try {
-            pasquetta = SIMPLE_DATE_FORMAT.parse(pasquettaString + "/" + ANNO);
-            return pasquetta;
         } catch (ParseException e) {
             System.err.println(e);
             System.out.println("Errore durante la creazione della data: - ");

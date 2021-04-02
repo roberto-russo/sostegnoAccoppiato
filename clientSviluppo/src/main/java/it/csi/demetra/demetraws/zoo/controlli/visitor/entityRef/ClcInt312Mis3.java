@@ -30,20 +30,34 @@ import java.util.List;
 public class ClcInt312Mis3 extends Controllo {
 
 
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listVaccheDetentoriAllevAttivi;
+
+    private BigDecimal importoLiquidabile = new BigDecimal(0);
+
+    private Integer capiSanzionati;
+
+    private BigDecimal sizeModelVacche = BigDecimal.ZERO;
+
     private static final int ETA_RICHIESTA_IN_MESI = 30;
+
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheAmmesseRegCapi;
+
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheAmmesseUba;
+
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
     List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheTmp = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+
     ResultCtlUbaMinime resultCtlUba;
+
     boolean ubaMinimeRaggiunte;
+
     @Autowired
     Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> listVaccheDetentoriAllevAttivi;
-    private BigDecimal importoLiquidabile = new BigDecimal(0);
-    private Integer capiSanzionati;
-    private BigDecimal sizeModelVacche = BigDecimal.ZERO;
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheAmmesseRegCapi;
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheAmmesseUba;
-    private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<Dmt_t_output_esclusi>();
+
     @Autowired
     private CtlVerificaRegistrazioneCapi ref9901;
 
@@ -64,9 +78,12 @@ public class ClcInt312Mis3 extends Controllo {
     public List<Dmt_t_Tws_bdn_du_capi_bovini> preEsecuzione() throws ControlloException, CalcoloException {
 
         System.out.println("INIZIO CALCOLO INTERVENTO 312 MISURA 3");
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, INIZIO PRE-ESECUZIONE");
 
+        listaCapiSanzionati = new ArrayList<>();
+
+        listaCapiBocciati = new ArrayList<>();
         this.capiSanzionati = 0;
         // reset delle variabili di classe prima di iniziare l'esecuzione
         this.resetLists();
@@ -84,8 +101,19 @@ public class ClcInt312Mis3 extends Controllo {
          */
         listVaccheDetentoriAllevAttivi = getControlliService().getBoviniOfDetentoriAllevamentiAttivi(
                 getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
-        listVaccheDetentoriAllevNonAttivi = getControlliService().getBoviniOfDetentoriAllevamentiNonAttivi(
-                getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+        listVaccheDetentoriAllevNonAttivi = new ArrayList<>();
+
+        for(Dmt_t_Tws_bdn_du_capi_bovini x : modelVacche) {
+            Boolean find = false;
+            for(Dmt_t_Tws_bdn_du_capi_bovini y : listVaccheDetentoriAllevAttivi) {
+                if(x.getCapoId() == y.getCapoId()) {
+                    find = true;
+                    break;
+                }
+            }
+            if(!find)
+                listVaccheDetentoriAllevNonAttivi.add(x);
+        }
 
         if (modelVacche == null) {
             System.out.println("ERRORE CALCOLO INTERVENTO 312 MISURA 3, NON E' STATO POSSIBILE RECUPERARE I DATI REF02.003");
@@ -102,10 +130,8 @@ public class ClcInt312Mis3 extends Controllo {
         }
 
         if (listVaccheDetentoriAllevNonAttivi != null && !listVaccheDetentoriAllevNonAttivi.isEmpty()) {
-
             setListEsclusi(listVaccheDetentoriAllevNonAttivi,
                     "Il capo è escluso poichè appartenente ad un allevamento non attivo");
-
         }
 
         try {
@@ -135,7 +161,7 @@ public class ClcInt312Mis3 extends Controllo {
             throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
         }
 
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, FINE PRE-ESECUZIONE");
         System.out.println(
                 "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 312 MISURA 3 SONO STATI ESEGUITI CORRETTAMENTE ✔");
@@ -152,9 +178,10 @@ public class ClcInt312Mis3 extends Controllo {
      */
     @Override
     public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, INIZIO ESECUZIONE");
-        modelVaccheAmmesseUba = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+        modelVaccheAmmesseUba = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
+                getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
         if (modelVaccheAmmesseUba != null && !modelVaccheAmmesseUba.isEmpty()) {
 
@@ -168,8 +195,10 @@ public class ClcInt312Mis3 extends Controllo {
                     UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(),
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                    if (UtilControlli.controlloTempisticheDiRegistrazione(bufala))
+                    if (UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
                         this.capiSanzionati++;
+                        listaCapiSanzionati.add(bufala);
+                    }
                 } else {
 
                     if (bufala.getDtNascitaVitello() != null) {
@@ -186,8 +215,10 @@ public class ClcInt312Mis3 extends Controllo {
                                         this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                         this.getSessione());
                                 this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                                if (UtilControlli.controlloTempisticheDiRegistrazione(bufala))
+                                if (UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
+                                    listaCapiSanzionati.add(bufala);
                                     this.capiSanzionati++;
+                                }
                             } else {
                                 addEscluso(bufala, "I mesi di vita del capo sono inferiori o uguali a 30.");
                             }
@@ -206,7 +237,7 @@ public class ClcInt312Mis3 extends Controllo {
             throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_02003", getInput(),
                     "Nessuna vacca presente impossibile eseguire il calcolo del premio"));
         }
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, FINE ESECUZIONE");
     }
 
@@ -220,7 +251,7 @@ public class ClcInt312Mis3 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO
-        if (1 == 1)
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, INIZIO POST-ESECUZIONE");
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         outputControlli.setIdSessione(getSessione());
@@ -231,50 +262,54 @@ public class ClcInt312Mis3 extends Controllo {
         outputControlli.setIntervento(getAzienda().getCodicePremio());
 
         getControlliService().saveOutput(outputControlli);
-
-        for (Dmt_t_output_esclusi o : listEsclusi) {
-            o.setCuaa(getAzienda().getCuaa());
-            o.setCodicePremio(getAzienda().getCodicePremio());
-            getControlliService().saveOutputEscl(o);
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
         }
-        if (1 == 1)
+
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
+
+        if (1==1)
             System.out.println("CALCOLO INTERVENTO 312 MISURA 3, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 312 MISURA 3");
     }
 
     private void setListEsclusi(List<Dmt_t_Tws_bdn_du_capi_bovini> bovini, String motivazione) {
-
         for (Dmt_t_Tws_bdn_du_capi_bovini b : bovini) {
-
-            Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-            escluso.setCalcolo(ClcInt311Mis2.class.getSimpleName());
-            escluso.setCapoId(b.getCapoId());
-            escluso.setMotivazioneEsclusione(motivazione);
-            escluso.setIdSessione(getSessione());
-//	        escluso.setIdSessione(getSessione().getIdSessione());
-            listEsclusi.add(escluso);
-
+            b.setMotivazioneEsclusione(motivazione);
+            b.setTipologiaEsclusione("E");
+            listaCapiBocciati.add(b);
         }
 
     }
 
     private void addEscluso(Dmt_t_Tws_bdn_du_capi_bovini capo, String motivazione) {
-        Dmt_t_output_esclusi escluso = new Dmt_t_output_esclusi();
-        escluso.setCalcolo(ClcInt312Mis3.class.getSimpleName());
-        escluso.setCapoId(capo.getCapoId());
-        escluso.setMotivazioneEsclusione(motivazione);
-        escluso.setIdSessione(getSessione());
-//      escluso.setIdSessione(getSessione().getIdSessione());
-        listEsclusi.add(escluso);
+        capo.setMotivazioneEsclusione(motivazione);
+        capo.setTipologiaEsclusione("E");
+        listaCapiBocciati.add(capo);
     }
 
     private void resetLists() {
 
         if (this.importoLiquidabile.compareTo(BigDecimal.ZERO) > 0)
             this.importoLiquidabile = BigDecimal.ZERO;
-
-        if (this.listEsclusi != null)
-            this.listEsclusi.clear();
 
         if (this.listVaccheDetentoriAllevAttivi != null)
             this.listVaccheDetentoriAllevAttivi.clear();

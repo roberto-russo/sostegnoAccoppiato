@@ -76,9 +76,13 @@ public class ControlliFrameworkImpl implements ControlliFramework {
         Map<String, List<Dmt_t_premio_capi>> result9903 = new HashMap<String, List<Dmt_t_premio_capi>>();
         Map<String, List<?>> capiTo9903 = new HashMap<>();
         for (Rpu_V_pratica_zoote x : listAziende) {
-            Controllo controllo = entityFactory.getControllo(x, sessione, controlliService, applicationContext);
-            capiTo9903.put(x.getCodicePremio(), new ArrayList<>(controllo.preEsecuzione()));
-            controlliList.add(controllo);
+            try {
+                Controllo controllo = entityFactory.getControllo(x, sessione, controlliService, applicationContext);
+                capiTo9903.put(x.getCodicePremio(), new ArrayList<>(controllo.preEsecuzione()));
+                controlliList.add(controllo);
+            } catch (Exception e) {
+
+            }
         }
 
         System.out.println("\n\n\nControlli elaborati -> " + controlliList.size() + "\n\n\n");

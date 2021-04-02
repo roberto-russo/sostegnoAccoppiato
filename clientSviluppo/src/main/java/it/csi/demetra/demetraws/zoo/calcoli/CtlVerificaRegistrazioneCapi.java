@@ -21,31 +21,21 @@ import java.util.*;
 public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<List<Dmt_t_Tws_bdn_du_capi_bovini>>, Calcolo {
 
 
-    private CapiControllati9901 capiControllati = new CapiControllati9901();
-
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVacche = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
-
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVaccheAmmesse = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
-
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVaccheEscluse = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
-
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> output = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
-
-    Map<Long, List<Dmt_t_Tws_bdn_du_capi_bovini>> mapVaccaVitelli = new HashMap<>();
-
-    private List<Dmt_t_premio_capi> listaCapiResult = new ArrayList<Dmt_t_premio_capi>();
-
-    @Autowired
-    Dmt_t_premio_capi_services capiAmmessiServices;
-
-    @Autowired
-    Dmt_t_tws_bdn_du_capi_bovini_services capiServices;
-
     private static final int GIORNI_27 = 27;
     private static final int GIORNI_34 = 34;
     private static final int GIORNI_180 = 180;
     private static final int GIORNI_187 = 187;
-
+    Map<Long, List<Dmt_t_Tws_bdn_du_capi_bovini>> mapVaccaVitelli = new HashMap<>();
+    @Autowired
+    Dmt_t_premio_capi_services capiAmmessiServices;
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_services capiServices;
+    private CapiControllati9901 capiControllati = new CapiControllati9901();
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVacche = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVaccheAmmesse = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaVaccheEscluse = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> output = new ArrayList<Dmt_t_Tws_bdn_du_capi_bovini>();
+    private List<Dmt_t_premio_capi> listaCapiResult = new ArrayList<Dmt_t_premio_capi>();
     private boolean metodoEseguitoCorrettamente;
     private boolean initEseguitaCorrettamente;
     private boolean salvataggioEseguitoCorrettamente;
@@ -138,27 +128,26 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 //	 */
 
     private boolean calcoloTempisticaDiRegistrazione(List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapi) {
-
         setListaCapi9901(listaCapi);
-        if (1==1)
-            System.out.println("INIZIO CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01");
 
         try {
 
             for (Capo9901 capo : capiControllati.getListaCapi9901()) {
-
-                if (capo.getCapo().getDtNascitaVitello() != null &&
-                        capo.getCapo().getVitelloDtApplMarchio() != null &&
-                        capo.getCapo().getVitelloDtInserBdnNascita() != null &&
-                        !"".equals((capo.getCapo().getFlagDelegato())) &&
-                        !"".equals((capo.getCapo().getFlagProrogaMarcatura()))) {
+                String flagDelegato = capo.getCapo().getFlagDelegatoNascitaVitello() != null
+                        ? capo.getCapo().getFlagDelegatoNascitaVitello()
+                        : "N";
+                String flagProrogaMarcatura = capo.getCapo().getFlagProrogaMarcatura() != null
+                        ? capo.getCapo().getFlagProrogaMarcatura()
+                        : "N";
+                if (capo.getCapo().getDtNascitaVitello() != null && capo.getCapo().getVitelloDtApplMarchio() != null
+                        && capo.getCapo().getVitelloDtInserBdnNascita() != null
+                        && !"".equals(flagDelegato)
+                        && !"".equals(flagProrogaMarcatura)) {
 
                     Date dataIdentificazioneVitello = capo.getCapo().getVitelloDtApplMarchio();
                     Date dataNascitaVitello = capo.getCapo().getDtNascitaVitello();
                     Date dataRegistrazioneVitelloBDN = capo.getCapo().getVitelloDtInserBdnNascita();
 
-                    String flagDelegato = capo.getCapo().getFlagDelegato() != null ? capo.getCapo().getFlagDelegato() : "N";
-                    String flagProrogaMarcatura = capo.getCapo().getFlagProrogaMarcatura() != null ? capo.getCapo().getFlagProrogaMarcatura() : "N";
                     int tempisticaRegistrazione;
                     int numGiorniFestiviCompresi = 0;
 
@@ -166,15 +155,17 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
                     LocalDate dataNascitaVit = LocalDateConverter.convertToLocalDateViaInstant(dataNascitaVitello);
                     LocalDate dataRegVit = LocalDateConverter.convertToLocalDateViaInstant(dataRegistrazioneVitelloBDN);
 
-                    List<Date> giorniFestivi = DateUtilService.getGiorniFestivi(String.valueOf(dataNascitaVit.getYear()));
+                    List<Date> giorniFestivi = DateUtilService
+                            .getGiorniFestivi(String.valueOf(dataNascitaVit.getYear()));
 
-                    Date dataRegistrazioneBDNMenoSette = LocalDateConverter.convertToDateViaInstant(dataRegVit.minusDays(7));
+                    Date dataRegistrazioneBDNMenoSette = LocalDateConverter
+                            .convertToDateViaInstant(dataRegVit.minusDays(7));
 
 //					Period periodtI = Period.between(dataIdVit, dataNascitaVit);
 //					Period periodtR = Period.between(dataIdVit, dataRegVit);
 
-                    int tI = (int) ChronoUnit.DAYS.between(dataIdVit, dataNascitaVit);
-                    int tR = (int) ChronoUnit.DAYS.between(dataIdVit, dataRegVit);
+                    int tI = (int) Math.abs(ChronoUnit.DAYS.between(dataNascitaVit, dataIdVit));
+                    int tR = (int) Math.abs(ChronoUnit.DAYS.between(dataRegVit, dataIdVit));
 
 //					capo.settI(periodtI.getDays());
 //					capo.settR(periodtR.getDays());
@@ -184,95 +175,126 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 
                     tempisticaRegistrazione = capo.gettI() + capo.gettR();
 
-
-                    if (flagDelegato.equalsIgnoreCase("N") && flagProrogaMarcatura.equalsIgnoreCase("N")) {
-                        //Caso 1 :
+                    if ("N".equals(flagProrogaMarcatura)) {
                         if (tempisticaRegistrazione <= GIORNI_27) {
                             capo.setFlagCapoAmmesso("S");
                             capo.setMotivazione("Tempistica di registrazione rispettata");
-                        } else {
-                            capo.setFlagCapoAmmesso("N");
-                            capo.setMotivazione("Tempistica di registrazione non rispettata. "
-                                    + "Il capo è stato registrato con un ritardo di " + (tempisticaRegistrazione - GIORNI_27) + " giorni.");
-                        }
-
-                    } else if (flagDelegato.equalsIgnoreCase("N") && flagProrogaMarcatura.equalsIgnoreCase("S")) {
-                        //Caso 2 :
-                        if (tempisticaRegistrazione <= GIORNI_34) {
-
+                        } else if ("S".equals(flagDelegato) && tempisticaRegistrazione <= GIORNI_34) {
                             capo.setFlagCapoAmmesso("S");
                             capo.setMotivazione("Tempistica di registrazione rispettata");
-
                         } else {
-
                             capo.setFlagCapoAmmesso("N");
                             capo.setMotivazione("Tempistica di registrazione non rispettata. "
-                                    + "Il capo è stato registrato con un ritardo di " + (tempisticaRegistrazione - GIORNI_34) + " giorni.");
-
+                                    + "Il capo e' stato registrato con un ritardo di "
+                                    + (tempisticaRegistrazione - ("S".equals(flagDelegato) ? GIORNI_34 : GIORNI_27)) + " giorni.");
                         }
-
-                    } else if (flagDelegato.equalsIgnoreCase("S") && flagProrogaMarcatura.equalsIgnoreCase("N")) {
-                        //Caso 3 :
+                    } else {
                         if (tempisticaRegistrazione <= GIORNI_180) {
-
                             capo.setFlagCapoAmmesso("S");
                             capo.setMotivazione("Tempistica di registrazione rispettata");
-
-
+                        } else if ("S".equals(flagDelegato) && tempisticaRegistrazione <= GIORNI_187) {
+                            capo.setFlagCapoAmmesso("S");
+                            capo.setMotivazione("Tempistica di registrazione rispettata");
                         } else {
-
                             capo.setFlagCapoAmmesso("N");
                             capo.setMotivazione("Tempistica di registrazione non rispettata. "
-                                    + "Il capo è stato registrato con un ritardo di " + (tempisticaRegistrazione - GIORNI_180) + " giorni.");
-
+                                    + "Il capo e' stato registrato con un ritardo di "
+                                    + (tempisticaRegistrazione - ("S".equals(flagDelegato) ? GIORNI_180 : GIORNI_187)) + " giorni.");
                         }
-
-                    } else if (flagDelegato.equalsIgnoreCase("S") && flagProrogaMarcatura.equalsIgnoreCase("S")) {
-                        //Caso 4 :
-                        for (Date giorno : giorniFestivi) {
-                            if (giorno.after(dataRegistrazioneBDNMenoSette) && giorno.before(dataRegistrazioneVitelloBDN)) {
-                                numGiorniFestiviCompresi += 1;
-                            }
-                        }
-
-                        if (numGiorniFestiviCompresi > 0) {
-
-                            if (tempisticaRegistrazione <= (GIORNI_187 + numGiorniFestiviCompresi)) {
-
-                                capo.setFlagCapoAmmesso("S");
-                                capo.setMotivazione("Tempistica di registrazione rispettata");
-
-                            } else {
-
-                                capo.setFlagCapoAmmesso("N");
-                                capo.setMotivazione("Tempistica di registrazione non rispettata. "
-                                        + "Il capo è stato registrato con un ritardo di " + (tempisticaRegistrazione - (GIORNI_187 + numGiorniFestiviCompresi)) + " giorni.");
-
-                            }
-
-                        } else {
-
-                            if (tempisticaRegistrazione <= GIORNI_187) {
-
-                                capo.setFlagCapoAmmesso("S");
-                                capo.setMotivazione("Tempistica di registrazione rispettata");
-
-                            } else {
-
-                                capo.setFlagCapoAmmesso("N");
-                                capo.setMotivazione("Tempistica di registrazione non rispettata. "
-                                        + "Il capo è stato registrato con un ritardo di " + (tempisticaRegistrazione - GIORNI_187) + " giorni.");
-
-                            }
-                        }
-
                     }
-
+//
+//                    if (flagDelegato.equalsIgnoreCase("N") && flagProrogaMarcatura.equalsIgnoreCase("N")) {
+//                        // Caso 1 :
+//                        if (tempisticaRegistrazione <= GIORNI_27) {
+//                            capo.setFlagCapoAmmesso("S");
+//                            capo.setMotivazione("Tempistica di registrazione rispettata");
+//                        } else {
+//                            capo.setFlagCapoAmmesso("N");
+//                            capo.setMotivazione("Tempistica di registrazione non rispettata. "
+//                                    + "Il capo Ã¨ stato registrato con un ritardo di "
+//                                    + (tempisticaRegistrazione - GIORNI_27) + " giorni.");
+//                        }
+//
+//                    } else if (flagDelegato.equalsIgnoreCase("N") && flagProrogaMarcatura.equalsIgnoreCase("S")) {
+//                        // Caso 2 :
+//                        if (tempisticaRegistrazione <= GIORNI_34) {
+//
+//                            capo.setFlagCapoAmmesso("S");
+//                            capo.setMotivazione("Tempistica di registrazione rispettata");
+//
+//                        } else {
+//
+//                            capo.setFlagCapoAmmesso("N");
+//                            capo.setMotivazione("Tempistica di registrazione non rispettata. "
+//                                    + "Il capo Ã¨ stato registrato con un ritardo di "
+//                                    + (tempisticaRegistrazione - GIORNI_34) + " giorni.");
+//
+//                        }
+//
+//                    } else if (flagDelegato.equalsIgnoreCase("S") && flagProrogaMarcatura.equalsIgnoreCase("N")) {
+//                        // Caso 3 :
+//                        if (tempisticaRegistrazione <= GIORNI_180) {
+//
+//                            capo.setFlagCapoAmmesso("S");
+//                            capo.setMotivazione("Tempistica di registrazione rispettata");
+//
+//                        } else {
+//
+//                            capo.setFlagCapoAmmesso("N");
+//                            capo.setMotivazione("Tempistica di registrazione non rispettata. "
+//                                    + "Il capo Ã¨ stato registrato con un ritardo di "
+//                                    + (tempisticaRegistrazione - GIORNI_180) + " giorni.");
+//
+//                        }
+//
+//                    } else if (flagDelegato.equalsIgnoreCase("S") && flagProrogaMarcatura.equalsIgnoreCase("S")) {
+//                        // Caso 4 :
+//                        for (Date giorno : giorniFestivi) {
+//                            if (giorno.after(dataRegistrazioneBDNMenoSette)
+//                                    && giorno.before(dataRegistrazioneVitelloBDN)) {
+//                                numGiorniFestiviCompresi += 1;
+//                            }
+//                        }
+//
+//                        if (numGiorniFestiviCompresi > 0) {
+//
+//                            if (tempisticaRegistrazione <= (GIORNI_187 + numGiorniFestiviCompresi)) {
+//
+//                                capo.setFlagCapoAmmesso("S");
+//                                capo.setMotivazione("Tempistica di registrazione rispettata");
+//
+//                            } else {
+//
+//                                capo.setFlagCapoAmmesso("N");
+//                                capo.setMotivazione("Tempistica di registrazione non rispettata. "
+//                                        + "Il capo Ã¨ stato registrato con un ritardo di "
+//                                        + (tempisticaRegistrazione - (GIORNI_187 + numGiorniFestiviCompresi))
+//                                        + " giorni.");
+//
+//                            }
+//
+//                        } else {
+//
+//                            if (tempisticaRegistrazione <= GIORNI_187) {
+//
+//                                capo.setFlagCapoAmmesso("S");
+//                                capo.setMotivazione("Tempistica di registrazione rispettata");
+//
+//                            } else {
+//
+//                                capo.setFlagCapoAmmesso("N");
+//                                capo.setMotivazione("Tempistica di registrazione non rispettata. "
+//                                        + "Il capo Ã¨ stato registrato con un ritardo di "
+//                                        + (tempisticaRegistrazione - GIORNI_187) + " giorni.");
+//
+//                            }
+//                        }
+//
+//                    }
 
                 } else {
 
                     System.err.println("Campi del capo non valorizzati correttamente");
-                    System.out.println("ERRORE NEL CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01: CAMPI DEL CAPO NON VALORIZZATI CORRETTAMENTE");
                     return false;
                 }
 
@@ -292,18 +314,13 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 
                 }
             }
-            if (1==1)
-                System.out.println("FINE CALCOLO TEMPISTICA DI REGISTRAZIONE");
-
 
             controllaAmmissibilita(capiControllati);
 
             return true;
 
         } catch (Exception e) {
-
             System.err.println(e);
-            System.out.println("ERRORE NEL CALCOLO TEMPISTICA DI REGISTRAZIONE REF99.01: ");
             return false;
 
         }
@@ -318,7 +335,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
      * @param capiControllati - istanza di tipo {@link it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9901}
      */
     private void controllaAmmissibilita(CapiControllati9901 capiControllati) {
-        if (1==1)
+        if (1 == 1)
             System.out.println("INIZIO CONTROLLO AMMISSIBILITA' REF99.01");
 
         try {
@@ -330,7 +347,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
                 }
             }
 
-            if (1==1)
+            if (1 == 1)
                 System.out.println("FINE CONTROLLO AMMISSIBILITA' REF99.01");
 
         } catch (Exception e) {
@@ -401,7 +418,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
 
             capiControllati.setListaCapi9901(listaCapi9901);
 
-            if (1==1)
+            if (1 == 1)
                 System.out.println("FINE RECUPERO DATI: SETLISTACAPI9901() ");
 
         } catch (Exception e) {
@@ -439,7 +456,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
      */
     @Override
     public void esecuzione() throws CalcoloException {
-        if (1==1)
+        if (1 == 1)
             System.out.println("INIZIO CALCOLO REF99.01");
 //		Dmt_t_Tws_bdn_du_capi_bovini capoVacca;
 //		for(Dmt_t_Tws_bdn_du_capi_bovini vacca : listaVacche) {
@@ -453,7 +470,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
         metodoEseguitoCorrettamente = calcoloTempisticaDiRegistrazione(listaVacche);
         if (metodoEseguitoCorrettamente) {
 
-            if (1==1)
+            if (1 == 1)
                 System.out.println("ESECUZIONE ANDATA A BUON FINE: CALCOLOTEMPISTICADIREGISTRAZIONE()");
 
         } else {
@@ -589,7 +606,7 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
      */
     private void saveOnDB() {
         try {
-            if (1==1)
+            if (1 == 1)
                 System.out.println("INIZIO SALVATAGGIO CAPI CONTROLLATI REF99.01");
 
             if (!listaCapiResult.isEmpty()) {
@@ -600,12 +617,12 @@ public class CtlVerificaRegistrazioneCapi extends Ref implements RefInterface<Li
                 } catch (IllegalArgumentException e) {
                     System.out.println("ERRORE DURANTE IL SALVATAGGIO DEI CAPI AMMESSI REF99.01 : ");
                 }
-                if (1==1)
-                    if (1==1)
+                if (1 == 1)
+                    if (1 == 1)
                         System.out.println("FINE SALVATAGGIO CAPI CONTROLLATI REF99.01");
             } else {
                 salvataggioEseguitoCorrettamente = false;
-                if (1==1)
+                if (1 == 1)
                     System.out.println("NESSUN CAPO DA SALVARE CALCOLO REF99.01");
             }
 

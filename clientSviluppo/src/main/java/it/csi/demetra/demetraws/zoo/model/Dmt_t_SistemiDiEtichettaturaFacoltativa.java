@@ -41,7 +41,7 @@ public class Dmt_t_SistemiDiEtichettaturaFacoltativa implements Serializable {
 
     @Column(name = "ANNOTAZIONI")
     private String annotazioni;
-
+    
     public Integer getId() {
         return id;
     }

@@ -584,10 +584,16 @@ public class UtilControlli {
         BigDecimal sogliaPagabiliVenti = new BigDecimal("0.2");
         BigDecimal sogliaPagabiliDieci = new BigDecimal("0.1");
 
+        System.out.println("CALCOLO ESITO ()");
+        System.out.println("CAPI ACCERTATI -> " + capiAccertati);
+        System.out.println("CAPI ANOMALI -> " + capiAnomali);
+        System.out.println("CAPI RICHIESTI -> " + capiRichiesti);
+        System.out.println("CAPI SANZIONATI -> " + capiSanzionati);
         esito = capiSanzionati.add(capiAnomali).divide(capiAccertati, MathContext.DECIMAL128);
+        System.out.println("ESITO -> " + esito);
         BigDecimal newEsito = esito.setScale(2, RoundingMode.HALF_UP);
-
-        if (newEsito.compareTo(sogliaPagabiliDieci) <= 0)
+        System.out.println("NEW ESITO -> " + newEsito);
+        if (newEsito.compareTo(sogliaPagabiliDieci) <= 0 || capiAnomali.compareTo(new BigDecimal(3)) <= 0)
             capiPagabili = capiAccertati.multiply((BigDecimal.ONE.subtract(newEsito))).setScale(0, RoundingMode.HALF_UP);
         else if (newEsito.compareTo(sogliaPagabiliDieci) > 0 && newEsito.compareTo(sogliaPagabiliVenti) <= 0)
             capiPagabili = capiAccertati
@@ -595,6 +601,7 @@ public class UtilControlli {
         else
             capiPagabili = BigDecimal.ZERO;
 
+        System.out.println("CAPI PAGABILI -> " + capiPagabili);
         result.put("capiPagabili", capiPagabili);
         result.put("esito", newEsito);
         return result;
@@ -662,13 +669,17 @@ public class UtilControlli {
     public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_clsCapoMacellato m) {
 
         int contatoreFestivita = 0;
+        int giorniControllo = 7;
+        if (null != m.getDtNascita() && null != m.getDtIngresso())
+            giorniControllo = (m.getDtNascita().compareTo(m.getDtIngresso()) == 0) ? 27 : 7;
+
         contatoreFestivita = UtilControlli.contaFestivi(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso());
-        if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= 7) && (UtilControlli
-                .differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) <= 7)) {
+        if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) <= giorniControllo) && (UtilControlli
+                .differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) <= (5 + contatoreFestivita))) {
             return true;
-        } else if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) > 7)
-                || (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) > 7
-                + contatoreFestivita)) {
+        } else if ((UtilControlli.differenzaGiorni(m.getDtComAutoritaIngresso(), m.getDtIngresso()) > giorniControllo)
+                || (UtilControlli.differenzaGiorni(m.getDtInserimentoBdnIngresso(), m.getDtComAutoritaIngresso()) > (giorniControllo
+                + contatoreFestivita))) {
             return false;
         }
         return false;

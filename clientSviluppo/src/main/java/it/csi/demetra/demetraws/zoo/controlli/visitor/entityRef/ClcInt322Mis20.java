@@ -16,8 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * i controlli da applicare per il calcolo del premio zootecnia per l’intervento
- * 322 – Misura 20:<br>
+ * i controlli da applicare per il calcolo del premio zootecnia per
+ * l’intervento 322 – Misura 20:<br>
  * vacche nutrici non iscritte nei Libri genealogici o nel registro anagrafico e
  * appartenenti ad allevamenti non iscritti nella BDN come allevamenti da latte.
  *
@@ -33,6 +33,8 @@ public class ClcInt322Mis20 extends Controllo {
     private BigDecimal numeroCapiAmmissibili;
     private BigDecimal numeroCapiRichiesti;
     private Integer capiSanzionati;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
     @Autowired
     private CtlVerificaRegistrazioneCapi ref9901;
     @Autowired
@@ -40,7 +42,6 @@ public class ClcInt322Mis20 extends Controllo {
     private Dmt_t_output_controlli oc;
     private List<Dmt_t_contr_loco> estrazioneACampione;
     private int numeroCapiBocciati;
-    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
     private Dmt_t_output_esclusi outputEsclusi;
     private String motivazione;
     private ResultCtlUbaMinime ubaMin;
@@ -82,7 +83,8 @@ public class ClcInt322Mis20 extends Controllo {
         this.ubaMin = new ResultCtlUbaMinime();
         this.modelVaccheFiltrate = null;
         this.capiSanzionati = 0;
-
+        listaCapiSanzionati = new ArrayList<>();
+        listaCapiBocciati = new ArrayList<>();
 
         // LE VACCHE CHE SUPERANO QUESTI CONTROLLI SARANNO NELLA LISTA modelVacche
 
@@ -108,7 +110,8 @@ public class ClcInt322Mis20 extends Controllo {
 
         if (1==1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE PRE-ESECUZIONE");
-        System.out.println("I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO PREMIO 322 MISURA 20 SONO STATI ESEGUITI CORRETTAMENTE ✔");
+        System.out.println(
+                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO PREMIO 322 MISURA 20 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
         return modelVacche;
     }
@@ -148,9 +151,9 @@ public class ClcInt322Mis20 extends Controllo {
                             b.getCapoId(), getAzienda().getCodicePremio());
                     /*
                      * L’aiuto spetta al richiedente detentore della vacca al momento del parto.
-                     * Qualora la vacca abbia partorito più di una volta nel corso dell’anno presso
-                     * la stalla di diversi detentori susseguitisi nel tempo, il premio è erogato al
-                     * detentore presso il quale è nato il primo capo.
+                     * Qualora la vacca abbia partorito più di una volta nel corso dell’anno
+                     * presso la stalla di diversi detentori susseguitisi nel tempo, il premio è
+                     * erogato al detentore presso il quale è nato il primo capo.
                      */
 
                     // SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
@@ -158,10 +161,13 @@ public class ClcInt322Mis20 extends Controllo {
                             this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
                             this.getControlliService())) {
 
-                        UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                        UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
+                                this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                         this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b))
+                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                            listaCapiSanzionati.add(b);
                             this.capiSanzionati++;
+                        }
 
                     } else {
 
@@ -169,10 +175,13 @@ public class ClcInt322Mis20 extends Controllo {
                         // MANIERA CLASSICA
 
                         if (UtilControlli.isDetentoreParto(b, listVitelli)) {
-                            UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                            UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
+                                    this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
+                                    this.getSessione());
                             if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
                                 this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
                             } else {
+                                listaCapiSanzionati.add(b);
                                 this.capiSanzionati++;
                             }
                         } else {
@@ -249,18 +258,32 @@ public class ClcInt322Mis20 extends Controllo {
         }
 
         if (this.numeroCapiBocciati != 0) {
-            // SALVARE A DB IL NUMERO DI CAPI BOCCIATI
+            // SALVATAGGIO A DB DEI CAPI BOCCIATI
+
             this.outputEsclusi = new Dmt_t_output_esclusi();
 
             for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
-
-                this.outputEsclusi.setCalcolo("ClcInt322Mis20");
+                this.outputEsclusi.setCalcolo(getClass().getSimpleName());
                 this.outputEsclusi.setCapoId(x.getCapoId());
                 this.outputEsclusi.setIdSessione(getSessione());
-                this.outputEsclusi.setMotivazioneEsclusione(this.motivazione);
+                outputEsclusi.setCuaa(getAzienda().getCuaa());
+                outputEsclusi.setCodicePremio(getAzienda().getCodicePremio());
+                outputEsclusi.setTipologiaEsclusione(x.getTipologiaEsclusione());
+                this.outputEsclusi.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
                 this.getControlliService().saveOutputEscl(this.outputEsclusi);
             }
+        }
 
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            getControlliService().saveOutputEscl(oe);
         }
 
         if (1==1)

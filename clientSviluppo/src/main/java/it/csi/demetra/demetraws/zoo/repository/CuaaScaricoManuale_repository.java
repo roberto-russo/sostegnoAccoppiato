@@ -14,7 +14,8 @@ public interface CuaaScaricoManuale_repository extends CrudRepository<CuaaScaric
 
 
     @Query(
-            value = " SELECT * FROM DMT_T_CUAA_SCARICO_MANUALE WHERE ANNO_CAMPAGNA = :annoCampagna AND CUAA='BAITMS61A14F335Z'",
+            value = " SELECT * FROM DMT_T_CUAA_SCARICO_MANUALE WHERE ANNO_CAMPAGNA = :annoCampagna and " +
+                    "cuaa in ('LNZRSL71P44F351B', 'ZCCMZM68L22A479S','RGNDNC39D12A479V','CNVNDR84M23A859E')",
             nativeQuery = true
     )
     List<CuaaScaricoManuale> findAll(@Param("annoCampagna") Integer annoCampagna);

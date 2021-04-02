@@ -1,61 +1,69 @@
 package it.csi.demetra.demetraws.zoo.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 /**
  * Classe model di response alle chiamate dei metodi getElencoCapiPremioNew e
  * getElencoCapiPremio2New
  *
- * @author bcsoft
  * @version 1.0 (02/04/2020)
+ * @author bcsoft
  */
 @Entity(name = "DMT_D_CLS_PREMIO_VAL_RESP")
 public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
-
-    //	/**
+   
+//	/**
 //	 * Elenco dettagliato dei capi bovini eventualmente determinati dal filtro
 //	 * in BDN.
 //	 */
     private static final long serialVersionUID = 5904304924784953743L;
-
+   
     @Id
     @GeneratedValue(generator = "seq_dmt_d_cls_pr_valid_resp")
-    @SequenceGenerator(name = "seq_dmt_d_cls_pr_valid_resp", sequenceName = "SEQ_DMT_D_CLS_PR_VALID_RESP", allocationSize = 1)
-    @Column(name = "id_autogenerato")
+    @SequenceGenerator(name="seq_dmt_d_cls_pr_valid_resp",sequenceName="SEQ_DMT_D_CLS_PR_VALID_RESP", allocationSize=1)
+    @Column(name= "id_autogenerato")
     private Long idAutogenerato;
-
+    
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tbdn_du_capi> clsCapo;
-
+   
     /**
      * Elenco dettagliato dei capi ovicaprini eventualmente determinati dal
      * filtro in BDN.
      */
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> ClsCapoOvicaprino;
-
+    
     /**
      * Elenco dettagliato delle vacche determinati dal filtro in BDN.
      */
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_Tws_bdn_du_capi_bovini> ClsCapoVacca;
-
+  
     /**
      * Elenco dettagliato dei capi bovini macellati determinati dal filtro BDN
      */
     @OneToMany(mappedBy = "dmt_d_clsPremio_ValidazioneResponse")
     public List<Dmt_t_clsCapoMacellato> ClsCapoMacellato;
 
-    @ManyToOne
-    @JoinColumn(name = "id_sessione", nullable = false)
-    private Dmt_t_sessione idSessione;
+	@ManyToOne
+	@JoinColumn(name = "id_sessione", nullable = false)
+	private Dmt_t_sessione idSessione;
 
-    /**
-     * Codice dell’errore verificatosi in BDN qualora l’operazione non fosse
-     * andata a buon fine.
-     */
+	/**
+	 * Codice dell’errore verificatosi in BDN qualora l’operazione non fosse
+	 * andata a buon fine.
+	 */
     @Column(name = "codice_errore")
     private String ErrCod;
 
@@ -65,7 +73,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
      */
     @Column(name = "descrizione_errore")
     private String ErrDescr;
-
+    
     /**
      * Numero dei capi eleggibili a premio sulla base del filtro applicato alla
      * BDN.
@@ -130,7 +138,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     /**
      * Metodo get che ritorna l'elenco dei capi bovini determinati dal filtro
      *
-     * @return lista degli animali di tipo @see Dmt_t_Tbdn_du_capi
+     * @return  lista degli animali di tipo @see Dmt_t_Tbdn_du_capi
      */
     public List<Dmt_t_Tbdn_du_capi> getClsCapo() {
         return clsCapo;
@@ -157,7 +165,6 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
 
     /**
      * Metodo set che imposta l'elenco dei capi ovicaprini accettabili
-     *
      * @param clsCapoOvicaprino l'elenco degli eventuali capi ovicaprini
      */
     public void setClsCapoOvicaprino(List<Dmt_t_Tws_bdn_du_capi_ovicaprini> clsCapoOvicaprino) {
@@ -202,7 +209,6 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
 
     /**
      * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
-     *
      * @return idSessione identificativo univoco associato all'esecuzione
      */
     public Dmt_t_sessione getIdSessione() {
@@ -211,15 +217,14 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
 
     /**
      * Metodo setter che imposta l'identificativo univoco associato all'esecuzione
-     *
      * @param sessione identificativo univoco associato all'esecuzione
      */
     public void setIdSessione(Dmt_t_sessione sessione) {
         this.idSessione = sessione;
     }
 
-    public Long getIdAutogenerato() {
-        return idAutogenerato;
-    }
-
+	public Long getIdAutogenerato() {
+		return idAutogenerato;
+	}
+    
 }
