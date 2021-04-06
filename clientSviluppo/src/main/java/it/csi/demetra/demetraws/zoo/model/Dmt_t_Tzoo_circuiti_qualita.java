@@ -28,10 +28,9 @@ public class Dmt_t_Tzoo_circuiti_qualita implements Serializable {
 	private static final long serialVersionUID = -9146410290916979377L;
 
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	@Id
 	@Column(name = "CUAA")
@@ -181,12 +180,12 @@ public class Dmt_t_Tzoo_circuiti_qualita implements Serializable {
 		return sco_denom_cq;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setCuaa(String cuaa) {

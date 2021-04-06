@@ -14,6 +14,7 @@ public class ControlloException extends Exception {
     /**
      * ControlloException permette di istanziare un oggetto passando negli argomenti del costruttore un
      * Entity errore. In questo modo nel catch dell'eccezione è possibile salvare un log completo di errore in DB.
+     *
      * @param errore istanza di tipo {@link Dmt_t_errore}
      */
     public ControlloException(Dmt_t_errore errore) {

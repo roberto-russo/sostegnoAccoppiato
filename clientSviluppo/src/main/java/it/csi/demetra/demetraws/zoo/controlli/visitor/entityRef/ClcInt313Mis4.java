@@ -1,205 +1,241 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
-import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_bovini;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_esclusi;
+import it.csi.demetra.demetraws.zoo.model.*;
 import it.csi.demetra.demetraws.zoo.services.Dmt_t_tws_bdn_du_capi_bovini_services;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * controlli da applicare per il calcolo del premio zootecnia per l’intervento
  * 313 – Misura 4:<br>
  * vacche nutrici di razze da carne o a duplice attitudine iscritte nei Libri
  * genealogici o nel Registro anagrafico delle razze bovine
- * 
+ *
  * @author Federico Pomponii
  */
 @Component("ClcInt313Mis4")
 public class ClcInt313Mis4 extends Controllo {
 
-	@Autowired
-	CtlVerificaRegistrazioneCapi ref9901;
-	@Autowired
-	CtlUbaMinime ref9903;
-	@Autowired
-	Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
 
-	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
-	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
-	private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
-	private BigDecimal importoLiquidabile;
-	private BigDecimal importoRichiesto;
-	private Integer capiSanzionati;
-	private List<Dmt_t_output_esclusi> listEsclusi = new ArrayList<>();
-	private ResultCtlUbaMinime ubaMin;
+    @Autowired
+    CtlVerificaRegistrazioneCapi ref9901;
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
 
-	private void init() {
-		listEsclusi = new ArrayList<>();
-		importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
-		importoLiquidabile = new BigDecimal(0);
-		modelVaccheFiltrate = null;
-		ubaMin = null;
-	}
+    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
+    private BigDecimal importoLiquidabile;
+    private BigDecimal importoRichiesto;
+    private Integer capiSanzionati;
+    private ResultCtlUbaMinime ubaMin;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiBocciati;
+    private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
 
-	/**
-	 * il metodo preEsecuzione utilizza i controlli:
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void preEsecuzione() throws ControlloException {
-		this.capiSanzionati = 0;
-		// RECUPERO DATI DALLA BDN
-		// modelVacche = getControlliService().getAllBoviniSessioneCuua(getSessione(),
-		// getAzienda().getCuaa(), getAzienda().getCodicePremio());
-		modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
-				getAzienda().getCuaa(), getAzienda().getCodicePremio()));
-		init();
-		if (modelVacche != null && modelVacche.size() > 0) {
-			try {
-				ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(),
-						Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
-				modelVacche = ref9901.calcolo();
-			} catch (CalcoloException e) {
-				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
-			}
+    private void init() {
+        System.out.println("INIZIO CALCOLO INTERVENTO 313 MISURA 4");
+        importoRichiesto = null != modelVacche ? new BigDecimal(modelVacche.size()) : BigDecimal.ZERO;
+        importoLiquidabile = new BigDecimal(0);
+        modelVaccheFiltrate = null;
+        ubaMin = null;
+        listaCapiSanzionati = new ArrayList<>();
+    }
 
-			try {
-				ref9903.init(modelVacche, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
-						getAzienda().getCuaa(), getSessione());
-				ubaMin = ref9903.calcolo();
-				if (ubaMin.isErrors())
-					throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-				else if (!ubaMin.isResult())
-					throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt310Mis1", getInput(),
-							"controllo uba minime non rispettato"));
-			} catch (CalcoloException e) {
-				throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
-			}
+    /**
+     * il metodo preEsecuzione utilizza i controlli:
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlVerificaRegistrazioneCapi} e
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     *
+     * @return
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public List<Dmt_t_Tws_bdn_du_capi_bovini> preEsecuzione() throws ControlloException {
 
-			this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
-					getAzienda().getCuaa(), getAzienda().getCodicePremio());
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO PRE-ESECUZIONE");
+        this.capiSanzionati = 0;
+        listaCapiBocciati = new ArrayList<>();
+        modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
+                getAzienda().getCuaa(), getAzienda().getCodicePremio()));
+        init();
+        if (modelVacche != null && modelVacche.size() > 0) {
+            try {
+                ref9901.init(modelVacche, getSessione().getIdSessione(), getAzienda().getCodicePremio(),
+                        Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+                modelVacche = ref9901.calcolo();
+            } catch (CalcoloException e) {
+                System.out.println(
+                        "ERRORE CALCOLO INTERVENTO 313 MISURA 4, ERRORE DURANTE IL CONTROLLO TEMPISTICA REGISTRAZIONE CAPI REF99.01");
+                throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
+            }
 
-		}
-	}
+            this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
+                    getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
-	/**
-	 * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 313
-	 * Misura 4
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void esecuzione() throws ControlloException {
-		
-		if (null == modelVaccheFiltrate)
-			return;
+        }
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE PRE-ESECUZIONE");
+        System.out.println(
+                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 313 MISURA 4 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
-		importoLiquidabile = BigDecimal.ZERO;
-		try {
-			for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
-				// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
+        return modelVacche;
+    }
 
-					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
-							this.getControlliService())) {
-						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-						//VERIFICO CHE I CAPI SIANO SANZIONATI
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
-		        			this.capiSanzionati++;
+    /**
+     * il metodo esecuzione effettua l'esecuzione dei controlli per l'intervento 313
+     * Misura 4
+     *
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO ESECUZIONE");
 
-				} else {
-					
-					//ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN MANIERA CLASSICA
+        this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
+                getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
-					List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
-							.getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
-					if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
-						this.listEsclusi.add(UtilControlli.generaEscluso(b, getSessione(),
-								"Il richiedente non è detentore del capo al momento del parto",
-								getAzienda().getCodicePremio()));
-						continue;
-					} else {
-						UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(), this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-						this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-						//VERIFICO CHE I CAPI SIANO SANZIONATI
-						if(UtilControlli.controlloTempisticheDiRegistrazione(b)) 
-	            			this.capiSanzionati++;
-					}
-				}
-			}
-		
-		}catch (NullPointerException e) {
-			throw new ControlloException(
-					new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
-		}
-	}
+        if (null == modelVaccheFiltrate)
+            return;
 
-	/**
-	 * il metodo postEsecuzione effettua il salvataggio a db dei risultati
-	 * dell'intervento
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void postEsecuzione() throws ControlloException {
-		// ESECUZIONI CONTROLLI PER SOGGETTO
-		Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
-		outputControlli.setIdSessione(getSessione());
-		outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
-		outputControlli.setCapiAmmissibili(importoLiquidabile);
-		outputControlli.setCapiRichiesti(importoRichiesto);
-		outputControlli.setCapiSanzionati(capiSanzionati);
-		outputControlli.setCuaa(getAzienda().getCuaa());
-		outputControlli.setIntervento(getAzienda().getCodicePremio());
+        importoLiquidabile = BigDecimal.ZERO;
+        try {
+            for (Dmt_t_Tws_bdn_du_capi_bovini b : modelVaccheFiltrate) {
+                // SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
-		getControlliService().saveOutput(outputControlli);
+                if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+                        this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), b.getCapoId(),
+                        this.getControlliService())) {
+                    UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
+                            this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                    this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+                    // VERIFICO CHE I CAPI SIANO SANZIONATI
+                    if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
+                        listaCapiSanzionati.add(b);
+                        this.capiSanzionati++;
+                    }
 
-		for (Dmt_t_output_esclusi o : listEsclusi)
-			getControlliService().saveOutputEscl(o);
+                } else {
+                    List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli = getControlliService()
+                            .getVitelliNatiDaBovini(getSessione().getIdSessione(), b.getCapoId(), b.getCodicePremio());
+                    if (!UtilControlli.isDetentoreParto(b, listVitelli)) {
+                        b.setMotivazioneEsclusione("Il richiedente non e' detentore del capo al momento del parto");
+                        b.setTipologiaEsclusione("E");
+                        this.listaCapiBocciati.add(b);
+                        continue;
+                    } else {
+                        UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
+                                this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
+                        this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+                        // VERIFICO CHE I CAPI SIANO SANZIONATI
+                        if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
+                            listaCapiSanzionati.add(b);
+                            this.capiSanzionati++;
+                        }
+                    }
+                }
+            }
 
-	}
+        } catch (NullPointerException e) {
+            System.out.println("ERRORE CALCOLO INTERVENTO 313 MISURA 4, NESSUN CAPO DISPONIBILE");
+            throw new ControlloException(
+                    new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+        }
 
-	@Override
-	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE ESECUZIONE");
+    }
 
-		List<T> listaCapiDichiarati = new ArrayList<T>();
+    /**
+     * il metodo postEsecuzione effettua il salvataggio a db dei risultati
+     * dell'intervento
+     *
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public void postEsecuzione() throws ControlloException {
+        // ESECUZIONI CONTROLLI PER SOGGETTO
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO POST-ESECUZIONE");
+        Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
+        outputControlli.setIdSessione(getSessione());
+        outputControlli.setAnnoCampagna(getAzienda().getAnnoCampagna());
+        outputControlli.setCapiAmmissibili(importoLiquidabile);
+        outputControlli.setCapiRichiesti(importoRichiesto);
+        outputControlli.setCapiSanzionati(capiSanzionati);
+        outputControlli.setCuaa(getAzienda().getCuaa());
+        outputControlli.setIntervento(getAzienda().getCodicePremio());
 
-		UtilControlli.clearList(listaCapiDichiarati);
+        getControlliService().saveOutput(outputControlli);
 
-		for (T capo : capiBDN)
-			if (UtilControlli.controlloDataInterpartoBovino((Dmt_t_Tws_bdn_du_capi_bovini) capo,
-					this.getControlliService(), this.getSessione().getIdSessione())
-					&& UtilControlli.controlloRegistrazioneVitello((Dmt_t_Tws_bdn_du_capi_bovini) capo,
-							getControlliService(), this.getSessione().getIdSessione(),
-							this.getAzienda().getCodicePremio())
-					&&
-					// UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili(
-					// (Dmt_t_Tws_bdn_du_capi_bovini) capo ) &&
-					UtilControlli.controlloDemarcazione((Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(),
-							this.getAzienda().getAnnoCampagna()))
-				listaCapiDichiarati.add(capo);
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiBocciati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione(x.getTipologiaEsclusione());
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
 
-		return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
-	}
+        for (Dmt_t_Tws_bdn_du_capi_bovini x : this.listaCapiSanzionati) {
+            Dmt_t_output_esclusi oe = new Dmt_t_output_esclusi();
+            oe.setCalcolo(getClass().getSimpleName());
+            oe.setCapoId(x.getCapoId());
+            oe.setIdSessione(getSessione());
+            oe.setCuaa(getAzienda().getCuaa());
+            oe.setTipologiaEsclusione("S");
+            oe.setCodicePremio(getAzienda().getCodicePremio());
+            oe.setMotivazioneEsclusione(x.getMotivazioneEsclusione());
+            this.getControlliService().saveOutputEscl(oe);
+        }
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 313 MISURA 4, FINE POST-ESECUZIONE");
+        System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 313 MISURA 4");
+
+    }
+
+    @Override
+    public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+
+        List<T> listaCapiDichiarati = new ArrayList<T>();
+
+        UtilControlli.clearList(listaCapiDichiarati);
+
+        for (T capo : capiBDN)
+            if (UtilControlli.controlloDataInterpartoBovino((Dmt_t_Tws_bdn_du_capi_bovini) capo,
+                    this.getControlliService(), this.getSessione().getIdSessione())
+                    && UtilControlli.controlloRegistrazioneVitello((Dmt_t_Tws_bdn_du_capi_bovini) capo,
+                    getControlliService(), this.getSessione().getIdSessione(),
+                    this.getAzienda().getCodicePremio())
+                    &&
+                    // UtilControlli.controlloAmmissibilitaPremioPerPremiCompatibili(
+                    // (Dmt_t_Tws_bdn_du_capi_bovini) capo ) &&
+                    UtilControlli.controlloDemarcazione((Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(),
+                            this.getAzienda().getAnnoCampagna()))
+                listaCapiDichiarati.add(capo);
+            else {
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setTipologiaEsclusione("E");
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setMotivazioneEsclusione("Criterio IBR non rispettato o pagato su PSR");
+                listaCapiBocciati.add((Dmt_t_Tws_bdn_du_capi_bovini) capo);
+            }
+
+        return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
+    }
 }

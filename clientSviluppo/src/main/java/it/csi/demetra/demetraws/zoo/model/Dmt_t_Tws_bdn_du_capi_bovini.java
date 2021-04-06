@@ -1,26 +1,15 @@
 package it.csi.demetra.demetraws.zoo.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
 /**
  * Classe dei capi bovini
- * 
- * @version 0.1 (03/04/2020)
- * @author Bcsoft
  *
+ * @author Bcsoft
+ * @version 0.1 (03/04/2020)
  */
 @Entity
 @Table(name = "DMT_T_TWS_BDN_DU_CAPI_BOV")
@@ -31,22 +20,65 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private static final long serialVersionUID = -543360576165358523L;
 
-    @Id
-    @GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_bov")
-    @SequenceGenerator(name="seq_dmt_t_bdn_du_capi_bov",sequenceName="SEQ_DMT_T_BDN_DU_CAPI_BOV", allocationSize=1)
-    @Column(name= "id_autogenerato")
-    private Long idAutogenerato;
+	public Dmt_t_Tws_bdn_du_capi_bovini() {
+	}
 
+	public Dmt_t_Tws_bdn_du_capi_bovini(Dmt_t_Tws_bdn_du_capi_bovini dmt_t_Tws_bdn_du_capi_bovini) {
+		this.allev_id = dmt_t_Tws_bdn_du_capi_bovini.getAllev_id();
+		this.capoId = dmt_t_Tws_bdn_du_capi_bovini.getCapoId();
+		this.sessoVitello = dmt_t_Tws_bdn_du_capi_bovini.getSessoVitello();
+		this.codicePremio = dmt_t_Tws_bdn_du_capi_bovini.getCodicePremio();
+		this.codiceVitello = dmt_t_Tws_bdn_du_capi_bovini.getCodiceVitello();
+		this.codice = dmt_t_Tws_bdn_du_capi_bovini.getCodice();
+		this.codLibro = dmt_t_Tws_bdn_du_capi_bovini.getCodLibro();
+		this.descLibro = dmt_t_Tws_bdn_du_capi_bovini.getDescLibro();
+		this.dataNascita = dmt_t_Tws_bdn_du_capi_bovini.getDataNascita();
+		this.dtNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getDtNascitaVitello();
+		this.razzaCodice = dmt_t_Tws_bdn_du_capi_bovini.getRazzaCodice();
+		this.dtInizioDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtInizioDetenzione();
+		this.dtFineDetenzione = dmt_t_Tws_bdn_du_capi_bovini.getDtFineDetenzione();
+		this.aziendaCodice = dmt_t_Tws_bdn_du_capi_bovini.getAziendaCodice();
+		this.aziendaLongitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLongitudine();
+		this.aziendaLatitudine = dmt_t_Tws_bdn_du_capi_bovini.getAziendaLatitudine();
+		this.flagIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagIbr();
+		this.flagRispettoPrevalenzaIbr = dmt_t_Tws_bdn_du_capi_bovini.getFlagRispettoPrevalenzaIbr();
+		this.vaccaDtIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtIngresso();
+		this.vaccaDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtComAutIngresso();
+		this.vaccaDtInserBdnIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVaccaDtInserBdnIngresso();
+		this.vitelloDtApplMarchio = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtApplMarchio();
+		this.vitelloDtComAutNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutNascita();
+		this.vitelloDtInserBdnNascita = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtInserBdnNascita();
+		this.flagProrogaMarcatura = dmt_t_Tws_bdn_du_capi_bovini.getFlagProrogaMarcatura();
+		this.cuaa = dmt_t_Tws_bdn_du_capi_bovini.getCuaa();
+		this.sesso = dmt_t_Tws_bdn_du_capi_bovini.getSesso();
+		this.vitelloCapoId = dmt_t_Tws_bdn_du_capi_bovini.getVitelloCapoId();
+		this.vitelloTipoOrigine = dmt_t_Tws_bdn_du_capi_bovini.getVitelloTipoOrigine();
+		this.vitelloDtComAutIngresso = dmt_t_Tws_bdn_du_capi_bovini.getVitelloDtComAutIngresso();
+		this.vitello_data_ins_bdn_ingresso = dmt_t_Tws_bdn_du_capi_bovini.getVitello_data_ins_bdn_ingresso();
+		this.flagDelegato = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegato();
+		this.flagDelegatoIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVacca();
+		this.flagDelegatoNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoNascitaVitello();
+		this.flagDelegatoIngressoVitello = dmt_t_Tws_bdn_du_capi_bovini.getFlagDelegatoIngressoVitello();
+		this.ruoloUtenteIngressoVacca = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressoVacca();
+		this.ruoloUtenteNascitaVitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteNascitaVitello();
+		this.ruoloUtenteIngressovitello = dmt_t_Tws_bdn_du_capi_bovini.getRuoloUtenteIngressovitello();
+	}
+
+	@Id
+	@GeneratedValue(generator = "seq_dmt_t_bdn_du_capi_bov")
+	@SequenceGenerator(name = "seq_dmt_t_bdn_du_capi_bov", sequenceName = "SEQ_DMT_T_BDN_DU_CAPI_BOV", allocationSize = 1)
+	@Column(name = "id_autogenerato")
+	private Long idAutogenerato;
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
-	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
+	@JoinColumn(name = "FK_DMT_D_CLS_PREM_VALID", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
 	@Column(name = "id_allevamento")
@@ -267,13 +299,13 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	@Column(name = "flag_delegato_ingresso_vacca")
 	/**
-	 * Flag che assume i seguenti valori: N= se l’ingresso è stato registrato in BDN
-	 * dal detentore (e quindi non ha delegato altri ad operare in BDN) R= se la
-	 * delega è regionale. In questo caso esiste un polo regionale che ha registrato
-	 * l’ingresso del capo S= in tutti gli altri casi in cui il delegato è uno dei
-	 * soggetti previsti dalla normativa in grado di operare in BDN su delega
-	 * implicita o esplicita dell’allevatore (Associazione Professionale, Servizio
-	 * Veterinario o Veterinario Aziendale )
+	 * Flag che assume i seguenti valori: N= se l’ingresso è stato registrato in
+	 * BDN dal detentore (e quindi non ha delegato altri ad operare in BDN) R= se la
+	 * delega è regionale. In questo caso esiste un polo regionale che ha
+	 * registrato l’ingresso del capo S= in tutti gli altri casi in cui il
+	 * delegato è uno dei soggetti previsti dalla normativa in grado di operare in
+	 * BDN su delega implicita o esplicita dell’allevatore (Associazione
+	 * Professionale, Servizio Veterinario o Veterinario Aziendale )
 	 */
 	private String flagDelegatoIngressoVacca;
 
@@ -313,52 +345,97 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 */
 	private String ruoloUtenteNascitaVitello;
 
+	@Transient
+	private String motivazioneEsclusione;
+
+	@Transient
+	private String tipologiaEsclusione;
+
+	@Transient
+	public String getTipologiaEsclusione() {
+		return tipologiaEsclusione;
+	}
+
+	public void setTipologiaEsclusione(String tipologiaEsclusione) {
+		this.tipologiaEsclusione = tipologiaEsclusione;
+	}
+
+	@Transient
+	public String getMotivazioneEsclusione() {
+		return motivazioneEsclusione;
+	}
+
+	public void setMotivazioneEsclusione(String motivazioneEsclusione) {
+		this.motivazioneEsclusione = motivazioneEsclusione;
+	}
+
 	@Column(name = "ruolo_utente_ingr_vitello")
 	/**
 	 *
 	 */
 	private String ruoloUtenteIngressovitello;
 
-	/** Metodo getter che restituisce il ruoloUtenteIngressoVacca
+	/**
+	 * Metodo getter che restituisce il ruoloUtenteIngressoVacca
+	 *
 	 * @return ruoloUtenteIngressoVacca
 	 */
 	public String getRuoloUtenteIngressoVacca() {
 		return ruoloUtenteIngressoVacca;
 	}
 
-	/** Metodo setter che imposta il ruoloUtenteIngressoVacca
+	/**
+	 * Metodo setter che imposta il ruoloUtenteIngressoVacca
+	 *
 	 * @param ruoloUtenteIngressoVacca ruoloUtenteIngressoVacca
 	 */
+
 	public void setRuoloUtenteIngressoVacca(String ruoloUtenteIngressoVacca) {
-		this.ruoloUtenteIngressoVacca = ruoloUtenteIngressoVacca;
+		this.ruoloUtenteIngressoVacca = null != ruoloUtenteIngressoVacca ? ruoloUtenteIngressoVacca.trim() : null;
 	}
 
-	/** Metodo getter che ritorna il ruoloUtenteNascitaVitello
+	public Long getIdAutogenerato() {
+		return idAutogenerato;
+	}
+
+	public void setIdAutogenerato(Long idAutogenerato) {
+		this.idAutogenerato = idAutogenerato;
+	}
+
+	/**
+	 * Metodo getter che ritorna il ruoloUtenteNascitaVitello
+	 *
 	 * @return ruoloUtenteNascitaVitello
 	 */
 	public String getRuoloUtenteNascitaVitello() {
 		return ruoloUtenteNascitaVitello;
 	}
 
-	/** Metodo setter che imposta il ruoloUtenteNascitaVitello
+	/**
+	 * Metodo setter che imposta il ruoloUtenteNascitaVitello
+	 *
 	 * @param ruoloUtenteNascitaVitello ruoloUtenteNascitaVitello
 	 */
 	public void setRuoloUtenteNascitaVitello(String ruoloUtenteNascitaVitello) {
-		this.ruoloUtenteNascitaVitello = ruoloUtenteNascitaVitello;
+		this.ruoloUtenteNascitaVitello = null != ruoloUtenteNascitaVitello ? ruoloUtenteNascitaVitello.trim() : null;
 	}
 
-	/** Metodo getter che ritorna il ruoloUtenteIngressovitello
+	/**
+	 * Metodo getter che ritorna il ruoloUtenteIngressovitello
+	 *
 	 * @return ruoloUtenteIngressovitello
 	 */
 	public String getRuoloUtenteIngressovitello() {
 		return ruoloUtenteIngressovitello;
 	}
 
-	/** Metodo setter che imposta il ruoloUtenteIngressovitello
+	/**
+	 * Metodo setter che imposta il ruoloUtenteIngressovitello
+	 *
 	 * @param ruoloUtenteIngressovitello ruoloUtenteIngressovitello
 	 */
 	public void setRuoloUtenteIngressovitello(String ruoloUtenteIngressovitello) {
-		this.ruoloUtenteIngressovitello = ruoloUtenteIngressovitello;
+		this.ruoloUtenteIngressovitello = null != ruoloUtenteIngressovitello ? ruoloUtenteIngressovitello.trim() : null;
 	}
 
 	/**
@@ -412,7 +489,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 * @param sessoVitello sesso del vitello
 	 */
 	public void setSessoVitello(String sessoVitello) {
-		this.sessoVitello = sessoVitello;
+		this.sessoVitello = sessoVitello != null ? sessoVitello.trim() : null;
 	}
 
 	/**
@@ -468,7 +545,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 * @param codLibro codice libro genealogico se è iscritta
 	 */
 	public void setCodLibro(String codLibro) {
-		this.codLibro = codLibro;
+		this.codLibro = null != codLibro ? codLibro.trim() : null;
 	}
 
 	/**
@@ -518,6 +595,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta la data di nascita del vitello
+	 *
 	 * @param dtNascitaVitello data di nascita del vitello
 	 */
 	public void setDtNascitaVitello(Date dtNascitaVitello) {
@@ -571,6 +649,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta la data di fine detenzione
+	 *
 	 * @param dtFineDetenzione data di fine detenzione
 	 */
 
@@ -580,6 +659,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo get che ritorna il codice dell'azienda presso cui è nato il vitello
+	 *
 	 * @return aziendaCodice codice dell'azienda presso cui è nato il vitello
 	 */
 	public String getAziendaCodice() {
@@ -650,7 +730,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 *                campagna a piani di risanamento per la IBR
 	 */
 	public void setFlagIbr(String flagIbr) {
-		this.flagIbr = flagIbr;
+		this.flagIbr = null != flagIbr ? flagIbr.trim() : null;
 	}
 
 	/**
@@ -813,15 +893,15 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	}
 
 	/**
-	 * Metodo set che setta il flag che indica se l'allevamento è o meno autorizzato
-	 * a prorogare la marcatura dei capi entro 180 giorni dalla nascita
+	 * Metodo set che setta il flag che indica se l'allevamento è o meno
+	 * autorizzato a prorogare la marcatura dei capi entro 180 giorni dalla nascita
 	 *
 	 * @param flagProrogaMarcatura flag che indica se l'allevamento è o meno
 	 *                             autorizzato a prorogare la marcatura dei capi
 	 *                             entro 180 giorni dalla nascita
 	 */
 	public void setFlagProrogaMarcatura(String flagProrogaMarcatura) {
-		this.flagProrogaMarcatura = flagProrogaMarcatura;
+		this.flagProrogaMarcatura = null != flagProrogaMarcatura ? flagProrogaMarcatura.trim() : null;
 	}
 
 	/**
@@ -853,10 +933,11 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo set che setta il sesso del capo
+	 *
 	 * @param sesso sesso del capo animale
 	 */
 	public void setSesso(String sesso) {
-		this.sesso = sesso;
+		this.sesso = null != sesso ? sesso.trim() : null;
 	}
 
 	/**
@@ -892,7 +973,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	 * @param vitelloTipoOrigine flag che indica il tipo di origine del vitello
 	 */
 	public void setVitelloTipoOrigine(String vitelloTipoOrigine) {
-		this.vitelloTipoOrigine = vitelloTipoOrigine;
+		this.vitelloTipoOrigine = null != vitelloTipoOrigine ? vitelloTipoOrigine.trim() : null;
 	}
 
 	/**
@@ -953,15 +1034,16 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	/**
 	 * Metodo set che setta il flag che indica se l'allevamento ha conferito delega
 	 * per operare in BDN
+	 *
 	 * @param flagDelegato flag che indica se l'allevamento ha conferito delega
 	 */
 	public void setFlagDelegato(String flagDelegato) {
-		this.flagDelegato = flagDelegato;
+		this.flagDelegato = null != flagDelegato ? flagDelegato.trim() : null;
 	}
 
 	/**
-	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S, per
-	 * i dettagli vedere descrizione attributo.
+	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S,
+	 * per i dettagli vedere descrizione attributo.
 	 *
 	 * @return flagDelegatoIngressoVacca flag che può assumere i seguenti valori: N
 	 *         R S
@@ -971,41 +1053,41 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	}
 
 	/**
-	 * Metodo set che setta il flag che può assumere i seguenti valori: N R S, per i
-	 * dettagli vedere descrizione attributo
+	 * Metodo set che setta il flag che può assumere i seguenti valori: N R S, per
+	 * i dettagli vedere descrizione attributo
 	 *
-	 * @param flagDelegatoIngressoVacca flag che può assumere i seguenti valori: N R
-	 *                                  S
+	 * @param flagDelegatoIngressoVacca flag che può assumere i seguenti valori: N
+	 *                                  R S
 	 */
 	public void setFlagDelegatoIngressoVacca(String flagDelegatoIngressoVacca) {
-		this.flagDelegatoIngressoVacca = flagDelegatoIngressoVacca;
+		this.flagDelegatoIngressoVacca = null != flagDelegatoIngressoVacca ? flagDelegatoIngressoVacca.trim() : null;
 	}
 
 	/**
-	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S, per
-	 * i dettagli vedere desceizione attributo
+	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S,
+	 * per i dettagli vedere desceizione attributo
 	 *
-	 * @return flagDelegatoNascitaVitello flag che può assumere i seguenti valori: N
-	 *         R S.
+	 * @return flagDelegatoNascitaVitello flag che può assumere i seguenti valori:
+	 *         N R S.
 	 */
 	public String getFlagDelegatoNascitaVitello() {
 		return flagDelegatoNascitaVitello;
 	}
 
 	/**
-	 * Metodo set che ritorna il flag che può assumere i seguenti valori: N R S, per
-	 * i dettagli vedere descrizione attributo
+	 * Metodo set che ritorna il flag che può assumere i seguenti valori: N R S,
+	 * per i dettagli vedere descrizione attributo
 	 *
 	 * @param flagDelegatoNascitaVitello flag che può assumere i seguenti valori: N
 	 *                                   R S
 	 */
 	public void setFlagDelegatoNascitaVitello(String flagDelegatoNascitaVitello) {
-		this.flagDelegatoNascitaVitello = flagDelegatoNascitaVitello;
+		this.flagDelegatoNascitaVitello = null != flagDelegatoNascitaVitello ? flagDelegatoNascitaVitello.trim() : null;
 	}
 
 	/**
-	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S, per
-	 * i dettagli vedere desceizione attributo
+	 * Metodo get che ritorna il flag che può assumere i seguenti valori: N R S,
+	 * per i dettagli vedere desceizione attributo
 	 *
 	 * @return flagDelegatoIngressoVitello flag che può assumere i seguenti valori:
 	 *         N R S.
@@ -1015,18 +1097,20 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 	}
 
 	/**
-	 * Metodo set che ritorna il flag che può assumere i seguenti valori: N R S, per
-	 * i dettagli vedere descrizione attributo
+	 * Metodo set che ritorna il flag che può assumere i seguenti valori: N R S,
+	 * per i dettagli vedere descrizione attributo
 	 *
-	 * @param flagDelegatoIngressoVitello flag che può assumere i seguenti valori: N
-	 *                                    R S
+	 * @param flagDelegatoIngressoVitello flag che può assumere i seguenti valori:
+	 *                                    N R S
 	 */
 	public void setFlagDelegatoIngressoVitello(String flagDelegatoIngressoVitello) {
-		this.flagDelegatoIngressoVitello = flagDelegatoIngressoVitello;
+		this.flagDelegatoIngressoVitello = null != flagDelegatoIngressoVitello ? flagDelegatoIngressoVitello.trim()
+				: null;
 	}
 
 	/**
 	 * Metodo getter che ritorna l'identificativo univoco associato all'esecuzione
+	 *
 	 * @return idSessione identificativo univoco associato all'esecuzione
 	 */
 	public Dmt_t_sessione getIdSessione() {
@@ -1035,6 +1119,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo setter che imposta l'identificativo univoco associato all'esecuzione
+	 *
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
@@ -1043,6 +1128,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo getter che ritorna il codice intervento
+	 *
 	 * @return codicePremio codice intervento
 	 */
 	public String getCodicePremio() {
@@ -1051,6 +1137,7 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 
 	/**
 	 * Metodo setter che imposta il codice intervento
+	 *
 	 * @param codicePremio codice premio
 	 */
 	public void setCodicePremio(String codicePremio) {
@@ -1065,6 +1152,5 @@ public class Dmt_t_Tws_bdn_du_capi_bovini implements Serializable {
 			Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse) {
 		this.dmt_d_clsPremio_ValidazioneResponse = dmt_d_clsPremio_ValidazioneResponse;
 	}
-
 
 }

@@ -33,10 +33,9 @@ public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 	private static final long serialVersionUID = -7714621328382699088L;
 
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	@Id
 	@Column(name = "CUAA_AZIENDA")
@@ -1149,12 +1148,12 @@ public class Dmt_t_Tlatte_sintesi_analisi implements Serializable {
 		return all_asl;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setCuaa_azienda(String cuaa_azienda) {

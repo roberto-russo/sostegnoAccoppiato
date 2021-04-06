@@ -1,12 +1,13 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
-import java.util.List;
-
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.ControlliService;
+
+import java.util.List;
 
 public abstract class Controllo {
 
@@ -18,19 +19,23 @@ public abstract class Controllo {
 
     /**
      * preEsecuzione dei controlli
+     *
+     * @param <T>
      * @throws ControlloException eccezione relativa al controllo  di tipo {@link ControlloException}
      * @throws CalcoloException   eccezione relativa al calcolo    di tipo {@link CalcoloException}
      */
-    abstract public void preEsecuzione() throws ControlloException, CalcoloException;
+    abstract public <T> List<T> preEsecuzione() throws ControlloException, CalcoloException;
 
     /**
      * esecuzione dei controlli
+     *
      * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
      */
-    abstract public void esecuzione() throws ControlloException;
+    abstract public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException;
 
     /**
-     * postEsecuzione dei controlli
+     * postEsecuzione dei controlli,
+     *
      * @throws ControlloException eccezione riferita al controllo di tipo {@link ControlloException}
      */
     abstract public void postEsecuzione() throws ControlloException;
@@ -62,6 +67,6 @@ public abstract class Controllo {
     public String getInput() {
         return getAzienda().getCuaa() + "|" + getAzienda().getCodicePremio();
     }
-    
+
     abstract public <T> List<T> controlloCapiDichiarati(List<T> capiBDN);
 }

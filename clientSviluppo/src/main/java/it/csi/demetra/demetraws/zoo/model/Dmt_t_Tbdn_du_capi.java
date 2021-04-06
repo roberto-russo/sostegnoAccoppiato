@@ -16,8 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
-
 /**
  * Model dei Capi per Premio ed allevamento scaricati da BDN con Web Service
  * relativi alle Domande Uniche.
@@ -43,14 +41,14 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	/**
 	 * Identificativo univoco associato all'esecuzione
 	 */
 	private Dmt_t_sessione idSessione;
 
 	@ManyToOne
-	@JoinColumn(name = "FK_dmt_d_clsPrem_Valid", nullable = true)
+	@JoinColumn(name = "FK_DMT_D_CLS_PREM_VALID", nullable = true)
 	private Dmt_d_clsPremio_ValidazioneResponse dmt_d_clsPremio_ValidazioneResponse;
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -99,11 +97,10 @@ public class Dmt_t_Tbdn_du_capi implements Serializable {
 
 	@Column(name = "COD_RAZZA")
 	@NotNull
-	@ColumnDefault("'TRB'")
 	/**
 	 * Codice della razza del capo
 	 */
-	private String razzaCodice;
+	private String razzaCodice = "TRB";
 
 	@Column(name = "DATA_INIZIO_DETENZ")
 	@Temporal(TemporalType.DATE)

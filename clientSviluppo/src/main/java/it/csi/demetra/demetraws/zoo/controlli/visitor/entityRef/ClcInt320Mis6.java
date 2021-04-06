@@ -1,264 +1,269 @@
 package it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.calcoli.CtlAgnelleDaRimonta;
-import it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.CapiControllati9902;
 import it.csi.demetra.demetraws.zoo.calcoli.entity.ResultCtlUbaMinime;
 import it.csi.demetra.demetraws.zoo.controlli.UtilControlli;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_Tws_bdn_du_capi_ovicaprini;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_anagrafica_allevamenti;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_contr_loco;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli;
-import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
-import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
+import it.csi.demetra.demetraws.zoo.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * La classe ClcInt320Mis6 indica i controlli da applicare per il calcolo del
  * premio zootecnia per l’intervento 320 – Misura 6:<br>
  * agnelle da rimonta
- * 
+ *
  * @author Bcsoft
  */
 @Component("ClcInt320Mis6")
 public class ClcInt320Mis6 extends Controllo {
 
-	/* MODEL DA INIZIALIZZARE PER I CONTROLLI */
-	private ResultCtlUbaMinime ubaMin;
-	private List<Dmt_t_contr_loco> estrazioneACampione;
-	private Dmt_t_anagrafica_allevamenti modelAllevamenti;
-	private BigDecimal numeroCapiAmmissibili;
-	private BigDecimal numeroCapiRichiesti;
-	private Integer capiSanzionati;
-	private Dmt_t_output_controlli oc;
-	private Rpu_V_pratica_zoote richiestaDetentore;
-	private List<Dmt_t_premio_capi> capiAmmessiUba;
-	private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> modelOvicaprini;
 
-	@Autowired
-	private CtlUbaMinime ref9903;
+    /* MODEL DA INIZIALIZZARE PER I CONTROLLI */
+    private ResultCtlUbaMinime ubaMin;
+    private List<Dmt_t_contr_loco> estrazioneACampione;
+    private Dmt_t_anagrafica_allevamenti modelAllevamenti;
+    private BigDecimal numeroCapiAmmissibili;
+    private BigDecimal numeroCapiRichiesti;
+    private Integer capiSanzionati;
+    private Dmt_t_output_controlli oc;
+    private Rpu_V_pratica_zoote richiestaDetentore;
+    private List<Dmt_t_premio_capi> capiAmmessiUba;
+    private List<Dmt_t_Tws_bdn_du_capi_ovicaprini> modelOvicaprini;
 
-	@Autowired
-	private CtlAgnelleDaRimonta ref9902;
+    @Autowired
+    private CtlAgnelleDaRimonta ref9902;
 
-	/**
-	 * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
-	 * prima è l'inizializzazione delle variabili di classe. La seconda è
-	 * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di
-	 * tali controlli pregiudica l'esecuzione del calcolo stesso. Se l'esecuzione ha
-	 * esito positivo, allora si può procedere con il calcolo intervento 320 misura
-	 * 6. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
-	 * errore. il metodo preEsecuzione esegue i controlli: <br>
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlAgnelleDaRimonta} e
-	 * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void preEsecuzione() throws ControlloException, CalcoloException {
-		this.numeroCapiRichiesti = BigDecimal.ZERO;
-		this.estrazioneACampione = null;
-		this.numeroCapiAmmissibili = new BigDecimal(0);
-		this.oc = null;
-		this.richiestaDetentore = null;
-		this.ubaMin = new ResultCtlUbaMinime();
-		this.modelAllevamenti = null;
-		this.capiAmmessiUba = null;
-		this.capiSanzionati = 0;
-		
-		try {
+    /**
+     * nel metodo preEsecuzione vengono effettuate due operazioni principali. La
+     * prima è l'inizializzazione delle variabili di classe. La seconda è
+     * l'esecuzione dei controlli di preammissibilità trasversali. Il risultato di
+     * tali controlli pregiudica l'esecuzione del calcolo stesso. Se l'esecuzione ha
+     * esito positivo, allora si può procedere con il calcolo intervento 320 misura
+     * 6. Se l'esecuzione ha esito negativo, allora viene generato un messaggio di
+     * errore. il metodo preEsecuzione esegue i controlli: <br>
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlAgnelleDaRimonta} e
+     * {@link it.csi.demetra.demetraws.zoo.calcoli.CtlUbaMinime}
+     *
+     * @return
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public List<Dmt_t_Tws_bdn_du_capi_ovicaprini> preEsecuzione() throws ControlloException, CalcoloException {
+        System.out.println("INIZIO CALCOLO INTERVENTO 320 MISURA 6");
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO PRE-ESECUZIONE");
 
-			// CALCOLO TRASVERSALE REF9902
+        this.numeroCapiRichiesti = BigDecimal.ZERO;
+        this.estrazioneACampione = null;
+        this.numeroCapiAmmissibili = new BigDecimal(0);
+        this.oc = null;
+        this.richiestaDetentore = null;
+        this.modelAllevamenti = null;
+        this.capiAmmessiUba = null;
+        this.capiSanzionati = 0;
 
-			this.modelOvicaprini = this.controlloCapiDichiarati(
-					getControlliService().getOvicapriniBySessioneCuaaCodIntervento(getSessione().getIdSessione(),
-							getAzienda().getCuaa(), getAzienda().getCodicePremio()));
-			ref9902.init(getSessione().getIdSessione(), getAzienda().getCodicePremio(),
-					Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
+        try {
 
-			CapiControllati9902 esito = ref9902.calcolo();
+            // CALCOLO TRASVERSALE REF9902
 
-			if (!esito.isEsito())
-				// controllare che motivazioni ti da
-				throw new CalcoloException(esito.getMotivazioni());
+            this.modelOvicaprini = getControlliService().getOvicapriniBySessioneCuaaCodIntervento(
+                    getSessione().getIdSessione(), getAzienda().getCuaa(), getAzienda().getCodicePremio());
+            ref9902.init(getSessione().getIdSessione(), getAzienda().getCodicePremio(),
+                    Long.valueOf(getAzienda().getAnnoCampagna()), getAzienda().getCuaa());
 
-		} catch (CalcoloException e) {
-			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
-		}
+            CapiControllati9902 esito = ref9902.calcolo();
 
-		// CALCOLO TRASVERSALE 9903
+            if (!esito.isEsito()) {
+                // controllare che motivazioni ti da
+                System.out.println(
+                        "ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO AGNELLE DA RIMONTA REF99.02");
+                throw new CalcoloException(esito.getMotivazioni());
+            }
 
-		ref9903.init(this.modelOvicaprini, getAzienda().getCodicePremio(), Long.valueOf(getAzienda().getAnnoCampagna()),
-				getAzienda().getCuaa(), getSessione());
-		try {
-			this.ubaMin = ref9903.calcolo();
+        } catch (CalcoloException e) {
+            System.out.println(
+                    "ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE IL CALCOLO ANGELLE DA RIMONTA REF99.02");
+            throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9902", getInput(), e.getMessage()));
+        }
 
-			if (ubaMin.isErrors())
-				throw new CalcoloException("errore durante l'esecuzione del controllo delle uba minime");
-			else if (!ubaMin.isResult())
-				throw new ControlloException(new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(),
-						"controllo uba minime non rispettato"));
+        // LISTA DI CAPI AMMESSI
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE PRE-ESECUZIONE");
+        System.out.println(
+                "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 320 MISURA 6 SONO STATI ESEGUITI CORRETTAMENTE ✔");
 
-		} catch (CalcoloException e) {
-			throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9903", getInput(), e.getMessage()));
-		}
+        return modelOvicaprini;
 
-		// LISTA DI CAPI AMMESSI
+    }
 
-		capiAmmessiUba = ubaMin.getListaCapi();
+    /**
+     * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento
+     * 320 misura 6. Se i controlli per il suddetto calcolo risultano essere
+     * positivi, allora viene incrementato il contatore di capi ammissibili e il
+     * capo sarà visibile in
+     * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}.
+     *
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
 
-	}
+        this.capiAmmessiUba = listUbaMinime;
 
-	/**
-	 * nel metodo esecuzione vengono eseguiti i controlli per il calcolo intervento
-	 * 320 misura 6. Se i controlli per il suddetto calcolo risultano essere
-	 * positivi, allora viene incrementato il contatore di capi ammissibili e il
-	 * capo sarà visibile in
-	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}.
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void esecuzione() throws ControlloException {
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO ESECUZIONE");
 
 //		SIZE DI UNA SELECT * DALLA TABELLA OVICAPRINI IN BASE ALLA SESSIONE, CUAA E CODICE PREMIO DEL RICHIEDENTE CHE SERVE ADAVERE IL NUMERO DI CAPI RICHIESTI
-		this.numeroCapiRichiesti = BigDecimal.valueOf(this.modelOvicaprini.size());
+        this.numeroCapiRichiesti = BigDecimal.valueOf(this.modelOvicaprini.size());
 
 //		QUERY SULLA TABELLA DELL'ESTRAZIONE A CAMPIONE "DMT_T_CONTR_LOCO"
-		this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
-				getAzienda().getAnnoCampagna());
+        this.estrazioneACampione = getControlliService().getEsrtazioneACampioneByCuaa(getAzienda().getCuaa(),
+                getAzienda().getAnnoCampagna());
 
-		if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
+        if (this.estrazioneACampione == null || this.estrazioneACampione.isEmpty()) {
 
-			try {
-				for (Dmt_t_premio_capi capi : capiAmmessiUba) {
+            try {
+                for (Dmt_t_premio_capi capi : capiAmmessiUba) {
 
 //				CUAA DETENTORE
 
-					String detentore = getControlliService().getCodFiscaleDetenByAziendaCodiceAndIdSessione(
-							capi.getCodiceAzienda(), this.getSessione().getIdSessione());
+                    String detentore = getControlliService().getCodFiscaleDetenByAziendaCodiceAndIdSessione(
+                            capi.getCodiceAzienda(), this.getSessione().getIdSessione());
 
 //				CUAA PROPRIETARIO
-					String proprietario = capi.getCuaa();
+                    String proprietario = capi.getCuaa();
 
-					// SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
-					
-					if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
-							this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), capi.getIdCapo(),
-							this.getControlliService())) {
+                    // SE IL BENEFICIARIO DEL CAPO DOPPIO VA SCELTO IN BASE AL CAA
 
-						this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                    if (UtilControlli.isBeneficiarioCapiDoppi(this.getAzienda().getAnnoCampagna(),
+                            this.getAzienda().getCodicePremio(), this.getAzienda().getCuaa(), capi.getIdCapo(),
+                            this.getControlliService())) {
 
-					} else {
+                        this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
-						// ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN
-						// MANIERA CLASSICA
+                    } else {
 
-						if (detentore != null && !detentore.isEmpty()) {
+                        // ALTRIMENTI SI PROCEDE ALLA DETERMINAZIONE DEL BENEFICIARIO DEL CAPO DOPPIO IN
+                        // MANIERA CLASSICA
+
+                        if (detentore != null && !detentore.isEmpty()) {
 
 //				SE CUAA DETENTORE E CUAA PROPRIETARIO COINCIDONO IL CONTATORE INCREMENTA
-							if (proprietario.equals(detentore)) {
-								if (proprietario.equals(getAzienda().getCuaa())) {
-									numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-								}
+                            if (proprietario.equals(detentore)) {
+                                if (proprietario.equals(getAzienda().getCuaa())) {
+                                    numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                                }
 
 //					SE CUAA DETENTORE E CUAA PROPRIETARIO NON COINCIDONO
-							} else {
+                            } else {
 
 //					VIENE CONTROLLATO SE IL RICHIEDENTE È IL DENTENTORE
-								if (detentore.equals(getAzienda().getCuaa())) {
-									numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                                if (detentore.equals(getAzienda().getCuaa())) {
+                                    numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
 //					SE IL RICHIEDENTE NON È DETENTORE
-								} else {
+                                } else {
 
 //						QUERY SU RPU_V_PRATICA_ZOOTE CHE CONTROLLA SE LA RICHIESTA È GIÀ STATA FATTA DAL DETENTORE
-									richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremio(
-											getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio());
+                                    richiestaDetentore = getControlliService().getByAnnoCampagnaAndCuaaAndCodicePremio(
+                                            getAzienda().getAnnoCampagna(), detentore, getAzienda().getCodicePremio());
 
 //						SE NON TROVA VALORI NELLA TABELLA 
-									if (richiestaDetentore == null) {
-										numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                                    if (richiestaDetentore == null) {
+                                        numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
 //							SE TROVA TROVA VALORI
-									} else {
+                                    } else {
 
 //							DA CONTROLLARE SE DEVE FARE ALTRO
-										System.out.println(
-												"il premio è già stato chiesto dal detentore dell'allevamento");
-									}
-								}
-							}
-						} else {
-							new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "",
-									"errore, cuaa proprietario o cuaa detentore non trovato");
-						}
-					}
-				}
-				if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
-					throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
-							+ " nessun capo ha suprato il controllo per il premio 320 misura 6");
-				}
+                                        if (1==1)
+                                            System.out.println(
+                                                    "CALCOLO INTERVENTO 320 MISURA 6, IL PREMIO E' GIA' STATO CHIESTO DAL DETENTORE DELL'ALLEVAMENTO");
+                                    }
+                                }
+                            }
+                        } else {
+                            System.out.println(
+                                    "ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE CUAA PROPRIETARIO/CUAA DETENTORE NON TROVATO");
+                            new Dmt_t_errore(this.getSessione(), this.getClass().getSimpleName(), "",
+                                    "errore, cuaa proprietario o cuaa detentore non trovato");
+                        }
+                    }
+                }
+                if (numeroCapiAmmissibili.compareTo(BigDecimal.ZERO) == 0) {
+                    System.out.println(
+                            "ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO HA SUPERATO IL CONTROLLO PER IL PREMIO");
+                    throw new ControlloException("per il cuaa " + getAzienda().getCuaa()
+                            + " nessun capo ha suprato il controllo per il premio 320 misura 6");
+                }
 
-			} catch (ControlloException e) {
-				// GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
-				new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
-			} catch (NullPointerException e) {
-				throw new ControlloException(
-						new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
-			}
-		}
+            } catch (ControlloException e) {
+                // GESTIONE DEL FALLIMENTO DELL'ESECUZIONE
+                System.out.println(
+                        "ERRORE CALCOLO INTERVENTO 320 MISURA 6, ERRORE DURANTE L'ESECUZIONE DEL CALCOLO PER L'INTERVENTO 320 MISURA 6");
+                new Dmt_t_errore(getSessione(), "ClcInt320Mis6", getInput(), e.getMessage());
+            } catch (NullPointerException e) {
+                System.out.println("ERRORE CALCOLO INTERVENTO 320 MISURA 6, NESSUN CAPO DISPONIBILE");
+                throw new ControlloException(
+                        new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
+            }
+        } else {
+            // verifica controlli in loco
+            for (Dmt_t_contr_loco c : this.estrazioneACampione)
+                if (!c.getAnomalie_cgo().contains("B"))
+                    this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+        }
 
-		else {
-			// verifica controlli in loco
-			for (Dmt_t_contr_loco c : this.estrazioneACampione)
-				if (!c.getAnomalie_cgo().contains("B"))
-					this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-		}
-	}
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE ESECUZIONE");
+    }
 
-	/**
-	 * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
-	 * ammessi a premio in
-	 * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Per i capi
-	 * risultanti idonei al premio in questione, sarà salvata l'informazione
-	 * dell'anno campagna per cui concorrono, il numero di capi ammessi a premio, il
-	 * cuaa che ha presentato la domanda e il codice premio e il numero dei capi
-	 * richiesti a premio.
-	 * 
-	 * @throws ControlloException eccezione relativa al controllo di tipo
-	 *                            {@link ControlloException}
-	 */
-	@Override
-	public void postEsecuzione() throws ControlloException {
+    /**
+     * nel metodo postEsecuzione vengono salvati a db i dati relativi ai capi
+     * ammessi a premio in
+     * {@link it.csi.demetra.demetraws.zoo.model.Dmt_t_output_controlli}. Per i capi
+     * risultanti idonei al premio in questione, sarà salvata l'informazione
+     * dell'anno campagna per cui concorrono, il numero di capi ammessi a premio, il
+     * cuaa che ha presentato la domanda e il codice premio e il numero dei capi
+     * richiesti a premio.
+     *
+     * @throws ControlloException eccezione relativa al controllo di tipo
+     *                            {@link ControlloException}
+     */
+    @Override
+    public void postEsecuzione() throws ControlloException {
+        // SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, INIZIO POST-ESECUZIONE");
+        if (null != this.numeroCapiRichiesti && numeroCapiRichiesti.longValue() != 0) {
+            this.oc = new Dmt_t_output_controlli();
+            this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
+            this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
+            this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
+            this.oc.setCapiSanzionati(capiSanzionati);
+            this.oc.setCuaa(getAzienda().getCuaa());
+            this.oc.setIntervento(getAzienda().getCodicePremio());
+            this.oc.setIdSessione(getSessione());
+        }
+        getControlliService().saveOutput(this.oc);
 
-		// SALVATAGGIO IN TABELLA OUTPUT CONTROLLI
-		this.oc = new Dmt_t_output_controlli();
-		this.oc.setAnnoCampagna(getAzienda().getAnnoCampagna());
-		this.oc.setCapiAmmissibili(this.numeroCapiAmmissibili);
-		this.oc.setCapiRichiesti(this.numeroCapiRichiesti);
-		this.oc.setCapiSanzionati(capiSanzionati);
-		this.oc.setCuaa(getAzienda().getCuaa());
-		this.oc.setIntervento(getAzienda().getCodicePremio());
-		this.oc.setIdSessione(getSessione());
-		getControlliService().saveOutput(this.oc);
-	}
+        if (1==1)
+            System.out.println("CALCOLO INTERVENTO 320 MISURA 6, FINE POST-ESECUZIONE");
+        System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 320 MISURA 6");
+    }
 
-	@Override
-	public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
-
-		return Collections.emptyList();
-	}
+    @Override
+    public <T> List<T> controlloCapiDichiarati(List<T> capiBDN) {
+        return Collections.emptyList();
+    }
 
 }

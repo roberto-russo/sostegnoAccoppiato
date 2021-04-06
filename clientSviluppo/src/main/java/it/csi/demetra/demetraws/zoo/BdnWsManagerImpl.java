@@ -21,6 +21,7 @@ import java.util.List;
 @Component
 public class BdnWsManagerImpl {
 
+
     @Autowired
     SaveOnDbService save;
 
@@ -36,7 +37,11 @@ public class BdnWsManagerImpl {
     }
 
     public void connectWsBridge2() {
+
+
         this.wsBridge2 = new WSBridgeService().getWSBridge2Port();
+
+        System.out.println("[BdnWsManagerImpl.connectWsBridge2] - END.");
     }
 
     public void getAnagraficaAllevamenti(String cuaa, Date dataRichiesta, String codiceIntervento, Dmt_t_sessione sessione) {
@@ -64,7 +69,7 @@ public class BdnWsManagerImpl {
             System.out.println(e.getMessage());
 
             Dmt_t_errore errore = new Dmt_t_errore();
-            String input = new String(codiceIntervento + " | " + cuaa + " | " + dataRichiesta + " | " + codiceIntervento + " | " + sessione.getIdSessione());
+            String input = codiceIntervento + " | " + cuaa + " | " + dataRichiesta + " | " + codiceIntervento + " | " + sessione.getIdSessione();
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
             errore.setNomeMetodo("getAnagraficaAllevamenti");
@@ -101,7 +106,7 @@ public class BdnWsManagerImpl {
 //			System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL GET ELENCO CAPI PREMIO");
             Dmt_t_errore errore = new Dmt_t_errore();
 
-            String input = new String(codiceIntervento + " | " + cuaa + " | " + anno_campagna + " | " + sessione.getIdSessione());
+            String input = codiceIntervento + " | " + cuaa + " | " + anno_campagna + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
@@ -143,7 +148,7 @@ public class BdnWsManagerImpl {
 //			System.out.println("LA CHIAMATA AL METODO DELLA BDN E' NULL METODO GET ELENCO CAPI PREMIO 2");
             Dmt_t_errore errore = new Dmt_t_errore();
 
-            String input = new String(idAlleBdn + " | " + codiceIntervento + " | " + cuaa + " | " + cuua2 + " | " + annoCampagna + " | " + sessione.getIdSessione());
+            String input = idAlleBdn + " | " + codiceIntervento + " | " + cuaa + " | " + cuua2 + " | " + annoCampagna + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
@@ -191,7 +196,7 @@ public class BdnWsManagerImpl {
 //			else
 //				System.out.println("CODICE ERRORE PIENO");
 
-            String input = new String(p_cuaa + " | " + data_inizio_periodo + " | " + Data_fine_periodo + " | " + p_tipo_responsabilita + " | " + sessione.getIdSessione());
+            String input = p_cuaa + " | " + data_inizio_periodo + " | " + Data_fine_periodo + " | " + p_tipo_responsabilita + " | " + sessione.getIdSessione();
 
             errore.setErrorecodice("-1");
             errore.setErroreDesc("dati non disponibili");
@@ -199,6 +204,9 @@ public class BdnWsManagerImpl {
             errore.setInput(input);
 //			System.out.println("ID SESSIONE ERRORE: " + sessione.getIdSessione());
             errore.setIdSessione(sessione);
+            System.out.println("---  PRINT ERRORE -----");
+            System.out.println(sessione);
+            System.out.println(errore);
             erroreService.saveError(errore);
 
 //			System.out.println("FINE SALVATAGGIO A DB DELL'ERRORE");
@@ -210,6 +218,6 @@ public class BdnWsManagerImpl {
     }
 
     public void duplicaSessioneByCuaa(Rpu_V_pratica_zoote azienda, Dmt_t_sessione sessioneOld, Dmt_t_sessione sessioneNew) {
-		save.duplicaSessioneByCuaa(azienda,sessioneOld,sessioneNew);
+        save.duplicaSessioneByCuaa(azienda, sessioneOld, sessioneNew);
     }
 }

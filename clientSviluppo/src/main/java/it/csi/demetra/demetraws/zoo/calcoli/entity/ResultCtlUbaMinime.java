@@ -1,40 +1,40 @@
 package it.csi.demetra.demetraws.zoo.calcoli.entity;
-import java.util.List;
 
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_premio_capi;
 
+import java.util.List;
+import java.util.Map;
+
 public class ResultCtlUbaMinime {
 
-	private boolean result;
-	
-	private boolean errors;
-	
-	private List<Dmt_t_premio_capi> listaCapi;
+    private boolean result;
 
-	public boolean isResult() {
-		return result;
-	}
+    private boolean errors;
 
-	public void setResult(boolean result) {
-		this.result = result;
-	}
+    private Map<String, List<Dmt_t_premio_capi>> listaCapi;
 
-	public boolean isErrors() {
-		return errors;
-	}
+    public boolean isResult() {
+        return result;
+    }
 
-	public void setErrors(boolean errors) {
-		this.errors = errors;
-	}
+    public void setResult(boolean result) {
+        this.result = result;
+    }
 
-	public List<Dmt_t_premio_capi> getListaCapi() {
-		return listaCapi;
-	}
+    public boolean isErrors() {
+        return errors;
+    }
 
-	public void setListaCapi(List<Dmt_t_premio_capi> listaCapi) {
-		this.listaCapi = listaCapi;
-	}
-	
-	
-	
+    public void setErrors(boolean errors) {
+        this.errors = errors;
+    }
+
+    public Map<String, List<Dmt_t_premio_capi>> getListaCapi() {
+        return listaCapi;
+    }
+
+    public void setListaCapi(Map<String, List<Dmt_t_premio_capi>> listaCapi) {
+        this.listaCapi = listaCapi;
+    }
+
 }

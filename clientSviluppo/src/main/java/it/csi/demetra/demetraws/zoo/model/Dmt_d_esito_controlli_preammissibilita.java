@@ -21,10 +21,9 @@ public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
 
     private static final long serialVersionUID = -5710450180310221303L;
 
-    @MapsId
-    @ManyToOne
-    @JoinColumn(name = "idSessione", nullable = false)
-    private Dmt_t_sessione idSessione;
+    @Id
+    @Column(name = "id_sessione", nullable = false)
+    private Long idSessione;
 
     @Id
     @Column(name = "ID")
@@ -112,11 +111,11 @@ public class Dmt_d_esito_controlli_preammissibilita implements Serializable {
         this.msg = msg;
     }
 
-    public Dmt_t_sessione getIdSessione() {
+    public Long getIdSessione() {
         return idSessione;
     }
 
     public void setIdSessione(Dmt_t_sessione sessione) {
-        this.idSessione = sessione;
+        this.idSessione = sessione.getIdSessione();
     }
 }

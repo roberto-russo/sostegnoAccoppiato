@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import it.csi.demetra.demetraws.zoo.compositeIds.Dmt_w_Tpremio_zoo_id;
 
@@ -29,10 +28,9 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 */
 	private static final long serialVersionUID = -8597274421755170023L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
-	private Dmt_t_sessione idSessione;
+	@Id
+	@Column(name = "id_sessione")
+	private Long idSessione;
 
 	/*
 	 * Rif azienda
@@ -79,9 +77,8 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 */
 	@Id
 	@Column(name = "COD_SPECIE")
-	@ColumnDefault("'TCA'")
 	@NotNull
-	private String cod_specie;
+	private String cod_specie = "TCA";
 
 	/*
 	 * Denominazione
@@ -94,9 +91,8 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 	 * Codice Titolarità
 	 */
 	@Column(name = "COD_TITOLARITA")
-	@ColumnDefault("'TCP'")
 	@NotNull
-	private String cod_titolarita;
+	private String cod_titolarita = "TCP";
 
 	/*
 	 * Sottocodice Titolarità
@@ -543,12 +539,12 @@ public class Dmt_w_Tpremio_zoo implements Serializable {
 		this.vacche_nutrici_ng = vacche_nutrici_ng;
 	}
 
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	public void setId_azienda(Long id_azienda) {

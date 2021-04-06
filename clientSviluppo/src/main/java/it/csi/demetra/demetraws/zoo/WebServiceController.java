@@ -5,16 +5,14 @@ import it.csi.demetra.demetraws.zoo.calcoli.CalcoloException;
 import it.csi.demetra.demetraws.zoo.controlli.ControlliFramework;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.ControlloException;
 import it.csi.demetra.demetraws.zoo.controlli.visitor.entityRef.ref03;
+import it.csi.demetra.demetraws.zoo.model.Dmt_t_errore;
 import it.csi.demetra.demetraws.zoo.model.Dmt_t_sessione;
 import it.csi.demetra.demetraws.zoo.model.Rpu_V_pratica_zoote;
 import it.csi.demetra.demetraws.zoo.services.*;
 import it.csi.demetra.demetraws.zoo.transformer.TransformerData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,13 +45,6 @@ public class WebServiceController {
     @Autowired
     private ref03 calcoloRef03;
 
-    // se invocato con chiamata POST restituisce in console il token d'accesso
-//    @RequestMapping("/bdn")
-//    public void bdn() throws IOException {
-//        BdnHttpServices bdnHttpServices = new BdnHttpServices();
-//        bdnHttpServices.httpClientPost();
-//    }
-
     /**
      * l'endpoint calcoloArt52/_ANNO_ permette di calcolare i premi corrispondenti per l'anno campagna parametrizzato passato nella url.
      * Il controller esegue per ogni soggetto lo scarico dei dati dalla BDN. Solamente una volta completato, con esito positivo,
@@ -61,44 +52,84 @@ public class WebServiceController {
      * un'eccezione contenente un log dettagliato dell'errore ottenuto.
      * Alla fine della procedura sarà possibile ripercorrere lo storico delle operazione in DB.
      *
-     * @param annoCampagna anno della campagna
+     * @param annoCampagna anno dreella campagna
      */
 
-    @GetMapping(value = "/calcoloArt52/{annoCampagna}")
-    public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna, @PathParam("tipoEsecuzione") String tipoEsecuzione) {
+    @RequestMapping(value = "/calcoloArt52/{annoCampagna}", method = RequestMethod.GET)
+    public void calcoloArt52(@PathVariable("annoCampagna") Integer annoCampagna, @RequestParam("tipoEsecuzione") String tipoEsecuzione) {
         Dmt_t_sessione sessione = sessioneService.saveSession(new Dmt_t_sessione());
-        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna);
-        ;
+//        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna);
         TransformerData transformer = new TransformerData();
         List<Rpu_V_pratica_zoote> listParziale = transformer.transformCuaa(this.cuaaScaricoServices.getAll(annoCampagna));
+        List<Rpu_V_pratica_zoote> listVista = listParziale; // IN TEST
+//        List<Rpu_V_pratica_zoote> listVista = aziendaService.getAll(annoCampagna); // IN PROD
 
 
-        eseguiScarico(listVista, (listParziale != null && listParziale.size() > 0) ? listParziale : listVista, sessione, annoCampagna, tipoEsecuzione);
+        List<Rpu_V_pratica_zoote> listaScarico = eseguiScarico(listVista, (listParziale != null && listParziale.size() > 0) ? listParziale : listVista, sessione, annoCampagna, tipoEsecuzione);
         if (!tipoEsecuzione.equals("2")) {
-            eseguiControlli(listVista, annoCampagna, sessione);
-            eseguiCalcoli(listVista, sessione);
+            eseguiControlli(listaScarico, annoCampagna, sessione);
+            eseguiCalcoli(listaScarico, sessione);
         }
 
-        System.out.println("Download dei dati dalla BDN completato\nInizio i controlli");
+        System.out.println("Download dei dati dalla BDN completato");
 
     }
 
     private void eseguiControlli(List<Rpu_V_pratica_zoote> listaCuaa, Integer annoCampagna, Dmt_t_sessione sessione) {
+        System.out.println("INIZIO CONTROLLI SU N.ELEMENTI -> " + listaCuaa.size());
+        List<String> cuaaProcessed = new ArrayList<String>();
         for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+            if (cuaaProcessed.contains(azienda.getCuaa()))
+                continue;
             try {
-                controlliFramework.handleControlloCUUA(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
+                cuaaProcessed.add(azienda.getCuaa());
+                controlliFramework.handleControlloCUUA(getAllRpuFromCuaa(azienda.getCuaa(), listaCuaa), azienda.getCuaa(), annoCampagna,
+                        subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione);
             } catch (ControlloException e) {
-                if (null != e.getErrore())
-                    erroreService.saveError(e.getErrore());
-                else System.out.println(e.getMessage());
+                e.printStackTrace();
+                if (null != e.getErrore()) {
+                    Dmt_t_errore err = e.getErrore();
+                    err.setIdSessione(sessione);
+                    erroreService.saveError(err);
+                }
             } catch (CalcoloException e) {
-                System.out.println(e.getCause() + e.getMessage());
+                e.printStackTrace();
             }
         }
+
+    }
+
+    private List<Rpu_V_pratica_zoote> getAllRpuFromCuaa(String cuaa, List<Rpu_V_pratica_zoote> listRpu) {
+        List<Rpu_V_pratica_zoote> res = new ArrayList<Rpu_V_pratica_zoote>();
+        for (Rpu_V_pratica_zoote x : listRpu)
+            if (x.getCuaa().equals(cuaa))
+                res.add(x);
+
+        return res;
+    }
+
+
+    private Boolean isM19(String cp) {
+        return cp.equals("316") || cp.equals("317") || cp.equals("318") || cp.equals("319");
     }
 
     private void eseguiCalcoli(List<Rpu_V_pratica_zoote> listaCuaa, Dmt_t_sessione sessione) {
-        for (Rpu_V_pratica_zoote azienda : listaCuaa) {
+        System.out.println("INIZIO CALCOLI SU N.ELEMENTI -> " + listaCuaa.size());
+        List<Rpu_V_pratica_zoote> newListAziende = new ArrayList<>();
+        // ELIMINO I DUPLICATI DEI CP M19 DALLA LISTA
+        for (Rpu_V_pratica_zoote v : listaCuaa) {
+            Boolean find = false;
+            for (Rpu_V_pratica_zoote a : newListAziende) {
+                if (a.getCuaa().equals(v.getCuaa())) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find)
+                newListAziende.add(v);
+        }
+
+        for (Rpu_V_pratica_zoote azienda : newListAziende) {
             calcoloRef03.inizializzazione(sessione, azienda);
             try {
                 calcoloRef03.esecuzione();
@@ -108,27 +139,32 @@ public class WebServiceController {
         }
     }
 
-    private void eseguiScarico(List<Rpu_V_pratica_zoote> listaVista,
-                               List<Rpu_V_pratica_zoote> listaParziale,
-                               Dmt_t_sessione sessione, Integer annoCampagna, String tipoEsecuzione) {
+    private List<Rpu_V_pratica_zoote> eseguiScarico(List<Rpu_V_pratica_zoote> listaVista,
+                                                    List<Rpu_V_pratica_zoote> listaParziale, Dmt_t_sessione sessione, Integer annoCampagna,
+                                                    String tipoEsecuzione) {
+        System.out.println("INIZIO SCARICO");
         List<Rpu_V_pratica_zoote> cuaaMancanti = new ArrayList<>();
+        List<Rpu_V_pratica_zoote> result = new ArrayList<>();
         if (tipoEsecuzione.equals("3"))
             cuaaMancanti = listaVista;
         else {
             for (Rpu_V_pratica_zoote azienda : listaParziale) {
-                if (!controlliFramework.
-                        scaricoDati(azienda, subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
-                    System.out.println("Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
+                if (!controlliFramework.scaricoDati(azienda,
+                        subentroService.getSubentro(annoCampagna, azienda.getCuaa()), sessione, annoCampagna)) {
+                    System.out.println(
+                            "Errore nello scarico dei dati per " + azienda.getCuaa() + " nell'anno" + annoCampagna);
                     cuaaMancanti.add(azienda);
                 } else {
                     System.out.println("Scarico dati completato per -> " + azienda.getCuaa());
+                    result.add(azienda);
                 }
             }
 
             for (Rpu_V_pratica_zoote azienda : listaVista) {
                 boolean trovato = false;
                 for (Rpu_V_pratica_zoote aziendaParz : listaParziale) {
-                    if (azienda.getCuaa().equals(aziendaParz.getCuaa())) {
+                    if (azienda.getCuaa().equals(aziendaParz.getCuaa())
+                            && azienda.getCodicePremio().equals(aziendaParz.getCodicePremio())) {
                         trovato = true;
                         break;
                     }
@@ -140,46 +176,20 @@ public class WebServiceController {
         }
 
         if (cuaaMancanti.size() > 0) {
-            Dmt_t_sessione sessioneOld = sessioneService.getById(sessione.getIdSessione() - 1);
+            System.out.println("INIZIO DUPLICAZIONE CUAA DA SESSIONE PRECEDENTE");
             for (Rpu_V_pratica_zoote a : cuaaMancanti) {
+                Dmt_t_sessione sessioneOld = sessioneService.getOldSessione(sessione.getIdSessione(), a.getCuaa(),
+                        a.getCodicePremio());
+                if (null == sessioneOld) {
+                    System.out.println("DUPLICATO NON TROVATO PER IL CUAA -> " + a.getCuaa());
+                    continue;
+                }
                 controlliFramework.duplicaSessioneByCuaa(a, sessioneOld, sessione);
+                result.add(a);
+
+                System.out.println("DUPLICATO CORRETTAMENTE CUAA -> " + a.getCuaa());
             }
         }
+        return result;
     }
-
-    /* PROVA CHIAMATA AL DATABASE ORACLE */
-//    @GetMapping(value = "/chiamataDb/{annoCampagna}")
-//    public String chiamataDb(@PathVariable("annoCampagna") Integer annoCampagna) {
-//        List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
-//        System.out.println(list.size());
-//        System.out.println("--- STAMPO INFORMAZIONI ---");
-//        for (Rpu_V_pratica_zoote x : list)
-//            System.out.println(x.toString());
-//        if (list.isEmpty())
-//            return "KO";
-//        else
-//            return "OK";
-//    }
-//
-//    @GetMapping(value = "/proceduraCuua/{annoCampagna}")
-//    public String proceduraCuua2(@PathVariable("annoCampagna") Integer annoCampagna) throws ParseException {
-//        List<Rpu_V_pratica_zoote> list = aziendaService.getAll(annoCampagna);
-//        WSBridge2 wsBridge2 = new WSBridgeService().getWSBridge2Port();
-//
-//        try {
-//
-//            Dmt_t_subentro_zoo subentro;
-//
-//
-//            for (Rpu_V_pratica_zoote x : list) {
-//                System.out.println("PROVO CHIAMATA CON CUAA: " + x.getCuaa());
-//                subentro = subentroService.getSubentro(2018, x.getCuaa());
-//                response = wsBridge2.getElencoCapiPremio2New(0, x.getCodicePremio(), x.getCuaa(), subentro.getCuaaSubentro(), 2018);
-//                System.out.println("---------- INFORMAZIONI RESPONSE METODO GET ELENCO CAPI PREMIO 2 ----------");
-//            }
-//        } catch (WSBridgeInternalException_Exception | IndexOutOfBoundsException | NullPointerException e) {
-//            e.printStackTrace();
-//        }
-//        return "Procedura avviata";
-//    }
 }

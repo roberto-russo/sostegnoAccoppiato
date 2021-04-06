@@ -21,13 +21,12 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 
 	private static final long serialVersionUID = 5643073399146782350L;
 
-	@MapsId
-	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@Id
+	@Column(name = "id_sessione")
 	 /**
      * id univoco associato all'istanza di esecuzione.
      */
-	private Dmt_t_sessione idSessione;
+	private Long idSessione;
 
 	@Id
 	/**
@@ -78,7 +77,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 * metodo getter che ritorna la sessione.
 	 * @return idSessione identificativo univoco associato all'esecuzione
 	 */
-	public Dmt_t_sessione getIdSessione() {
+	public Long getIdSessione() {
 		return idSessione;
 	}
 
@@ -87,7 +86,7 @@ public class Dmt_t_AgnelleRimonta implements Serializable {
 	 * @param sessione identificativo univoco associato all'esecuzione
 	 */
 	public void setIdSessione(Dmt_t_sessione sessione) {
-		this.idSessione = sessione;
+		this.idSessione = sessione.getIdSessione();
 	}
 
 	/**

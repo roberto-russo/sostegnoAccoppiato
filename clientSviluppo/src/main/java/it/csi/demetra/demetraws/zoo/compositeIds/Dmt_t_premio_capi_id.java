@@ -68,54 +68,51 @@ public class Dmt_t_premio_capi_id implements Serializable {
         this.idCapo = idCapo;
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codicePremio == null) ? 0 : codicePremio.hashCode());
-		result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
-		result = prime * result + ((idAllevamento == null) ? 0 : idAllevamento.hashCode());
-		result = prime * result + ((idCapo == null) ? 0 : idCapo.hashCode());
-		result = prime * result + ((idSessione == null) ? 0 : idSessione.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((codicePremio == null) ? 0 : codicePremio.hashCode());
+        result = prime * result + ((cuaa == null) ? 0 : cuaa.hashCode());
+        result = prime * result + ((idAllevamento == null) ? 0 : idAllevamento.hashCode());
+        result = prime * result + ((idCapo == null) ? 0 : idCapo.hashCode());
+        result = prime * result + ((idSessione == null) ? 0 : idSessione.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Dmt_t_premio_capi_id other = (Dmt_t_premio_capi_id) obj;
-		if (codicePremio == null) {
-			if (other.codicePremio != null)
-				return false;
-		} else if (!codicePremio.equals(other.codicePremio))
-			return false;
-		if (cuaa == null) {
-			if (other.cuaa != null)
-				return false;
-		} else if (!cuaa.equals(other.cuaa))
-			return false;
-		if (idAllevamento == null) {
-			if (other.idAllevamento != null)
-				return false;
-		} else if (!idAllevamento.equals(other.idAllevamento))
-			return false;
-		if (idCapo == null) {
-			if (other.idCapo != null)
-				return false;
-		} else if (!idCapo.equals(other.idCapo))
-			return false;
-		if (idSessione == null) {
-			if (other.idSessione != null)
-				return false;
-		} else if (!idSessione.equals(other.idSessione))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Dmt_t_premio_capi_id other = (Dmt_t_premio_capi_id) obj;
+        if (codicePremio == null) {
+            if (other.codicePremio != null)
+                return false;
+        } else if (!codicePremio.equals(other.codicePremio))
+            return false;
+        if (cuaa == null) {
+            if (other.cuaa != null)
+                return false;
+        } else if (!cuaa.equals(other.cuaa))
+            return false;
+        if (idAllevamento == null) {
+            if (other.idAllevamento != null)
+                return false;
+        } else if (!idAllevamento.equals(other.idAllevamento))
+            return false;
+        if (idCapo == null) {
+            if (other.idCapo != null)
+                return false;
+        } else if (!idCapo.equals(other.idCapo))
+            return false;
+        if (idSessione == null) {
+            return other.idSessione == null;
+        } else return idSessione.equals(other.idSessione);
+    }
 
 
 }

@@ -57,7 +57,7 @@ public class Dmt_d_clsPremio_ValidazioneResponse implements Serializable {
     public List<Dmt_t_clsCapoMacellato> ClsCapoMacellato;
 
 	@ManyToOne
-	@JoinColumn(name = "idSessione", nullable = false)
+	@JoinColumn(name = "id_sessione", nullable = false)
 	private Dmt_t_sessione idSessione;
 
 	/**
