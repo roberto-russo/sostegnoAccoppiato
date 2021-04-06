@@ -196,7 +196,9 @@ public interface Dmt_t_tws_bdn_du_capi_bovini_repository extends CrudRepository<
     List<Dmt_t_Tws_bdn_du_capi_bovini> getBoviniOfDetentoriAllevamentiNonAttivi(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codiceIntervento") String codiceIntervento);
 
     @Query(
-            value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio ",
+            value = "SELECT * FROM DMT_T_TWS_BDN_DU_CAPI_BOV where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio"
+                    + " AND id_capo NOT IN (select capo_id from DMT_T_OUTPUT_ESCLUSI where id_sessione = :idSessione and CUAA = :cuaa and codice_premio = :codicePremio"
+                    + " AND tipologia_esclusione = 'E')",
             nativeQuery = true
     )
     List<Dmt_t_Tws_bdn_du_capi_bovini> findBySessioneAndCuaa(@Param("idSessione") Long idSessione, @Param("cuaa") String cuaa, @Param("codicePremio") String codicePremio);

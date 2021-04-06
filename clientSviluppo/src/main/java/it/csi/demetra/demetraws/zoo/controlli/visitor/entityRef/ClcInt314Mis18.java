@@ -49,7 +49,6 @@ public class ClcInt314Mis18 extends Controllo {
         modelVaccheFiltrate = null;
         ubaMin = null;
         listaCapiSanzionati = new ArrayList<>();
-        listaCapiBocciati = new ArrayList<>();
     }
 
     /**
@@ -71,6 +70,7 @@ public class ClcInt314Mis18 extends Controllo {
         // getAzienda().getCuaa(),
         // getAzienda().getCodicePremio());
 
+        listaCapiBocciati = new ArrayList<>();
         modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
                 getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         init();
@@ -231,6 +231,11 @@ public class ClcInt314Mis18 extends Controllo {
                     UtilControlli.controlloDemarcazione((Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(),
                             this.getAzienda().getAnnoCampagna()))
                 listaCapiDichiarati.add(capo);
+            else {
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setTipologiaEsclusione("E");
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setMotivazioneEsclusione("Criterio IBR non rispettato o pagato su PSR");
+                listaCapiBocciati.add((Dmt_t_Tws_bdn_du_capi_bovini) capo);
+            }
 
         return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
     }

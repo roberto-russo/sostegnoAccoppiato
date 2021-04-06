@@ -522,7 +522,7 @@ public class ref03 {
                             codiciPremioFiltratiPerAnimali, importiUnitariPerAnimale);
 
                     for (Dmt_t_importo_unitario imp : listaImportiMassimi)
-                        if (imp.getIntervento().equals(k) && !capiElaborati.contains(e)) {
+                        if (imp.getIntervento().equals(k) && !capiElaborati.contains(e) && k.equals(maxImportoUnitario.getIntervento())) {
                             tempHash.get(k).add(e);
                             capiElaborati.add(e);
                         }

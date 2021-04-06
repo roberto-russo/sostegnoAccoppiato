@@ -49,7 +49,6 @@ public class ClcInt313Mis4 extends Controllo {
         modelVaccheFiltrate = null;
         ubaMin = null;
         listaCapiSanzionati = new ArrayList<>();
-        listaCapiBocciati = new ArrayList<>();
     }
 
     /**
@@ -67,6 +66,7 @@ public class ClcInt313Mis4 extends Controllo {
         if (1==1)
             System.out.println("CALCOLO INTERVENTO 313 MISURA 4, INIZIO PRE-ESECUZIONE");
         this.capiSanzionati = 0;
+        listaCapiBocciati = new ArrayList<>();
         modelVacche = this.controlloCapiDichiarati(getControlliService().getAllBoviniSessioneCuua(getSessione(),
                 getAzienda().getCuaa(), getAzienda().getCodicePremio()));
         init();
@@ -230,6 +230,11 @@ public class ClcInt313Mis4 extends Controllo {
                     UtilControlli.controlloDemarcazione((Dmt_t_Tws_bdn_du_capi_bovini) capo, this.getControlliService(),
                             this.getAzienda().getAnnoCampagna()))
                 listaCapiDichiarati.add(capo);
+            else {
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setTipologiaEsclusione("E");
+                ((Dmt_t_Tws_bdn_du_capi_bovini) capo).setMotivazioneEsclusione("Criterio IBR non rispettato o pagato su PSR");
+                listaCapiBocciati.add((Dmt_t_Tws_bdn_du_capi_bovini) capo);
+            }
 
         return listaCapiDichiarati.isEmpty() ? Collections.emptyList() : listaCapiDichiarati;
     }
