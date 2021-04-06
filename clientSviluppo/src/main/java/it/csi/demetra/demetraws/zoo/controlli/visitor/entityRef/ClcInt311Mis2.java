@@ -218,7 +218,7 @@ public class ClcInt311Mis2 extends Controllo {
                                 this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                         this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
 
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                        if (UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                             this.capiSanzionati++;
                             listaCapiSanzionati.add(b);
                         }
@@ -234,7 +234,7 @@ public class ClcInt311Mis2 extends Controllo {
                                     this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                     this.getSessione());
                             this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                            if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                            if (UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                                 this.capiSanzionati++;
                                 listaCapiSanzionati.add(b);
                             }

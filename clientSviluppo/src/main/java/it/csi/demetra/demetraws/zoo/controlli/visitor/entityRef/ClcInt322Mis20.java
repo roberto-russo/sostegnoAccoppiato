@@ -27,6 +27,8 @@ import java.util.List;
 public class ClcInt322Mis20 extends Controllo {
 
 
+    @Autowired
+    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVacche;
     private List<Dmt_t_Tws_bdn_du_capi_bovini> modelVaccheFiltrate;
     private List<Dmt_t_Tws_bdn_du_capi_bovini> listVitelli;
@@ -37,8 +39,6 @@ public class ClcInt322Mis20 extends Controllo {
     private List<Dmt_t_Tws_bdn_du_capi_bovini> listaCapiSanzionati;
     @Autowired
     private CtlVerificaRegistrazioneCapi ref9901;
-    @Autowired
-    Dmt_t_tws_bdn_du_capi_bovini_services capiBoviniService;
     private Dmt_t_output_controlli oc;
     private List<Dmt_t_contr_loco> estrazioneACampione;
     private int numeroCapiBocciati;
@@ -65,7 +65,7 @@ public class ClcInt322Mis20 extends Controllo {
     @Override
     public List<Dmt_t_Tws_bdn_du_capi_bovini> preEsecuzione() throws ControlloException {
         System.out.println("INIZIO CALCOLO PREMIO 322 MISURA 20");
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO PRE-ESECUZIONE");
 
         // INIZIALIZZAZIONE DELLE VARIABILI
@@ -108,7 +108,7 @@ public class ClcInt322Mis20 extends Controllo {
             throw new ControlloException(new Dmt_t_errore(getSessione(), "REF_9901", getInput(), e.getMessage()));
         }
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE PRE-ESECUZIONE");
         System.out.println(
                 "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO PREMIO 322 MISURA 20 SONO STATI ESEGUITI CORRETTAMENTE ✔");
@@ -132,7 +132,7 @@ public class ClcInt322Mis20 extends Controllo {
      */
     @Override
     public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO ESECUZIONE");
 
         this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
@@ -164,7 +164,7 @@ public class ClcInt322Mis20 extends Controllo {
                         UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                                 this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                         this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                        if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                             listaCapiSanzionati.add(b);
                             this.capiSanzionati++;
                         }
@@ -178,9 +178,8 @@ public class ClcInt322Mis20 extends Controllo {
                             UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                                     this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                     this.getSessione());
-                            if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
-                                this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
-                            } else {
+                            this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
+                            if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                                 listaCapiSanzionati.add(b);
                                 this.capiSanzionati++;
                             }
@@ -213,7 +212,7 @@ public class ClcInt322Mis20 extends Controllo {
                 if (!c.getAnomalie_cgo().contains("B"))
                     this.numeroCapiAmmissibili = numeroCapiAmmissibili.add(BigDecimal.ONE);
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE ESECUZIONE");
     }
 
@@ -236,7 +235,7 @@ public class ClcInt322Mis20 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, INIZIO POST-ESECUZIONE");
 
         if (null != this.numeroCapiRichiesti && numeroCapiRichiesti.longValue() != 0) {
@@ -286,7 +285,7 @@ public class ClcInt322Mis20 extends Controllo {
             getControlliService().saveOutputEscl(oe);
         }
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO PREMIO 322 MISURA 20, FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO PREMIO 322 MISURA 20");
     }

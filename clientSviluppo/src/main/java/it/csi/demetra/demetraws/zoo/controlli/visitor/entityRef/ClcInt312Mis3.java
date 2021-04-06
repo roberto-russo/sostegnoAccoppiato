@@ -195,7 +195,7 @@ public class ClcInt312Mis3 extends Controllo {
                     UtilControlli.controlloRegistrazioneStallaDuplicato(bufala, this.getControlliService(),
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                    if (UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
+                    if (UtilControlli.controlloTempisticheDiRegistrazione(bufala, getAzienda().getAnnoCampagna())) {
                         this.capiSanzionati++;
                         listaCapiSanzionati.add(bufala);
                     }
@@ -215,7 +215,7 @@ public class ClcInt312Mis3 extends Controllo {
                                         this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                         this.getSessione());
                                 this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                                if (UtilControlli.controlloTempisticheDiRegistrazione(bufala)) {
+                                if (UtilControlli.controlloTempisticheDiRegistrazione(bufala, getAzienda().getAnnoCampagna())) {
                                     listaCapiSanzionati.add(bufala);
                                     this.capiSanzionati++;
                                 }

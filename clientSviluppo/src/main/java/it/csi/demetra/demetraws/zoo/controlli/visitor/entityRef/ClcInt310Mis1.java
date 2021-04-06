@@ -293,7 +293,7 @@ public class ClcInt310Mis1 extends Controllo {
                             this.getControlliService())) {
                         UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                                 this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                        if (UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                             this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                         } else {
                             this.capiSanzionati++;
@@ -315,7 +315,7 @@ public class ClcInt310Mis1 extends Controllo {
                             UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                                     this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(),
                                     this.getSessione());
-                            if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                            if (UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                                 this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                             } else {
                                 listaCapiSanzionati.add(b);

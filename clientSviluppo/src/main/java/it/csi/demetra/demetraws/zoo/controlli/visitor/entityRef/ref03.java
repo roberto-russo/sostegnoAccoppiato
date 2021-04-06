@@ -735,31 +735,31 @@ public class ref03 {
 //	private Dmt_t_Tws_bdn_du_capi_ovicaprini getCapoOvicaprinoSanzionabile (Long idCapo, String codicePremio) {
 //		return controlliService.getOviCaprinoById(idCapo, codicePremio , sessione.getIdSessione());
 //	}
-
-    private Boolean isSanzionato(Long idCapo, String codicePremio) {
-
-        Dmt_t_clsCapoMacellato capoMacellato;
-        Dmt_t_Tws_bdn_du_capi_bovini capoBovino;
-
-        if (codicePremio.equals("M19")) {
-            capoMacellato = getCapoMacellatoSanzionabileM19(idCapo);
-            capoBovino = getCapoBovinoSanzionabileM19(idCapo);
-        } else {
-            capoMacellato = getCapoMacellatoSanzionabile(idCapo, codicePremio);
-            capoBovino = getCapoBovinoSanzionabile(idCapo, codicePremio);
-        }
-
-//		Dmt_t_Tws_bdn_du_capi_ovicaprini capoOvicaprino = getCapoOvicaprinoSanzionabile(idCapo , codicePremio);
-
-        if (capoMacellato != null)
-            if (!UtilControlli.controlloTempisticheDiRegistrazione(capoMacellato))
-                return true;
-        if (capoBovino != null)
-            return !UtilControlli.controlloTempisticheDiRegistrazione(capoBovino);
-//	    if (capoOvicaprino != null) 
-//			return true;
-
-        return false;
-
-    }
+//
+//    private Boolean isSanzionato(Long idCapo, String codicePremio) {
+//
+//        Dmt_t_clsCapoMacellato capoMacellato;
+//        Dmt_t_Tws_bdn_du_capi_bovini capoBovino;
+//
+//        if (codicePremio.equals("M19")) {
+//            capoMacellato = getCapoMacellatoSanzionabileM19(idCapo);
+//            capoBovino = getCapoBovinoSanzionabileM19(idCapo);
+//        } else {
+//            capoMacellato = getCapoMacellatoSanzionabile(idCapo, codicePremio);
+//            capoBovino = getCapoBovinoSanzionabile(idCapo, codicePremio);
+//        }
+//
+////		Dmt_t_Tws_bdn_du_capi_ovicaprini capoOvicaprino = getCapoOvicaprinoSanzionabile(idCapo , codicePremio);
+//
+//        if (capoMacellato != null)
+//            if (!UtilControlli.controlloTempisticheDiRegistrazione(capoMacellato))
+//                return true;
+//        if (capoBovino != null)
+//            return !UtilControlli.controlloTempisticheDiRegistrazione(capoBovino, getAzienda().getAnnoCampagna());
+////	    if (capoOvicaprino != null)
+////			return true;
+//
+//        return false;
+//
+//    }
 }

@@ -650,13 +650,15 @@ public class UtilControlli {
         return count;
     }
 
-    public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b) {
-
+    public static Boolean controlloTempisticheDiRegistrazione(Dmt_t_Tws_bdn_du_capi_bovini b, Integer annoCampagna) {
         int contatoreFestivita = 0;
+        Calendar c = Calendar.getInstance();
+        c.setTime(b.getVaccaDtComAutIngresso());
+        if (annoCampagna != c.get(Calendar.YEAR))
+            return true;
         contatoreFestivita = UtilControlli.contaFestivi(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso());
         if ((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) <= 7)
-                && (UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(),
-                b.getVaccaDtComAutIngresso()) <= 7)) {
+                ) {
             return true;
         } else if ((UtilControlli.differenzaGiorni(b.getVaccaDtComAutIngresso(), b.getVaccaDtIngresso()) > 7)
                 || (UtilControlli.differenzaGiorni(b.getVaccaDtInserBdnIngresso(), b.getVaccaDtComAutIngresso()) > 7

@@ -62,7 +62,7 @@ public class ClcInt314Mis18 extends Controllo {
      */
     @Override
     public List<Dmt_t_Tws_bdn_du_capi_bovini> preEsecuzione() throws ControlloException {
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18, INIZIO PRE-ESECUZIONE");
         this.capiSanzionati = 0;
         // RECUPERO DATI DALLA BDN
@@ -89,7 +89,7 @@ public class ClcInt314Mis18 extends Controllo {
                     getAzienda().getCuaa(), getAzienda().getCodicePremio());
 
         }
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18 FINE PRE-ESECUZIONE");
         System.out.println(
                 "I CONTROLLI DI PRE-CALCOLO PER IL CALCOLO INTERVENTO 314 MISURA 18 SONO STATI ESEGUITI CORRETTAMENTE ✔");
@@ -106,7 +106,7 @@ public class ClcInt314Mis18 extends Controllo {
      */
     @Override
     public void esecuzione(List<Dmt_t_premio_capi> listUbaMinime) throws ControlloException {
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18 INIZIO ESECUZIONE");
 
         this.modelVaccheFiltrate = capiBoviniService.getBoviniUbaMinime(getSessione().getIdSessione(),
@@ -122,7 +122,7 @@ public class ClcInt314Mis18 extends Controllo {
                     UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
-                    if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                    if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                         listaCapiSanzionati.add(b);
                         this.capiSanzionati++;
                     }
@@ -145,6 +145,11 @@ public class ClcInt314Mis18 extends Controllo {
                     UtilControlli.controlloRegistrazioneStallaDuplicato(b, this.getControlliService(),
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
+                    // VERIFICO CHE I CAPI SIANO SANZIONATI
+                    if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
+                        listaCapiSanzionati.add(b);
+                        this.capiSanzionati++;
+                    }
                 } else {
                     b.setTipologiaEsclusione("E");
                     listaCapiBocciati.add(b);
@@ -156,7 +161,7 @@ public class ClcInt314Mis18 extends Controllo {
             throw new ControlloException(
                     new Dmt_t_errore(getSessione(), "esecuzione", getInput(), "nessun capo disponibile"));
         }
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18 FINE ESECUZIONE");
     }
 
@@ -170,7 +175,7 @@ public class ClcInt314Mis18 extends Controllo {
     @Override
     public void postEsecuzione() throws ControlloException {
         // ESECUZIONI CONTROLLI PER SOGGETTO
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18 INIZIO POST-ESECUZIONE");
         Dmt_t_output_controlli outputControlli = new Dmt_t_output_controlli();
         outputControlli.setIdSessione(getSessione());
@@ -207,7 +212,7 @@ public class ClcInt314Mis18 extends Controllo {
             this.getControlliService().saveOutputEscl(oe);
         }
 
-        if (1==1)
+        if (1 == 1)
             System.out.println("CALCOLO INTERVENTO 314 MISURA 18 FINE POST-ESECUZIONE");
         System.out.println("FINE ESECUZIONE CALCOLO INTERVENTO 314 MISURA 18");
     }

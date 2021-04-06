@@ -123,7 +123,7 @@ public class ClcInt313Mis4 extends Controllo {
                             this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                     this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                     // VERIFICO CHE I CAPI SIANO SANZIONATI
-                    if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                    if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                         listaCapiSanzionati.add(b);
                         this.capiSanzionati++;
                     }
@@ -141,7 +141,7 @@ public class ClcInt313Mis4 extends Controllo {
                                 this.getAzienda().getCuaa(), this.getAzienda().getAnnoCampagna(), this.getSessione());
                         this.importoLiquidabile = importoLiquidabile.add(BigDecimal.ONE);
                         // VERIFICO CHE I CAPI SIANO SANZIONATI
-                        if (UtilControlli.controlloTempisticheDiRegistrazione(b)) {
+                        if (!UtilControlli.controlloTempisticheDiRegistrazione(b, getAzienda().getAnnoCampagna())) {
                             listaCapiSanzionati.add(b);
                             this.capiSanzionati++;
                         }
